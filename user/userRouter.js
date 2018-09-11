@@ -1,12 +1,16 @@
 var userRouter = require('express').Router();
-var validator = require('./userValidator')
+var validator = require('../app util/util')
 var actions = require('./userActions')
 
 
 userRouter.route('/signUp')
-.post([validator.check], (req, res) => {
+    .post([validator.validateSignUp], (req, res) => {
         actions.signup(req, res)
     });
 
+userRouter.route('/login')
+    .post([validator.validateLogin], (req, res) => {
+        actions.login(req, res)
+    });
 
 module.exports = userRouter;

@@ -10,7 +10,7 @@ var userSchema = new schema({
     maritalStatus: { type: String, enum: ["MARRIED", "UNMARRIED"] },
     createdAt: { type: Date, default: Date.now },
     status: { type: String, enum: ["ACTIVE", "INACTIVE"], default: "ACTIVE" },
-    role:{type:String,enum:['ADMIN','USER'],default:'USER'}
+    role:{type:String,enum:['ADMIN','USER']}
 })
 
 module.exports = mongoose.model('users', userSchema)

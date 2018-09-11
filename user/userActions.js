@@ -3,18 +3,16 @@ var service = require('./userServices')
 
 
 function signup(req,res){
-    return service.createUser(req,res).then((result)=>{
-        if(result){
-            return result
-        }
-        else{
-            return false
-        }
-    })
+    service.createUser(req,res)
 }
+
+function login(req,res){
+    service.authenticateUser(req,res)
+
+}
+
 module.exports = {
-    signup
-    // 'signup': (req, res) => {
-    //     service.createUser(req, res);
-    // }
+    signup,
+    login
+    
 }

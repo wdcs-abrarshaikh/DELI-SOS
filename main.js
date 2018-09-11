@@ -3,8 +3,8 @@ var app = express();
 var mongoose = require("mongoose")
 var config = require('./config')
 var bodyParser = require('body-parser')
-mongoose.connect(config.dbUrl)
 app.use(bodyParser.json())
+mongoose.connect(config.dbUrl)
 
 require('./router')(app)
 
