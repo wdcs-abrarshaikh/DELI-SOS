@@ -2,6 +2,8 @@ var jwt = require('jsonwebtoken')
 var generator = require('generate-password')
 var config = require('../config')
 var nodemailer = require('nodemailer')
+var admincnfg = require('../admin/adminConfig')
+var usercnfg = require('../user/userConfig')
 
 function validateSignUp(req, res, next) {
     let firstName = req.body.firstName.trim(),
@@ -23,8 +25,34 @@ function validateLogin(req, res, next) {
         next();
     }
     else {
-        return res.json({ code: 406, message: "invalid request body" })
+        return res.json({ code: 406, message: "Invalid request body" })
     }
+}
+
+async function verifyAdminToken(req, res, next) {
+    let token = req.headers['authorization']
+
+    await jwt.verify(token, admincnfg.secret, (err) => {
+        if (err) {
+            return res.json({ code: 406, message: "Invalid token" })
+        }
+        else {
+            next();
+        }
+    })
+}
+
+async function verifyUserToken(req, res, next) {
+    let token = req.headers['authorization']
+
+    await jwt.verify(token, usercnfg.secret, (err) => {
+        if (err) {
+            return res.json({ code: 406, message: "Invalid Token" })
+        }
+        else {
+            next();
+        }
+    })
 }
 
 function validateEmail(data) {
@@ -54,11 +82,10 @@ function generateRandomPassword() {
 }
 
 async function sendEMail(receiverid, data) {
-    console.log('checkong ')
-    let tansporter =await  nodemailer.createTransport(config.smtpconfig)
-    console.log('checkong 123')
+    let tansporter = await nodemailer.createTransport(config.smtpconfig)
 
     let mailoption = {
+
         from: '"CODEZEROS"<codezerostrainee@gmail.com>',
         to: receiverid,
         subject: "DeliSOS Password Reset",
@@ -76,12 +103,12 @@ async function sendEMail(receiverid, data) {
        </html>`
 
     }
-    return new Promise(function (resolve,reject){
-        tansporter.sendMail(mailoption,async (err) => {
+    return new Promise(function (resolve, reject) {
+        tansporter.sendMail(mailoption,(err) => {
             (err) ? reject(false) : resolve(true)
         })
     })
-    
+
 }
 
 module.exports = {
@@ -91,5 +118,7 @@ module.exports = {
     validatePassword,
     generateToken,
     generateRandomPassword,
-    sendEMail
+    sendEMail,
+    verifyAdminToken,
+    verifyUserToken
 }

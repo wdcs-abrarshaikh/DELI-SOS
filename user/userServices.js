@@ -28,7 +28,7 @@ async function createUser(req, res) {
 
 async function authenticateUser(req, res) {
     let data = req.body;
-    await userModel.findOne({ email: data.email,role:'USER' }, (err, result) => {
+    await userModel.findOne({ email: data.email, role: 'USER' }, (err, result) => {
         if (err) {
             return res.json({ code: 500, message: "Internal Server error" })
         }
@@ -37,7 +37,7 @@ async function authenticateUser(req, res) {
         }
         else {
             if (bcrypt.compareSync(data.password, result.password)) {
-                let token = util.generateToken(result,config.secret)
+                let token = util.generateToken(result, config.secret)
                 return res.json({ code: 200, message: "Logged in", token: token })
             }
             else {
@@ -47,7 +47,45 @@ async function authenticateUser(req, res) {
     })
 }
 
+async function resetPassword(req, res) {
+    let newpass = util.generateRandomPassword().toUpperCase()
+    let hash = bcrypt.hashSync(newpass, 11)
+
+    await userModel.findOneAndUpdate({ email: req.body.email, role: 'USER' }, { password: hash }, { new: true }, async (err, result) => {
+        if (err) {
+            return res.json({ code: 500, message: "Internal server error" })
+        }
+        else if (!result) {
+            return res.json({ code: 404, message: "no such email is registered" })
+        }
+        else {
+            let data = await util.sendEMail(result.email, newpass)
+            console.log("rs", data)
+            return (data == true) ? res.json({ code: 200, message: `password sent on ${result.email}` })
+                : res.json({ code: 501, message: "something went wrong while sending mail" })
+        }
+    })
+}
+
+async function fetchDetail(req, res) {
+    let id = req.params.id
+    userModel.findOne({ _id: id }, (err, result) => {
+        if (err) {
+            return res.json({ code: "500", message: "Intenal server error" })
+        }
+        else if (!result) {
+            return res.json({ code: "404", message: "No such user found" })
+        }
+        else {
+            return res.json({ code: "200", message: "ok", data: result })
+        }
+    })
+}
+
+
 module.exports = {
     createUser,
-    authenticateUser
+    authenticateUser,
+    resetPassword,
+    fetchDetail
 }

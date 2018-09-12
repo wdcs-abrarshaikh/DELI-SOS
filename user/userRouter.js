@@ -13,4 +13,12 @@ userRouter.route('/login')
         actions.login(req, res)
     });
 
+userRouter.route('/forgotPassword').post((req, res) => {
+    actions.forgotPassword(req, res)
+})
+
+userRouter.route('/getDetail/:id')
+    .get([validator.verifyUserToken], (req, res) => {
+        actions.getDetail(req, res)
+    })
 module.exports = userRouter;

@@ -17,4 +17,14 @@ adminRouter.route('/forgotPassword')
     .post((req, res) => {
         action.forgotPassword(req, res)
     });
+
+adminRouter.route('/getUserList')
+    .get([validate.verifyAdminToken], (req, res) => {
+        action.getUserList(req, res)
+    });
+adminRouter.route('/gerUserDetails/:id')
+    .get([validate.verifyAdminToken], (req, res) => {
+        action.gerUserDetails(req, res)
+    })
+
 module.exports = adminRouter

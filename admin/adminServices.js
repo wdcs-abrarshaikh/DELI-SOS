@@ -50,8 +50,8 @@ async function authenticateAdmin(req, res) {
 
 async function resetPassword(req, res) {
     let newpass = util.generateRandomPassword().toUpperCase()
-    let hash = bcrypt.hashSync(newpass,11)
-    
+    let hash = bcrypt.hashSync(newpass, 11)
+
     await userModel.findOneAndUpdate({ email: req.body.email, role: 'ADMIN' }, { password: hash }, { new: true }, async (err, result) => {
         if (err) {
             return res.json({ code: 500, message: "Internal server error" })
@@ -61,15 +61,37 @@ async function resetPassword(req, res) {
         }
         else {
             let data = await util.sendEMail(result.email, newpass)
-            console.log("rs", data)
             return (data == true) ? res.json({ code: 200, message: `password sent on ${result.email}` })
                 : res.json({ code: 501, message: "something went wrong while sending mail" })
         }
     })
 }
 
+async function getUsers(req, res) {
+    userModel.find({ role: "USER" }, (err, result) => {
+        return (err) ? res.json({ code: "500", message: "Internal server error" })
+            : res.json({ code: "200", message: "ok", data: result })
+    })
+}
+
+async function getDetails(req, res) {
+    let id = req.params.id
+    userModel.findOne({ _id: id }, (err, result) => {
+        if (err) {
+            return res.json({ code: "500", message: "Intenal server error" })
+        }
+        else if (!result) {
+            return res.json({ code: "404", message: "No such user found" })
+        }
+        else {
+            return res.json({ code: "200", message: "ok", data: result })
+        }
+    })
+}
 module.exports = {
     createAdmin,
     authenticateAdmin,
-    resetPassword
+    resetPassword,
+    getUsers,
+    getDetails
 }
