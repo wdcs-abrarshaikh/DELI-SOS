@@ -60,9 +60,12 @@ async function resetPassword(req, res) {
             return res.json({ code: 404, message: "no such email is registered" })
         }
         else {
-            let data = await util.sendEMail(result.email, newpass)
-            return (data == true) ? res.json({ code: 200, message: `password sent on ${result.email}` })
-                : res.json({ code: 501, message: "something went wrong while sending mail" })
+            await util.sendEMail(result.email, newpass).then((data) => {
+                return (data == true) ? res.json({ code: 200, message: `password sent on ${result.email}` })
+                    : res.json({ code: 501, message: "something went wrong while sending mail" })
+            }).catch((err) => {
+                return res.json({ code: 501, message: "something went wrong while sending mail" })
+            })      
         }
     })
 }

@@ -1,6 +1,6 @@
 var adminRouter = require("express").Router();
 var action = require("./adminActions")
-var validate = require("../app util/util")
+var validate = require("./adminValidator")
 
 
 adminRouter.route('/signUp')

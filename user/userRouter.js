@@ -1,5 +1,5 @@
 var userRouter = require('express').Router();
-var validator = require('../app util/util')
+var validator = require('./userValidator')
 var actions = require('./userActions')
 
 
