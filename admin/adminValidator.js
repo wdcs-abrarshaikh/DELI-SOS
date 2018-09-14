@@ -1,5 +1,7 @@
 var jwt = require('jsonwebtoken')
 var admincnfg = require('./adminConfig')
+var code = require('../constants').http_codes;
+var msg = require('../constants').messages;
 
 function validateSignUp(req, res, next) {
     let firstName = req.body.firstName.trim(),
@@ -10,7 +12,7 @@ function validateSignUp(req, res, next) {
         next();
     }
     else {
-        return res.json({ code: 406, message: "invalid request body" })
+        return res.json({ code: code.badRequest, message: msg.invalidBody })
     }
 }
 
@@ -21,7 +23,7 @@ function validateLogin(req, res, next) {
         next();
     }
     else {
-        return res.json({ code: 406, message: "Invalid request body" })
+        return res.json({ code: code.badRequest, message: msg.invalidBody })
     }
 }
 
@@ -30,7 +32,7 @@ async function verifyAdminToken(req, res, next) {
 
     await jwt.verify(token, admincnfg.secret, (err) => {
         if (err) {
-            return res.json({ code: 406, message: "Invalid token" })
+            return res.json({ code: code.badRequest, message: msg.invalidToken })
         }
         else {
             next();

@@ -1,5 +1,6 @@
-var mongoose = require('mongoose')
+var mongoose = require('mongoose');
 var schema = mongoose.Schema;
+var scName = require('../constants').schemas;
 
 var userSchema = new schema({
     firstName: { type: String, required: true },
@@ -13,4 +14,4 @@ var userSchema = new schema({
     role:{type:String,enum:['ADMIN','USER']}
 })
 
-module.exports = mongoose.model('users', userSchema)
+module.exports = mongoose.model(scName.users, userSchema)
