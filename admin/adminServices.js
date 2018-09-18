@@ -1,4 +1,4 @@
-var userModel = require('../schema/userSchema');
+var userModel = require('../schema/user');
 var bcrypt = require('bcrypt');
 var util = require('../app util/util');
 var config = require('./adminConfig');
@@ -44,8 +44,34 @@ async function authenticateAdmin(req, res) {
                 return res.json({ code: code.ok, message: msg.loggedIn, token: token })
             }
             else {
-                return res.json({ code: code.badRequest, message: msg.inavlidPassword })
+                return res.json({ code: code.badRequest, message: msg.invalidPassword })
             }
+        }
+    })
+}
+async function manageSocialLogin(req,res){
+    let data = req.body
+    let user = new userModel(data)
+    await userModel.findOne({socialId:data.socialId},(err,data)=>{
+        if(err){
+            return json({code:code.internalError,message:msg.internalServerError})
+        }
+        else if(!data){
+            user.isSocialLogin = true
+            user.role = role.ADMIN
+            user.save((err,result)=>{
+                if(err){
+                    return res.json({code:code.internalError,message:msg.internalServerError})
+                }
+                else{
+                    let token = util.generateToken(result, config.secret)
+                    return res.json({ code: code.ok, message: msg.loggedIn, token: token })
+                }
+            })
+        }
+        else{
+            let token = util.generateToken(data, config.secret)
+            return res.json({ code: code.ok, message: msg.loggedIn, token: token })
         }
     })
 }
@@ -67,7 +93,7 @@ async function resetPassword(req, res) {
                     : res.json({ code: code.notImplemented, message: msg.mailNotSent })
             }).catch((err) => {
                 return res.json({ code: code.notImplemented, message: msg.mailNotSent })
-            })      
+            })
         }
     })
 }
@@ -75,7 +101,7 @@ async function resetPassword(req, res) {
 async function getUsers(req, res) {
     userModel.find({ role: role.USER }, (err, result) => {
         return (err) ? res.json({ code: code.internalError, message: internalServerError })
-            : res.json({ code: code.ok, message:msg.ok, data: result })
+            : res.json({ code: code.ok, message: msg.ok, data: result })
     })
 }
 
@@ -93,10 +119,47 @@ async function getDetails(req, res) {
         }
     })
 }
+
+async function createUser(req, res) {
+    let data = req.body;
+    if (await userModel.findOne({ email: data.email })) {
+        return res.json({ code: code.badRequest, message: msg.emailAlreadyRegistered });
+    }
+    else {
+        if (util.validateEmail(data.email)
+            && util.validatePassword(data.password)) {
+            let user = new userModel(data)
+            user.password = bcrypt.hashSync(data.password, 11)
+            user.save((err, data) => {
+                return (err) ?
+                    res.json({ code: code.internalError, message: msg.internalServerError }) :
+                    res.json({ code: code.created, message: msg.registered, data: data })
+            });
+        }
+    }
+}
+
+async function updateUserDetail(req, res) {
+    let id = req.params.id;
+    await userModel.findByIdAndUpdate({ _id: id }, { $set: req.body }, { new: true }, (err, data) => {
+        if (err) {
+            res.json({ code: code.internalError, message: msg.internalServerError })
+        }
+        else if (!data) {
+            res.json({ code: code.notFound, message: msg.userNotFound })
+        }
+        else {
+            res.json({ code: code.ok, message: msg.updated, data: data })
+        }
+    })
+}
 module.exports = {
     createAdmin,
     authenticateAdmin,
     resetPassword,
     getUsers,
-    getDetails
+    getDetails,
+    createUser,
+    updateUserDetail,
+    manageSocialLogin
 }

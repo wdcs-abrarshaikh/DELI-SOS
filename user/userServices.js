@@ -1,4 +1,4 @@
-var userModel = require('../schema/userSchema');
+var userModel = require('../schema/user');
 var bcrypt = require('bcrypt');
 var util = require('../app util/util');
 var config = require('./userConfig');
@@ -66,7 +66,7 @@ async function resetPassword(req, res) {
                 return (data == true) ? res.json({ code: code.ok, message: `password sent on ${result.email}` })
                     : res.json({ code: code.notImplemented, message: msg.mailNotSent })
             }).catch((err) => {
-                return res.json({ code: code.notImplemented, message: msg.mailNotSent })
+               ; return res.json({ code: code.notImplemented, message: msg.mailNotSent })
             })
         }
     })
@@ -88,10 +88,37 @@ async function fetchDetail(req, res) {
     })
 }
 
+async function manageSocialLogin(req,res){
+    let data = req.body
+    let user = new userModel(data)
+    await userModel.findOne({socialId:data.socialId},(err,data)=>{
+        if(err){
+            return json({code:code.internalError,message:msg.internalServerError})
+        }
+        else if(!data){
+            user.isSocialLogin = true
+            user.role = role.USER
+            user.save((err,result)=>{
+                if(err){
+                    return res.json({code:code.internalError,message:msg.internalServerError})
+                }
+                else{
+                    let token = util.generateToken(result, config.secret)
+                    return res.json({ code: code.ok, message: msg.loggedIn, token: token })
+                }
+            })
+        }
+        else{
+            let token = util.generateToken(data, config.secret)
+            return res.json({ code: code.ok, message: msg.loggedIn, token: token })
+        }
+    })
+}
 
 module.exports = {
     createUser,
     authenticateUser,
     resetPassword,
-    fetchDetail
+    fetchDetail,
+    manageSocialLogin
 }

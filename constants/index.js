@@ -4,7 +4,7 @@ http_codes = {
     created: 201,
     notFound: 404,
     ok: 200,
-    notImplemented : 501
+    notImplemented: 501
 }
 
 messages = {
@@ -21,6 +21,7 @@ messages = {
     userNotFound: 'No such user found',
     invalidBody: 'Invalid request body',
     invalidToken: 'Invalid token',
+    updated: 'Updated',
 }
 roles = {
     ADMIN: 'ADMIN',
@@ -28,7 +29,10 @@ roles = {
 }
 
 schemas = {
-    users : 'users'
+    users: 'users',
+    restaurants: 'restaurants',
+    reviews: 'reviews',
+    notifications: 'notifications'
 }
 module.exports = {
     http_codes,

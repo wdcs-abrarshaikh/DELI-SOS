@@ -19,9 +19,13 @@ function getDetail(req, res) {
     service.fetchDetail(req, res)
 }
 
+function socialLogin(req,res){
+    service.manageSocialLogin(req,res)
+}
 module.exports = {
     signup,
     login,
     forgotPassword,
-    getDetail
+    getDetail,
+    socialLogin
 }

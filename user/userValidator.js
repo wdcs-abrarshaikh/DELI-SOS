@@ -4,11 +4,11 @@ var code = require('../constants').http_codes;
 var msg = require('../constants').messages;
 
 function validateSignUp(req, res, next) {
-    let firstName = req.body.firstName.trim(),
+    let name = req.body.name.trim(),
         email = req.body.email.trim(),
         password = req.body.password.trim();
 
-    if (firstName && email && password) {
+    if (name && email && password) {
         next();
     }
     else {
@@ -40,8 +40,25 @@ async function verifyUserToken(req, res, next) {
     })
 }
 
+function validateBody(req, res, next) {
+    let data = req.body
+    let flag = false
+    for (let k in data) {
+        if (!data[k].trim()) {
+            flag = true;
+        }
+    }
+    if (flag == true) {
+        res.json({ code: code.badRequest, message: msg.invalidBody })
+    }
+    else {
+        next();
+    }
+}
+
 module.exports = {
     validateSignUp,
     validateLogin,
-    verifyUserToken
+    verifyUserToken,
+    validateBody
 }

@@ -13,6 +13,9 @@ userRouter.route('/login')
         actions.login(req, res)
     });
 
+userRouter.route('/socialLogin').post([validator.validateBody],(req,res)=>{
+    actions.socialLogin(req,res)
+})
 userRouter.route('/forgotPassword').post((req, res) => {
     actions.forgotPassword(req, res)
 })
