@@ -1,7 +1,13 @@
 var generator = require('generate-password')
 var nodemailer = require('nodemailer')
 var jwt = require('jsonwebtoken')
-
+var cloudinary = require('cloudinary')
+var fs = require('fs')
+cloudinary.config({
+    cloud_name: process.env.cloud_name,
+    api_key: process.env.api_key,
+    api_secret: process.env.api_secret
+})
 
 function validateEmail(data) {
     let regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -67,10 +73,21 @@ function sendEMail(receiverid, data) {
 
 }
 
+function uploadPhoto(req) {
+    return new Promise((resolve, reject) => {
+        var binary = new Buffer(req.body.file, 'base64')
+        fs.writeFile("img/test.jpg", binary, 'binary', async () => {
+            await cloudinary.uploader.upload('img/test.jpg', (result) => {
+                (result) ? resolve(result.url) : reject('error')
+            })
+        })
+    })
+}
 module.exports = {
     validateEmail,
     validatePassword,
     generateToken,
     generateRandomPassword,
-    sendEMail
+    sendEMail,
+    uploadPhoto
 }

@@ -1,4 +1,5 @@
 var userModel = require('../schema/user');
+var restModel = require('../schema/restaurant');
 var bcrypt = require('bcrypt');
 var util = require('../app util/util');
 var config = require('./userConfig');
@@ -66,7 +67,7 @@ async function resetPassword(req, res) {
                 return (data == true) ? res.json({ code: code.ok, message: `password sent on ${result.email}` })
                     : res.json({ code: code.notImplemented, message: msg.mailNotSent })
             }).catch((err) => {
-               ; return res.json({ code: code.notImplemented, message: msg.mailNotSent })
+                ; return res.json({ code: code.notImplemented, message: msg.mailNotSent })
             })
         }
     })
@@ -88,30 +89,48 @@ async function fetchDetail(req, res) {
     })
 }
 
-async function manageSocialLogin(req,res){
+async function manageSocialLogin(req, res) {
     let data = req.body
     let user = new userModel(data)
-    await userModel.findOne({socialId:data.socialId},(err,data)=>{
-        if(err){
-            return json({code:code.internalError,message:msg.internalServerError})
+    await userModel.findOne({ socialId: data.socialId }, (err, data) => {
+        if (err) {
+            return json({ code: code.internalError, message: msg.internalServerError })
         }
-        else if(!data){
+        else if (!data) {
             user.isSocialLogin = true
             user.role = role.USER
-            user.save((err,result)=>{
-                if(err){
-                    return res.json({code:code.internalError,message:msg.internalServerError})
+            user.save((err, result) => {
+                if (err) {
+                    return res.json({ code: code.internalError, message: msg.internalServerError })
                 }
-                else{
+                else {
                     let token = util.generateToken(result, config.secret)
                     return res.json({ code: code.ok, message: msg.loggedIn, token: token })
                 }
             })
         }
-        else{
+        else {
             let token = util.generateToken(data, config.secret)
             return res.json({ code: code.ok, message: msg.loggedIn, token: token })
         }
+    })
+}
+
+async function addRestaurant(req, res) {
+    let rest = new restModel(req.body)
+    rest.save((err, data) => {
+        console.log(err)
+        return (err) ? res.json({ code: code.internalError, message: msg.internalServerError }) :
+            res.json({ code: code.created, message: msg.restRequestSent, data: data })
+    })
+}
+
+async function uploadPhoto(req, res) {
+    util.uploadPhoto(req).then((data) => {
+        return res.json({ code: code.created, message: msg.imageUploaded, url: data })
+    }).catch((err) => {
+        console.log(err)
+        return res.json({ code: code.internalError, message: msg.internalServerError })
     })
 }
 
@@ -120,5 +139,7 @@ module.exports = {
     authenticateUser,
     resetPassword,
     fetchDetail,
-    manageSocialLogin
+    manageSocialLogin,
+    addRestaurant,
+    uploadPhoto
 }

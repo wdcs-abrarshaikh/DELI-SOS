@@ -22,10 +22,20 @@ function getDetail(req, res) {
 function socialLogin(req,res){
     service.manageSocialLogin(req,res)
 }
+
+function addRestaurant(req,res){
+    service.addRestaurant(req,res)
+}
+
+function uploadPhoto(req,res){
+    service.uploadPhoto(req,res)
+}
 module.exports = {
     signup,
     login,
     forgotPassword,
     getDetail,
-    socialLogin
+    socialLogin,
+    addRestaurant,
+    uploadPhoto
 }

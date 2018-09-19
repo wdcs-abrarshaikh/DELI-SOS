@@ -19,10 +19,13 @@ messages = {
     mailNotSent: 'Something went wrong while sending mail',
     ok: 'Ok',
     userNotFound: 'No such user found',
-    invalidBody: 'Invalid request body',
+    invalidBody: 'Invalid input',
     invalidToken: 'Invalid token',
     updated: 'Updated',
+    imageUploaded: "Image uploaded successfully",
+    restRequestSent:"Add restaurant request sent to the admin"
 }
+
 roles = {
     ADMIN: 'ADMIN',
     USER: 'USER'
@@ -34,9 +37,34 @@ schemas = {
     reviews: 'reviews',
     notifications: 'notifications'
 }
+
+status = {
+    active: "ACTIVE",
+    inavtive: "INACTIVE",
+    pending: "PENDING"
+}
+
+criteria = {
+    worst: 'WORST',
+    bad: 'BAD',
+    okay: 'OKAY',
+    good: 'GOOD',
+    great: 'GREAT'
+}
+
+mealTypes = {
+    breakfast : 'Breakfast',
+    lunch : 'Lunch',
+    dinner:'Dinner',
+    all : 'All'
+}
+
 module.exports = {
     http_codes,
     messages,
     roles,
-    schemas
+    schemas,
+    status,
+    criteria,
+    mealTypes
 }
