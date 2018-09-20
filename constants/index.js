@@ -23,7 +23,8 @@ messages = {
     invalidToken: 'Invalid token',
     updated: 'Updated',
     imageUploaded: "Image uploaded successfully",
-    restRequestSent:"Add restaurant request sent to the admin"
+    restRequestSent:"Add restaurant request sent to the admin",
+    restNotFound:"No such restuarant is registered"
 }
 
 roles = {

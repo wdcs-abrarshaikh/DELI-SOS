@@ -7,8 +7,8 @@ function signup(req, res) {
 function login(req, res) {
     service.authenticateAdmin(req, res)
 }
-function socialLogin(req,res){
-    service.manageSocialLogin(req,res)
+function socialLogin(req, res) {
+    service.manageSocialLogin(req, res)
 }
 
 function forgotPassword(req, res) {
@@ -20,15 +20,35 @@ function getUserList(req, res) {
 }
 
 function gerUserDetails(req, res) {
-    service.getDetails(req, res)
+    service.getUserDetails(req, res)
 }
 
-function addUser(req,res){
-    service.createUser(req,res)
+function addUser(req, res) {
+    service.createUser(req, res)
 }
 
-function updateUser(req,res){
-    service.updateUserDetail(req,res)
+function updateUser(req, res) {
+    service.updateUserDetail(req, res)
+}
+
+function addRestaurant(req, res) {
+    service.addRestaurant(req, res)
+}
+
+function getRestaurantDetails(req,res){
+    service.getRestaurantDetails(req,res)
+}
+
+function getRestaurantList(req,res){
+    service.getRestaurantList(req,res)
+}
+
+function updateRestaurant(req,res){
+    service.updateRestaurant(req,res)
+}
+
+function deleteRestaurant(req,res){
+    service.deleteRestaurant(req,res)
 }
 module.exports = {
     signup,
@@ -38,5 +58,10 @@ module.exports = {
     gerUserDetails,
     addUser,
     updateUser,
-    socialLogin
+    socialLogin,
+    addRestaurant,
+    getRestaurantDetails,
+    getRestaurantList,
+    updateRestaurant,
+    deleteRestaurant
 }

@@ -6,6 +6,7 @@ var config = require('./userConfig');
 var code = require('../constants').http_codes;
 var msg = require('../constants').messages;
 var role = require('../constants').roles;
+var status = require('../constants').status;
 
 async function createUser(req, res) {
     let data = req.body;
@@ -75,9 +76,8 @@ async function resetPassword(req, res) {
 
 async function fetchDetail(req, res) {
     let id = req.params.id
-    userModel.findOne({ _id: id }, (err, result) => {
+    userModel.findOne({ _id: id,status:status.active }, (err, result) => {
         if (err) {
-            console.log(err)
             return res.json({ code: code.ineternalError, message: msg.internalServerError })
         }
         else if (!result) {
@@ -134,6 +134,21 @@ async function uploadPhoto(req, res) {
     })
 }
 
+async function getRestaurantDetail(req, res) {
+    let id = req.params.id
+    restModel.findOne({ _id: id,status:status.active }, (err, data) => {
+        if (err) {
+            return res.json({ code: code.ineternalError, message: msg.internalServerError })
+        }
+        else if (!result) {
+            return res.json({ code: code.notFound, message: msg.restNotFound })
+        }
+        else {
+            return res.json({ code: code.ok, message: msg.ok, data: data })
+        }
+    })
+}
+
 module.exports = {
     createUser,
     authenticateUser,
@@ -141,5 +156,6 @@ module.exports = {
     fetchDetail,
     manageSocialLogin,
     addRestaurant,
-    uploadPhoto
+    uploadPhoto,
+    getRestaurantDetail
 }

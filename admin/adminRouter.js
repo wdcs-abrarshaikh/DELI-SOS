@@ -14,12 +14,12 @@ adminRouter.route('/login')
     });
 
 adminRouter.route('/socialLogin')
-    .post([validate.validateBody],(req, res) => {
+    .post([validate.validateBody], (req, res) => {
         action.socialLogin(req, res)
     })
 
 adminRouter.route('/forgotPassword')
-    .post((req, res) => {
+    .post([validate.verifyAdminToken], (req, res) => {
         action.forgotPassword(req, res)
     });
 
@@ -34,12 +34,36 @@ adminRouter.route('/gerUserDetails/:id')
     })
 
 adminRouter.route('/addUser')
-    .post([validate.validateSignUp], (req, res) => {
+    .post([validate.validateSignUp, validate.verifyAdminToken], (req, res) => {
         action.addUser(req, res)
     })
 
 adminRouter.route('/updateUser/:id')
-    .put([validate.validateBody], (req, res) => {
+    .put([validate.validateBody, validate.verifyAdminToken], (req, res) => {
         action.updateUser(req, res)
+    })
+
+adminRouter.route('/addRestaurant')
+    .post([validate.validateBody, validate.verifyAdminToken], (req, res) => {
+        action.addRestuarant(req, res)
+    })
+
+adminRouter.route('/getRestaurantDetails/:id')
+    .get([validate.verifyAdminToken], (req, res) => {
+        action.getRestaurantDetails(req, res)
+    })
+
+adminRouter.route('/getRestaurantList')
+    .get([validate.verifyAdminToken], (req, res) => {
+        action.getRestaurantList(req, res)
+    })
+
+adminRouter.route('/updateRestaurant/:id')
+    .put([validate.validateBody, validate.verifyAdminToken], (req, res) => {
+        action.updateRestaurant(req, res)
+    })
+adminRouter.route('/deleteRestaurant/:id')
+    .get([validate.verifyAdminToken], (req, res) => {
+        action.deleteRestaurant(req,res)
     })
 module.exports = adminRouter

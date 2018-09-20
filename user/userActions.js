@@ -30,6 +30,10 @@ function addRestaurant(req,res){
 function uploadPhoto(req,res){
     service.uploadPhoto(req,res)
 }
+
+function getRestaurantDetail(req,res){
+    service.getRestaurantDetail(req,res)
+}
 module.exports = {
     signup,
     login,
@@ -37,5 +41,6 @@ module.exports = {
     getDetail,
     socialLogin,
     addRestaurant,
-    uploadPhoto
+    uploadPhoto,
+    getRestaurantDetail
 }
