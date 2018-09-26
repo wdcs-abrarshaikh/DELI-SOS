@@ -62,8 +62,18 @@ adminRouter.route('/updateRestaurant/:id')
     .put([validate.validateBody, validate.verifyAdminToken], (req, res) => {
         action.updateRestaurant(req, res)
     })
+
 adminRouter.route('/deleteRestaurant/:id')
     .get([validate.verifyAdminToken], (req, res) => {
-        action.deleteRestaurant(req,res)
+        action.deleteRestaurant(req, res)
     })
+
+adminRouter.route('/addPhoto')
+    .post([validate.verifyAdminToken], (req, res) => {
+        action.addPhoto(req, res)
+    })
+
+adminRouter.route('/deletePhoto').photo([validate.verifyAdminToken],(req,res)=>{
+    action.deletePhoto(req,res)
+})
 module.exports = adminRouter

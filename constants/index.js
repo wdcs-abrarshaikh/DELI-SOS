@@ -24,7 +24,8 @@ messages = {
     updated: 'Updated',
     imageUploaded: "Image uploaded successfully",
     restRequestSent:"Add restaurant request sent to the admin",
-    restNotFound:"No such restuarant is registered"
+    restNotFound:"No such restuarant is registered",
+    imageDeleted:"Image deleted successfully"
 }
 
 roles = {

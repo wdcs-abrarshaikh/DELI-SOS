@@ -83,6 +83,7 @@ function uploadPhoto(req) {
         })
     })
 }
+
 module.exports = {
     validateEmail,
     validatePassword,

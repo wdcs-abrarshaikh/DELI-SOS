@@ -7,25 +7,33 @@ var meal = require('../constants').mealTypes;
 var restaurantSchema = new schema({
     name: { type: String, required: true },
     description: { type: String, required: true },
-    address: { type: String, required: true },
+    address: { 
+        street1:String,
+        stree2:String,
+        city:String,
+        state:String,
+        pincode:Number
+     },
     latitude: { type: Number, required: true },
     longitude: { type: Number, required: true },
-    mealOffers: { type:[{ type: String, enum: [meal.breakfast, meal.lunch, meal.dinner, meal.all] }], default:meal.all},
+    mealOffers: { type: [{ type: String, enum: [meal.breakfast, meal.lunch, meal.dinner, meal.all] }], default: meal.all },
     photos: [{ image: String }],
     cuisin: [{
-        name:String,
-        image:String
-         }],
-    openTime: { type: Date, required: true },
-    closeTime: { type: Date, required: true },
+        name: String,   
+        image: String
+    }],
+    openTime: { type: String, required: true },
+    closeTime: { type: String, required: true },
     contactNumber: { type: Number },
     website: { type: String },
     menu: [{ type: String }],
     photoByUser: [{ type: String }],
-    reviews: [{ type: mongoose.Schema.Types.ObjectId }],
+    reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: cnst.reviews }],
     ratings: { type: Number },
     perPersonCost: { type: Number },
-    status: { type: String, enum: [status.active, status.inactive, status.pending], default: status.pending }
+    status: { type: String, enum: [status.active, status.inactive, status.pending], default: status.pending },
+    createdBy: { type: mongoose.Schema.Types.ObjectId, ref: cnst.users },
+    editedBy: { type: mongoose.Schema.Types.ObjectId, ref: cnst.users }
 })
 
 module.exports = mongoose.model(cnst.restaurants, restaurantSchema)

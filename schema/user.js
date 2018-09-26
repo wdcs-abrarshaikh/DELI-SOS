@@ -7,17 +7,25 @@ let status = require('../constants').status;
 var userSchema = new schema({
     name: { type: String, required: true },
     email: {
-        type: String, required: () => {
+        type: String, required: function () {
             return (this.isSocialLogin == false) ? true : false
 
         }
     },
     password: {
-        type: String, required: () => {
+        type: String, required: function()  {
             return (this.isSocialLogin == false) ? true : false
         }
     },
-    location: { type: Object },
+    location: { 
+        street1:String,
+        stree2:String,
+        city:String,
+        state:String,
+        pincode:Number
+     },
+    long:{type:String},
+    lat:{type:String},
     review: [{ type: mongoose.Schema.Types.ObjectId, ref: schmaName.reviews }],
     follower: [{ type: mongoose.Schema.Types.ObjectId, ref: schmaName.users }],
     following: [{ type: mongoose.Schema.Types.ObjectId, ref: schmaName.users }],
@@ -26,9 +34,9 @@ var userSchema = new schema({
     createdAt: { type: Date, default: Date.now },
     role: { type: String, enum: [roles.ADMIN, roles.USER], default: roles.USER },
     status: { type: String, emnum: [status.active,status.inactive], default: status.active },
-    isSocialLogin: { type: Boolean, default: false },
+    isSocialLogin: { type: Boolean },
     socialId: {
-        type: String, required: () => {
+        type: String, required: function () {
             return (this.isSocialLogin == true) ? true : false
         }
     },
