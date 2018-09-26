@@ -52,6 +52,11 @@ async function validateBody(req, res, next) {
                 }
             }
         }
+        else if (typeof (data[k]) === 'array') {
+            if (data[k].length == 0) {
+                flag = true;
+            }
+        }
         else {
             if (!data[k].trim()) {
                 flag = true;

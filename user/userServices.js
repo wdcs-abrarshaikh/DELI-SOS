@@ -1,5 +1,6 @@
 var userModel = require('../schema/user');
 var restModel = require('../schema/restaurant');
+var reviewModel = require('../schema/review')
 var bcrypt = require('bcrypt');
 var util = require('../app util/util');
 var config = require('./userConfig');
@@ -76,7 +77,7 @@ async function resetPassword(req, res) {
 
 async function fetchDetail(req, res) {
     let id = req.params.id
-    userModel.findOne({ _id: id,status:status.active }, (err, result) => {
+    userModel.findOne({ _id: id, status: status.active }, (err, result) => {
         if (err) {
             return res.json({ code: code.ineternalError, message: msg.internalServerError })
         }
@@ -118,17 +119,16 @@ async function manageSocialLogin(req, res) {
 
 async function addRestaurant(req, res) {
     let rest = new restModel(req.body)
-    rest.save((err, data) => {
+    await rest.save((err, data) => {
         console.log(err)
         return (err) ? res.json({ code: code.internalError, message: msg.internalServerError }) :
             res.json({ code: code.created, message: msg.restRequestSent, data: data })
     })
 }
 
-
 async function getRestaurantDetail(req, res) {
     let id = req.params.id
-    restModel.findOne({ _id: id,status:status.active }, (err, data) => {
+    await restModel.findOne({ _id: id, status: status.active }, (err, data) => {
         if (err) {
             return res.json({ code: code.ineternalError, message: msg.internalServerError })
         }
@@ -140,6 +140,7 @@ async function getRestaurantDetail(req, res) {
         }
     })
 }
+
 async function addPhoto(req, res) {
     id = req.body.restId
     util.uploadPhoto(req).then((data) => {
@@ -156,11 +157,48 @@ async function addPhoto(req, res) {
 async function deletePhoto(req, res) {
     url = req.body.url
     id = req.body.restId
-    restModel.findOneAndUpdate({ _id: id }, { $pull: { photos: url } }, (err, data) => {
+    await restModel.findOneAndUpdate({ _id: id }, { $pull: { photos: url } }, (err) => {
         return (err) ? res.json({ code: code.internalError, message: msg.internalServerError }) :
             res.json({ code: code.ok, message: msg.imageDeleted })
     })
 }
+
+async function addReview(req, res) {
+    let review = new reviewModel(req.body)
+    await review.save(async (err, data) => {
+        if (err) {
+            return res.json({ code: code.internalError, message: msg.internalServerError })
+        }
+        else {
+            await userModel.findByIdAndUpdate({ _id: data.userId }, { $push: { review: data._id } }, (err) => {
+                if (err) {
+                    return res.json({ code: code.internalError, message: msg.message })
+                }
+            })
+            await restModel.findByIdAndUpdate({ _id: data.restId }, { $push: { reviews: data._id } }, (err) => {
+                if (err) {
+                    return res.json({ code: code.internalError, message: msg.message })
+                }
+            })
+            return res.json({ code: code.ok, message: msg.reviewAdded, data: data })
+        }
+    })
+}
+
+async function updateReview(req, res) {
+    await reviewModel.findByIdAndUpdate({ _id: req.params.id }, { $set: req.body }, (err, data) => {
+        if (err) {
+            return res.json({ code: code.internalError, message: msg.internalError })
+        }
+        else if (!data) {
+            return res.json({ code: code.notFound, message: msg.reviewNotFound })
+        }
+        else {
+            return res.json({ code: code.ok, message: msg.updated, data: data })
+        }
+    })
+}
+
 module.exports = {
     createUser,
     authenticateUser,
@@ -170,5 +208,7 @@ module.exports = {
     addRestaurant,
     getRestaurantDetail,
     addPhoto,
-    deletePhoto
+    deletePhoto,
+    addReview,
+    updateReview
 }

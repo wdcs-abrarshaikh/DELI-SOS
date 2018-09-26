@@ -47,4 +47,14 @@ userRouter.route('/deletePhoto')
     .post([validate.validateBody, validate.verifyUserToken], (req, res) => {
         actions.deletePhoto(req, res)
     })
+
+userRouter.route('/addReview')
+    .post([validate.validateBody, validate.verifyUserToken], (req, res) => {
+        actions.addReview(req, res)
+    })
+
+userRouter.route('/updateReview/:id')
+    .put([validate.validateBody,validate.verifyUserToken],(req,res)=>{
+        actions.updateReview(req,res)
+    })
 module.exports = userRouter;

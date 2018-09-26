@@ -39,6 +39,13 @@ function deletePhoto(req, res) {
     service.deletePhoto(req, res)
 }
 
+function addReview(req,res){
+    service.addReview(req,res)
+}
+
+function updateReview(req,res){
+    service.updateReview(req,res)
+}
 module.exports = {
     signup,
     login,
@@ -48,5 +55,7 @@ module.exports = {
     addRestaurant,
     getRestaurantDetail,
     addPhoto,
-    deletePhoto
+    deletePhoto,
+    addReview,
+    updateReview
 }
