@@ -73,7 +73,7 @@ adminRouter.route('/addPhoto')
         action.addPhoto(req, res)
     })
 
-adminRouter.route('/deletePhoto').photo([validate.verifyAdminToken],(req,res)=>{
+adminRouter.route('/deletePhoto').post([validate.verifyAdminToken],(req,res)=>{
     action.deletePhoto(req,res)
 })
 module.exports = adminRouter
