@@ -13,12 +13,15 @@ userRouter.route('/login')
         actions.login(req, res)
     });
 
-userRouter.route('/socialLogin').post([validate.validateBody], (req, res) => {
-    actions.socialLogin(req, res)
-})
-userRouter.route('/forgotPassword').post([validate.verifyUserToken],(req, res) => {
-    actions.forgotPassword(req, res)
-})
+userRouter.route('/socialLogin')
+    .post([validate.validateBody], (req, res) => {
+        actions.socialLogin(req, res)
+    })
+
+userRouter.route('/forgotPassword')
+    .post([validate.validateBody], (req, res) => {
+        actions.forgotPassword(req, res)
+    })
 
 userRouter.route('/getUserDetail/:id')
     .get([validate.verifyUserToken], (req, res) => {
@@ -26,16 +29,22 @@ userRouter.route('/getUserDetail/:id')
     })
 
 userRouter.route('/addRestaurant')
-    .post([validate.validateBody,validate.verifyUserToken], (req, res) => {
+    .post([validate.validateBody, validate.verifyUserToken], (req, res) => {
         actions.addRestaurant(req, res)
     })
 
-userRouter.route('/uploadPhoto')
-    .post([validate.validateBody,validate.verifyUserToken], (req, res) => {
-        actions.uploadPhoto(req, res)
+userRouter.route('/getRestaurantDetail/:id')
+    .get([validate.verifyUserToken], (req, res) => {
+        actions.getRestaurantDetail(req, res)
     })
 
-userRouter.route('/getRestaurantDetail/:id').get([validate.verifyUserToken],(req,res)=>{
-    actions.getRestaurantDetail(req,res)
-})
+userRouter.route('/addPhoto/')
+    .post([validate.validateBody, validate.verifyUserToken], (req, res) => {
+        actions.addPhoto(req, res)
+    })
+
+userRouter.route('/deletePhoto')
+    .post([validate.validateBody, validate.verifyUserToken], (req, res) => {
+        actions.deletePhoto(req, res)
+    })
 module.exports = userRouter;

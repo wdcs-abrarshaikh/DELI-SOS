@@ -40,12 +40,22 @@ async function verifyAdminToken(req, res, next) {
     })
 }
 
-function validateBody(req, res, next) {
+async function validateBody(req, res, next) {
     let data = req.body
     let flag = false
+
     for (let k in data) {
-        if (!data[k].trim()) {
-            flag = true;
+        if (typeof (data[k]) === 'object' ) {
+            for (let j in data[k]) {
+                if (!data[k][j].trim()) {
+                    flag = true;
+                }
+            }
+        }
+        else {
+            if (!data[k].trim()) {
+                flag = true;
+            }
         }
     }
     if (flag == true) {

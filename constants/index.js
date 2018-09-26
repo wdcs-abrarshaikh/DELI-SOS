@@ -42,7 +42,7 @@ schemas = {
 
 status = {
     active: "ACTIVE",
-    inavtive: "INACTIVE",
+    inactive: "INACTIVE",
     pending: "PENDING"
 }
 

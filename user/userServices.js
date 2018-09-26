@@ -125,14 +125,6 @@ async function addRestaurant(req, res) {
     })
 }
 
-async function uploadPhoto(req, res) {
-    util.uploadPhoto(req).then((data) => {
-        return res.json({ code: code.created, message: msg.imageUploaded, url: data })
-    }).catch((err) => {
-        console.log(err)
-        return res.json({ code: code.internalError, message: msg.internalServerError })
-    })
-}
 
 async function getRestaurantDetail(req, res) {
     let id = req.params.id
@@ -148,7 +140,27 @@ async function getRestaurantDetail(req, res) {
         }
     })
 }
+async function addPhoto(req, res) {
+    id = req.body.restId
+    util.uploadPhoto(req).then((data) => {
+        restModel.findByIdAndUpdate({ _id: id }, { $push: { photos: data } }, (err, result) => {
+            return (err) ? res.json({ code: code.internalError, message: msg.internalServerError }) :
+                res.json({ code: code.created, message: msg.imageUploaded, url: data })
+        })
 
+    }).catch((err) => {
+        return res.json({ code: code.internalError, message: msg.internalServerError })
+    })
+}
+
+async function deletePhoto(req, res) {
+    url = req.body.url
+    id = req.body.restId
+    restModel.findOneAndUpdate({ _id: id }, { $pull: { photos: url } }, (err, data) => {
+        return (err) ? res.json({ code: code.internalError, message: msg.internalServerError }) :
+            res.json({ code: code.ok, message: msg.imageDeleted })
+    })
+}
 module.exports = {
     createUser,
     authenticateUser,
@@ -156,6 +168,7 @@ module.exports = {
     fetchDetail,
     manageSocialLogin,
     addRestaurant,
-    uploadPhoto,
-    getRestaurantDetail
+    getRestaurantDetail,
+    addPhoto,
+    deletePhoto
 }
