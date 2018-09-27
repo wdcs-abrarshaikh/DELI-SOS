@@ -62,7 +62,7 @@ function sendEMail(receiverid, data) {
                 If you have received this message in error please immediately notify the sender by return e-mail and delete\
                 this e-mail message from your computer, mobile devices and any cloud storage backup systems as well as\
                 destroy any printed copy you might have made.\
-               </html>`
+               </html>` 
 
     }
     return new Promise(function (resolve, reject) {

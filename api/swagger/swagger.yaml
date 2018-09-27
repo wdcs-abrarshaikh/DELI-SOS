@@ -44,15 +44,15 @@ paths:
           "400":
             description: Erorr message.
             schema:
-              $ref: '#/definitions/errorMessgae'
+              $ref: '#/definitions/errorMessage'
           "500":
             description: Erorr message.
             schema:
-              $ref: '#/definitions/errorMessgae'
+              $ref: '#/definitions/errorMessage'
           "404":
             description: Erorr message.
             schema:
-              $ref: '#/definitions/errorMessgae'     
+              $ref: '#/definitions/errorMessage'     
 
   "/user/signUp":
       post:
@@ -77,6 +77,7 @@ paths:
                     type: string
                 password:
                     type: string
+                    format: One capital letter,small letter,special char and one number is required.Length lies between 6 to 16
         responses:
           "201":
             description: Sucessfully registered.
@@ -85,19 +86,964 @@ paths:
           "400":
             description: Erorr message.
             schema:
-              $ref: '#/definitions/errorMessgae'
+              $ref: '#/definitions/errorMessage'
           "500":
             description: Erorr message.
             schema:
-              $ref: '#/definitions/errorMessgae'
+              $ref: '#/definitions/errorMessage'
           "404":
             description: Erorr message.
             schema:
-              $ref: '#/definitions/errorMessgae'
+              $ref: '#/definitions/errorMessage'
+  
+  "/user/socialLogin":
+      post:
+        tags:
+        - 'user'
+        summary: login user by social account.
+        parameters: 
+          - in: body
+            name: user
+            description: login via social id.
+            required: true
+            schema:
+              type: object
+              required:
+                - socialId
+                - name  
+                - isSocialLogin
+              properties:
+                name:
+                    type: string
+                socialId:
+                    type: string
+                isSocialLogin:
+                    type: boolean
+        responses:
+          "200":
+            description: Sucessfully Login.
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "400":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "500":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+  
+  "/user/forgotPassword":
+      post:
+        tags:
+        - 'user'
+        summary: send new password via email to user.
+        parameters: 
+          - in: body
+            name: user
+            description: email for get new password.
+            required: true
+            schema:
+              type: object
+              required:
+                - email 
+              properties:
+                email:
+                    type: string
+        responses:
+          "200":
+            description: mail sent
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "400":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "500":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "404":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'  
+          "501":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage' 
+            
+  "/user/getUserDetail/{id}":
+      get:
+        tags:
+        - 'user'
+        summary: get detail for particular user.
+        parameters: 
+          - name: id
+            in: path
+            description: user id for get details.
+            required: true
+            type: string
+            
+          - name: authorization
+            in: header
+            description: token for validation.
+            required: true
+            type: string
+            
+        
+        responses:
+          "200":
+            description: ok
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "500":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "404":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "400":
+            description: Error message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+  
+  "/user/uploadPhoto":
+      post:
+        tags:
+        - 'user'
+        summary: upload image and get url of it.
+        parameters: 
+          - in: body
+            name: user
+            description: base64 for get image url.
+            required: true
+            schema:
+              type: object
+              required:
+                - file 
+              properties:
+                file:
+                    type: string
+        responses:
+          "201":
+            description: image uploaded
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "500":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "400":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+            
+  
+  "/user/addRestaurant":
+      post:
+        tags:
+        - 'user'
+        summary: send request to admin for add new restaurant.
+        parameters: 
+          - name: user
+            in: body
+            description: register restaurant in body.
+            required: true
+            schema:
+              type: object
+              required:
+                - name
+                - description
+                - latitude
+                - longitude
+                - openTime
+                - closeTime
+                - cuisin
+                - menu
+              properties:
+                name:
+                    type: string
+                description:
+                    type: string
+                latitude:
+                    type: string
+                longitude:
+                    type: string
+                openTime:
+                    type: string
+                closeTime:
+                    type: string
+                photos:
+                    type: array
+                    items:
+                      type: string
+                mealOffers:
+                    type: string
+                    enum:
+                    - BREAKFAST
+                    - LUNCH
+                    - DINNER
+                    - ALL
+                cuisin:
+                    $ref: '#/definitions/cuisinArray'
+                contactNumber:
+                    type: string
+                website:
+                    type: string
+                menu:
+                    type: array
+                    items:
+                      type: string
+                
+                
+          - name: authorization
+            in: header
+            description: token for validation.
+            required: true
+            type: string
+              
+        responses:
+          "201":
+            description: add request sent
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "500":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "400":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
 
+  "/user/getRestaurantDetail/{id}":
+      get:
+        tags:
+        - 'user'
+        summary: get detail for particular restaurant.
+        parameters: 
+          - name: id
+            in: path
+            description: restaurant id for get details.
+            required: true
+            type: string
+            
+          - name: authorization
+            in: header
+            description: token for validation.
+            required: true
+            type: string
+            
+            
+              
+        responses:
+          "200":
+            description: ok
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "500":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "404":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "400":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+        
+  "/user/deleteRestaurantPhoto":
+      post:
+        tags:
+        - 'user'
+        summary: delete photo of particular restaurant.
+        parameters: 
+          - in: body
+            name: user
+            description: register in body.
+            required: true
+            schema:
+              type: object
+              required:
+                - restId
+                - url
+              properties:
+                restId:
+                    type: string
+                url:
+                    type: string
+          
+          - name: authorization
+            in: header
+            description: token for validation.
+            required: true
+            type: string
+        
+        responses:
+          "201":
+            description: Sucessfully registered.
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "400":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "500":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+  
+  "/admin/login":
+      post:
+        tags:
+        - 'admin'
+        summary: Authenticating user
+        parameters: 
+          - in: body
+            name: admin
+            description: login admin.
+            required: true
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                    type: string
+                password:
+                    type: string
+        responses:
+          "200":
+            description: Sucessfully login
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "400":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "500":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "404":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'             
+              
+  "/admin/signUp":
+      post:
+        tags:
+        - 'admin'
+        summary: Registering new admin.
+        parameters: 
+          - in: body
+            name: admin
+            description: register in body.
+            required: true
+            schema:
+              type: object
+              required:
+                - email
+                - password
+                - name  
+              properties:
+                name:
+                    type: string
+                email:
+                    type: string
+                password:
+                    type: string
+                    format: One capital letter,small letter,special char and one number is required.Length lies between 6 to 16
+        responses:
+          "201":
+            description: Sucessfully registered.
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "400":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "500":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "404":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+  
+  "/admin/socialLogin":
+      post:
+        tags:
+        - 'admin'
+        summary: login admin by social account.
+        parameters: 
+          - in: body
+            name: admin
+            description: login via social id.
+            required: true
+            schema:
+              type: object
+              required:
+                - socialId
+                - name  
+                - isSocialLogin
+              properties:
+                name:
+                    type: string
+                socialId:
+                    type: string
+                isSocialLogin:
+                    type: boolean
+        responses:
+          "200":
+            description: Sucessfully Login.
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "400":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "500":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+              
+  "/admin/forgotPassword":
+      post:
+        tags:
+        - 'admin'
+        summary: send new password via email to user.
+        parameters: 
+          - in: body
+            name: admin
+            description: email for get new password.
+            required: true
+            schema:
+              type: object
+              required:
+                - email 
+              properties:
+                email:
+                    type: string
+        responses:
+          "200":
+            description: mail sent
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "400":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "500":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "404":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'  
+          "501":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage' 
+  
+  "/admin/getUserList":
+      get:
+        tags:
+        - 'admin'
+        summary: get detail of each user.
+        parameters:
+          - name: authorization
+            in: header
+            description: token for validation.
+            required: true
+            type: string
+              
+        responses:
+          "200":
+            description: ok
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "500":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+              
+  "/admin/getUserDetail/{id}":
+      get:
+        tags:
+        - 'admin'
+        summary: get detail for particular user.
+        parameters: 
+          - name: id
+            in: path
+            description: user id for get details.
+            required: true
+            type: string
+            
+          - name: authorization
+            in: header
+            description: token for validation.
+            required: true
+            type: string
+              
+        responses:
+          "200":
+            description: ok
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "500":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "404":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "400":
+            description: Error message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+                
+  "/admin/addUser":
+      post:
+        tags:
+        - 'admin'
+        summary: Registering new user.
+        parameters: 
+          - name: authorization
+            in: header
+            description: token for validation.
+            required: true
+            type: string
+          - in: body
+            name: admin
+            description: register in body.
+            required: true
+            schema:
+              type: object
+              required:
+                - email
+                - password
+                - name  
+              properties:
+                name:
+                    type: string
+                email:
+                    type: string
+                password:
+                    type: string
+                    format: One capital letter,small letter,special char and one number is required.Length lies between 6 to 16
+        responses:
+          "201":
+            description: Sucessfully registered.
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "400":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "500":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+               
+  "/admin/updateUser/{id}":
+      put:
+        tags:
+        - 'admin'
+        summary: update details of user.
+        parameters: 
+          - name: id
+            in: path
+            description: user id for get details.
+            required: true
+            type: string
+            
+          - in: body
+            name: admin
+            description: update in body.
+            required: true
+            schema:
+              type: object
+              required:
+                - name  
+                - profilePicture
+              properties:
+                name:
+                    type: string
+                profilePicture:
+                    type: string
+                    
+          - name: authorization
+            in: header
+            description: token for validation.
+            required: true
+            type: string
+      
+        responses:
+          "200":
+            description: Sucessfully updated.
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "400":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "500":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "404":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+            
+  "/admin/addRestaurant":
+      post:
+        tags:
+        - 'admin'
+        summary: add new restaurant.
+        parameters: 
+          - name: restaurant
+            in: body
+            description: register restaurant in body.
+            required: true
+            schema:
+              type: object
+              required:
+                - name
+                - description
+                - latitude
+                - longitude
+                - openTime
+                - closeTime
+                - cuisin
+                - menu
+              properties:
+                name:
+                    type: string
+                description:
+                    type: string
+                latitude:
+                    type: string
+                longitude:
+                    type: string
+                openTime:
+                    type: string
+                closeTime:
+                    type: string
+                photos:
+                    type: array
+                    items:
+                      type: string
+                mealOffers:
+                    type: string
+                    enum:
+                    - BREAKFAST
+                    - LUNCH
+                    - DINNER
+                    - ALL
+                cuisin:
+                    $ref: '#/definitions/cuisinArray'
+                contactNumber:
+                    type: string
+                website:
+                    type: string
+                menu:
+                    type: array
+                    items:
+                      type: string
+                
+                
+          - name: authorization
+            in: header
+            description: token for validation.
+            required: true
+            type: string
+              
+        responses:
+          "201":
+            description: add request sent
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "500":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "400":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+  
+  "/admin/getRestaurantDetails/{id}":
+      get:
+        tags:
+        - 'admin'
+        summary: get detail for particular restaurant.
+        parameters: 
+          - name: id
+            in: path
+            description: restaurant id for get details.
+            required: true
+            type: string
+            
+          - name: authorization
+            in: header
+            description: token for validation.
+            required: true
+            type: string
+            
+            
+              
+        responses:
+          "200":
+            description: ok
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "500":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "404":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "400":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
 
+  "/admin/getRestaurantList":
+      get:
+        tags:
+        - 'admin'
+        summary: get detail for particular restaurant.
+        parameters: 
+        
+          - name: authorization
+            in: header
+            description: token for validation.
+            required: true
+            type: string
+            
+            
+              
+        responses:
+          "200":
+            description: ok
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "500":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "400":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+
+  "/admin/updateRestaurant/{id}":
+      put:
+        tags:
+        - 'admin'
+        summary: update restaurant details.
+        parameters: 
+          - name: id
+            in: path
+            description: user id for get details.
+            required: true
+            type: string
+            
+          - name: restaurant
+            in: body
+            description: register restaurant in body.
+            required: true
+            schema:
+              type: object
+              required:
+                - name
+                - description
+                - latitude
+                - longitude
+                - openTime
+                - closeTime
+                - cuisin
+                - menu
+              properties:
+                name:
+                    type: string
+                description:
+                    type: string
+                latitude:
+                    type: string
+                longitude:
+                    type: string
+                openTime:
+                    type: string
+                closeTime:
+                    type: string
+                photos:
+                    type: array
+                    items:
+                      type: string
+                mealOffers:
+                    type: string
+                    enum:
+                    - BREAKFAST
+                    - LUNCH
+                    - DINNER
+                    - ALL
+                cuisin:
+                    $ref: '#/definitions/cuisinArray'
+                contactNumber:
+                    type: string
+                website:
+                    type: string
+                menu:
+                    type: array
+                    items:
+                      type: string
+                
+                
+          - name: authorization
+            in: header
+            description: token for validation.
+            required: true
+            type: string
+              
+        responses:
+          "201":
+            description: add request sent
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "500":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "400":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+              
+  "/admin/deleteRestaurant/{id}":
+      get:
+        tags:
+        - 'admin'
+        summary: delete particular restaurant.
+        parameters: 
+          - name: id
+            in: path
+            description: restaurant id for get details.
+            required: true
+            type: string
+            
+          - name: authorization
+            in: header
+            description: token for validation.
+            required: true
+            type: string
+            
+            
+              
+        responses:
+          "200":
+            description: ok
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "500":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "404":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "400":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+
+  "/admin/uploadPhoto":
+      post:
+        tags:
+        - 'admin'
+        summary: upload image and get url of it.
+        parameters: 
+          - in: body
+            name: user
+            description: base64 for get image url.
+            required: true
+            schema:
+              type: object
+              required:
+                - file 
+              properties:
+                file:
+                    type: string
+        responses:
+          "201":
+            description: image uploaded
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "500":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "400":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+        
+  "/admin/deleteRestaurantPhoto":
+      post:
+        tags:
+        - 'admin'
+        summary: delete photo of particular restaurant.
+        parameters: 
+          - in: body
+            name: user
+            description: register in body.
+            required: true
+            schema:
+              type: object
+              required:
+                - restId
+                - url
+              properties:
+                restId:
+                    type: string
+                url:
+                    type: string
+          
+          - name: authorization
+            in: header
+            description: token for validation.
+            required: true
+            type: string
+        
+        responses:
+          "201":
+            description: Sucessfully registered.
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "400":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "500":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+            
 definitions:
-  errorMessgae:
+  errorMessage:
     type: "object"
     properties:
       code:
@@ -113,10 +1059,19 @@ definitions:
       messgae:
         type: "string"  
     
-    
-    
-    
-    
+  cuisinArray:
+    type: array
+    items: 
+      type: object
+      required:
+        - name
+        - image
+      properties:
+        name:
+          type: string
+        image:
+          type: string
+  
     
     
     
