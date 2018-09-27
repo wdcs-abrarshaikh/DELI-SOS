@@ -4,25 +4,37 @@ var code = require('../constants').http_codes;
 var msg = require('../constants').messages;
 
 function validateSignUp(req, res, next) {
-    let name = req.body.name.trim(),
-        email = req.body.email.trim(),
-        password = req.body.password.trim();
+    if (req.body.name && req.body.password && req.body.email) {
+        var name = req.body.name.trim(),
+            email = req.body.email.trim(),
+            password = req.body.password.trim();
 
-    if (name && email && password) {
-        next();
+        if (name && email && password) {
+            next();
+        }
+        else {
+            return res.json({ code: code.badRequest, message: msg.invalidBody })
+        }
     }
     else {
         return res.json({ code: code.badRequest, message: msg.invalidBody })
     }
+
+
 }
 
 function validateLogin(req, res, next) {
-    let email = req.body.email.trim(),
-        password = req.body.password.trim();
-    if (email && password) {
-        next();
+    if (req.body.email && req.body.password) {
+        var email = req.body.email.trim(),
+            password = req.body.password.trim();
+        if (email && password) {
+            next();
+        }
+        else {
+            return res.json({ code: code.badRequest, message: msg.invalidBody })
+        }
     }
-    else {
+    else{
         return res.json({ code: code.badRequest, message: msg.invalidBody })
     }
 }

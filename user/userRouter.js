@@ -38,7 +38,7 @@ userRouter.route('/getRestaurantDetail/:id')
         actions.getRestaurantDetail(req, res)
     })
 
-userRouter.route('/addPhoto/')
+userRouter.route('/addPhoto')
     .post([validate.validateBody, validate.verifyUserToken], (req, res) => {
         actions.addPhoto(req, res)
     })

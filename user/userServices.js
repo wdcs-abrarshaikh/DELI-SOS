@@ -47,6 +47,7 @@ async function authenticateUser(req, res) {
                 return res.json({ code: code.ok, message: msg.loggedIn, token: token })
             }
             else {
+                console.log
                 return res.json({ code: code.badRequest, message: msg.invalidPassword })
             }
         }
