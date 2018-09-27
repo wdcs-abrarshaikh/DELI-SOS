@@ -7,19 +7,19 @@ var meal = require('../constants').mealTypes;
 var restaurantSchema = new schema({
     name: { type: String, required: true },
     description: { type: String, required: true },
-    address: { 
-        street1:String,
-        stree2:String,
-        city:String,
-        state:String,
-        pincode:Number
-     },
-    latitude: { type: Number, required: true },
-    longitude: { type: Number, required: true },
+    address: {
+        street1: String,
+        stree2: String,
+        city: String,
+        state: String,
+        pincode: Number
+    },
+    latitude: { type: String, required: true },
+    longitude: { type: String, required: true },
     mealOffers: { type: [{ type: String, enum: [meal.breakfast, meal.lunch, meal.dinner, meal.all] }], default: meal.all },
-    photos: [{ image: String }],
+    photos: [{ type: String }],
     cuisin: [{
-        name: String,   
+        name: String,
         image: String
     }],
     openTime: { type: String, required: true },

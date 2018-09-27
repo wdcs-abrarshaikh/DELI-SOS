@@ -19,7 +19,7 @@ adminRouter.route('/socialLogin')
     })
 
 adminRouter.route('/forgotPassword')
-    .post([validate.verifyAdminToken], (req, res) => {
+    .post([validate.validateBody], (req, res) => {
         action.forgotPassword(req, res)
     });
 
@@ -45,7 +45,7 @@ adminRouter.route('/updateUser/:id')
 
 adminRouter.route('/addRestaurant')
     .post([validate.validateBody, validate.verifyAdminToken], (req, res) => {
-        action.addRestuarant(req, res)
+        action.addRestaurant(req, res)
     })
 
 adminRouter.route('/getRestaurantDetails/:id')
@@ -68,7 +68,7 @@ adminRouter.route('/deleteRestaurant/:id')
         action.deleteRestaurant(req, res)
     })
 
-adminRouter.route('/addPhoto')
+adminRouter.route('/addPhoto/')
     .post([validate.verifyAdminToken], (req, res) => {
         action.addPhoto(req, res)
     })

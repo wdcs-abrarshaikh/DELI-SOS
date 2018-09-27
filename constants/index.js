@@ -25,7 +25,9 @@ messages = {
     imageUploaded: "Image uploaded successfully",
     restRequestSent:"Add restaurant request sent to the admin",
     restNotFound:"No such restuarant is registered",
-    imageDeleted:"Image deleted successfully"
+    imageDeleted:"Image deleted successfully",
+    reviewAdded:"Review added successfully",
+    reviewNotFound:"No such review is posted"
 }
 
 roles = {
@@ -42,7 +44,7 @@ schemas = {
 
 status = {
     active: "ACTIVE",
-    inavtive: "INACTIVE",
+    inactive: "INACTIVE",
     pending: "PENDING"
 }
 
@@ -55,10 +57,10 @@ criteria = {
 }
 
 mealTypes = {
-    breakfast : 'Breakfast',
-    lunch : 'Lunch',
-    dinner:'Dinner',
-    all : 'All'
+    breakfast : 'BREAKFAST',
+    lunch : 'LUNCH',
+    dinner:'DINNER',
+    all : 'ALL'
 }
 
 module.exports = {
