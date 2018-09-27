@@ -8,7 +8,6 @@ function signup(req, res) {
 
 function login(req, res) {
     service.authenticateUser(req, res)
-
 }
 
 function forgotPassword(req, res) {
@@ -31,12 +30,14 @@ function getRestaurantDetail(req, res) {
     service.getRestaurantDetail(req, res)
 }
 
-function addPhoto(req, res) {
-    service.addPhoto(req, res)
+function deleteRestaurantPhoto(req, res) {
+    service.deleteRestaurantPhoto(req, res)
 }
-
-function deletePhoto(req, res) {
-    service.deletePhoto(req, res)
+function uploadPhoto(req,res){
+    service.uploadPhoto(req,res)
+}
+function deletePhotoByUser(req, res) {
+    service.deletePhotoByUser(req, res)
 }
 
 function addReview(req,res){
@@ -54,8 +55,9 @@ module.exports = {
     socialLogin,
     addRestaurant,
     getRestaurantDetail,
-    addPhoto,
-    deletePhoto,
+    uploadPhoto,
+    deleteRestaurantPhoto,
     addReview,
-    updateReview
+    updateReview,
+    deletePhotoByUser
 }

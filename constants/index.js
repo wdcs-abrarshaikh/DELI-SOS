@@ -17,7 +17,7 @@ messages = {
     invalidPassword: 'Invalid password',
     emailNotFound: 'No such email is registered',
     mailNotSent: 'Something went wrong while sending mail',
-    ok: 'Ok',
+    ok:'Ok',
     userNotFound: 'No such user found',
     invalidBody: 'Invalid input',
     invalidToken: 'Invalid token',

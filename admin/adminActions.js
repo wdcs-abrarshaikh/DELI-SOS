@@ -50,11 +50,11 @@ function updateRestaurant(req,res){
 function deleteRestaurant(req,res){
     service.deleteRestaurant(req,res)
 }
-function addPhoto(req,res){
-    service.addPhoto(req,res)
+function uploadPhoto(req,res){
+    service.uploadPhoto(req,res)
 }
-function deletePhoto(req,res){
-    service.deletePhoto(req,res)
+function deleteRestaurantPhoto(req,res){
+    service.deleteRestaurantPhoto(req,res)
 }
 module.exports = {
     signup,
@@ -70,6 +70,6 @@ module.exports = {
     getRestaurantList,
     updateRestaurant,
     deleteRestaurant,
-    addPhoto,
-    deletePhoto
+    uploadPhoto,
+    deleteRestaurantPhoto
 }

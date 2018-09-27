@@ -68,13 +68,13 @@ adminRouter.route('/deleteRestaurant/:id')
         action.deleteRestaurant(req, res)
     })
 
-adminRouter.route('/addPhoto/')
-    .post([validate.verifyAdminToken], (req, res) => {
-        action.addPhoto(req, res)
+adminRouter.route('/uploadPhoto')
+    .post((req, res) => {
+        action.addRestaurantPhoto(req, res)
     })
 
-adminRouter.route('/deletePhoto')
+adminRouter.route('/deleteRestaurantPhoto')
     .post([validate.verifyAdminToken], (req, res) => {
-        action.deletePhoto(req, res)
+        action.deleteRestaurantPhoto(req, res)
     })
 module.exports = adminRouter
