@@ -236,6 +236,10 @@ paths:
             description: Erorr message.
             schema:
               $ref: '#/definitions/errorMessage'
+          "400":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
             
   
   "/user/addRestaurant":
@@ -489,11 +493,14 @@ paths:
               required:
                 - socialId
                 - name  
+                - isSocialLogin
               properties:
                 name:
                     type: string
                 socialId:
                     type: string
+                isSocialLogin:
+                    type: boolean
         responses:
           "200":
             description: Sucessfully Login.
@@ -776,7 +783,7 @@ paths:
             schema:
               $ref: '#/definitions/errorMessage'
   
-  "/admin/getRestaurantDetail/{id}":
+  "/admin/getRestaurantDetails/{id}":
       get:
         tags:
         - 'admin'
@@ -844,7 +851,7 @@ paths:
               $ref: '#/definitions/errorMessage'
 
   "/admin/updateRestaurant/{id}":
-      post:
+      put:
         tags:
         - 'admin'
         summary: update restaurant details.
@@ -987,6 +994,10 @@ paths:
             schema:
               $ref: '#/definitions/SuccessMessage'
           "500":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "400":
             description: Erorr message.
             schema:
               $ref: '#/definitions/errorMessage'

@@ -41,10 +41,10 @@ function validateLogin(req, res, next) {
 function validateSocialLogin(req, res, next) {
     if (req.body.name && req.body.isSocialLogin && req.body.socialId) {
         let name = req.body.name.trim(),
-            isSocialLogin = req.body.isSocialLogin.trim(),
             socialId = req.body.socialId.trim()
+            isSocialLogin = req.body.isSocialLogin
 
-        if (name && isSocialLogin && socialId) {
+        if (name && isSocialLogin == true && socialId) {
             next();
         }
         else {
@@ -71,7 +71,9 @@ async function verifyUserToken(req, res, next) {
 async function validateBody(req, res, next) {
     let data = req.body
     let flag = false
-
+    if(!data){
+        res.json({ code: code.badRequest, message: msg.invalidBody })
+    }
     for (let k in data) {
         if (typeof (data[k]) === 'object') {
             for (let j in data[k]) {

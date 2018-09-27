@@ -28,9 +28,9 @@ adminRouter.route('/getUserList')
         action.getUserList(req, res)
     });
 
-adminRouter.route('/gerUserDetails/:id')
+adminRouter.route('/getUserDetail/:id')
     .get([validate.verifyAdminToken], (req, res) => {
-        action.gerUserDetails(req, res)
+        action.getUserDetail(req, res)
     })
 
 adminRouter.route('/addUser')
@@ -44,7 +44,7 @@ adminRouter.route('/updateUser/:id')
     })
 
 adminRouter.route('/addRestaurant')
-    .post([validate.validateBody, validate.verifyAdminToken], (req, res) => {
+    .post([validate.verifyAdminToken], (req, res) => {
         action.addRestaurant(req, res)
     })
 
@@ -59,7 +59,7 @@ adminRouter.route('/getRestaurantList')
     })
 
 adminRouter.route('/updateRestaurant/:id')
-    .put([validate.validateBody, validate.verifyAdminToken], (req, res) => {
+    .put([validate.verifyAdminToken], (req, res) => {
         action.updateRestaurant(req, res)
     })
 
@@ -69,8 +69,8 @@ adminRouter.route('/deleteRestaurant/:id')
     })
 
 adminRouter.route('/uploadPhoto')
-    .post((req, res) => {
-        action.addRestaurantPhoto(req, res)
+    .post([validate.validateBody],(req, res) => {
+        action.uploadPhoto(req, res)
     })
 
 adminRouter.route('/deleteRestaurantPhoto')

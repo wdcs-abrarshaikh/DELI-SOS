@@ -19,8 +19,8 @@ function getUserList(req, res) {
     service.getUsers(req, res)
 }
 
-function gerUserDetails(req, res) {
-    service.getUserDetails(req, res)
+function getUserDetail(req, res) {
+    service.getUserDetail(req, res)
 }
 
 function addUser(req, res) {
@@ -61,7 +61,7 @@ module.exports = {
     login,
     forgotPassword,
     getUserList,
-    gerUserDetails,
+    getUserDetail,
     addUser,
     updateUser,
     socialLogin,

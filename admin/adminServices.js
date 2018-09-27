@@ -108,7 +108,7 @@ async function getUsers(req, res) {
     })
 }
 
-async function getUserDetails(req, res) {
+async function getUserDetail(req, res) {
     let id = req.params.id
     userModel.findOne({ _id: id }, (err, result) => {
         if (err) {
@@ -124,13 +124,16 @@ async function getUserDetails(req, res) {
 }
 
 async function createUser(req, res) {
+    console.log(req.body)
     let data = req.body;
     if (await userModel.findOne({ email: data.email })) {
         return res.json({ code: code.badRequest, message: msg.emailAlreadyRegistered });
     }
     else {
+        console.log(util.validatePassword(data.password))
         if (util.validateEmail(data.email)
             && util.validatePassword(data.password)) {
+                
             let user = new userModel(data)
             user.password = bcrypt.hashSync(data.password, 11)
             user.save((err, data) => {
@@ -138,6 +141,9 @@ async function createUser(req, res) {
                     res.json({ code: code.internalError, message: msg.internalServerError }) :
                     res.json({ code: code.created, message: msg.registered, data: data })
             });
+        }
+        else{
+            return res.json({code:code.badRequest,message:msg.invalidEmailPass})
         }
     }
 }
@@ -242,7 +248,7 @@ module.exports = {
     authenticateAdmin,
     resetPassword,
     getUsers,
-    getUserDetails,
+    getUserDetail,
     createUser,
     updateUserDetail,
     manageSocialLogin,

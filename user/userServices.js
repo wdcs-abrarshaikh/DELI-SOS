@@ -138,7 +138,7 @@ async function getRestaurantDetail(req, res) {
         if (err) {
             return res.json({ code: code.ineternalError, message: msg.internalServerError })
         }
-        else if (!result) {
+        else if (!data) {
             return res.json({ code: code.notFound, message: msg.restNotFound })
         }
         else {

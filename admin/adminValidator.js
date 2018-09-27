@@ -32,24 +32,24 @@ function validateLogin(req, res, next) {
             return res.json({ code: code.badRequest, message: msg.invalidBody })
         }
     }
-    else{
+    else {
         return res.json({ code: code.badRequest, message: msg.invalidBody })
     }
 }
 function validateSocialLogin(req, res, next) {
     if (req.body.name && req.body.isSocialLogin && req.body.socialId) {
         let name = req.body.name.trim(),
-            isSocialLogin = req.body.isSocialLogin.trim(),
             socialId = req.body.socialId.trim()
+        isSocialLogin = req.body.isSocialLogin
 
-        if (name && isSocialLogin && socialId) {
+        if (name && isSocialLogin == true && socialId) {
             next();
         }
         else {
             return res.json({ code: code.badRequest, message: msg.invalidBody })
         }
     }
-    else{
+    else {
         return res.json({ code: code.badRequest, message: msg.invalidBody })
     }
 }
@@ -69,31 +69,35 @@ async function verifyAdminToken(req, res, next) {
 async function validateBody(req, res, next) {
     let data = req.body
     let flag = false
-
-    for (let k in data) {
-        if (typeof (data[k]) === 'object') {
-            for (let j in data[k]) {
-                if (!data[k][j].trim()) {
+    if (!data) {
+        res.json({ code: code.badRequest, message: msg.invalidBody }) 
+    }
+    else {
+        for (let k in data) {
+            if (typeof (data[k]) === 'object') {
+                for (let j in data[k]) {
+                    if (!data[k][j].trim()) {
+                        flag = true;
+                    }
+                }
+            }
+            else if (typeof (data[k]) === 'array') {
+                if (data[k].length == 0) {
+                    flag = true;
+                }
+            }
+            else {
+                if (!data[k].trim()) {
                     flag = true;
                 }
             }
         }
-        else if (typeof (data[k]) === 'array') {
-            if (data[k].length == 0) {
-                flag = true;
-            }
+        if (flag == true) {
+            res.json({ code: code.badRequest, message: msg.invalidBody })
         }
         else {
-            if (!data[k].trim()) {
-                flag = true;
-            }
+            next();
         }
-    }
-    if (flag == true) {
-        res.json({ code: code.badRequest, message: msg.invalidBody })
-    }
-    else {
-        next();
     }
 }
 

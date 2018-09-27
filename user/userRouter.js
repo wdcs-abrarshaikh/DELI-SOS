@@ -29,7 +29,7 @@ userRouter.route('/getUserDetail/:id')
     })
 
 userRouter.route('/addRestaurant')
-    .post([validate.validateBody, validate.verifyUserToken], (req, res) => {
+    .post([validate.verifyUserToken], (req, res) => {
         actions.addRestaurant(req, res)
     })
 
@@ -39,7 +39,7 @@ userRouter.route('/getRestaurantDetail/:id')
     })
 
 userRouter.route('/uploadphoto')
-    .post((req, res) => {
+    .post([validate.validateBody],(req, res) => {
         actions.uploadPhoto(req, res)
     })
 

@@ -341,6 +341,12 @@
                             "$ref": "#/definitions/SuccessMessage"
                         }
                     },
+                    "400": {
+                        "description": "Erorr message.",
+                        "schema": {
+                            "$ref": "#/definitions/errorMessage"
+                        }
+                    },
                     "500": {
                         "description": "Erorr message.",
                         "schema": {
@@ -699,7 +705,8 @@
                             "type": "object",
                             "required": [
                                 "socialId",
-                                "name"
+                                "name",
+                                "isSocialLogin"
                             ],
                             "properties": {
                                 "name": {
@@ -707,6 +714,9 @@
                                 },
                                 "socialId": {
                                     "type": "string"
+                                },
+                                "isSocialLogin": {
+                                    "type": "boolean"
                                 }
                             }
                         }
@@ -1114,7 +1124,7 @@
                 }
             }
         },
-        "/admin/getRestaurantDetail/{id}": {
+        "/admin/getRestaurantDetails/{id}": {
             "get": {
                 "tags": [
                     "admin"
@@ -1202,7 +1212,7 @@
             }
         },
         "/admin/updateRestaurant/{id}": {
-            "post": {
+            "put": {
                 "tags": [
                     "admin"
                 ],
@@ -1394,6 +1404,12 @@
                         "description": "image uploaded",
                         "schema": {
                             "$ref": "#/definitions/SuccessMessage"
+                        }
+                    },
+                    "400": {
+                        "description": "Erorr message.",
+                        "schema": {
+                            "$ref": "#/definitions/errorMessage"
                         }
                     },
                     "500": {
