@@ -44,7 +44,7 @@ async function authenticateUser(req, res) {
         else {
             if (bcrypt.compareSync(data.password, result.password)) {
                 let token = util.generateToken(result, config.secret)
-                return res.json({ code: code.ok, message: msg.loggedIn, token: token })
+                return res.json({ code: code.ok, message: msg.loggedIn, token: token, data: result })
             }
             else {
                 return res.json({ code: code.badRequest, message: msg.invalidPassword })
@@ -116,11 +116,17 @@ async function manageSocialLogin(req, res) {
         }
     })
 }
+async function uploadPhoto(req, res) {
+    util.uploadPhoto(req).then((data) => {
+        return res.json({ code: code.created, message: msg.imageUploaded, url: data })
+    }).catch((err) => {
+        return res.json({ code: code.internalError, message: msg.internalServerError })
+    })
+}
 
 async function addRestaurant(req, res) {
     let rest = new restModel(req.body)
     await rest.save((err, data) => {
-        console.log(err)
         return (err) ? res.json({ code: code.internalError, message: msg.internalServerError }) :
             res.json({ code: code.created, message: msg.restRequestSent, data: data })
     })
@@ -132,7 +138,7 @@ async function getRestaurantDetail(req, res) {
         if (err) {
             return res.json({ code: code.ineternalError, message: msg.internalServerError })
         }
-        else if (!result) {
+        else if (!data) {
             return res.json({ code: code.notFound, message: msg.restNotFound })
         }
         else {
@@ -141,20 +147,7 @@ async function getRestaurantDetail(req, res) {
     })
 }
 
-async function addPhoto(req, res) {
-    id = req.body.restId
-    util.uploadPhoto(req).then((data) => {
-        restModel.findByIdAndUpdate({ _id: id }, { $push: { photos: data } }, (err, result) => {
-            return (err) ? res.json({ code: code.internalError, message: msg.internalServerError }) :
-                res.json({ code: code.created, message: msg.imageUploaded, url: data })
-        })
-
-    }).catch((err) => {
-        return res.json({ code: code.internalError, message: msg.internalServerError })
-    })
-}
-
-async function deletePhoto(req, res) {
+async function deleteRestaurantPhoto(req, res) {
     url = req.body.url
     id = req.body.restId
     await restModel.findOneAndUpdate({ _id: id }, { $pull: { photos: url } }, (err) => {
@@ -199,6 +192,15 @@ async function updateReview(req, res) {
     })
 }
 
+async function deletePhotoByUser(req, res) {
+    url = req.body.url
+    id = req.body.restId
+    await restModel.findOneAndUpdate({ _id: id }, { $pull: { photoByUser: url } }, (err) => {
+        return (err) ? res.json({ code: code.internalError, message: msg.internalServerError }) :
+            res.json({ code: code.ok, message: msg.imageDeleted })
+    })
+}
+
 module.exports = {
     createUser,
     authenticateUser,
@@ -207,8 +209,9 @@ module.exports = {
     manageSocialLogin,
     addRestaurant,
     getRestaurantDetail,
-    addPhoto,
-    deletePhoto,
+    uploadPhoto,
+    deleteRestaurantPhoto,
     addReview,
-    updateReview
+    updateReview,
+    deletePhotoByUser
 }

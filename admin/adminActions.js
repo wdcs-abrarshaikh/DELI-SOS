@@ -19,8 +19,8 @@ function getUserList(req, res) {
     service.getUsers(req, res)
 }
 
-function gerUserDetails(req, res) {
-    service.getUserDetails(req, res)
+function getUserDetail(req, res) {
+    service.getUserDetail(req, res)
 }
 
 function addUser(req, res) {
@@ -50,18 +50,18 @@ function updateRestaurant(req,res){
 function deleteRestaurant(req,res){
     service.deleteRestaurant(req,res)
 }
-function addPhoto(req,res){
-    service.addPhoto(req,res)
+function uploadPhoto(req,res){
+    service.uploadPhoto(req,res)
 }
-function deletePhoto(req,res){
-    service.deletePhoto(req,res)
+function deleteRestaurantPhoto(req,res){
+    service.deleteRestaurantPhoto(req,res)
 }
 module.exports = {
     signup,
     login,
     forgotPassword,
     getUserList,
-    gerUserDetails,
+    getUserDetail,
     addUser,
     updateUser,
     socialLogin,
@@ -70,6 +70,6 @@ module.exports = {
     getRestaurantList,
     updateRestaurant,
     deleteRestaurant,
-    addPhoto,
-    deletePhoto
+    uploadPhoto,
+    deleteRestaurantPhoto
 }

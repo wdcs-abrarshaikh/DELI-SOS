@@ -26,7 +26,7 @@ async function createAdmin(req, res) {
             });
         }
         else {
-            return res.json({ code: code.badRequest, message: invalidEmailPass })
+            return res.json({ code: code.badRequest, message: msg.invalidEmailPass })
         }
     }
 }
@@ -43,7 +43,7 @@ async function authenticateAdmin(req, res) {
         else {
             if (bcrypt.compareSync(data.password, result.password)) {
                 let token = util.generateToken(result, config.secret)
-                return res.json({ code: code.ok, message: msg.loggedIn, token: token })
+                return res.json({ code: code.ok, message: msg.loggedIn, token: token,data:result })
             }
             else {
                 return res.json({ code: code.badRequest, message: msg.invalidPassword })
@@ -108,7 +108,7 @@ async function getUsers(req, res) {
     })
 }
 
-async function getUserDetails(req, res) {
+async function getUserDetail(req, res) {
     let id = req.params.id
     userModel.findOne({ _id: id }, (err, result) => {
         if (err) {
@@ -124,13 +124,16 @@ async function getUserDetails(req, res) {
 }
 
 async function createUser(req, res) {
+    console.log(req.body)
     let data = req.body;
     if (await userModel.findOne({ email: data.email })) {
         return res.json({ code: code.badRequest, message: msg.emailAlreadyRegistered });
     }
     else {
+        console.log(util.validatePassword(data.password))
         if (util.validateEmail(data.email)
             && util.validatePassword(data.password)) {
+                
             let user = new userModel(data)
             user.password = bcrypt.hashSync(data.password, 11)
             user.save((err, data) => {
@@ -138,6 +141,9 @@ async function createUser(req, res) {
                     res.json({ code: code.internalError, message: msg.internalServerError }) :
                     res.json({ code: code.created, message: msg.registered, data: data })
             });
+        }
+        else{
+            return res.json({code:code.badRequest,message:msg.invalidEmailPass})
         }
     }
 }
@@ -219,21 +225,15 @@ async function deleteRestaurant(req, res) {
         })
 }
 
-async function addPhoto(req, res) {
-    id = req.body.restId
+async function uploadPhoto(req, res) {
     util.uploadPhoto(req).then((data) => {
-        console.log("data",data)
-        restModel.findByIdAndUpdate({ _id: id }, { $push: { photos: data } }, (err, result) => {
-            return (err) ? res.json({ code: code.internalError, message: msg.internalServerError }) :
-                res.json({ code: code.created, message: msg.imageUploaded, url: data })
-        })
-
+        return res.json({ code: code.created, message: msg.imageUploaded, url: data })
     }).catch((err) => {
         return res.json({ code: code.internalError, message: msg.internalServerError })
     })
-}
 
-async function deletePhoto(req, res) {
+}
+async function deleteRestaurantPhoto(req, res) {
     url = req.body.url
     id = req.body.restId
     restModel.findOneAndUpdate({ _id: id }, { $pull: { photos: url } }, (err, data) => {
@@ -248,7 +248,7 @@ module.exports = {
     authenticateAdmin,
     resetPassword,
     getUsers,
-    getUserDetails,
+    getUserDetail,
     createUser,
     updateUserDetail,
     manageSocialLogin,
@@ -257,6 +257,6 @@ module.exports = {
     getRestaurantList,
     updateRestaurant,
     deleteRestaurant,
-    addPhoto,
-    deletePhoto
+    uploadPhoto,
+    deleteRestaurantPhoto
 }
