@@ -11,7 +11,7 @@ messages = {
     emailAlreadyRegistered: 'Email already registered',
     internalServerError: 'Internal server error',
     registered: 'Successfully registered',
-    invalidEmailPass: 'Invalid email or password',
+    invalidEmailPass: 'Invalid email or password \n password format : Superm@n123',
     adminNotFound: 'No such admin is registered',
     loggedIn: 'Logged in',
     invalidPassword: 'Invalid password',

@@ -380,48 +380,6 @@ paths:
             description: Erorr message.
             schema:
               $ref: '#/definitions/errorMessage'
-            
-  "/user/addReview":
-      post:
-        tags:
-        - 'user'
-        summary: add photo to particular restaurant.
-        parameters: 
-          - in: body
-            name: user
-            description: add photo of restaurant.
-            required: true
-            schema:
-              type: object
-              required:
-                - restId
-                - file
-              properties:
-                restId:
-                    type: string
-                file:
-                    type: string
-                    format: base64 of image
-          
-          - name: authorization
-            in: header
-            description: token for validation.
-            required: true
-            type: string
-            
-        responses:
-          "201":
-            description: Sucessfully registered.
-            schema:
-              $ref: '#/definitions/SuccessMessage'
-          "400":
-            description: Erorr message.
-            schema:
-              $ref: '#/definitions/errorMessage'
-          "500":
-            description: Erorr message.
-            schema:
-              $ref: '#/definitions/errorMessage'
               
 definitions:
   errorMessage:
