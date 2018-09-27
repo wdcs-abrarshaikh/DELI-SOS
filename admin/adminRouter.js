@@ -14,7 +14,7 @@ adminRouter.route('/login')
     });
 
 adminRouter.route('/socialLogin')
-    .post([validate.validateBody], (req, res) => {
+    .post([validate.validateSocialLogin], (req, res) => {
         action.socialLogin(req, res)
     })
 

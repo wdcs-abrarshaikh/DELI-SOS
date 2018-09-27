@@ -4,7 +4,7 @@
         "title": "DeliSOS",
         "version": "1.0.0"
     },
-    "host": "66.70.179.133:8080",
+    "host": "localhost:8080",
     "consumes": [
         "application/json",
         "application/x-www-form-urlencoded"
@@ -161,7 +161,8 @@
                             "type": "object",
                             "required": [
                                 "socialId",
-                                "name"
+                                "name",
+                                "isSocialLogin"
                             ],
                             "properties": {
                                 "name": {
@@ -169,6 +170,9 @@
                                 },
                                 "socialId": {
                                     "type": "string"
+                                },
+                                "isSocialLogin": {
+                                    "type": "boolean"
                                 }
                             }
                         }

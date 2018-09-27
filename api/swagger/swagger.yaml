@@ -2,7 +2,7 @@ swagger: "2.0"
 info:
   title: "DeliSOS"
   version: "1.0.0"
-host: "66.70.179.133:8080"
+host: "localhost:8080"
 consumes:
 - "application/json"
 - "application/x-www-form-urlencoded"
@@ -111,11 +111,14 @@ paths:
               required:
                 - socialId
                 - name  
+                - isSocialLogin
               properties:
                 name:
                     type: string
                 socialId:
                     type: string
+                isSocialLogin:
+                    type: boolean
         responses:
           "200":
             description: Sucessfully Login.

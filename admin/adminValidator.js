@@ -36,7 +36,23 @@ function validateLogin(req, res, next) {
         return res.json({ code: code.badRequest, message: msg.invalidBody })
     }
 }
+function validateSocialLogin(req, res, next) {
+    if (req.body.name && req.body.isSocialLogin && req.body.socialId) {
+        let name = req.body.name.trim(),
+            isSocialLogin = req.body.isSocialLogin.trim(),
+            socialId = req.body.socialId.trim()
 
+        if (name && isSocialLogin && socialId) {
+            next();
+        }
+        else {
+            return res.json({ code: code.badRequest, message: msg.invalidBody })
+        }
+    }
+    else{
+        return res.json({ code: code.badRequest, message: msg.invalidBody })
+    }
+}
 async function verifyAdminToken(req, res, next) {
     let token = req.headers['authorization']
 
@@ -85,5 +101,6 @@ module.exports = {
     validateSignUp,
     validateLogin,
     verifyAdminToken,
-    validateBody
+    validateBody,
+    validateSocialLogin
 }

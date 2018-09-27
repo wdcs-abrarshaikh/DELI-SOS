@@ -26,7 +26,7 @@ async function createAdmin(req, res) {
             });
         }
         else {
-            return res.json({ code: code.badRequest, message: invalidEmailPass })
+            return res.json({ code: code.badRequest, message: msg.invalidEmailPass })
         }
     }
 }
