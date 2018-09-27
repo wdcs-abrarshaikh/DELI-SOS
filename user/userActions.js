@@ -19,20 +19,32 @@ function getDetail(req, res) {
     service.fetchDetail(req, res)
 }
 
-function socialLogin(req,res){
-    service.manageSocialLogin(req,res)
+function socialLogin(req, res) {
+    service.manageSocialLogin(req, res)
 }
 
-function addRestaurant(req,res){
-    service.addRestaurant(req,res)
+function addRestaurant(req, res) {
+    service.addRestaurant(req, res)
 }
 
-function uploadPhoto(req,res){
-    service.uploadPhoto(req,res)
+function getRestaurantDetail(req, res) {
+    service.getRestaurantDetail(req, res)
 }
 
-function getRestaurantDetail(req,res){
-    service.getRestaurantDetail(req,res)
+function addPhoto(req, res) {
+    service.addPhoto(req, res)
+}
+
+function deletePhoto(req, res) {
+    service.deletePhoto(req, res)
+}
+
+function addReview(req,res){
+    service.addReview(req,res)
+}
+
+function updateReview(req,res){
+    service.updateReview(req,res)
 }
 module.exports = {
     signup,
@@ -41,6 +53,9 @@ module.exports = {
     getDetail,
     socialLogin,
     addRestaurant,
-    uploadPhoto,
-    getRestaurantDetail
+    getRestaurantDetail,
+    addPhoto,
+    deletePhoto,
+    addReview,
+    updateReview
 }

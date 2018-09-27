@@ -204,8 +204,9 @@ async function updateRestaurant(req, res) {
 }
 
 async function deleteRestaurant(req, res) {
-    restModel.findByIdAndUpdate({ _id: req.id },
+    restModel.findByIdAndUpdate({ _id: req.params.id },
         { $set: { status: status.inactive } }, { new: true }, (err, data) => {
+            console.log(err)
             if (err) {
                 return res.json({ code: code.internalError, message: msg.internalServerError })
             }
@@ -221,7 +222,8 @@ async function deleteRestaurant(req, res) {
 async function addPhoto(req, res) {
     id = req.body.restId
     util.uploadPhoto(req).then((data) => {
-        restModel.findOneAndUpdate({ _id: id }, { $push: { photos: data } }, (err, data) => {
+        console.log("data",data)
+        restModel.findByIdAndUpdate({ _id: id }, { $push: { photos: data } }, (err, result) => {
             return (err) ? res.json({ code: code.internalError, message: msg.internalServerError }) :
                 res.json({ code: code.created, message: msg.imageUploaded, url: data })
         })
@@ -235,6 +237,7 @@ async function deletePhoto(req, res) {
     url = req.body.url
     id = req.body.restId
     restModel.findOneAndUpdate({ _id: id }, { $pull: { photos: url } }, (err, data) => {
+        
         return (err) ? res.json({ code: code.internalError, message: msg.internalServerError }) :
             res.json({ code: code.ok, message: msg.imageDeleted })
     })
