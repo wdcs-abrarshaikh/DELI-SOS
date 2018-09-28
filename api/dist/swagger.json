@@ -42,13 +42,25 @@
                             "type": "object",
                             "required": [
                                 "email",
-                                "password"
+                                "password",
+                                "deviceId",
+                                "deviceType",
+                                "fcmToken"
                             ],
                             "properties": {
                                 "email": {
                                     "type": "string"
                                 },
                                 "password": {
+                                    "type": "string"
+                                },
+                                "deviceId": {
+                                    "type": "string"
+                                },
+                                "deviceType": {
+                                    "type": "string"
+                                },
+                                "fcmToken": {
                                     "type": "string"
                                 }
                             }
@@ -100,7 +112,10 @@
                             "required": [
                                 "email",
                                 "password",
-                                "name"
+                                "name",
+                                "deviceId",
+                                "deviceType",
+                                "fcmToken"
                             ],
                             "properties": {
                                 "name": {
@@ -112,6 +127,15 @@
                                 "password": {
                                     "type": "string",
                                     "format": "One capital letter,small letter,special char and one number is required.Length lies between 6 to 16"
+                                },
+                                "deviceId": {
+                                    "type": "string"
+                                },
+                                "deviceType": {
+                                    "type": "string"
+                                },
+                                "fcmToken": {
+                                    "type": "string"
                                 }
                             }
                         }
@@ -162,7 +186,9 @@
                             "required": [
                                 "socialId",
                                 "name",
-                                "isSocialLogin"
+                                "deviceId",
+                                "deviceType",
+                                "fcmToken"
                             ],
                             "properties": {
                                 "name": {
@@ -171,8 +197,14 @@
                                 "socialId": {
                                     "type": "string"
                                 },
-                                "isSocialLogin": {
-                                    "type": "boolean"
+                                "deviceId": {
+                                    "type": "string"
+                                },
+                                "deviceType": {
+                                    "type": "string"
+                                },
+                                "fcmToken": {
+                                    "type": "string"
                                 }
                             }
                         }
@@ -378,7 +410,9 @@
                                 "openTime",
                                 "closeTime",
                                 "cuisin",
-                                "menu"
+                                "menu",
+                                "perPersonCost",
+                                "createdBy"
                             ],
                             "properties": {
                                 "name": {
@@ -418,7 +452,7 @@
                                     "$ref": "#/definitions/cuisinArray"
                                 },
                                 "contactNumber": {
-                                    "type": "string"
+                                    "type": "number"
                                 },
                                 "website": {
                                     "type": "string"
@@ -428,6 +462,12 @@
                                     "items": {
                                         "type": "string"
                                     }
+                                },
+                                "perPersonCost": {
+                                    "type": "number"
+                                },
+                                "createdBy": {
+                                    "type": "string"
                                 }
                             }
                         }
@@ -498,64 +538,6 @@
                         }
                     },
                     "404": {
-                        "description": "Erorr message.",
-                        "schema": {
-                            "$ref": "#/definitions/errorMessage"
-                        }
-                    },
-                    "500": {
-                        "description": "Erorr message.",
-                        "schema": {
-                            "$ref": "#/definitions/errorMessage"
-                        }
-                    }
-                }
-            }
-        },
-        "/user/deleteRestaurantPhoto": {
-            "post": {
-                "tags": [
-                    "user"
-                ],
-                "summary": "delete photo of particular restaurant.",
-                "parameters": [
-                    {
-                        "in": "body",
-                        "name": "user",
-                        "description": "register in body.",
-                        "required": true,
-                        "schema": {
-                            "type": "object",
-                            "required": [
-                                "restId",
-                                "url"
-                            ],
-                            "properties": {
-                                "restId": {
-                                    "type": "string"
-                                },
-                                "url": {
-                                    "type": "string"
-                                }
-                            }
-                        }
-                    },
-                    {
-                        "name": "authorization",
-                        "in": "header",
-                        "description": "token for validation.",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "Sucessfully registered.",
-                        "schema": {
-                            "$ref": "#/definitions/SuccessMessage"
-                        }
-                    },
-                    "400": {
                         "description": "Erorr message.",
                         "schema": {
                             "$ref": "#/definitions/errorMessage"
@@ -1040,7 +1022,9 @@
                                 "openTime",
                                 "closeTime",
                                 "cuisin",
-                                "menu"
+                                "menu",
+                                "perPersonCost",
+                                "createdBy"
                             ],
                             "properties": {
                                 "name": {
@@ -1090,6 +1074,12 @@
                                     "items": {
                                         "type": "string"
                                     }
+                                },
+                                "perPersonCost": {
+                                    "type": "number"
+                                },
+                                "createdBy": {
+                                    "type": "string"
                                 }
                             }
                         }
@@ -1240,7 +1230,9 @@
                                 "openTime",
                                 "closeTime",
                                 "cuisin",
-                                "menu"
+                                "menu",
+                                "perPersonCost",
+                                "editedBy"
                             ],
                             "properties": {
                                 "name": {
@@ -1290,6 +1282,12 @@
                                     "items": {
                                         "type": "string"
                                     }
+                                },
+                                "perPersonCost": {
+                                    "type": "number"
+                                },
+                                "editedBy": {
+                                    "type": "string"
                                 }
                             }
                         }

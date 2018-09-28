@@ -40,6 +40,7 @@ var restaurantSchema = new schema({
     status: { type: String, enum: [status.active, status.inactive, status.pending], default: status.pending },
     createdBy: { type: mongoose.Schema.Types.ObjectId, ref: cnst.users },
     editedBy: { type: mongoose.Schema.Types.ObjectId, ref: cnst.users }
+    
 })
 
 module.exports = mongoose.model(cnst.restaurants, restaurantSchema)

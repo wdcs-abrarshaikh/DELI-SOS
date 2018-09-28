@@ -25,7 +25,7 @@ function generateToken(data, secret) {
         email: data.email,
         role: data.role
     }
-    return jwt.sign(obj, secret, { expiresIn: '1hr' })
+    return jwt.sign(obj, secret, { expiresIn: '24hr' })
 }
 
 function generateRandomPassword() {

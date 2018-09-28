@@ -44,7 +44,7 @@ adminRouter.route('/updateUser/:id')
     })
 
 adminRouter.route('/addRestaurant')
-    .post([validate.verifyAdminToken], (req, res) => {
+    .post([validate.validateRestaurant,validate.verifyAdminToken], (req, res) => {
         action.addRestaurant(req, res)
     })
 

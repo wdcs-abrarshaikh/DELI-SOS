@@ -27,7 +27,8 @@ messages = {
     restNotFound:"No such restuarant is registered",
     imageDeleted:"Image deleted successfully",
     reviewAdded:"Review added successfully",
-    reviewNotFound:"No such review is posted"
+    reviewNotFound:"No such review is posted",
+    deleted:"Successfully deleted"
 }
 
 roles = {

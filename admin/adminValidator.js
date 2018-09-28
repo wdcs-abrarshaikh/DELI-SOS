@@ -1,5 +1,4 @@
 var jwt = require('jsonwebtoken')
-var admincnfg = require('./adminConfig')
 var code = require('../constants').http_codes;
 var msg = require('../constants').messages;
 
@@ -56,7 +55,7 @@ function validateSocialLogin(req, res, next) {
 async function verifyAdminToken(req, res, next) {
     let token = req.headers['authorization']
 
-    await jwt.verify(token, admincnfg.secret, (err) => {
+    await jwt.verify(token, process.env.admin_secret, (err) => {
         if (err) {
             return res.json({ code: code.badRequest, message: msg.invalidToken })
         }
@@ -70,7 +69,7 @@ async function validateBody(req, res, next) {
     let data = req.body
     let flag = false
     if (!data) {
-        res.json({ code: code.badRequest, message: msg.invalidBody }) 
+        res.json({ code: code.badRequest, message: msg.invalidBody })
     }
     else {
         for (let k in data) {
@@ -100,11 +99,21 @@ async function validateBody(req, res, next) {
         }
     }
 }
+function validateRestaurant(req, res, next) {
+    let data = req.body
+    if (data.name && data.description && data.latitude && data.longitude && data.cuisin && data.openTime && data.closeTime && data.menu) {
+        next();
+    }
+    else {
+        res.json({ code: code.badRequest, message: msg.invalidBody })
+    }
+}
 
 module.exports = {
     validateSignUp,
     validateLogin,
     verifyAdminToken,
     validateBody,
-    validateSocialLogin
+    validateSocialLogin,
+    validateRestaurant
 }

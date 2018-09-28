@@ -29,7 +29,7 @@ userRouter.route('/getUserDetail/:id')
     })
 
 userRouter.route('/addRestaurant')
-    .post([validate.verifyUserToken], (req, res) => {
+    .post([validate.validateRestaurant, validate.verifyUserToken], (req, res) => {
         actions.addRestaurant(req, res)
     })
 
@@ -39,13 +39,8 @@ userRouter.route('/getRestaurantDetail/:id')
     })
 
 userRouter.route('/uploadphoto')
-    .post([validate.validateBody],(req, res) => {
+    .post([validate.validateBody], (req, res) => {
         actions.uploadPhoto(req, res)
-    })
-
-userRouter.route('/deleteRestaurantPhoto')
-    .post([validate.validateBody, validate.verifyUserToken], (req, res) => {
-        actions.deleteRestaurantPhoto(req, res)
     })
 
 userRouter.route('/deletePhotoByUser')
@@ -54,12 +49,22 @@ userRouter.route('/deletePhotoByUser')
     })
 
 userRouter.route('/addReview')
-    .post([validate.validateBody, validate.verifyUserToken], (req, res) => {
+    .post([validate.validateReview, validate.verifyUserToken], (req, res) => {
         actions.addReview(req, res)
     })
 
 userRouter.route('/updateReview/:id')
-    .put([validate.validateBody, validate.verifyUserToken], (req, res) => {
+    .put([validate.validateReview, validate.verifyUserToken], (req, res) => {
         actions.updateReview(req, res)
+    })
+
+userRouter.route('/deleteReview/:id')
+    .get([validate.verifyUserToken], (req, res) => {
+        actions.deleteReview(req, res)
+    })
+
+userRouter.route('/getAllReviews/:restId')
+    .get([validate.verifyUserToken], (req, res) => {
+        actions.getAllReviews(req, res)
     })
 module.exports = userRouter;

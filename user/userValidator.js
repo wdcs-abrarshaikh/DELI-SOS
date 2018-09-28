@@ -1,15 +1,17 @@
 var jwt = require('jsonwebtoken')
-var usercnfg = require('./userConfig')
 var code = require('../constants').http_codes;
 var msg = require('../constants').messages;
 
 function validateSignUp(req, res, next) {
-    if (req.body.name && req.body.password && req.body.email) {
+    if (req.body.name && req.body.password && req.body.email && req.body.deviceId && req.body.deviceType && req.body.fcmToken) {
         var name = req.body.name.trim(),
             email = req.body.email.trim(),
             password = req.body.password.trim();
+        deviceId = req.body.deviceId.trim();
+        deviceType = req.body.deviceType.trim();
+        fcmToken = req.body.fcmToken.trim();
 
-        if (name && email && password) {
+        if (name && email && password && deviceId && deviceType && fcmToken) {
             next();
         }
         else {
@@ -19,46 +21,50 @@ function validateSignUp(req, res, next) {
     else {
         return res.json({ code: code.badRequest, message: msg.invalidBody })
     }
-
-
 }
 
 function validateLogin(req, res, next) {
-    if (req.body.email && req.body.password) {
+    if (req.body.email && req.body.password && req.body.deviceId && req.body.deviceType && req.body.fcmToken) {
         var email = req.body.email.trim(),
-            password = req.body.password.trim();
-        if (email && password) {
+            password = req.body.password.trim(),
+            deviceId = req.body.deviceId.trim(),
+            deviceType = req.body.deviceType.trim(),
+            fcmToken = req.body.fcmToken.trim()
+        if (email && password && deviceId && deviceType && fcmToken) {
             next();
         }
         else {
             return res.json({ code: code.badRequest, message: msg.invalidBody })
         }
     }
-    else{
+    else {
         return res.json({ code: code.badRequest, message: msg.invalidBody })
     }
 }
 function validateSocialLogin(req, res, next) {
-    if (req.body.name && req.body.isSocialLogin && req.body.socialId) {
+    if (req.body.name && req.body.socialId && req.body.deviceId && req.body.deviceType && req.body.fcmToken) {
         let name = req.body.name.trim(),
-            socialId = req.body.socialId.trim()
-            isSocialLogin = req.body.isSocialLogin
+            socialId = req.body.socialId.trim(),
+            isSocialLogin = req.body.isSocialLogin,
+            deviceId = req.body.deviceId.trim(),
+            deviceType = req.body.deviceType.trim(),
+            fcmToken = req.body.deviceType.trim()
 
-        if (name && isSocialLogin == true && socialId) {
+        if (name && socialId && deviceId && deviceType && fcmToken) {
             next();
         }
         else {
             return res.json({ code: code.badRequest, message: msg.invalidBody })
         }
     }
-    else{
+    else {
         return res.json({ code: code.badRequest, message: msg.invalidBody })
     }
 }
 async function verifyUserToken(req, res, next) {
     let token = req.headers['authorization']
 
-    await jwt.verify(token, usercnfg.secret, (err) => {
+    await jwt.verify(token, process.env.user_secret, (err) => {
         if (err) {
             return res.json({ code: code.badRequest, message: msg.invalidToken })
         }
@@ -71,7 +77,7 @@ async function verifyUserToken(req, res, next) {
 async function validateBody(req, res, next) {
     let data = req.body
     let flag = false
-    if(!data){
+    if (!data) {
         res.json({ code: code.badRequest, message: msg.invalidBody })
     }
     for (let k in data) {
@@ -100,10 +106,85 @@ async function validateBody(req, res, next) {
         next();
     }
 }
+function isEmpty(arr) {
+    for (var key in arr) {
+        if (arr.hasOwnProperty(key)) {
+            return false;
+        }
+    }
+    return true;
+}
+function validateRestaurant(req, res, next) {
+    let rest = req.body;
+
+    if (rest.name && rest.description && rest.latitude &&
+        rest.longitude && rest.cuisin && rest.openTime &&
+        rest.closeTime && rest.menu) {
+
+        let name = rest.name.trim(),
+            description = rest.description.trim(),
+            latitude = rest.latitude.trim(),
+            longitude = rest.latitude.trim(),
+            openTime = rest.openTime.trim(),
+            closeTime = rest.closeTime.trim()
+        cusinlen = rest.cuisin.length;
+        if (cusinlen == 0) {
+            return res.json({ code: code.badRequest, message: msg.invalidBody })
+        }
+        cuisin = (!isEmpty(rest.cuisin))
+        let i = 0
+        do {
+            if (cuisin) {
+                let cname = rest.cuisin[i].name.trim(),
+                    image = rest.cuisin[i].image.trim()
+                i++;
+                if (cname && image) {
+                    cuisin = true;
+                }
+                else {
+                    cuisin = false;
+                    break;
+                }
+
+            }
+        } while (i < cusinlen)
+
+        if (name && description && latitude && longitude && openTime && closeTime && cuisin) {
+            next();
+        }
+        else {
+            return res.json({ code: code.badRequest, message: msg.invalidBody })
+        }
+    }
+    else { return res.json({ code: code.badRequest, message: msg.invalidBody }) }
+
+}
+function validateReview(req, res, next) {
+    let data = req.body
+    if (data.restId && data.userId && data.content && data.likePlace && data.rating && data.improvementArea) {
+        var restId = data.restId.trim(),
+            userId = data.userId.trim(),
+            content = data.content.trim(),
+            likePlace = data.likePlace.trim()
+            improvementArea = data.improvementArea.trim()
+        if (restId && userId && content && likePlace && improvementArea) {
+            next();
+        }
+        else {
+            res.json({ code: code.badRequest, message: msg.invalidBody })
+        }
+    }
+    else {
+        res.json({ code: code.badRequest, message: msg.invalidBody })
+    }
+}
+
 module.exports = {
     validateSignUp,
     validateLogin,
     verifyUserToken,
     validateBody,
-    validateSocialLogin
+    validateSocialLogin,
+    validateRestaurant,
+    validateReview
 }

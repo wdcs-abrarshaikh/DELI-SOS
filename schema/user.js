@@ -3,13 +3,15 @@ var schema = mongoose.Schema;
 let schmaName = require('../constants').schemas;
 let roles = require('../constants').roles;
 let status = require('../constants').status;
+var bcrypt = require('bcrypt');
+
 
 var userSchema = new schema({
     name: { type: String, required: true },
     email: {
         type: String, required: function () {
             return (this.isSocialLogin == false) ? true : false
-                
+
         }
     },
     password: {
@@ -37,10 +39,60 @@ var userSchema = new schema({
     isSocialLogin: { type: Boolean },
     socialId: {
         type: String, required: function () {
-            return (this.isSocialLogin == true) ? true : false
+            return (this.isSocialLogin == true) ? true : false  
         }
     },
-    profilePicture: { type: String }
+    profilePicture: { type: String },
+    deviceId: {
+        type: String, required: function () {
+            if (this.role == roles.USER) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+    },
+    deviceType: {
+        type: String,required: function(){
+            if(this.role == roles.USER) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+    },
+    fcmToken:{
+        type: String,required: function(){
+            if(this.role == roles.USER){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+    }
 });
 
-module.exports = mongoose.model(schmaName.users, userSchema)
+User = module.exports = mongoose.model(schmaName.users, userSchema)
+
+User.countDocuments(async function (err, data) {
+    if (err) {
+        console.log('error while creating admin');
+    } else if (data == 0) {
+        let obj = {
+            "name": process.env.admin_name,
+            "email": process.env.admin_email,
+            "password": process.env.admin_password,
+            "role": roles.ADMIN
+        };
+
+        let updatedPass = await bcrypt.hashSync(obj.password, 11);
+        obj.password = updatedPass;
+        let user = new User(obj);
+        user.save(function (err, result) {
+            (err) ? console.log(err) : console.log('admin created successfully.')
+        })
+    }
+})
