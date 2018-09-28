@@ -31,10 +31,19 @@ paths:
               required:
                 - email
                 - password
+                - deviceId
+                - deviceType
+                - fcmToken
               properties:
                 email:
                     type: string
                 password:
+                    type: string
+                deviceId:
+                    type: string
+                deviceType:
+                    type: string
+                fcmToken:
                     type: string
         responses:
           "200":
@@ -70,6 +79,9 @@ paths:
                 - email
                 - password
                 - name  
+                - deviceId
+                - deviceType
+                - fcmToken
               properties:
                 name:
                     type: string
@@ -78,6 +90,12 @@ paths:
                 password:
                     type: string
                     format: One capital letter,small letter,special char and one number is required.Length lies between 6 to 16
+                deviceId:
+                    type: string
+                deviceType:
+                    type: string
+                fcmToken:
+                    type: string
         responses:
           "201":
             description: Sucessfully registered.
@@ -111,14 +129,20 @@ paths:
               required:
                 - socialId
                 - name  
-                - isSocialLogin
+                - deviceId
+                - deviceType
+                - fcmToken
               properties:
                 name:
                     type: string
                 socialId:
                     type: string
-                isSocialLogin:
-                    type: boolean
+                deviceId:
+                    type: string
+                deviceType:
+                    type: string
+                fcmToken:
+                    type: string
         responses:
           "200":
             description: Sucessfully Login.
@@ -262,6 +286,8 @@ paths:
                 - closeTime
                 - cuisin
                 - menu
+                - perPersonCost
+                - createdBy
               properties:
                 name:
                     type: string
@@ -289,12 +315,16 @@ paths:
                 cuisin:
                     $ref: '#/definitions/cuisinArray'
                 contactNumber:
-                    type: string
+                    type: number
                 website:
                     type: string
                 menu:
                     type: array
                     items:
+                      type: string
+                perPersonCost:
+                      type: number
+                createdBy:
                       type: string
                 
                 
@@ -355,48 +385,7 @@ paths:
             description: Erorr message.
             schema:
               $ref: '#/definitions/errorMessage'
-        
-  "/user/deleteRestaurantPhoto":
-      post:
-        tags:
-        - 'user'
-        summary: delete photo of particular restaurant.
-        parameters: 
-          - in: body
-            name: user
-            description: register in body.
-            required: true
-            schema:
-              type: object
-              required:
-                - restId
-                - url
-              properties:
-                restId:
-                    type: string
-                url:
-                    type: string
-          
-          - name: authorization
-            in: header
-            description: token for validation.
-            required: true
-            type: string
-        
-        responses:
-          "201":
-            description: Sucessfully registered.
-            schema:
-              $ref: '#/definitions/SuccessMessage'
-          "400":
-            description: Erorr message.
-            schema:
-              $ref: '#/definitions/errorMessage'
-          "500":
-            description: Erorr message.
-            schema:
-              $ref: '#/definitions/errorMessage'
-  
+ 
   "/admin/login":
       post:
         tags:
@@ -726,6 +715,8 @@ paths:
                 - closeTime
                 - cuisin
                 - menu
+                - perPersonCost
+                - createdBy
               properties:
                 name:
                     type: string
@@ -760,7 +751,10 @@ paths:
                     type: array
                     items:
                       type: string
-                
+                perPersonCost:
+                    type: number
+                createdBy:
+                    type: string
                 
           - name: authorization
             in: header
@@ -876,6 +870,8 @@ paths:
                 - closeTime
                 - cuisin
                 - menu
+                - perPersonCost
+                - editedBy
               properties:
                 name:
                     type: string
@@ -910,7 +906,10 @@ paths:
                     type: array
                     items:
                       type: string
-                
+                perPersonCost:
+                    type: number
+                editedBy:
+                    type: string
                 
           - name: authorization
             in: header

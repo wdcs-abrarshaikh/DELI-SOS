@@ -2,11 +2,11 @@ var userModel = require('../schema/user');
 var restModel = require('../schema/restaurant');
 var bcrypt = require('bcrypt');
 var util = require('../app util/util');
-var config = require('./adminConfig');
 var code = require('../constants').http_codes;
 var msg = require('../constants').messages;
 var role = require('../constants').roles;
 var status = require('../constants').status;
+var validate = require('./adminValidator')
 
 async function createAdmin(req, res) {
     let data = req.body;
@@ -42,7 +42,7 @@ async function authenticateAdmin(req, res) {
         }
         else {
             if (bcrypt.compareSync(data.password, result.password)) {
-                let token = util.generateToken(result, config.secret)
+                let token = util.generateToken(result, process.env.admin_secret)
                 return res.json({ code: code.ok, message: msg.loggedIn, token: token,data:result })
             }
             else {
@@ -67,13 +67,13 @@ async function manageSocialLogin(req, res) {
                     return res.json({ code: code.internalError, message: msg.internalServerError })
                 }
                 else {
-                    let token = util.generateToken(result, config.secret)
+                    let token = util.generateToken(result, process.env.admin_secret)
                     return res.json({ code: code.ok, message: msg.loggedIn, token: token })
                 }
             })
         }
         else {
-            let token = util.generateToken(data, config.secret)
+            let token = util.generateToken(data, process.env.admin_secret)
             return res.json({ code: code.ok, message: msg.loggedIn, token: token })
         }
     })
@@ -167,6 +167,7 @@ async function addRestaurant(req, res) {
     let rest = new restModel(req.body)
     rest.status = status.active;
     rest.save((err, data) => {
+        console.log(err)
         return (err) ? res.json({ code: code.internalError, message: msg.internalServerError }) :
             res.json({ code: code.created, message: msg.restRequestSent, data: data })
     })
@@ -196,7 +197,9 @@ async function getRestaurantList(req, res) {
 
 async function updateRestaurant(req, res) {
     let id = req.params.id;
+    console.log(typeof(obj))
     await restModel.findByIdAndUpdate({ _id: id }, { $set: req.body }, { new: true }, (err, data) => {
+        console.log(err)
         if (err) {
             res.json({ code: code.internalError, message: msg.internalServerError })
         }
