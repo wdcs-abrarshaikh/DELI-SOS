@@ -31,9 +31,9 @@ async function createUser(req, res) {
     }
 }
 
-async function authenticateUser(req, res) {
+function authenticateUser(req, res) {
     let data = req.body;
-    await userModel.findOneAndUpdate({ email: data.email, role: role.USER },
+    userModel.findOneAndUpdate({ email: data.email, role: role.USER },
         { $set: { deviceId: data.deviceId, deviceType: data.deviceType, fcmToken: data.fcmToken } },
         { new: true }, (err, result) => {
             if (err) {
@@ -54,11 +54,11 @@ async function authenticateUser(req, res) {
         })
 }
 
-async function resetPassword(req, res) {
+function resetPassword(req, res) {
     let newpass = util.generateRandomPassword().toUpperCase()
     let hash = bcrypt.hashSync(newpass, 11)
 
-    await userModel.findOneAndUpdate({ email: req.body.email, role: role.USER },
+    userModel.findOneAndUpdate({ email: req.body.email, role: role.USER },
         { password: hash }, { new: true }, async (err, result) => {
             if (err) {
                 return res.json({ code: code.ineternalError, message: msg.internalServerError })
@@ -77,7 +77,7 @@ async function resetPassword(req, res) {
         })
 }
 
-async function fetchDetail(req, res) {
+function fetchDetail(req, res) {
     let id = req.params.id
     userModel.findOne({ _id: id, status: status.active }, (err, result) => {
         if (err) {
@@ -92,10 +92,10 @@ async function fetchDetail(req, res) {
     })
 }
 
-async function manageSocialLogin(req, res) {
+function manageSocialLogin(req, res) {
     let data = req.body
     let user = new userModel(data)
-    await userModel.findOneAndUpdate({ socialId: data.socialId },
+    userModel.findOneAndUpdate({ socialId: data.socialId },
         { $set: { deviceId: data.deviceId, deviceType: data.deviceType, fcmToken: data.fcmToken } },
         { new: true }, (err, data) => {
             if (err) {
@@ -110,17 +110,18 @@ async function manageSocialLogin(req, res) {
                     }
                     else {
                         let token = util.generateToken(result, process.env.user_secret)
-                        return res.json({ code: code.ok, message: msg.loggedIn, token: token })
+                        return res.json({ code: code.ok, message: msg.loggedIn, token: token, data: result })
                     }
                 })
             }
             else {
                 let token = util.generateToken(data, process.env.user_secret)
-                return res.json({ code: code.ok, message: msg.loggedIn, token: token })
+                return res.json({ code: code.ok, message: msg.loggedIn, token: token, data: data })
             }
         })
 }
-async function uploadPhoto(req, res) {
+
+function uploadPhoto(req, res) {
     util.uploadPhoto(req).then((data) => {
         return res.json({ code: code.created, message: msg.imageUploaded, url: data })
     }).catch((err) => {
@@ -128,18 +129,17 @@ async function uploadPhoto(req, res) {
     })
 }
 
-async function addRestaurant(req, res) {
+function addRestaurant(req, res) {
     let rest = new restModel(req.body)
-    await rest.save((err, data) => {
-        console.log(err)
+    rest.save((err, data) => {
         return (err) ? res.json({ code: code.internalError, message: msg.internalServerError }) :
             res.json({ code: code.created, message: msg.restRequestSent, data: data })
     })
 }
 
-async function getRestaurantDetail(req, res) {
+function getRestaurantDetail(req, res) {
     let id = req.params.id
-    await restModel.findOne({ _id: id, status: status.active }, (err, data) => {
+    restModel.findOne({ _id: id, status: status.active }, (err, data) => {
         if (err) {
             return res.json({ code: code.ineternalError, message: msg.internalServerError })
         }
@@ -152,30 +152,55 @@ async function getRestaurantDetail(req, res) {
     })
 }
 
-async function addReview(req, res) {
-    let review = new reviewModel(req.body)
-    await review.save(async (err, data) => {
+function addReview(req, res) {
+
+    userModel.findOne({ _id: req.body.userId }, (err, data) => {
         if (err) {
             return res.json({ code: code.internalError, message: msg.internalServerError })
+        } else if (!data) {
+            return res.json({ code: code.notFound, message: msg.userNotFound })
         }
         else {
-            await userModel.findByIdAndUpdate({ _id: data.userId }, { $push: { review: data._id } }, (err) => {
+            restModel.findOne({ _id: req.body.restId }, (err, data) => {
                 if (err) {
-                    return res.json({ code: code.internalError, message: msg.message })
+                    return res.json({ code: code.internalError, message: msg.internalServerError })
+                }
+                else if (!data) {
+                    return res.json({ code: code.notFound, message: msg.restNotFound })
+                }
+                else {
+                    let review = new reviewModel(req.body)
+                    review.save((err, data) => {
+                        if (err) {
+                            rres.json({ code: code.internalError, message: msg.internalServerError })
+                        }
+                        else {
+                            userModel.findByIdAndUpdate({ _id: req.body.userId }, { $push: { review: data._id } }, (err) => {
+                                if (err) {
+                                    return res.json({ code: code.internalError, message: msg.internalServerError })
+                                }
+                                else {
+                                    restModel.findByIdAndUpdate({ _id: req.body.restId }, { $push: { reviews: data._id } }, (err) => {
+                                        if (err) {
+                                            return res.json({ code: code.internalError, message: msg.internalServerError })
+                                        }
+                                        else {
+                                            return res.json({ code: code.created, message: msg.reviewAdded, data: data })
+                                        }
+                                    })
+                                }
+                            })
+
+                        }
+                    })
                 }
             })
-            await restModel.findByIdAndUpdate({ _id: data.restId }, { $push: { reviews: data._id } }, (err) => {
-                if (err) {
-                    return res.json({ code: code.internalError, message: msg.message })
-                }
-            })
-            return res.json({ code: code.ok, message: msg.reviewAdded, data: data })
         }
     })
 }
 
-async function updateReview(req, res) {
-    await reviewModel.findByIdAndUpdate({ _id: req.params.id }, { $set: req.body }, (err, data) => {
+function updateReview(req, res) {
+    reviewModel.findByIdAndUpdate({ _id: req.params.id }, { $set: req.body }, (err, data) => {
         if (err) {
             return res.json({ code: code.internalError, message: msg.internalServerError })
         }
@@ -187,8 +212,9 @@ async function updateReview(req, res) {
         }
     })
 }
-async function deleteReview(req, res) {
-    await reviewModel.findByIdAndUpdate({ _id: req.params.id}, { $set: { status: status.inactive } }, (err, data) => {
+
+function deleteReview(req, res) {
+    reviewModel.findByIdAndUpdate({ _id: req.params.id }, { $set: { status: status.inactive } }, (err, data) => {
         if (err) {
             return res.json({ code: code.internalError, message: msg.internalServerError })
         }
@@ -201,27 +227,94 @@ async function deleteReview(req, res) {
     })
 }
 
-async function getAllReviews(req, res) {
-    await restModel.findById({_id:req.params.restId,reviews}).select({"reviews":1}).populate({path:"reviews"}).exec((err,data)=>{
+function getAllReviews(req, res) {
+    return restModel.findById({ _id: req.params.restId })
+        .select({ "reviews": 1 }).populate({ path: "reviews" }).exec((err, data) => {
+            if (err) {
+                return res.json({ code: code.internalError, message: msg.internalServerError })
+            }
+            else if(!data){
+                return res.json({code:code.notFound,message:msg.restNotFound})
+            }
+            else {
+                return res.json({ code: code.ok, message: msg.ok, data: data })
+            }
+        })
+}
+
+function addPhotoByUser(req, res) {
+    let data = req.body.data,
+        id = req.body.restId
+    data.postedAt = Date.now()
+    return restModel.findOneAndUpdate({ _id: id }, { $push: { photoByUser: data } }, (err, result) => {
         if (err) {
-            console.log(err)
-            return res.json({ code: code.internalError, message: msg.internalServerError })
+            res.json({ code: code.internalError, message: msg.internalServerError })
         }
-        else if (!data) {
-            return res.json({ code: code.notFound, message: msg.restNotFound })
+        else if (!result) {
+            res.json({ code: code.notFound, message: msg.restNotFound })
         }
         else {
-            return res.json({ code: code.ok, message: msg.ok,data:data })
+            res.json({ code: code.created, message: msg.imageUploaded })
         }
     })
 }
 
-async function deletePhotoByUser(req, res) {
-    url = req.body.url
-    id = req.body.restId
-    await restModel.findOneAndUpdate({ _id: id }, { $pull: { photoByUser: url } }, (err) => {
-        return (err) ? res.json({ code: code.internalError, message: msg.internalServerError }) :
+function deletePhotoByUser(req, res) {
+    let data = req.body.data,
+        id = req.body.restId
+    return restModel.findOneAndUpdate({ _id: id }, { $pull: { photoByUser: data } }, (err, result) => {
+        if (err) {
+            res.json({ code: code.internalError, message: msg.internalServerError })
+        }
+        else if (!result) {
+            res.json({ code: code.notFound, message: msg.restNotFound })
+        }
+        else {
             res.json({ code: code.ok, message: msg.imageDeleted })
+        }
+    })
+}
+
+function addToFavourites(req, res) {
+    let userId = req.params.userId,
+        restId = req.params.restId
+    return userModel.findByIdAndUpdate({ _id: userId }, { $addToSet: { favourites: restId } }, (err, data) => {
+        if (err) {
+            res.json({ code: code.ineternalError, message: msg.internalServerError })
+        } else if (!data) {
+            res.json({ code: code.notFound, message: msg.userNotFound })
+        }
+        else {
+            res.json({ code: code.created, message: msg.addedToFavourites })
+        }
+    })
+}
+
+function removeFavourite(req, res) {
+    let userId = req.params.userId,
+        restId = req.params.restId
+    return userModel.findByIdAndUpdate({ _id: userId }, { $pull: { favourites: restId } }, (err, data) => {
+        if (err) {
+            res.json({ code: code.ineternalError, message: msg.internalServerError })
+        }
+        else if (!data) {
+            res.json({ code: code.notFound, message: msg.userNotFound })
+        }
+        else {
+            res.json({ code: code.created, message: msg.removeFromFavourites })
+        }
+    })
+}
+
+async function showFavourites(req, res) {
+    let userId = req.params.userId
+    return userModel.findById({ _id: userId }).select("favourites").populate("favourites").exec((err, data) => {
+        if (err) {
+            res.json({ code: code.ineternalError, message: msg.internalServerError })
+        }
+        else {
+            res.json({ code: code.ok, message: msg.ok, data: data })
+        }
     })
 }
 
@@ -236,7 +329,11 @@ module.exports = {
     uploadPhoto,
     addReview,
     updateReview,
+    addPhotoByUser,
     deletePhotoByUser,
     deleteReview,
-    getAllReviews
+    getAllReviews,
+    addToFavourites,
+    removeFavourite,
+    showFavourites
 }

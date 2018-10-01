@@ -38,16 +38,6 @@ userRouter.route('/getRestaurantDetail/:id')
         actions.getRestaurantDetail(req, res)
     })
 
-userRouter.route('/uploadphoto')
-    .post([validate.validateBody], (req, res) => {
-        actions.uploadPhoto(req, res)
-    })
-
-userRouter.route('/deletePhotoByUser')
-    .post([validate.validateBody, validate.verifyUserToken], (req, res) => {
-        actions.deletePhotoByUser(req, res)
-    })
-
 userRouter.route('/addReview')
     .post([validate.validateReview, validate.verifyUserToken], (req, res) => {
         actions.addReview(req, res)
@@ -66,5 +56,35 @@ userRouter.route('/deleteReview/:id')
 userRouter.route('/getAllReviews/:restId')
     .get([validate.verifyUserToken], (req, res) => {
         actions.getAllReviews(req, res)
+    })
+
+userRouter.route('/uploadphoto')
+    .post([validate.validateBody], (req, res) => {
+        actions.uploadPhoto(req, res)
+    })
+
+userRouter.route('/addPhotoByUser')
+    .post([validate.validateBody, validate.verifyUserToken], (req, res) => {
+        actions.addPhotoByUser(req, res)
+    })
+
+userRouter.route('/deletePhotoByUser')
+    .post([validate.validateBody, validate.verifyUserToken], (req, res) => {
+        actions.deletePhotoByUser(req, res)
+    })
+
+userRouter.route('/addToFavourites/:userId/:restId')
+    .get([validate.verifyUserToken], (req, res) => {
+        actions.addToFavourites(req, res)
+    })
+
+userRouter.route('/removeFavourite/:userId/:restId')
+    .get([validate.verifyUserToken], (req, res) => {
+        actions.removeFavourite(req, res)
+    })
+
+userRouter.route('/showFavourites/:userId')
+    .get([validate.verifyUserToken], (req, res) => {
+        actions.showFavourites(req, res)
     })
 module.exports = userRouter;

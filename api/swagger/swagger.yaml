@@ -264,7 +264,6 @@ paths:
             description: Erorr message.
             schema:
               $ref: '#/definitions/errorMessage'
-            
   
   "/user/addRestaurant":
       post:
@@ -367,6 +366,208 @@ paths:
             required: true
             type: string
             
+            
+              
+        responses:
+          "200":
+            description: ok
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "500":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "404":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "400":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+ 
+  "/user/addReview":
+      post:
+        tags:
+        - 'user'
+        summary: add review for particular restaurant.
+        parameters: 
+            
+          - name: authorization
+            in: header
+            description: token for validation.
+            required: true
+            type: string
+            
+          - name: user
+            in: body
+            description: details of review.
+            required: true
+            schema: 
+              type: object
+              required: 
+                - restId
+                - userId
+                - content
+                - likePlace
+                - rating
+                - improvementArea
+              properties:
+                restId:
+                    type: string
+                userId:
+                    type: string
+                content:
+                    type: string
+                likePlace:
+                    type: string
+                    enum: 
+                      - WORST
+                      - BAD
+                      - OKAY
+                      - GOOD
+                      - GREAT
+                rating:
+                    type: number
+                improvementArea:
+                    type: string
+                    
+        responses:
+          "201":
+            description: created
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "500":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "404":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "400":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+ 
+  "/user/updateReview/{id}":
+      put:
+        tags:
+        - 'user'
+        summary: update particular review.
+        parameters: 
+            
+          - name: authorization
+            in: header
+            description: token for validation.
+            required: true
+            type: string
+            
+          - name: id
+            in: path
+            description: review id for update particular review.
+            required: true
+            type: string
+            
+          - name: user
+            in: body
+            description: details of review.
+            required: true
+            schema: 
+              type: object
+              required: 
+                - content
+                - likePlace
+                - rating
+                - improvementArea
+              properties:
+                content:
+                    type: string
+                likePlace:
+                    type: string
+                    enum: 
+                      - WORST
+                      - BAD
+                      - OKAY
+                      - GOOD
+                      - GREAT
+                rating:
+                    type: number
+                improvementArea:
+                    type: string
+                    
+        responses:
+          "200":
+            description: ok
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "500":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "404":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "400":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+  
+  "/user/deleteReview/{id}":
+      get:
+        tags:
+        - 'user'
+        summary: delete particular review.
+        parameters: 
+          - name: id
+            in: path
+            description: review id for delete review.
+            required: true
+            type: string
+            
+          - name: authorization
+            in: header
+            description: token for validation.
+            required: true
+            type: string
+            
+              
+        responses:
+          "200":
+            description: ok
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "500":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "404":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "400":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+   
+  "/user/getAllReviews/{restId}":
+      get:
+        tags:
+        - 'user'
+        summary: delete particular review.
+        parameters: 
+          - name: restId
+            in: path
+            description: restaurant id for get all reviews.
+            required: true
+            type: string
+            
+          - name: authorization
+            in: header
+            description: token for validation.
+            required: true
+            type: string
             
               
         responses:

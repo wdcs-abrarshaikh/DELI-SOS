@@ -28,7 +28,9 @@ messages = {
     imageDeleted:"Image deleted successfully",
     reviewAdded:"Review added successfully",
     reviewNotFound:"No such review is posted",
-    deleted:"Successfully deleted"
+    deleted:"Successfully deleted",
+    addedToFavourites: "Successfully added to favourites",
+    removeFromFavourites: "Successfully removed from favourites",
 }
 
 roles = {
