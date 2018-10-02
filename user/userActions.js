@@ -66,8 +66,20 @@ function removeFavourite(req, res) {
     service.removeFavourite(req, res)
 }
 
-function showFavourites(req,res){
-    service.showFavourites(req,res)
+function showFavourites(req, res) {
+    service.showFavourites(req, res)
+}
+
+function showProfile(req, res) {
+    service.showProfile(req, res)
+}
+
+function updateProfile(req, res) {
+    service.updateProfile(req, res)
+}
+
+function changePassword(req, res) {
+    service.changePassword(req, res)
 }
 
 module.exports = {
@@ -87,5 +99,8 @@ module.exports = {
     getAllReviews,
     addToFavourites,
     removeFavourite,
-    showFavourites
+    showFavourites,
+    showProfile,
+    updateProfile,
+    changePassword
 }

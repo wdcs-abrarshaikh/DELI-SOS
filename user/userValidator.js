@@ -166,7 +166,7 @@ function validateReview(req, res, next) {
             userId = data.userId.trim(),
             content = data.content.trim(),
             likePlace = data.likePlace.trim()
-            improvementArea = data.improvementArea.trim()
+        improvementArea = data.improvementArea.trim()
         if (restId && userId && content && likePlace && improvementArea) {
             next();
         }
@@ -179,6 +179,37 @@ function validateReview(req, res, next) {
     }
 }
 
+function validateProfile(req, res, next) {
+    if (req.body.name) {
+        let name = req.body.name.trim()
+        console.log(name)
+        if (name) {
+            next();
+        }
+        else {
+            res.json({ code: code.badRequest, message: msg.invalidBody })
+        }
+    }
+    else {
+        res.json({ code: code.badRequest, message: msg.invalidBody })
+    }
+}
+
+function validateChangePassword(req, res, next) {
+    if (req.body.oldPassword && req.body.newPassword) {
+        let oldPass = req.body.oldPassword.trim(),
+            newPass = req.body.newPassword.trim()
+        if (oldPass && newPass) {
+            next()
+        }
+        else {
+            res.json({ code: code.badRequest, message: msg.invalidBody })
+        }
+    }
+    else {
+        res.json({ code: code.badRequest, message: msg.invalidBody })
+    }
+}
 module.exports = {
     validateSignUp,
     validateLogin,
@@ -186,5 +217,7 @@ module.exports = {
     validateBody,
     validateSocialLogin,
     validateRestaurant,
-    validateReview
+    validateReview,
+    validateProfile,
+    validateChangePassword
 }

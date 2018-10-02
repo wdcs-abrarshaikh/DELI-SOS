@@ -233,8 +233,8 @@ function getAllReviews(req, res) {
             if (err) {
                 return res.json({ code: code.internalError, message: msg.internalServerError })
             }
-            else if(!data){
-                return res.json({code:code.notFound,message:msg.restNotFound})
+            else if (!data) {
+                return res.json({ code: code.notFound, message: msg.restNotFound })
             }
             else {
                 return res.json({ code: code.ok, message: msg.ok, data: data })
@@ -276,7 +276,8 @@ function deletePhotoByUser(req, res) {
 }
 
 function addToFavourites(req, res) {
-    let userId = req.params.userId,
+    let obj = util.decodeToken(req.headers['authorization']),
+        userId = obj.id,
         restId = req.params.restId
     return userModel.findByIdAndUpdate({ _id: userId }, { $addToSet: { favourites: restId } }, (err, data) => {
         if (err) {
@@ -291,7 +292,8 @@ function addToFavourites(req, res) {
 }
 
 function removeFavourite(req, res) {
-    let userId = req.params.userId,
+    let obj = util.decodeToken(req.headers['authorization']),
+        userId = obj.id,
         restId = req.params.restId
     return userModel.findByIdAndUpdate({ _id: userId }, { $pull: { favourites: restId } }, (err, data) => {
         if (err) {
@@ -306,14 +308,70 @@ function removeFavourite(req, res) {
     })
 }
 
-async function showFavourites(req, res) {
-    let userId = req.params.userId
+function showFavourites(req, res) {
+    let obj = util.decodeToken(req.headers['authorization']),
+        userId = obj.id
     return userModel.findById({ _id: userId }).select("favourites").populate("favourites").exec((err, data) => {
         if (err) {
             res.json({ code: code.ineternalError, message: msg.internalServerError })
         }
         else {
             res.json({ code: code.ok, message: msg.ok, data: data })
+        }
+    })
+}
+
+function showProfile(req, res) {
+    let obj = util.decodeToken(req.headers['authorization'])
+    return userModel.findById({ _id: obj.id }).select({ "name": 1, "profilePicture": 1 }).exec((err, data) => {
+        if (err) {
+            res.json({ code: code.ineternalError, message: msg.internalServerError })
+        }
+        else if (!data) {
+            res.json({ code: code.notFound, message: msg.userNotFound })
+        }
+        else {
+            res.json({ code: code.ok, message: msg.ok, data: data })
+        }
+    })
+}
+
+function updateProfile(req, res) {
+    let obj = util.decodeToken(req.headers['authorization'])
+
+    return userModel.findByIdAndUpdate({ _id: obj.id }, { $set: req.body }, (err, data) => {
+        if (err) {
+            res.json({ code: code.ineternalError, message: msg.internalServerError })
+        }
+        else if (!data) {
+            res.json({ code: code.notFound, message: msg.userNotFound })
+        }
+        else {
+            res.json({ code: code.ok, message: msg.profileUpdated })
+        }
+    })
+}
+
+function changePassword(req, res) {
+    let obj = util.decodeToken(req.headers['authorization']),
+        newpass = bcrypt.hashSync(req.body.newPassword, 11)
+    userModel.findById({ _id: obj.id }, (err, data) => {
+        if (err) {
+            return res.json({ code: code.internalError, message: msg.internalError })
+        }
+        else if (!data) {
+            return res.json({ code: code.notFound, message: msg.userNotFound })
+        }
+        else {
+            if (bcrypt.compareSync(req.body.oldPassword, data.password)) {
+                return userModel.findByIdAndUpdate({ _id: data._id }, { password: newpass }, (err) => {
+                    return (err) ? res.json({ code: code.internalError, message: msg.internalServerError })
+                        : res.json({ code: code.ok, message: msg.passwordChanged })
+                })
+            }
+            else {
+                return res.json({ code: code.badRequest, message: msg.wrongPassword })
+            }
         }
     })
 }
@@ -335,5 +393,8 @@ module.exports = {
     getAllReviews,
     addToFavourites,
     removeFavourite,
-    showFavourites
+    showFavourites,
+    showProfile,
+    updateProfile,
+    changePassword
 }

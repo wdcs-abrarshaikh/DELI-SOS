@@ -73,18 +73,34 @@ userRouter.route('/deletePhotoByUser')
         actions.deletePhotoByUser(req, res)
     })
 
-userRouter.route('/addToFavourites/:userId/:restId')
+userRouter.route('/addToFavourites/:restId')
     .get([validate.verifyUserToken], (req, res) => {
         actions.addToFavourites(req, res)
     })
 
-userRouter.route('/removeFavourite/:userId/:restId')
+userRouter.route('/removeFavourite/:restId')
     .get([validate.verifyUserToken], (req, res) => {
         actions.removeFavourite(req, res)
     })
 
-userRouter.route('/showFavourites/:userId')
+userRouter.route('/showFavourites')
     .get([validate.verifyUserToken], (req, res) => {
         actions.showFavourites(req, res)
     })
+    
+userRouter.route('/showProfile')
+    .get([validate.verifyUserToken], (req, res) => {
+        actions.showProfile(req, res)
+    })
+
+userRouter.route('/updateProfile')
+    .put([validate.validateProfile, validate.verifyUserToken], (req, res) => {
+        actions.updateProfile(req, res)
+    })
+
+userRouter.route('/changePassword')
+    .post([validate.validateChangePassword, validate.verifyUserToken], (req, res) => {
+        actions.changePassword(req, res)
+    })
+
 module.exports = userRouter;

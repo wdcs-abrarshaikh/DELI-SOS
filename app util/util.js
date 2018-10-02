@@ -28,6 +28,10 @@ function generateToken(data, secret) {
     return jwt.sign(obj, secret, { expiresIn: '24hr' })
 }
 
+function decodeToken(token){
+    return jwt.decode(token)
+}
+
 function generateRandomPassword() {
     return generator.generate({
         length: 10,
@@ -90,5 +94,6 @@ module.exports = {
     generateToken,
     generateRandomPassword,
     sendEMail,
-    uploadPhoto
+    uploadPhoto,
+    decodeToken
 }
