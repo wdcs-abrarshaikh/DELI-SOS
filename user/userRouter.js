@@ -3,6 +3,10 @@ var validate = require('./userValidator')
 var actions = require('./userActions')
 
 
+userRouter.post('/uploadPhoto',(req, res) => {
+    actions.uploadPhoto(req,res)
+});
+
 userRouter.route('/signUp')
     .post([validate.validateSignUp], (req, res) => {
         actions.signup(req, res)
@@ -38,6 +42,11 @@ userRouter.route('/getRestaurantDetail/:id')
         actions.getRestaurantDetail(req, res)
     })
 
+userRouter.route('/getRestaurantList')
+    .get([validate.verifyUserToken], (req, res) => {
+        actions.getRestaurantList(req, res)
+    })
+
 userRouter.route('/addReview')
     .post([validate.validateReview, validate.verifyUserToken], (req, res) => {
         actions.addReview(req, res)
@@ -56,11 +65,6 @@ userRouter.route('/deleteReview/:id')
 userRouter.route('/getAllReviews/:restId')
     .get([validate.verifyUserToken], (req, res) => {
         actions.getAllReviews(req, res)
-    })
-
-userRouter.route('/uploadphoto')
-    .post([validate.validateBody], (req, res) => {
-        actions.uploadPhoto(req, res)
     })
 
 userRouter.route('/addPhotoByUser')
@@ -87,7 +91,7 @@ userRouter.route('/showFavourites')
     .get([validate.verifyUserToken], (req, res) => {
         actions.showFavourites(req, res)
     })
-    
+
 userRouter.route('/showProfile')
     .get([validate.verifyUserToken], (req, res) => {
         actions.showProfile(req, res)

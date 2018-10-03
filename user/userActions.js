@@ -30,6 +30,10 @@ function getRestaurantDetail(req, res) {
     service.getRestaurantDetail(req, res)
 }
 
+function getRestaurantList(req,res){
+    service.getRestaurantList(req,res)
+}
+
 function uploadPhoto(req, res) {
     service.uploadPhoto(req, res)
 }
@@ -102,5 +106,6 @@ module.exports = {
     showFavourites,
     showProfile,
     updateProfile,
-    changePassword
+    changePassword,
+    getRestaurantList
 }

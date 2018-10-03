@@ -209,7 +209,7 @@ function validateChangePassword(req, res, next) {
     else {
         res.json({ code: code.badRequest, message: msg.invalidBody })
     }
-}
+}   
 module.exports = {
     validateSignUp,
     validateLogin,

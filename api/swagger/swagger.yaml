@@ -196,6 +196,81 @@ paths:
             schema:
               $ref: '#/definitions/errorMessage' 
             
+  "/user/changePassword":
+      post:
+        tags:
+        - 'user'
+        summary: change the password of logged in user.
+        parameters:
+          - name: authorization
+            in: header
+            description: token for validation.
+            required: true
+            type: string
+          - in: body
+            name: user
+            description: old password and new password for authenticate and change.
+            required: true
+            schema:
+              type: object
+              required:
+                - oldPassword
+                - newPassword
+              properties:
+                oldPassword:
+                    type: string
+                newPassword:
+                    type: string
+        responses:
+          "200":
+            description: mail sent
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "400":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "500":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "404":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+              
+  "/user/showProfile":
+      get:
+        tags:
+        - 'user'
+        summary: get profile of logged in user.
+        
+        parameters: 
+          - name: authorization
+            in: header
+            description: token for validation.
+            required: true
+            type: string
+              
+        responses:
+          "200":
+            description: ok
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "500":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "404":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "400":
+            description: Error message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+  
+            
   "/user/getUserDetail/{id}":
       get:
         tags:
@@ -240,17 +315,11 @@ paths:
         - 'user'
         summary: upload image and get url of it.
         parameters: 
-          - in: body
-            name: user
-            description: base64 for get image url.
+          - in: formData
+            name: img
+            description: images to be upload
             required: true
-            schema:
-              type: object
-              required:
-                - file 
-              properties:
-                file:
-                    type: string
+            type: file
         responses:
           "201":
             description: image uploaded
@@ -366,6 +435,38 @@ paths:
             required: true
             type: string
             
+            
+              
+        responses:
+          "200":
+            description: ok
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "500":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "404":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "400":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+              
+  "/user/getRestaurantList":
+      get:
+        tags:
+        - 'user'
+        summary: get list of all restaurant.
+        parameters: 
+            
+          - name: authorization
+            in: header
+            description: token for validation.
+            required: true
+            type: string
             
               
         responses:

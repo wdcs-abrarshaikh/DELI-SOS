@@ -122,14 +122,27 @@ function manageSocialLogin(req, res) {
 }
 
 function uploadPhoto(req, res) {
-    util.uploadPhoto(req).then((data) => {
-        return res.json({ code: code.created, message: msg.imageUploaded, url: data })
-    }).catch((err) => {
-        return res.json({ code: code.internalError, message: msg.internalServerError })
-    })
+    req.newFile_name = [];
+
+    util.upload(req, res, function (err) {
+        if (err) {
+            return res.json({code:code.badRequest,message:err})
+        }
+        else{
+            console.log(req.newFile_name)
+            var response = req.newFile_name.map((result)=>{
+                result = process.cwd()+'/img/'+result;
+                console.log(result);
+                return result;
+            })
+            return res.json({code:code.created,message:msg.ok,data:response})
+        }
+    });
 }
 
 function addRestaurant(req, res) {
+    obj = util.decodeToken(req.headers['authorization'])
+    req.body.createdBy = obj.id
     let rest = new restModel(req.body)
     rest.save((err, data) => {
         return (err) ? res.json({ code: code.internalError, message: msg.internalServerError }) :
@@ -149,6 +162,13 @@ function getRestaurantDetail(req, res) {
         else {
             return res.json({ code: code.ok, message: msg.ok, data: data })
         }
+    })
+}
+
+function getRestaurantList(req, res) {
+    restModel.find((err, result) => {
+        return (err) ? res.json({ code: code.internalError, message: internalServerError })
+            : res.json({ code: code.ok, message: msg.ok, data: result })
     })
 }
 
@@ -396,5 +416,6 @@ module.exports = {
     showFavourites,
     showProfile,
     updateProfile,
-    changePassword
+    changePassword,
+    getRestaurantList
 }
