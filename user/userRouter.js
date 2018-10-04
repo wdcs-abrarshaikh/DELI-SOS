@@ -3,6 +3,10 @@ var validate = require('./userValidator')
 var actions = require('./userActions')
 
 
+userRouter.post('/uploadPhoto',(req, res) => {
+    actions.uploadPhoto(req,res)
+});
+
 userRouter.route('/signUp')
     .post([validate.validateSignUp], (req, res) => {
         actions.signup(req, res)
@@ -29,7 +33,7 @@ userRouter.route('/getUserDetail/:id')
     })
 
 userRouter.route('/addRestaurant')
-    .post([validate.verifyUserToken], (req, res) => {
+    .post([validate.validateRestaurant, validate.verifyUserToken], (req, res) => {
         actions.addRestaurant(req, res)
     })
 
@@ -38,14 +42,34 @@ userRouter.route('/getRestaurantDetail/:id')
         actions.getRestaurantDetail(req, res)
     })
 
-userRouter.route('/uploadphoto')
-    .post([validate.validateBody],(req, res) => {
-        actions.uploadPhoto(req, res)
+userRouter.route('/getRestaurantList')
+    .get([validate.verifyUserToken], (req, res) => {
+        actions.getRestaurantList(req, res)
     })
 
-userRouter.route('/deleteRestaurantPhoto')
+userRouter.route('/addReview')
+    .post([validate.validateReview, validate.verifyUserToken], (req, res) => {
+        actions.addReview(req, res)
+    })
+
+userRouter.route('/updateReview/:id')
+    .put([validate.validateReview, validate.verifyUserToken], (req, res) => {
+        actions.updateReview(req, res)
+    })
+
+userRouter.route('/deleteReview/:id')
+    .get([validate.verifyUserToken], (req, res) => {
+        actions.deleteReview(req, res)
+    })
+
+userRouter.route('/getAllReviews/:restId')
+    .get([validate.verifyUserToken], (req, res) => {
+        actions.getAllReviews(req, res)
+    })
+
+userRouter.route('/addPhotoByUser')
     .post([validate.validateBody, validate.verifyUserToken], (req, res) => {
-        actions.deleteRestaurantPhoto(req, res)
+        actions.addPhotoByUser(req, res)
     })
 
 userRouter.route('/deletePhotoByUser')
@@ -53,21 +77,39 @@ userRouter.route('/deletePhotoByUser')
         actions.deletePhotoByUser(req, res)
     })
 
-userRouter.route('/addReview')
-    .post([validate.validateBody, validate.verifyUserToken], (req, res) => {
-        actions.addReview(req, res)
+userRouter.route('/addToFavourites/:restId')
+    .get([validate.verifyUserToken], (req, res) => {
+        actions.addToFavourites(req, res)
     })
 
-userRouter.route('/updateReview/:id')
-    .put([validate.validateBody, validate.verifyUserToken], (req, res) => {
-        actions.updateReview(req, res)
+userRouter.route('/removeFavourite/:restId')
+    .get([validate.verifyUserToken], (req, res) => {
+        actions.removeFavourite(req, res)
     })
 
-    // userRouter.route('/deleteuser/:id')
-    // .get([validate.verifyUserToken], (req, res) => {
-    //     actions.deleteuser(req, res)
-    // })
+userRouter.route('/showFavourites')
+    .get([validate.verifyUserToken], (req, res) => {
+        actions.showFavourites(req, res)
+    })
 
+userRouter.route('/showProfile')
+    .get([validate.verifyUserToken], (req, res) => {
+        actions.showProfile(req, res)
+    })
 
+userRouter.route('/updateProfile')
+    .put([validate.validateProfile, validate.verifyUserToken], (req, res) => {
+        actions.updateProfile(req, res)
+    })
+
+userRouter.route('/changePassword')
+    .post([validate.validateChangePassword, validate.verifyUserToken], (req, res) => {
+        actions.changePassword(req, res)
+    });
+
+userRouter.route('/getNearByRestaurant/:userId')
+    .get([validate.validateUserId,validate.verifyUserToken], (req, res) => {
+        actions.getNearByRestaurant(req, res)
+});
 
 module.exports = userRouter;

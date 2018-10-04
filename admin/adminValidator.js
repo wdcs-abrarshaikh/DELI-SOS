@@ -1,5 +1,4 @@
 var jwt = require('jsonwebtoken')
-var admincnfg = require('./adminConfig')
 var code = require('../constants').http_codes;
 var msg = require('../constants').messages;
 
@@ -36,26 +35,27 @@ function validateLogin(req, res, next) {
         return res.json({ code: code.badRequest, message: msg.invalidBody })
     }
 }
-// function validateSocialLogin(req, res, next) {
-//     if (req.body.name && req.body.isSocialLogin && req.body.socialId) {
-//         let name = req.body.name.trim(),
-//             socialId = req.body.socialId.trim()
-//         isSocialLogin = req.body.isSocialLogin
-//         if (name && isSocialLogin == true && socialId) {
-//             next();
-//         }
-//         else {
-//             return res.json({ code: code.badRequest, message: msg.invalidBody })
-//         }
-//     }
-//     else {
-//         return res.json({ code: code.badRequest, message: msg.invalidBody })
-//     }
-// }
+function validateSocialLogin(req, res, next) {
+    if (req.body.name && req.body.isSocialLogin && req.body.socialId) {
+        let name = req.body.name.trim(),
+            socialId = req.body.socialId.trim()
+        isSocialLogin = req.body.isSocialLogin
+
+        if (name && isSocialLogin == true && socialId) {
+            next();
+        }
+        else {
+            return res.json({ code: code.badRequest, message: msg.invalidBody })
+        }
+    }
+    else {
+        return res.json({ code: code.badRequest, message: msg.invalidBody })
+    }
+}
 async function verifyAdminToken(req, res, next) {
     let token = req.headers['authorization']
 
-    await jwt.verify(token, admincnfg.secret, (err) => {
+    await jwt.verify(token, process.env.admin_secret, (err) => {
         if (err) {
             return res.json({ code: code.badRequest, message: msg.invalidToken })
         }
@@ -163,11 +163,22 @@ function validateRestaurant(req, res, next) {
 }
 
 
+function validaterestId(req, res, next) {
+    let {restaurant_id} = req.params
+    if (restaurant_id) {
+        next();
+    }
+    else {
+        res.json({ code: code.badRequest, message: msg.invalidBody })
+    }
+}
+
 module.exports = {
     validateSignUp,
     validateLogin,
     verifyAdminToken,
     validateBody,
     // validateSocialLogin,
-    validateRestaurant
+    validateRestaurant,
+    validaterestId
 }

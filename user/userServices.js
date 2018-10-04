@@ -3,7 +3,6 @@ var restModel = require('../schema/restaurant');
 var reviewModel = require('../schema/review')
 var bcrypt = require('bcrypt');
 var util = require('../app util/util');
-var config = require('./userConfig');
 var code = require('../constants').http_codes;
 var msg = require('../constants').messages;
 var role = require('../constants').roles;
@@ -32,50 +31,53 @@ async function createUser(req, res) {
     }
 }
 
-async function authenticateUser(req, res) {
+function authenticateUser(req, res) {
     let data = req.body;
-    await userModel.findOne({ email: data.email, role: role.USER }, (err, result) => {
-        if (err) {
-            return res.json({ code: code.ineternalError, message: msg.internalServerError })
-        }
-        else if (!result) {
-            return res.json({ code: code.notFound, message: msg.userNotFound })
-        }
-        else {
-            if (bcrypt.compareSync(data.password, result.password)) {
-                let token = util.generateToken(result, config.secret)
-                return res.json({ code: code.ok, message: msg.loggedIn, token: token, data: result })
+    userModel.findOneAndUpdate({ email: data.email, role: role.USER },
+        { $set: { deviceId: data.deviceId, deviceType: data.deviceType, fcmToken: data.fcmToken,location:data.location } },
+        { new: true }, (err, result) => {
+            if (err) {
+                return res.json({ code: code.ineternalError, message: msg.internalServerError })
+            }
+            else if (!result) {
+                return res.json({ code: code.notFound, message: msg.userNotFound })
             }
             else {
-                return res.json({ code: code.badRequest, message: msg.invalidPassword })
+                if (bcrypt.compareSync(data.password, result.password)) {
+                    let token = util.generateToken(result, process.env.user_secret)
+                    return res.json({ code: code.ok, message: msg.loggedIn, token: token, data: result })
+                }
+                else {
+                    return res.json({ code: code.badRequest, message: msg.invalidPassword })
+                }
             }
-        }
-    })
+        })
 }
 
-async function resetPassword(req, res) {
+function resetPassword(req, res) {
     let newpass = util.generateRandomPassword().toUpperCase()
     let hash = bcrypt.hashSync(newpass, 11)
 
-    await userModel.findOneAndUpdate({ email: req.body.email, role: role.USER }, { password: hash }, { new: true }, async (err, result) => {
-        if (err) {
-            return res.json({ code: code.ineternalError, message: msg.internalServerError })
-        }
-        else if (!result) {
-            return res.json({ code: code.notFound, message: msg.emailNotFound })
-        }
-        else {
-            await util.sendEMail(result.email, newpass).then((data) => {
-                return (data == true) ? res.json({ code: code.ok, message: `password sent on ${result.email}` })
-                    : res.json({ code: code.notImplemented, message: msg.mailNotSent })
-            }).catch((err) => {
-                ; return res.json({ code: code.notImplemented, message: msg.mailNotSent })
-            })
-        }
-    })
+    userModel.findOneAndUpdate({ email: req.body.email, role: role.USER },
+        { password: hash }, { new: true }, async (err, result) => {
+            if (err) {
+                return res.json({ code: code.ineternalError, message: msg.internalServerError })
+            }
+            else if (!result) {
+                return res.json({ code: code.notFound, message: msg.emailNotFound })
+            }
+            else {
+                await util.sendEMail(result.email, newpass).then((data) => {
+                    return (data == true) ? res.json({ code: code.ok, message: `password sent on ${result.email}` })
+                        : res.json({ code: code.notImplemented, message: msg.mailNotSent })
+                }).catch((err) => {
+                    ; return res.json({ code: code.notImplemented, message: msg.mailNotSent })
+                })
+            }
+        })
 }
 
-async function fetchDetail(req, res) {
+function fetchDetail(req, res) {
     let id = req.params.id
     userModel.findOne({ _id: id, status: status.active }, (err, result) => {
         if (err) {
@@ -90,51 +92,72 @@ async function fetchDetail(req, res) {
     })
 }
 
-async function manageSocialLogin(req, res) {
+function manageSocialLogin(req, res) {
     let data = req.body
     let user = new userModel(data)
-    await userModel.findOne({ socialId: data.socialId }, (err, data) => {
-        if (err) {
-            return json({ code: code.internalError, message: msg.internalServerError })
-        }
-        else if (!data) {
-            user.isSocialLogin = true
-            user.role = role.USER
-            user.save((err, result) => {
-                if (err) {
-                    return res.json({ code: code.internalError, message: msg.internalServerError })
-                }
-                else {
-                    let token = util.generateToken(result, config.secret)
-                    return res.json({ code: code.ok, message: msg.loggedIn, token: token })
-                }
-            })
-        }
-        else {
-            let token = util.generateToken(data, config.secret)
-            return res.json({ code: code.ok, message: msg.loggedIn, token: token })
-        }
-    })
-}
-async function uploadPhoto(req, res) {
-    util.uploadPhoto(req).then((data) => {
-        return res.json({ code: code.created, message: msg.imageUploaded, url: data })
-    }).catch((err) => {
-        return res.json({ code: code.internalError, message: msg.internalServerError })
-    })
+    userModel.findOneAndUpdate({ socialId: data.socialId },
+        { $set: { deviceId: data.deviceId, deviceType: data.deviceType, fcmToken: data.fcmToken } },
+        { new: true }, (err, data) => {
+            if (err) {
+                return json({ code: code.internalError, message: msg.internalServerError })
+            }
+            else if (!data) {
+                user.isSocialLogin = true
+                user.role = role.USER
+                user.save((err, result) => {
+                    if (err) {
+                        return res.json({ code: code.internalError, message: msg.internalServerError })
+                    }
+                    else {
+                        let token = util.generateToken(result, process.env.user_secret)
+                        return res.json({ code: code.ok, message: msg.loggedIn, token: token, data: result })
+                    }
+                })
+            }
+            else {
+                let token = util.generateToken(data, process.env.user_secret)
+                return res.json({ code: code.ok, message: msg.loggedIn, token: token, data: data })
+            }
+        })
 }
 
-async function addRestaurant(req, res) {
+function uploadPhoto(req, res) {
+    req.newFile_name = [];
+
+    util.upload(req, res, function (err) {
+        if (err) {
+            return res.json({code:code.badRequest,message:err})
+        }
+        else{
+            console.log(req.newFile_name)
+            var response = req.newFile_name.map((result)=>{
+                result = process.cwd()+'/img/'+result;
+                console.log(result);
+                return result;
+            })
+            return res.json({code:code.created,message:msg.ok,data:response})
+        }
+    });
+}
+
+function addRestaurant(req, res) {
+    obj = util.decodeToken(req.headers['authorization'])
+    req.body.createdBy = obj.id;
+    req.body.location = {
+        type:"Point",
+        coordinates:[req.body.longitude,req.body.latitude]
+    }
+    req.body.status = status.pending;
     let rest = new restModel(req.body)
-    await rest.save((err, data) => {
+    rest.save((err, data) => {
         return (err) ? res.json({ code: code.internalError, message: msg.internalServerError }) :
             res.json({ code: code.created, message: msg.restRequestSent, data: data })
     })
 }
 
-async function getRestaurantDetail(req, res) {
+function getRestaurantDetail(req, res) {
     let id = req.params.id
-    await restModel.findOne({ _id: id, status: status.active }, (err, data) => {
+    restModel.findOne({ _id: id, status: status.active }, (err, data) => {
         if (err) {
             return res.json({ code: code.ineternalError, message: msg.internalServerError })
         }
@@ -147,41 +170,64 @@ async function getRestaurantDetail(req, res) {
     })
 }
 
-async function deleteRestaurantPhoto(req, res) {
-    url = req.body.url
-    id = req.body.restId
-    await restModel.findOneAndUpdate({ _id: id }, { $pull: { photos: url } }, (err) => {
-        return (err) ? res.json({ code: code.internalError, message: msg.internalServerError }) :
-            res.json({ code: code.ok, message: msg.imageDeleted })
+function getRestaurantList(req, res) {
+    restModel.find((err, result) => {
+        return (err) ? res.json({ code: code.internalError, message: internalServerError })
+            : res.json({ code: code.ok, message: msg.ok, data: result })
     })
 }
 
-async function addReview(req, res) {
-    let review = new reviewModel(req.body)
-    await review.save(async (err, data) => {
+function addReview(req, res) {
+
+    userModel.findOne({ _id: req.body.userId }, (err, data) => {
         if (err) {
             return res.json({ code: code.internalError, message: msg.internalServerError })
+        } else if (!data) {
+            return res.json({ code: code.notFound, message: msg.userNotFound })
         }
         else {
-            await userModel.findByIdAndUpdate({ _id: data.userId }, { $push: { review: data._id } }, (err) => {
+            restModel.findOne({ _id: req.body.restId }, (err, data) => {
                 if (err) {
-                    return res.json({ code: code.internalError, message: msg.message })
+                    return res.json({ code: code.internalError, message: msg.internalServerError })
+                }
+                else if (!data) {
+                    return res.json({ code: code.notFound, message: msg.restNotFound })
+                }
+                else {
+                    let review = new reviewModel(req.body)
+                    review.save((err, data) => {
+                        if (err) {
+                            rres.json({ code: code.internalError, message: msg.internalServerError })
+                        }
+                        else {
+                            userModel.findByIdAndUpdate({ _id: req.body.userId }, { $push: { review: data._id } }, (err) => {
+                                if (err) {
+                                    return res.json({ code: code.internalError, message: msg.internalServerError })
+                                }
+                                else {
+                                    restModel.findByIdAndUpdate({ _id: req.body.restId }, { $push: { reviews: data._id } }, (err) => {
+                                        if (err) {
+                                            return res.json({ code: code.internalError, message: msg.internalServerError })
+                                        }
+                                        else {
+                                            return res.json({ code: code.created, message: msg.reviewAdded, data: data })
+                                        }
+                                    })
+                                }
+                            })
+
+                        }
+                    })
                 }
             })
-            await restModel.findByIdAndUpdate({ _id: data.restId }, { $push: { reviews: data._id } }, (err) => {
-                if (err) {
-                    return res.json({ code: code.internalError, message: msg.message })
-                }
-            })
-            return res.json({ code: code.ok, message: msg.reviewAdded, data: data })
         }
     })
 }
 
-async function updateReview(req, res) {
-    await reviewModel.findByIdAndUpdate({ _id: req.params.id }, { $set: req.body }, (err, data) => {
+function updateReview(req, res) {
+    reviewModel.findByIdAndUpdate({ _id: req.params.id }, { $set: req.body }, (err, data) => {
         if (err) {
-            return res.json({ code: code.internalError, message: msg.internalError })
+            return res.json({ code: code.internalError, message: msg.internalServerError })
         }
         else if (!data) {
             return res.json({ code: code.notFound, message: msg.reviewNotFound })
@@ -192,16 +238,193 @@ async function updateReview(req, res) {
     })
 }
 
-async function deletePhotoByUser(req, res) {
-    url = req.body.url
-    id = req.body.restId
-    await restModel.findOneAndUpdate({ _id: id }, { $pull: { photoByUser: url } }, (err) => {
-        return (err) ? res.json({ code: code.internalError, message: msg.internalServerError }) :
+function deleteReview(req, res) {
+    reviewModel.findByIdAndUpdate({ _id: req.params.id }, { $set: { status: status.inactive } }, (err, data) => {
+        if (err) {
+            return res.json({ code: code.internalError, message: msg.internalServerError })
+        }
+        else if (!data) {
+            return res.json({ code: code.notFound, message: msg.reviewNotFound })
+        }
+        else {
+            return res.json({ code: code.ok, message: msg.deleted })
+        }
+    })
+}
+
+function getAllReviews(req, res) {
+    return restModel.findById({ _id: req.params.restId })
+        .select({ "reviews": 1 }).populate({ path: "reviews" }).exec((err, data) => {
+            if (err) {
+                return res.json({ code: code.internalError, message: msg.internalServerError })
+            }
+            else if (!data) {
+                return res.json({ code: code.notFound, message: msg.restNotFound })
+            }
+            else {
+                return res.json({ code: code.ok, message: msg.ok, data: data })
+            }
+        })
+}
+
+function addPhotoByUser(req, res) {
+    let data = req.body.data,
+        id = req.body.restId
+    data.postedAt = Date.now()
+    return restModel.findOneAndUpdate({ _id: id }, { $push: { photoByUser: data } }, (err, result) => {
+        if (err) {
+            res.json({ code: code.internalError, message: msg.internalServerError })
+        }
+        else if (!result) {
+            res.json({ code: code.notFound, message: msg.restNotFound })
+        }
+        else {
+            res.json({ code: code.created, message: msg.imageUploaded })
+        }
+    })
+}
+
+function deletePhotoByUser(req, res) {
+    let data = req.body.data,
+        id = req.body.restId
+    return restModel.findOneAndUpdate({ _id: id }, { $pull: { photoByUser: data } }, (err, result) => {
+        if (err) {
+            res.json({ code: code.internalError, message: msg.internalServerError })
+        }
+        else if (!result) {
+            res.json({ code: code.notFound, message: msg.restNotFound })
+        }
+        else {
             res.json({ code: code.ok, message: msg.imageDeleted })
+        }
+    })
+}
+
+function addToFavourites(req, res) {
+    let obj = util.decodeToken(req.headers['authorization']),
+        userId = obj.id,
+        restId = req.params.restId
+    return userModel.findByIdAndUpdate({ _id: userId }, { $addToSet: { favourites: restId } }, (err, data) => {
+        if (err) {
+            res.json({ code: code.ineternalError, message: msg.internalServerError })
+        } else if (!data) {
+            res.json({ code: code.notFound, message: msg.userNotFound })
+        }
+        else {
+            res.json({ code: code.created, message: msg.addedToFavourites })
+        }
+    })
+}
+
+function removeFavourite(req, res) {
+    let obj = util.decodeToken(req.headers['authorization']),
+        userId = obj.id,
+        restId = req.params.restId
+    return userModel.findByIdAndUpdate({ _id: userId }, { $pull: { favourites: restId } }, (err, data) => {
+        if (err) {
+            res.json({ code: code.ineternalError, message: msg.internalServerError })
+        }
+        else if (!data) {
+            res.json({ code: code.notFound, message: msg.userNotFound })
+        }
+        else {
+            res.json({ code: code.created, message: msg.removeFromFavourites })
+        }
+    })
+}
+
+function showFavourites(req, res) {
+    let obj = util.decodeToken(req.headers['authorization']),
+        userId = obj.id
+    return userModel.findById({ _id: userId }).select("favourites").populate("favourites").exec((err, data) => {
+        if (err) {
+            res.json({ code: code.ineternalError, message: msg.internalServerError })
+        }
+        else {
+            res.json({ code: code.ok, message: msg.ok, data: data })
+        }
+    })
+}
+
+function showProfile(req, res) {
+    let obj = util.decodeToken(req.headers['authorization'])
+    return userModel.findById({ _id: obj.id }).select({ "name": 1, "profilePicture": 1 }).exec((err, data) => {
+        if (err) {
+            res.json({ code: code.ineternalError, message: msg.internalServerError })
+        }
+        else if (!data) {
+            res.json({ code: code.notFound, message: msg.userNotFound })
+        }
+        else {
+            res.json({ code: code.ok, message: msg.ok, data: data })
+        }
+    })
+}
+
+function updateProfile(req, res) {
+    let obj = util.decodeToken(req.headers['authorization'])
+
+    return userModel.findByIdAndUpdate({ _id: obj.id }, { $set: req.body }, (err, data) => {
+        if (err) {
+            res.json({ code: code.ineternalError, message: msg.internalServerError })
+        }
+        else if (!data) {
+            res.json({ code: code.notFound, message: msg.userNotFound })
+        }
+        else {
+            res.json({ code: code.ok, message: msg.profileUpdated })
+        }
+    })
+}
+
+function changePassword(req, res) {
+    let obj = util.decodeToken(req.headers['authorization']),
+        newpass = bcrypt.hashSync(req.body.newPassword, 11)
+    userModel.findById({ _id: obj.id }, (err, data) => {
+        if (err) {
+            return res.json({ code: code.internalError, message: msg.internalError })
+        }
+        else if (!data) {
+            return res.json({ code: code.notFound, message: msg.userNotFound })
+        }
+        else {
+            if (bcrypt.compareSync(req.body.oldPassword, data.password)) {
+                return userModel.findByIdAndUpdate({ _id: data._id }, { password: newpass }, (err) => {
+                    return (err) ? res.json({ code: code.internalError, message: msg.internalServerError })
+                        : res.json({ code: code.ok, message: msg.passwordChanged })
+                })
+            }
+            else {
+                return res.json({ code: code.badRequest, message: msg.wrongPassword })
+            }
+        }
     })
 }
 
 
+function getNearByRestaurant(req,res){
+        userModel.findOne({_id:req.params.userId,status:status.active},(err,data)=>{
+            if(err){
+                return res.json({ code: code.internalError, message: msg.internalError })
+            }else if(!data){
+                return res.json({ code: code.notFound, message: msg.userNotFound })
+            }else{
+                restModel.aggregate([ 
+                    {      $geoNear: {         near: { type: data.location.type, coordinates: [data.location.coordinates[0],data.location.coordinates[1]] },    
+                         distanceField: "dist.calculated",   
+                               maxDistance: 10000,   
+                                 key:'location',  
+                                   query: { status:status.active},      
+                                      includeLocs: "dist.location",   
+                                            num: 5,       
+                                              spherical: true      } 
+                                                 }
+                                                  ],(err,response)=>{
+                                                    return (err) ? res.json({ code: code.internalError, message: msg.internalError })  :res.json({ code: code.ok, result: response})
+                                                  })
+            }
+        })
+}
 
 module.exports = {
     createUser,
@@ -212,9 +435,18 @@ module.exports = {
     addRestaurant,
     getRestaurantDetail,
     uploadPhoto,
-    deleteRestaurantPhoto,
     addReview,
     updateReview,
+    addPhotoByUser,
     deletePhotoByUser,
-    // deleteuser
+    deleteReview,
+    getAllReviews,
+    addToFavourites,
+    removeFavourite,
+    showFavourites,
+    showProfile,
+    updateProfile,
+    changePassword,
+    getRestaurantList,
+    getNearByRestaurant
 }

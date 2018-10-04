@@ -17,21 +17,29 @@ messages = {
     invalidPassword: 'Invalid password',
     emailNotFound: 'No such email is registered',
     mailNotSent: 'Something went wrong while sending mail',
-    ok:'Ok',
+    ok: 'Ok',
     userNotFound: 'No such user found',
     invalidBody: 'Invalid input',
     invalidToken: 'Invalid token',
     updated: 'Updated',
     imageUploaded: "Image uploaded successfully",
-    restRequestSent:"Add restaurant request sent to the admin",
-    restNotFound:"No such restuarant is registered",
-    imageDeleted:"Image deleted successfully",
-    reviewAdded:"Review added successfully",
-    reviewNotFound:"No such review is posted",
     userDelete:"User Deleted successfully",
     noMealOffer:"No offers",
-    noCuisin:"No cuisin found"
-    
+    noCuisin:"No cuisin found",    
+    restRequestSent: "Add restaurant request sent to the admin",
+    restAddSucessfully:"Successfully created restaurant.",
+    restNotFound: "No such restuarant is registered",
+    imageDeleted: "Image deleted successfully",
+    reviewAdded: "Review added successfully",
+    reviewNotFound: "No such review is posted",
+    deleted: "Successfully deleted",
+    addedToFavourites: "Successfully added to favourites",
+    removeFromFavourites: "Successfully removed from favourites",
+    profileUpdated: "Profile successfully updated",
+    wrongPassword: "You entered wrong old password",
+    passwordChanged: "Password changed successfully",
+    invalidLatLong:"Please check your lat long and try again.",
+    idMissing:"Please provide user id."
 }
 
 roles = {

@@ -71,6 +71,13 @@ function searchRestaurant(req,res){
     service.searchRestaurant(req,res)
 }
 
+function approveRestaurantProposal(rest_id,res){
+    service.approveRestaurantProposal(rest_id,res)
+}
+
+function getAllPendingRestaurant(res){
+    service.getAllPendingRestaurant(res)
+}
 module.exports = {
     signup,
     login,
@@ -90,5 +97,7 @@ module.exports = {
     deleteUser,
     // whatuLike,
     getCuisin,
-    searchRestaurant
+    searchRestaurant,
+    approveRestaurantProposal,
+    getAllPendingRestaurant
 }

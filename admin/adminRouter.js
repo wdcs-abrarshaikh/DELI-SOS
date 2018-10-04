@@ -69,8 +69,21 @@ adminRouter.route('/deleteRestaurant/:id')
     })
 
 adminRouter.route('/uploadPhoto')
-    .post([validate.validateBody], (req, res) => {
+    .post([validate.validateBody],(req, res) => {
         action.uploadPhoto(req, res)
+    })
+
+    adminRouter.route('/deletePhoto').post([validate.verifyAdminToken],(req,res)=>{
+    action.deletePhoto(req,res)
+    })
+
+    adminRouter.route('/approveRestaurantProposal/:restaurant_id').get([validate.validaterestId,validate.verifyAdminToken],(req,res)=>{
+    let {restaurant_id}= req.params;
+    action.approveRestaurantProposal(restaurant_id,res)
+    })
+
+    adminRouter.route('/getAllPendingRestaurant').get([validate.verifyAdminToken],(req,res)=>{
+    action.getAllPendingRestaurant(res)
     })
 
 adminRouter.route('/deleteRestaurantPhoto')
