@@ -32,9 +32,6 @@ async function createAdmin(req, res) {
     }
 }
 
-
-
-
 //this is a login function of admin. it returns token which expires in 1hr and result:id,mail and role
 async function authenticateAdmin(req, res) {
     let data = req.body;
@@ -57,32 +54,32 @@ async function authenticateAdmin(req, res) {
     })
 }
 
-async function manageSocialLogin(req, res) {
-    let data = req.body
-    let user = new userModel(data)
-    await userModel.findOne({ socialId: data.socialId }, (err, data) => {
-        if (err) {
-            return json({ code: code.internalError, message: msg.internalServerError })
-        }
-        else if (!data) {
-            user.isSocialLogin = true
-            user.role = role.ADMIN
-            user.save((err, result) => {
-                if (err) {
-                    return res.json({ code: code.internalError, message: msg.internalServerError })
-                }
-                else {
-                    let token = util.generateToken(result, config.secret)
-                    return res.json({ code: code.ok, message: msg.loggedIn, token: token })
-                }
-            })
-        }
-        else {
-            let token = util.generateToken(data, config.secret)
-            return res.json({ code: code.ok, message: msg.loggedIn, token: token })
-        }
-    })
-}
+// async function manageSocialLogin(req, res) {
+//     let data = req.body
+//     let user = new userModel(data)
+//     await userModel.findOne({ socialId: data.socialId }, (err, data) => {
+//         if (err) {
+//             return json({ code: code.internalError, message: msg.internalServerError })
+//         }
+//         else if (!data) {
+//             user.isSocialLogin = true
+//             user.role = role.ADMIN
+//             user.save((err, result) => {
+//                 if (err) {
+//                     return res.json({ code: code.internalError, message: msg.internalServerError })
+//                 }
+//                 else {
+//                     let token = util.generateToken(result, config.secret)
+//                     return res.json({ code: code.ok, message: msg.loggedIn, token: token })
+//                 }
+//             })
+//         }
+//         else {
+//             let token = util.generateToken(data, config.secret)
+//             return res.json({ code: code.ok, message: msg.loggedIn, token: token })
+//         }
+//     })
+// }
 
 async function resetPassword(req, res) {
     let newpass = util.generateRandomPassword().toUpperCase()
@@ -170,10 +167,12 @@ async function updateUserDetail(req, res) {
 
 async function addRestaurant(req, res) {
     let rest = new restModel(req.body)
+    obj = util.decodeToken(req.headers['authorization'])
+    rest.createdBy = obj.id;
     rest.status = status.active;
     rest.save((err, data) => {
         return (err) ? res.json({ code: code.internalError, message: msg.internalServerError }) :
-            res.json({ code: code.created, message: msg.restRequestSent, data: data })
+            res.json({ code: code.created, data: data })//removed msg from here coz it directly save data to db
     })
 }
 
@@ -201,6 +200,8 @@ async function getRestaurantList(req, res) {
 
 async function updateRestaurant(req, res) {
     let id = req.params.id;
+    obj = util.decodeToken(req.headers['authorization'])
+    req.body.editedBy = obj.id
     await restModel.findByIdAndUpdate({ _id: id }, { $set: req.body }, { new: true }, (err, data) => {
         if (err) {
             res.json({ code: code.internalError, message: msg.internalServerError })
@@ -249,9 +250,8 @@ async function deleteRestaurantPhoto(req, res) {
 }
 
 
-async function deleteUser(req, res)
- {
-    await userModel.findByIdAndUpdate({ _id: req.params.id }, { $set:{status:status.inactive} }, (err, data) => {
+async function deleteUser(req, res) {
+    await userModel.findByIdAndUpdate({ _id: req.params.id }, { $set: { status: status.inactive } }, (err, data) => {
         if (err) {
             return res.json({ code: code.internalError, message: msg.internalError })
         }
@@ -259,11 +259,109 @@ async function deleteUser(req, res)
             return res.json({ code: code.notFound, message: msg.userNotFound })
         }
         else {
-            return res.json({ code:code.ok, message:msg.userDelete})
+            return res.json({ code: code.ok, message: msg.userDelete })
         }
     })
-//   return res.json({message:"user deleted successfully"})
 }
+
+// async function whatuLike(req, res) {
+//     meal = req.body.meal;
+//     console.log("meal", meal)
+//     await restModel.find(({ mealOffers: meal, mealOffers: 'ALL' }), async(err, data) => {
+//         if (err) {
+//             return res.json({ code: code.internalError, message: msg.internalError })
+//         }
+//         else if (data.length < 1) {
+//             return res.json({ code: code.badRequest, message: msg.noMealOffer })
+//         }
+//         else {
+//             var arr=[]
+
+//             for (let j = 0; j < data.length; j++) {
+//                 for (let i = 0; i < data[j].cuisin.length; i++) {
+//                     console.log("cui",data[j].cuisin)
+//                     console.log("cui name",data[j].cuisin[i].name)
+//                     // console.log("i and j", data[j].cuisin[i].name)
+//                     let cui = data[j].cuisin[i].name;
+//                     if(req.body.cuisin==data[j].cuisin[i].name)
+//                     {
+//                         var obj={
+//                             name:data[j].name
+//                         }
+//                         arr.push(obj);
+
+//                     }
+
+//                 }
+//             }
+//             console.log("arrFinal",arr)
+//             return res.json({ code: code.ok,data:arr})
+//             }
+//     })
+// }
+
+//pending for multiple cuisins,range
+// async function whatuLike(req, res) {
+//     meal = req.body.meal;
+//     cui = req.body.cuisin;
+//     // console.log("cuisin array", cui)
+//     // cuii=cuisin.name;
+    
+//     await restModel.find(({ mealOffers: meal, mealOffers: 'ALL'},{ perPersonCost: { $gte: req.body.min, $lte: req.body.max }}), async (err, data) => {
+//         if (err) { return res.json({ code: code.internalError, message: msg.internalServerError }) }
+//         else {
+//             // console.log("------cuisin",JSON.stringify(data[0].cuisin[0].name))
+//             return res.json({ code: code.ok, data: data })
+//         }
+//     })
+// }
+//returning unique cuisin function getCuisin
+async function getCuisin(req, res) {
+    await restModel.aggregate([
+        {
+            $project: {
+                cuisin: 1
+            }
+        },
+        {
+            $unwind: '$cuisin'
+        },
+
+        {
+            $group: {
+                _id: '$cuisin.name',
+                image: { $first: '$cuisin.image' }
+
+            }
+        }
+    ]).exec((err, data) => {
+        if (err) {
+            return res.json({ code: code.internalError, message: msg.internalServerError })
+        }
+        else if (!data) {
+            return res.json({ code: code.notFound, message: msg.restNotFound })
+        }
+        else {
+            // console.log("data cuisin name",data)
+            return res.json({ code: code.ok, data: data })
+
+
+        }
+    })
+
+}
+async function searchRestaurant(req, res) {
+    restModel.find({name: new RegExp('^' + req.params.name , "i")},(err, data) => {
+        if(err){
+            return res.json({ code: code.internalError, message: msg.internalServerError })
+        }
+        else{
+            return res.json({ code: code.ok, data: data })
+        }
+      });
+
+}
+
 
 module.exports = {
     createAdmin,
@@ -273,7 +371,7 @@ module.exports = {
     getUserDetail,
     createUser,
     updateUserDetail,
-    manageSocialLogin,
+    // manageSocialLogin,
     addRestaurant,
     getRestaurantDetails,
     getRestaurantList,
@@ -281,5 +379,8 @@ module.exports = {
     deleteRestaurant,
     uploadPhoto,
     deleteRestaurantPhoto,
-    deleteUser
+    deleteUser, //Cb:nami
+    // whatuLike, //Cb:nami
+    getCuisin, //Cb:nami
+    searchRestaurant
 }

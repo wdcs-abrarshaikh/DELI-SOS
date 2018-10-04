@@ -28,7 +28,9 @@ messages = {
     imageDeleted:"Image deleted successfully",
     reviewAdded:"Review added successfully",
     reviewNotFound:"No such review is posted",
-    userDelete:"User Deleted successfully"
+    userDelete:"User Deleted successfully",
+    noMealOffer:"No offers",
+    noCuisin:"No cuisin found"
     
 }
 

@@ -435,86 +435,8 @@ paths:
             description: Erorr message.
             schema:
               $ref: '#/definitions/errorMessage'             
-              
-  "/admin/signUp":
-      post:
-        tags:
-        - 'admin'
-        summary: Registering new admin.
-        parameters: 
-          - in: body
-            name: admin
-            description: register in body.
-            required: true
-            schema:
-              type: object
-              required:
-                - email
-                - password
-                - name  
-              properties:
-                name:
-                    type: string
-                email:
-                    type: string
-                password:
-                    type: string
-                    format: One capital letter,small letter,special char and one number is required.Length lies between 6 to 16
-        responses:
-          "201":
-            description: Sucessfully registered.
-            schema:
-              $ref: '#/definitions/SuccessMessage'
-          "400":
-            description: Erorr message.
-            schema:
-              $ref: '#/definitions/errorMessage'
-          "500":
-            description: Erorr message.
-            schema:
-              $ref: '#/definitions/errorMessage'
-          "404":
-            description: Erorr message.
-            schema:
-              $ref: '#/definitions/errorMessage'
   
-  "/admin/socialLogin":
-      post:
-        tags:
-        - 'admin'
-        summary: login admin by social account.
-        parameters: 
-          - in: body
-            name: admin
-            description: login via social id.
-            required: true
-            schema:
-              type: object
-              required:
-                - socialId
-                - name  
-                - isSocialLogin
-              properties:
-                name:
-                    type: string
-                socialId:
-                    type: string
-                isSocialLogin:
-                    type: boolean
-        responses:
-          "200":
-            description: Sucessfully Login.
-            schema:
-              $ref: '#/definitions/SuccessMessage'
-          "400":
-            description: Erorr message.
-            schema:
-              $ref: '#/definitions/errorMessage'
-          "500":
-            description: Erorr message.
-            schema:
-              $ref: '#/definitions/errorMessage'
-              
+  
   "/admin/forgotPassword":
       post:
         tags:

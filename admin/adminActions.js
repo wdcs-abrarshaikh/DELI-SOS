@@ -7,9 +7,9 @@ function signup(req, res) {
 function login(req, res) {
     service.authenticateAdmin(req, res)
 }
-function socialLogin(req, res) {
-    service.manageSocialLogin(req, res)
-}
+// function socialLogin(req, res) {
+//     service.manageSocialLogin(req, res)
+// }
 
 function forgotPassword(req, res) {
     service.resetPassword(req, res)
@@ -60,6 +60,17 @@ function deleteRestaurantPhoto(req,res){
 function deleteUser(req,res){
     service.deleteUser(req,res)
 }
+
+// function whatuLike(req,res){
+//     service.whatuLike(req,res)
+// }
+function getCuisin(req,res){
+    service.getCuisin(req,res)
+}
+function searchRestaurant(req,res){
+    service.searchRestaurant(req,res)
+}
+
 module.exports = {
     signup,
     login,
@@ -68,7 +79,7 @@ module.exports = {
     getUserDetail,
     addUser,
     updateUser,
-    socialLogin,
+    // socialLogin,
     addRestaurant,
     getRestaurantDetails,
     getRestaurantList,
@@ -76,5 +87,8 @@ module.exports = {
     deleteRestaurant,
     uploadPhoto,
     deleteRestaurantPhoto,
-    deleteUser
+    deleteUser,
+    // whatuLike,
+    getCuisin,
+    searchRestaurant
 }

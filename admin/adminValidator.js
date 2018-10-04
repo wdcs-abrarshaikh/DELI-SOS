@@ -36,23 +36,22 @@ function validateLogin(req, res, next) {
         return res.json({ code: code.badRequest, message: msg.invalidBody })
     }
 }
-function validateSocialLogin(req, res, next) {
-    if (req.body.name && req.body.isSocialLogin && req.body.socialId) {
-        let name = req.body.name.trim(),
-            socialId = req.body.socialId.trim()
-        isSocialLogin = req.body.isSocialLogin
-
-        if (name && isSocialLogin == true && socialId) {
-            next();
-        }
-        else {
-            return res.json({ code: code.badRequest, message: msg.invalidBody })
-        }
-    }
-    else {
-        return res.json({ code: code.badRequest, message: msg.invalidBody })
-    }
-}
+// function validateSocialLogin(req, res, next) {
+//     if (req.body.name && req.body.isSocialLogin && req.body.socialId) {
+//         let name = req.body.name.trim(),
+//             socialId = req.body.socialId.trim()
+//         isSocialLogin = req.body.isSocialLogin
+//         if (name && isSocialLogin == true && socialId) {
+//             next();
+//         }
+//         else {
+//             return res.json({ code: code.badRequest, message: msg.invalidBody })
+//         }
+//     }
+//     else {
+//         return res.json({ code: code.badRequest, message: msg.invalidBody })
+//     }
+// }
 async function verifyAdminToken(req, res, next) {
     let token = req.headers['authorization']
 
@@ -102,8 +101,8 @@ async function validateBody(req, res, next) {
 }
 
 
-function ValidateRestaurant(req, res, next) {
-    let rest = req.body;
+function validateRestaurant(req, res, next) {
+    let rest = req.body
     //function to check whether the array is empty or not
     function isEmpty(arr) {
         for (var key in arr) {
@@ -112,6 +111,7 @@ function ValidateRestaurant(req, res, next) {
         }
         return true;
     }
+
     if (rest.name && rest.description && rest.latitude &&
         rest.longitude && rest.cuisin && rest.openTime &&
         rest.closeTime && rest.menu) {
@@ -122,17 +122,18 @@ function ValidateRestaurant(req, res, next) {
             longitude = rest.latitude.trim(),
             openTime = rest.openTime.trim(),
             closeTime = rest.closeTime.trim()
-
+        
         len = rest.cuisin
         cusinlen = len.length;
             if(cusinlen==0){ return res.json({ code: code.badRequest, message: msg.invalidBody })}//if array is empty then return bcoz its required
         cuisin = (!isEmpty(rest.cuisin))
-
         let i = 0
         do {
             if (cuisin) {//if array is not empty then trim insides string
+                
                 let cname = rest.cuisin[i].name.trim(),
                     image = rest.cuisin[i].image.trim()
+                    // console.log("cnm",cname)
                 i++;
                 if (cname && image) {
                     cuisin = true;
@@ -143,8 +144,10 @@ function ValidateRestaurant(req, res, next) {
                 }
 
             }
-        } while (i <= cusinlen)
+        } while (i < cusinlen)
 
+
+        
         // console.log("array length", cusinlen)
 
         if (name && description && latitude && longitude && openTime && closeTime && cuisin) {
@@ -165,6 +168,6 @@ module.exports = {
     validateLogin,
     verifyAdminToken,
     validateBody,
-    validateSocialLogin,
-    ValidateRestaurant
+    // validateSocialLogin,
+    validateRestaurant
 }

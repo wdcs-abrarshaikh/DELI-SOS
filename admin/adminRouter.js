@@ -13,10 +13,10 @@ adminRouter.route('/login')
         action.login(req, res)
     });
 
-adminRouter.route('/socialLogin')
-    .post([validate.validateSocialLogin], (req, res) => {
-        action.socialLogin(req, res)
-    })
+// adminRouter.route('/socialLogin')
+//     .post([validate.validateSocialLogin], (req, res) => {
+//         action.socialLogin(req, res)
+//     })
 
 adminRouter.route('/forgotPassword')
     .post([validate.validateBody], (req, res) => {
@@ -44,7 +44,7 @@ adminRouter.route('/updateUser/:id')
     })
 
 adminRouter.route('/addRestaurant')
-    .post([validate.verifyAdminToken, validate.ValidateRestaurant], (req, res) => {
+    .post([validate.verifyAdminToken, validate.validateRestaurant], (req, res) => {
         action.addRestaurant(req, res)
     })
 
@@ -59,7 +59,7 @@ adminRouter.route('/getRestaurantList')
     })
 
 adminRouter.route('/updateRestaurant/:id')
-    .put([validate.verifyAdminToken,validate.ValidateRestaurant], (req, res) => {
+    .put([validate.verifyAdminToken, validate.validateRestaurant], (req, res) => {
         action.updateRestaurant(req, res)
     })
 
@@ -81,6 +81,21 @@ adminRouter.route('/deleteRestaurantPhoto')
 adminRouter.route('/deleteUser/:id')
     .get([validate.verifyAdminToken], (req, res) => {
         action.deleteUser(req, res)
+    })
+
+// adminRouter.route('/whatuLike')
+//     .post((req, res) => {
+//         action.whatuLike(req, res)
+//     })
+
+adminRouter.route('/getCuisin')
+    .get((req, res) => {
+        action.getCuisin(req, res)
+    })
+
+adminRouter.route('/searchRestaurant/:name')
+    .get((req, res) => {
+        action.searchRestaurant(req, res)
     })
 
 module.exports = adminRouter

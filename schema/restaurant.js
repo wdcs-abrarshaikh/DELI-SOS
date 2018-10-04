@@ -20,9 +20,9 @@ var restaurantSchema = new schema({
     photos: [{ type: String }],
     cuisin: {
         type: [{
-            name: { type: String },
-            image: { type: String }
-        }], required: true
+            name: { type: String},
+            image: { type: String}
+        }], required: true,unique:true
     },
     openTime: { type: String, required: true },
     closeTime: { type: String, required: true },
