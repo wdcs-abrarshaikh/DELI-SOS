@@ -1855,21 +1855,11 @@
                 "summary": "upload image and get url of it.",
                 "parameters": [
                     {
-                        "in": "body",
-                        "name": "user",
-                        "description": "base64 for get image url.",
+                        "in": "formData",
+                        "name": "img",
+                        "description": "Select image ,You can also select multiple images at a time,the maximum limit is 5.",
                         "required": true,
-                        "schema": {
-                            "type": "object",
-                            "required": [
-                                "file"
-                            ],
-                            "properties": {
-                                "file": {
-                                    "type": "string"
-                                }
-                            }
-                        }
+                        "type": "file"
                     }
                 ],
                 "responses": {
