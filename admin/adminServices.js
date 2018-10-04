@@ -43,7 +43,7 @@ async function authenticateAdmin(req, res) {
         }
         else {
             if (bcrypt.compareSync(data.password, result.password)) {
-                let token = util.generateToken(result, process.env.secret)//config.secret=admin@codezero
+                let token = util.generateToken(result, process.env.admin_secret)//config.secret=admin@codezero
                 return res.json({ code: code.ok, message: msg.loggedIn, token: token, data: result })
             }
             else {
@@ -235,14 +235,33 @@ async function deleteRestaurant(req, res) {
         })
 }
 
-async function uploadPhoto(req, res) {
-    util.uploadPhoto(req).then((data) => {
-        return res.json({ code: code.created, message: msg.imageUploaded, url: data })
-    }).catch((err) => {
-        return res.json({ code: code.internalError, message: msg.internalServerError })
-    })
+// async function uploadPhoto(req, res) {
+//     util.uploadPhoto(req).then((data) => {
+//         return res.json({ code: code.created, message: msg.imageUploaded, url: data })
+//     }).catch((err) => {
+//         return res.json({ code: code.internalError, message: msg.internalServerError })
+//     })
 
+// }
+function uploadPhoto(req, res) {
+    req.newFile_name = [];
+
+    util.upload(req, res, function (err) {
+        if (err) {
+            return res.json({code:code.badRequest,message:err})
+        }
+        else{
+            console.log(req.newFile_name)
+            var response = req.newFile_name.map((result)=>{
+                result = process.cwd()+'/img/'+result;
+                console.log(result);
+                return result;
+            })
+            return res.json({code:code.created,message:msg.ok,data:response})
+        }
+    });
 }
+
 async function deleteRestaurantPhoto(req, res) {
     url = req.body.url
     id = req.body.restId
@@ -332,7 +351,7 @@ async function getCuisin(req, res) {
 
         {
             $group: {
-                _id: '$cuisin.name',
+                name: '$cuisin.name',
                 image: { $first: '$cuisin.image' }
 
             }

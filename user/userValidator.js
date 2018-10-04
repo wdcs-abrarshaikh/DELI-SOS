@@ -1,20 +1,8 @@
 var jwt = require('jsonwebtoken')
-<<<<<<< HEAD
-var usercnfg = require('./userConfig')
-=======
->>>>>>> 8183ca08af1b383541f0166609d53c90fd831e30
 var code = require('../constants').http_codes;
 var msg = require('../constants').messages;
 
 function validateSignUp(req, res, next) {
-<<<<<<< HEAD
-    if (req.body.name && req.body.password && req.body.email) {
-        var name = req.body.name.trim(),
-            email = req.body.email.trim(),
-            password = req.body.password.trim();
-
-        if (name && email && password) {
-=======
     if (req.body.name && req.body.password && req.body.email && req.body.deviceId && req.body.deviceType && req.body.fcmToken) {
         var name = req.body.name.trim(),
             email = req.body.email.trim(),
@@ -24,7 +12,6 @@ function validateSignUp(req, res, next) {
         fcmToken = req.body.fcmToken.trim();
 
         if (name && email && password && deviceId && deviceType && fcmToken) {
->>>>>>> 8183ca08af1b383541f0166609d53c90fd831e30
             next();
         }
         else {
@@ -34,9 +21,6 @@ function validateSignUp(req, res, next) {
     else {
         return res.json({ code: code.badRequest, message: msg.invalidBody })
     }
-<<<<<<< HEAD
-
-=======
 }
 
 function validateLatLong(long,lat){
@@ -46,17 +30,10 @@ function validateLatLong(long,lat){
     }else{
         return false
     }
->>>>>>> 8183ca08af1b383541f0166609d53c90fd831e30
 
 }
 
 function validateLogin(req, res, next) {
-<<<<<<< HEAD
-    if (req.body.email && req.body.password) {
-        var email = req.body.email.trim(),
-            password = req.body.password.trim();
-        if (email && password) {
-=======
     if (req.body.email && req.body.password && req.body.deviceId && req.body.deviceType && req.body.fcmToken && req.body.longitude && req.body.latitude) {
         var email = req.body.email.trim(),
             password = req.body.password.trim(),
@@ -72,30 +49,17 @@ function validateLogin(req, res, next) {
                 type:'Point',
                 coordinates:[parseFloat(req.body.longitude),parseFloat(req.body.latitude)]
             }
->>>>>>> 8183ca08af1b383541f0166609d53c90fd831e30
             next();
         }
         else {
             return res.json({ code: code.badRequest, message: msg.invalidBody })
         }
     }
-<<<<<<< HEAD
-    else{
-=======
     else {
->>>>>>> 8183ca08af1b383541f0166609d53c90fd831e30
         return res.json({ code: code.badRequest, message: msg.invalidBody })
     }
 }
 function validateSocialLogin(req, res, next) {
-<<<<<<< HEAD
-    if (req.body.name && req.body.isSocialLogin && req.body.socialId) {
-        let name = req.body.name.trim(),
-            socialId = req.body.socialId.trim()
-            isSocialLogin = req.body.isSocialLogin
-
-        if (name && isSocialLogin == true && socialId) {
-=======
     if (req.body.name && req.body.socialId && req.body.deviceId && req.body.deviceType && req.body.fcmToken) {
         let name = req.body.name.trim(),
             socialId = req.body.socialId.trim(),
@@ -105,29 +69,20 @@ function validateSocialLogin(req, res, next) {
             fcmToken = req.body.deviceType.trim()
 
         if (name && socialId && deviceId && deviceType && fcmToken) {
->>>>>>> 8183ca08af1b383541f0166609d53c90fd831e30
             next();
         }
         else {
             return res.json({ code: code.badRequest, message: msg.invalidBody })
         }
     }
-<<<<<<< HEAD
-    else{
-=======
     else {
->>>>>>> 8183ca08af1b383541f0166609d53c90fd831e30
         return res.json({ code: code.badRequest, message: msg.invalidBody })
     }
 }
 async function verifyUserToken(req, res, next) {
     let token = req.headers['authorization']
 
-<<<<<<< HEAD
-    await jwt.verify(token, usercnfg.secret, (err) => {
-=======
     await jwt.verify(token, process.env.user_secret, (err) => {
->>>>>>> 8183ca08af1b383541f0166609d53c90fd831e30
         if (err) {
             return res.json({ code: code.badRequest, message: msg.invalidToken })
         }
@@ -140,11 +95,7 @@ async function verifyUserToken(req, res, next) {
 async function validateBody(req, res, next) {
     let data = req.body
     let flag = false
-<<<<<<< HEAD
-    if(!data){
-=======
     if (!data) {
->>>>>>> 8183ca08af1b383541f0166609d53c90fd831e30
         res.json({ code: code.badRequest, message: msg.invalidBody })
     }
     for (let k in data) {
@@ -173,8 +124,6 @@ async function validateBody(req, res, next) {
         next();
     }
 }
-<<<<<<< HEAD
-=======
 function isEmpty(arr) {
     for (var key in arr) {
         if (arr.hasOwnProperty(key)) {
@@ -290,20 +239,15 @@ function validateUserId(req,res,next){
 }
 
 
->>>>>>> 8183ca08af1b383541f0166609d53c90fd831e30
 module.exports = {
     validateSignUp,
     validateLogin,
     verifyUserToken,
     validateBody,
-<<<<<<< HEAD
-    validateSocialLogin
-=======
     validateSocialLogin,
     validateRestaurant,
     validateReview,
     validateProfile,
     validateChangePassword,
     validateUserId
->>>>>>> 8183ca08af1b383541f0166609d53c90fd831e30
 }

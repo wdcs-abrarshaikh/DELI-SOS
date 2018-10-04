@@ -811,42 +811,7 @@ paths:
             schema:
               $ref: '#/definitions/errorMessage'
   
-  "/admin/socialLogin":
-      post:
-        tags:
-        - 'admin'
-        summary: login admin by social account.
-        parameters: 
-          - in: body
-            name: admin
-            description: login via social id.
-            required: true
-            schema:
-              type: object
-              required:
-                - socialId
-                - name  
-                - isSocialLogin
-              properties:
-                name:
-                    type: string
-                socialId:
-                    type: string
-                isSocialLogin:
-                    type: boolean
-        responses:
-          "200":
-            description: Sucessfully Login.
-            schema:
-              $ref: '#/definitions/SuccessMessage'
-          "400":
-            description: Erorr message.
-            schema:
-              $ref: '#/definitions/errorMessage'
-          "500":
-            description: Erorr message.
-            schema:
-              $ref: '#/definitions/errorMessage'
+
               
   "/admin/forgotPassword":
       post:
@@ -941,10 +906,63 @@ paths:
             schema:
               $ref: '#/definitions/errorMessage'
           "400":
+            description: User Not Found
+            schema:
+              $ref: '#/definitions/errorMessage'
+              
+               
+  "/admin/getCuisin":
+      get:
+        tags:
+        - 'admin'
+        summary: get unique cuisin.
+        responses:
+          "200":
+            description: ok
+            schema:
+              $ref: '#/definitions/cuisinArray'
+          "500":
+            description: Internal Server Error
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "404":
             description: Error message.
             schema:
               $ref: '#/definitions/errorMessage'
-                
+              
+  "/admin/deleteUser/{id}":
+      put:
+        tags:
+        - 'admin'
+        summary: Delete a particular user.
+        parameters: 
+            
+          - name: authorization
+            in: header
+            description: token for validation.
+            required: true
+            type: string
+          - name: id
+            in: path
+            description: Id of particular user 
+            required: true
+            type: string
+          
+        responses:
+          "200":
+            description: ok
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "500":
+            description: Internal Server Error
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "404":
+            description: User Not Found
+            schema:
+              $ref: '#/definitions/errorMessage'
+          
+  
   "/admin/addUser":
       post:
         tags:
@@ -1290,9 +1308,6 @@ paths:
             description: token for validation.
             required: true
             type: string
-            
-            
-              
         responses:
           "200":
             description: ok
@@ -1310,7 +1325,28 @@ paths:
             description: Erorr message.
             schema:
               $ref: '#/definitions/errorMessage'
-
+  "/admin/searchRestaurant/{name}":
+      get:
+        tags:
+        - 'admin'
+        summary: Search Restaurant.
+        parameters: 
+          - name: name
+            in: path
+            description: name of restaurant for search
+            required: true
+            type: string
+            
+        responses:
+          "200":
+            description: ok
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "500":
+            description: Internal Server Error.
+            schema:
+              $ref: '#/definitions/errorMessage'
+  
   "/admin/uploadPhoto":
       post:
         tags:
@@ -1469,7 +1505,7 @@ definitions:
         image:
           type: string
   
-    
+ 
     
     
     

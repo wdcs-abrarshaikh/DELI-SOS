@@ -92,7 +92,7 @@ adminRouter.route('/deleteRestaurantPhoto')
     })
 
 adminRouter.route('/deleteUser/:id')
-    .get([validate.verifyAdminToken], (req, res) => {
+    .put([validate.verifyAdminToken], (req, res) => {
         action.deleteUser(req, res)
     })
 
