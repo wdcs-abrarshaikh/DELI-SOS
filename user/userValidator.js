@@ -23,14 +23,32 @@ function validateSignUp(req, res, next) {
     }
 }
 
+function validateLatLong(long,lat){
+    console.log(`lat==>${lat}  long==>${long}`)
+    if ((long > -180 && lat < 180)&& (lat >-90 && lat <90)){
+        return true
+    }else{
+        return false
+    }
+
+}
+
 function validateLogin(req, res, next) {
-    if (req.body.email && req.body.password && req.body.deviceId && req.body.deviceType && req.body.fcmToken) {
+    if (req.body.email && req.body.password && req.body.deviceId && req.body.deviceType && req.body.fcmToken && req.body.longitude && req.body.latitude) {
         var email = req.body.email.trim(),
             password = req.body.password.trim(),
             deviceId = req.body.deviceId.trim(),
             deviceType = req.body.deviceType.trim(),
             fcmToken = req.body.fcmToken.trim()
+        console.log(req.body)
+            if(!validateLatLong(parseFloat(req.body.longitude),parseFloat(req.body.latitude))){
+                return res.json({ code: code.badRequest, message: msg.invalidLatLong })
+            }
         if (email && password && deviceId && deviceType && fcmToken) {
+            req.body.location = {
+                type:'Point',
+                coordinates:[parseFloat(req.body.longitude),parseFloat(req.body.latitude)]
+            }
             next();
         }
         else {
@@ -210,6 +228,17 @@ function validateChangePassword(req, res, next) {
         res.json({ code: code.badRequest, message: msg.invalidBody })
     }
 }   
+
+function validateUserId(req,res,next){
+    if (!req.params.userId ) {
+        res.json({ code: code.badRequest, message: msg.idMissing })
+    }
+    else {
+        next()
+    }
+}
+
+
 module.exports = {
     validateSignUp,
     validateLogin,
@@ -219,5 +248,6 @@ module.exports = {
     validateRestaurant,
     validateReview,
     validateProfile,
-    validateChangePassword
+    validateChangePassword,
+    validateUserId
 }

@@ -24,6 +24,7 @@ messages = {
     updated: 'Updated',
     imageUploaded: "Image uploaded successfully",
     restRequestSent: "Add restaurant request sent to the admin",
+    restAddSucessfully:"Successfully created restaurant.",
     restNotFound: "No such restuarant is registered",
     imageDeleted: "Image deleted successfully",
     reviewAdded: "Review added successfully",
@@ -33,7 +34,9 @@ messages = {
     removeFromFavourites: "Successfully removed from favourites",
     profileUpdated: "Profile successfully updated",
     wrongPassword: "You entered wrong old password",
-    passwordChanged: "Password changed successfully"
+    passwordChanged: "Password changed successfully",
+    invalidLatLong:"Please check your lat long and try again.",
+    idMissing:"Please provide user id."
 }
 
 roles = {

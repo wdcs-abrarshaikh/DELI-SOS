@@ -19,15 +19,19 @@ var userSchema = new schema({
             return (this.isSocialLogin == false) ? true : false
         }
     },
-    location: {
+    location_address: {
         street1: String,
         stree2: String,
         city: String,
         state: String,
         pincode: Number
     },
-    lat: { type: String },
-    long: { type: String },
+    // lat: { type: String },
+    // long: { type: String },
+    location:{
+        type:{type:String},
+        coordinates: [Number]
+    },
     review: [{ type: mongoose.Schema.Types.ObjectId, ref: schmaName.reviews }],
     follower: [{ type: mongoose.Schema.Types.ObjectId, ref: schmaName.users }],
     following: [{ type: mongoose.Schema.Types.ObjectId, ref: schmaName.users }],
@@ -85,7 +89,18 @@ User.countDocuments(async function (err, data) {
             "name": process.env.admin_name,
             "email": process.env.admin_email,
             "password": process.env.admin_password,
-            "role": roles.ADMIN
+            "role": roles.ADMIN,
+            location:{
+                type:"Point",
+                coordinates: [72.51231,23.02771]
+            },
+            location_address: {
+                street1: '512 new avanue',
+                stree2: 'Dunken',
+                city: 'Ahmedabad',
+                state: 'Gujarat',
+                pincode: 382007
+            }
         };
 
         let updatedPass = await bcrypt.hashSync(obj.password, 11);

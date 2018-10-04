@@ -34,7 +34,7 @@ async function createUser(req, res) {
 function authenticateUser(req, res) {
     let data = req.body;
     userModel.findOneAndUpdate({ email: data.email, role: role.USER },
-        { $set: { deviceId: data.deviceId, deviceType: data.deviceType, fcmToken: data.fcmToken } },
+        { $set: { deviceId: data.deviceId, deviceType: data.deviceType, fcmToken: data.fcmToken,location:data.location } },
         { new: true }, (err, result) => {
             if (err) {
                 return res.json({ code: code.ineternalError, message: msg.internalServerError })
@@ -142,7 +142,12 @@ function uploadPhoto(req, res) {
 
 function addRestaurant(req, res) {
     obj = util.decodeToken(req.headers['authorization'])
-    req.body.createdBy = obj.id
+    req.body.createdBy = obj.id;
+    req.body.location = {
+        type:"Point",
+        coordinates:[req.body.longitude,req.body.latitude]
+    }
+    req.body.status = status.pending;
     let rest = new restModel(req.body)
     rest.save((err, data) => {
         return (err) ? res.json({ code: code.internalError, message: msg.internalServerError }) :
@@ -396,6 +401,31 @@ function changePassword(req, res) {
     })
 }
 
+
+function getNearByRestaurant(req,res){
+        userModel.findOne({_id:req.params.userId,status:status.active},(err,data)=>{
+            if(err){
+                return res.json({ code: code.internalError, message: msg.internalError })
+            }else if(!data){
+                return res.json({ code: code.notFound, message: msg.userNotFound })
+            }else{
+                restModel.aggregate([ 
+                    {      $geoNear: {         near: { type: data.location.type, coordinates: [data.location.coordinates[0],data.location.coordinates[1]] },    
+                         distanceField: "dist.calculated",   
+                               maxDistance: 10000,   
+                                 key:'location',  
+                                   query: { status:status.active},      
+                                      includeLocs: "dist.location",   
+                                            num: 5,       
+                                              spherical: true      } 
+                                                 }
+                                                  ],(err,response)=>{
+                                                    return (err) ? res.json({ code: code.internalError, message: msg.internalError })  :res.json({ code: code.ok, result: response})
+                                                  })
+            }
+        })
+}
+
 module.exports = {
     createUser,
     authenticateUser,
@@ -417,5 +447,6 @@ module.exports = {
     showProfile,
     updateProfile,
     changePassword,
-    getRestaurantList
+    getRestaurantList,
+    getNearByRestaurant
 }

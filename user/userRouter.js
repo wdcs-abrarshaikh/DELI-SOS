@@ -105,6 +105,11 @@ userRouter.route('/updateProfile')
 userRouter.route('/changePassword')
     .post([validate.validateChangePassword, validate.verifyUserToken], (req, res) => {
         actions.changePassword(req, res)
-    })
+    });
+
+userRouter.route('/getNearByRestaurant/:userId')
+    .get([validate.validateUserId,validate.verifyUserToken], (req, res) => {
+        actions.getNearByRestaurant(req, res)
+});
 
 module.exports = userRouter;

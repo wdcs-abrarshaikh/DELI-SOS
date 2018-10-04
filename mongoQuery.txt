@@ -1,0 +1,22 @@
+/**
+*get all restaurant in the given distance ,distance default to 10Km
+*/
+
+db.restaurants.aggregate([ 
+       {      $geoNear: {         near: { type: "Point", coordinates: [72.51231 ,23.02771 ] },    
+            distanceField: "dist.calculated",   
+                  maxDistance: 10000,   
+                    key:'location',  
+                      query: { "status" : "ACTIVE" },      
+                         includeLocs: "dist.location",   
+                               num: 5,       
+                                 spherical: true      } 
+                                    }
+                                     ])
+
+
+
+
+
+
+                                     

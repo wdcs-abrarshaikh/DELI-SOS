@@ -86,6 +86,10 @@ function changePassword(req, res) {
     service.changePassword(req, res)
 }
 
+function getNearByRestaurant(req, res) {
+    service.getNearByRestaurant(req, res)
+}
+
 module.exports = {
     signup,
     login,
@@ -107,5 +111,6 @@ module.exports = {
     showProfile,
     updateProfile,
     changePassword,
-    getRestaurantList
+    getRestaurantList,
+    getNearByRestaurant
 }

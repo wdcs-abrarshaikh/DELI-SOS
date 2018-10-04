@@ -164,12 +164,16 @@ async function updateUserDetail(req, res) {
 }
 
 async function addRestaurant(req, res) {
+    req.body.location = {
+        type:"Point",
+        coordinates:[req.body.longitude,req.body.latitude]
+    }
     let rest = new restModel(req.body)
     rest.status = status.active;
     rest.save((err, data) => {
         console.log(err)
         return (err) ? res.json({ code: code.internalError, message: msg.internalServerError }) :
-            res.json({ code: code.created, message: msg.restRequestSent, data: data })
+            res.json({ code: code.created, message: msg.restAddSucessfully, data: data })
     })
 }
 

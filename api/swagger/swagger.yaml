@@ -2,7 +2,7 @@ swagger: "2.0"
 info:
   title: "DeliSOS"
   version: "1.0.0"
-host: "66.70.179.133:8080"
+host: "localhost:8080"
 consumes:
 - "application/json"
 - "application/x-www-form-urlencoded"
@@ -34,6 +34,8 @@ paths:
                 - deviceId
                 - deviceType
                 - fcmToken
+                - latitude
+                - longitude
               properties:
                 email:
                     type: string
@@ -45,6 +47,12 @@ paths:
                     type: string
                 fcmToken:
                     type: string
+                latitude:
+                    type: string
+                    description: 'The value must be between -90 to 90'
+                longitude:
+                    type: string
+                    description: 'The value must be between -180 to 180'    
         responses:
           "200":
             description: Sucessfully login
@@ -132,6 +140,8 @@ paths:
                 - deviceId
                 - deviceType
                 - fcmToken
+                - latitude
+                - longitude
               properties:
                 name:
                     type: string
@@ -143,6 +153,12 @@ paths:
                     type: string
                 fcmToken:
                     type: string
+                latitude:
+                    type: string
+                    description: 'The value must be between -90 to 90'
+                longitude:
+                    type: string
+                    description: 'The value must be between -180 to 180'                    
         responses:
           "200":
             description: Sucessfully Login.
@@ -312,11 +328,11 @@ paths:
       post:
         tags:
         - 'user'
-        summary: upload image and get url of it.
+        summary: Upload Image Api.
         parameters: 
           - in: formData
             name: img
-            description: images to be upload
+            description: Select image ,You can also select multiple images at a time,the maximum limit is 5.
             required: true
             type: file
         responses:
@@ -337,11 +353,11 @@ paths:
       post:
         tags:
         - 'user'
-        summary: send request to admin for add new restaurant.
+        summary: Propose a new restaurant to Admin.
         parameters: 
           - name: user
             in: body
-            description: register restaurant in body.
+            description: Register restaurant object
             required: true
             schema:
               type: object
@@ -355,7 +371,6 @@ paths:
                 - cuisin
                 - menu
                 - perPersonCost
-                - createdBy
               properties:
                 name:
                     type: string
@@ -392,8 +407,6 @@ paths:
                       type: string
                 perPersonCost:
                       type: number
-                createdBy:
-                      type: string
                 
                 
           - name: authorization
@@ -420,22 +433,19 @@ paths:
       get:
         tags:
         - 'user'
-        summary: get detail for particular restaurant.
+        summary: Get detail for particular restaurant.
         parameters: 
           - name: id
             in: path
-            description: restaurant id for get details.
+            description: Restaurant id for details.
             required: true
             type: string
-            
           - name: authorization
             in: header
-            description: token for validation.
+            description: token for authorization.
             required: true
             type: string
             
-            
-              
         responses:
           "200":
             description: ok
@@ -460,10 +470,9 @@ paths:
         - 'user'
         summary: get list of all restaurant.
         parameters: 
-            
           - name: authorization
             in: header
-            description: token for validation.
+            description: token for authorization.
             required: true
             type: string
             
@@ -515,10 +524,13 @@ paths:
               properties:
                 restId:
                     type: string
+                    description: Restaurant id for adding review
                 userId:
                     type: string
+                    description: User id who is adding the review
                 content:
                     type: string
+                    description: Review content
                 likePlace:
                     type: string
                     enum: 
@@ -529,6 +541,7 @@ paths:
                       - GREAT
                 rating:
                     type: number
+                    description: Rating givent to restaurant by user.
                 improvementArea:
                     type: string
                     
@@ -562,10 +575,9 @@ paths:
             description: token for validation.
             required: true
             type: string
-            
           - name: id
             in: path
-            description: review id for update particular review.
+            description: Review id for update particular review.
             required: true
             type: string
             
@@ -583,6 +595,7 @@ paths:
               properties:
                 content:
                     type: string
+                    description: Updated content for the review.
                 likePlace:
                     type: string
                     enum: 
@@ -593,6 +606,7 @@ paths:
                       - GREAT
                 rating:
                     type: number
+                    description: Rating givent to restaurant by user.
                 improvementArea:
                     type: string
                     
@@ -618,14 +632,13 @@ paths:
       get:
         tags:
         - 'user'
-        summary: delete particular review.
+        summary: Delete particular review.
         parameters: 
           - name: id
             in: path
             description: review id for delete review.
             required: true
             type: string
-            
           - name: authorization
             in: header
             description: token for validation.
@@ -655,14 +668,13 @@ paths:
       get:
         tags:
         - 'user'
-        summary: delete particular review.
+        summary: Get all reviews.
         parameters: 
           - name: restId
             in: path
-            description: restaurant id for get all reviews.
+            description: The review will be listed for the restaurant id you provide.
             required: true
             type: string
-            
           - name: authorization
             in: header
             description: token for validation.
@@ -687,6 +699,37 @@ paths:
             description: Erorr message.
             schema:
               $ref: '#/definitions/errorMessage'
+              
+  "/user/getNearByRestaurant/{userId}":
+      get:
+        tags:
+        - 'user'
+        summary: Get nearby restaurant ,the maximumk distance is set to 10Km.
+        parameters: 
+          - in: path
+            name: userId
+            description: User id of the user ,accessing this api.
+            required: true
+            type: string
+          - name: authorization
+            in: header
+            description: token for validation.
+            required: true
+            type: string
+        
+        responses:
+          "201":
+            description: Sucessfully registered.
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "400":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "500":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'              
  
   "/admin/login":
       post:
@@ -1018,7 +1061,6 @@ paths:
                 - cuisin
                 - menu
                 - perPersonCost
-                - createdBy
               properties:
                 name:
                     type: string
@@ -1055,8 +1097,6 @@ paths:
                       type: string
                 perPersonCost:
                     type: number
-                createdBy:
-                    type: string
                 
           - name: authorization
             in: header
@@ -1342,6 +1382,7 @@ paths:
             description: Erorr message.
             schema:
               $ref: '#/definitions/errorMessage'
+              
             
 definitions:
   errorMessage:
