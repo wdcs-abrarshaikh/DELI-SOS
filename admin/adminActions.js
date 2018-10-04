@@ -59,6 +59,10 @@ function deleteRestaurantPhoto(req,res){
 function approveRestaurantProposal(rest_id,res){
     service.approveRestaurantProposal(rest_id,res)
 }
+
+function getAllPendingRestaurant(res){
+    service.getAllPendingRestaurant(res)
+}
 module.exports = {
     signup,
     login,
@@ -75,5 +79,6 @@ module.exports = {
     deleteRestaurant,
     uploadPhoto,
     deleteRestaurantPhoto,
-    approveRestaurantProposal
+    approveRestaurantProposal,
+    getAllPendingRestaurant
 }

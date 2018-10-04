@@ -82,5 +82,7 @@ adminRouter.route('/approveRestaurantProposal/:restaurant_id').get([validate.val
     action.approveRestaurantProposal(restaurant_id,res)
 })
 
-
+adminRouter.route('/getAllPendingRestaurant').get([validate.verifyAdminToken],(req,res)=>{
+    action.getAllPendingRestaurant(res)
+})
 module.exports = adminRouter

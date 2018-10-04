@@ -1412,7 +1412,32 @@ paths:
             description: Erorr message.
             schema:
               $ref: '#/definitions/errorMessage'              
-              
+      
+  "/admin/getAllPendingRestaurant":
+      get:
+        tags:
+        - 'admin'
+        summary: Get list of all pending restaurants.
+        parameters: 
+          - name: authorization
+            in: header
+            description: token for validation.
+            required: true
+            type: string
+        
+        responses:
+          "200":
+            description: Sucess.
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "400":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "500":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'              
             
 definitions:
   errorMessage:
