@@ -3,6 +3,10 @@ var validate = require('./userValidator')
 var actions = require('./userActions')
 
 
+userRouter.post('/uploadPhoto',(req, res) => {
+    actions.uploadPhoto(req,res)
+});
+
 userRouter.route('/signUp')
     .post([validate.validateSignUp], (req, res) => {
         actions.signup(req, res)
@@ -38,14 +42,9 @@ userRouter.route('/getRestaurantDetail/:id')
         actions.getRestaurantDetail(req, res)
     })
 
-userRouter.route('/uploadphoto')
-    .post([validate.validateBody], (req, res) => {
-        actions.uploadPhoto(req, res)
-    })
-
-userRouter.route('/deletePhotoByUser')
-    .post([validate.validateBody, validate.verifyUserToken], (req, res) => {
-        actions.deletePhotoByUser(req, res)
+userRouter.route('/getRestaurantList')
+    .get([validate.verifyUserToken], (req, res) => {
+        actions.getRestaurantList(req, res)
     })
 
 userRouter.route('/addReview')
@@ -67,4 +66,45 @@ userRouter.route('/getAllReviews/:restId')
     .get([validate.verifyUserToken], (req, res) => {
         actions.getAllReviews(req, res)
     })
+
+userRouter.route('/addPhotoByUser')
+    .post([validate.validateBody, validate.verifyUserToken], (req, res) => {
+        actions.addPhotoByUser(req, res)
+    })
+
+userRouter.route('/deletePhotoByUser')
+    .post([validate.validateBody, validate.verifyUserToken], (req, res) => {
+        actions.deletePhotoByUser(req, res)
+    })
+
+userRouter.route('/addToFavourites/:restId')
+    .get([validate.verifyUserToken], (req, res) => {
+        actions.addToFavourites(req, res)
+    })
+
+userRouter.route('/removeFavourite/:restId')
+    .get([validate.verifyUserToken], (req, res) => {
+        actions.removeFavourite(req, res)
+    })
+
+userRouter.route('/showFavourites')
+    .get([validate.verifyUserToken], (req, res) => {
+        actions.showFavourites(req, res)
+    })
+
+userRouter.route('/showProfile')
+    .get([validate.verifyUserToken], (req, res) => {
+        actions.showProfile(req, res)
+    })
+
+userRouter.route('/updateProfile')
+    .put([validate.validateProfile, validate.verifyUserToken], (req, res) => {
+        actions.updateProfile(req, res)
+    })
+
+userRouter.route('/changePassword')
+    .post([validate.validateChangePassword, validate.verifyUserToken], (req, res) => {
+        actions.changePassword(req, res)
+    })
+
 module.exports = userRouter;

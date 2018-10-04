@@ -30,9 +30,18 @@ function getRestaurantDetail(req, res) {
     service.getRestaurantDetail(req, res)
 }
 
+function getRestaurantList(req,res){
+    service.getRestaurantList(req,res)
+}
+
 function uploadPhoto(req, res) {
     service.uploadPhoto(req, res)
 }
+
+function addPhotoByUser(req, res) {
+    service.addPhotoByUser(req, res)
+}
+
 function deletePhotoByUser(req, res) {
     service.deletePhotoByUser(req, res)
 }
@@ -53,6 +62,30 @@ function getAllReviews(req, res) {
     service.getAllReviews(req, res)
 }
 
+function addToFavourites(req, res) {
+    service.addToFavourites(req, res)
+}
+
+function removeFavourite(req, res) {
+    service.removeFavourite(req, res)
+}
+
+function showFavourites(req, res) {
+    service.showFavourites(req, res)
+}
+
+function showProfile(req, res) {
+    service.showProfile(req, res)
+}
+
+function updateProfile(req, res) {
+    service.updateProfile(req, res)
+}
+
+function changePassword(req, res) {
+    service.changePassword(req, res)
+}
+
 module.exports = {
     signup,
     login,
@@ -64,7 +97,15 @@ module.exports = {
     uploadPhoto,
     addReview,
     updateReview,
+    addPhotoByUser,
     deletePhotoByUser,
     deleteReview,
-    getAllReviews
+    getAllReviews,
+    addToFavourites,
+    removeFavourite,
+    showFavourites,
+    showProfile,
+    updateProfile,
+    changePassword,
+    getRestaurantList
 }
