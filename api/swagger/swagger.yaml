@@ -1382,6 +1382,36 @@ paths:
             description: Erorr message.
             schema:
               $ref: '#/definitions/errorMessage'
+  "/admin/approveRestaurantProposal/{restaurant_id}":
+      get:
+        tags:
+        - 'admin'
+        summary: Approve particular restaurant approval request.
+        parameters: 
+          - in: path
+            name: restaurant_id
+            description: The restaurant id to approve.
+            required: true
+            type: string
+          - name: authorization
+            in: header
+            description: token for validation.
+            required: true
+            type: string
+        
+        responses:
+          "201":
+            description: Success.
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "400":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "500":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'              
               
             
 definitions:

@@ -250,6 +250,21 @@ async function deleteRestaurantPhoto(req, res) {
     })
 }
 
+async function approveRestaurantProposal(rest_id, res) {
+    restModel.findByIdAndUpdate({ _id: rest_id },
+        { $set: { status: status.active } }, { new: true }, (err, data) => {
+            if (err) {
+                return res.json({ code: code.internalError, message: msg.internalServerError })
+            }
+            else if (!data) {
+                return res.json({ code: code.notFound, message: msg.restNotFound })
+            }
+            else {
+                return res.json({ code: code.ok, message: msg.ok, data: data })
+            }
+        })
+}
+
 module.exports = {
     createAdmin,
     authenticateAdmin,
@@ -265,5 +280,6 @@ module.exports = {
     updateRestaurant,
     deleteRestaurant,
     uploadPhoto,
-    deleteRestaurantPhoto
+    deleteRestaurantPhoto,
+    approveRestaurantProposal
 }

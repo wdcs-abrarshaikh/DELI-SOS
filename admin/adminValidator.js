@@ -109,11 +109,23 @@ function validateRestaurant(req, res, next) {
     }
 }
 
+function validaterestId(req, res, next) {
+    let {restaurant_id} = req.params
+    if (restaurant_id) {
+        next();
+    }
+    else {
+        res.json({ code: code.badRequest, message: msg.invalidBody })
+    }
+}
+
+
 module.exports = {
     validateSignUp,
     validateLogin,
     verifyAdminToken,
     validateBody,
     validateSocialLogin,
-    validateRestaurant
+    validateRestaurant,
+    validaterestId
 }

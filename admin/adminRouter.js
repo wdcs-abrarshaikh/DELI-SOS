@@ -76,4 +76,11 @@ adminRouter.route('/uploadPhoto')
 adminRouter.route('/deletePhoto').post([validate.verifyAdminToken],(req,res)=>{
     action.deletePhoto(req,res)
 })
+
+adminRouter.route('/approveRestaurantProposal/:restaurant_id').get([validate.validaterestId,validate.verifyAdminToken],(req,res)=>{
+    let {restaurant_id}= req.params;
+    action.approveRestaurantProposal(restaurant_id,res)
+})
+
+
 module.exports = adminRouter
