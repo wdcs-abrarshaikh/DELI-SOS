@@ -1,0 +1,313 @@
+
+<div class="col-xl-4">
+  <!--begin:: Widgets/Top Products-->
+  <div class="m-portlet m-portlet--bordered-semi m-portlet--full-height">
+    <div class="m-portlet__head">
+      <div class="m-portlet__head-caption">
+        <div class="m-portlet__head-title">
+          <h3 class="m-portlet__head-text"> Add Restaurant </h3>
+        </div>
+      </div>
+     
+    </div>
+    <div class="m-portlet__body">
+        <form [formGroup]="RList" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+                <label for="name">Restaurant Name</label>
+                <input type="text" formControlName="name" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.name.errors }" />
+                <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+                    <div *ngIf="f.name.errors.required">Restaurant Name is required</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <input type="text" formControlName="description" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.description.errors }" />
+                <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
+                    <!-- <div *ngIf="f.description.errors.required">Username is required</div> -->
+                </div>
+            </div>cd 
+            <div class="form-group">
+                <label for="latitude">Latitude</label>
+                <input type="number" formControlName="latitude" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.latitude.errors }" />
+                <div *ngIf="submitted && f.latitude.errors" class="invalid-feedback">
+                    <div *ngIf="f.latitude.errors.required">latitude is required</div>
+                    <!-- <div *ngIf="f.latitude.errors.minlength">Password must be at least 6 characters</div> -->
+                </div>
+            </div>
+            <div class="form-group">
+              <label for="longitude">Logitude</label>
+              <input type="number" formControlName="longitude" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.longitude.errors }" />
+              <div *ngIf="submitted && f.longitude.errors" class="invalid-feedback">
+                  <div *ngIf="f.longitude.errors.required">longitude is required</div>
+                  <!-- <div *ngIf="f.latitude.errors.minlength">Password must be at least 6 characters</div> -->
+              </div>
+          </div>
+
+          <div class="form-group">
+              <label for="date">Open Time
+              <input type="datepicker"[owlDateTimeTrigger]="dt4"  class="form-control"  formControlName="openTime" [owlDateTime]="dt4" [ngClass]="{'is-invalid':submitted && f.openTime.errors}">
+              <owl-date-time [pickerType]="'timer'" #dt4></owl-date-time>
+          </label>
+            <div *ngIf="submitted && f.openTime.errors" class="lbl-err">
+                <div *ngIf="f.openTime.errors.required">opentime is required</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="date">Close Time
+            <input type="datepicker"[owlDateTimeTrigger]="dt4"  class="form-control"  formControlName="closeTime" [owlDateTime]="dt4" [ngClass]="{'is-invalid':submitted && f.closeTime.errors}">
+            <owl-date-time [pickerType]="'timer'" #dt4></owl-date-time>
+        </label>
+          <div *ngIf="submitted && f.closeTime.errors" class="lbl-err">
+              <div *ngIf="f.closeTime.errors.required">closetime is required</div>
+          </div>
+      </div>
+
+      <div class="form-group">
+        <label>Meal Offers</label>
+        <select class="form-control" id="mealOffers" formControlName="mealOffers" [ngClass]="{'is-invalid':submitted && f.mealOffers.errors}">
+            <option value="" selected disabled hidden>select</option>
+            <option value="BREAKFAST">BREAKFAST</option>
+            <option value="LUNCH">LUNCH</option>
+            <option value="DINNER">DINNER</option>
+            <option value="ALL">ALL</option>
+        </select>
+        <div *ngIf="submitted && f.mealOffers.errors" class="lbl-err">
+            <!-- <div *ngIf="f.mealOffers.errors.required"> mealOffers is required </div> -->
+        </div>
+    </div>
+    // <div class="form-group" > 
+            // <label>Photos</label>
+            // <input class="form-control m-input" type="file" (change)="handleInputChange($event)" formControlName="image"> 
+            // <span *ngIf="RestaurantForm.controls.image.errors?.required" class="lbl-err">Image is required.</span>
+            // </div>
+            <img *ngFor="let url of urls" [src]="url" class="rounded mb-3" width="180">
+
+    <!-- <div class="form-group">
+        <div class="col-sm-2">
+            <label for="mealOffers"> mealOffers </label>
+        </div>
+        <div class="col-sm-4">
+            <div align = "left">
+                <input type="checkbox" id = "BREAKFAST"> BREAKFAST
+                <input type="checkbox" id = "LUNCH"> LUNCH
+                <input type="checkbox" id = "DINNER"> DINNER
+            </div>
+        </div>
+    </div>  -->
+             <div class="form-group">
+                <label for="photos">Photo</label>
+            <input type="file" (change)="onFileChange($event)"  formControlName="photos" />
+            <button type="submit" [disabled]="RForm.invalid || registerForm.prestine">Submit</button>
+            </div>
+
+         
+        
+            <div class="form-group">
+                <button [disabled]="loading" class="btn btn-primary" (click)="signUp()">Register</button>
+                <a [routerLink]="['/login']" class="btn btn-link">Cancel</a>
+            </div>
+        </form>
+      <!--begin::Widget5-->
+     
+      <!--end::Widget 5-->
+    </div>
+  </div>
+  <!--end:: Widgets/Top Products-->
+</div>
+
+ 
+
+<div formArrayName="cuisin">
+    <div *ngFor="let cuisin  of RestaurantForm.get('cuisin').controls; let pointIndex=index" [formGroupName]="pointIndex">
+    <label>
+      name: <input formControlName="name"placeholder="name" />
+      images: <input formControlName="image" placeholder="image"/>
+    </label>
+    <button type="button" (click)="deleteCuisin(pointIndex)">Delete Cuisin</button>
+    </div>
+    <button type="button" (click)="addCuisin()">Add Cuisin</button>
+   </div> 
+     <div class="row">	
+   <table>			
+     <label>cuisin</label>
+     <tbody>
+       <tr *ngFor="let field of fieldArray; let i = index">
+         <td>
+           <div>							
+                     <input type="text" [(ngModel)]="field.name" class="form-control" formControlName="name" id= name="{{field.name}}"  placeholder="Name...">
+                     <input type="text" [(ngModel)]="field.image" class="form-control" formControlName="image"  name="{{field.image}}" placeholder="images...">
+                     <button class="btn btn-dark btn-small" (click)="delete(i)">Delete</button>
+           </div>
+         </td>
+       </tr>
+       <tr>
+         <td align="right">
+           <button class="btn btn-secondary btn-lg1" type="button" (click)="add()" style="margin-right:10px">Add Options</button>
+         </td>
+       </tr>
+     </tbody>
+   </table>
+ </div>
+   
+.....
+<div class="form-group"> 
+    <label> Restaurant Name</label>
+    <input class="form-control m-input" type="text" formControlName="name"  [(ngModel)]="name"> 
+    <span *ngIf="RestaurantForm.controls.name.errors?.required" class="lbl-err">Name is required.</span>
+    </div><br>
+   
+    <div class="form-group"> 
+    <label>Descriptions</label>
+    <input class="form-control m-input" type="text" formControlName="descriptions"  [(ngModel)]="descriptions"> 
+    <span *ngIf="RestaurantForm.controls.descriptions.errors?.required" class="lbl-err">Descriptions is required.</span>
+    </div><br>
+
+
+    <div class="form-group"> 
+    <label>Latitude</label>
+    <input class="form-control m-input" type="text" formControlName="latitude"  [(ngModel)]="latitude"> 
+    <span *ngIf="RestaurantForm.controls.latitude.errors?.required" class="lbl-err">Latitude is required.</span>
+    </div><br>
+
+     <div class="form-group"> 
+    <label>Logitude</label>
+     <input class="form-control m-input" type="text" formControlName="longitude"  [(ngModel)]="longitude"> 
+    <span *ngIf="RestaurantForm.controls.longitude.errors?.required" class="lbl-err">longitude is required.</span>
+    </div><br>
+    
+    <div class="form-group">
+   <label>Photos</label>
+     <div>
+     <img *ngFor="let url of urls" [src]="url" class="rounded mb-3" width="180">
+      <input type="file" multiple (change)="detectFiles($event)" formControlName="photos">
+    </div>
+    <tr>
+    <td align="right">
+      <button class="btn btn-secondary " type="button" (click)="add()" style="margin-right:10px">Add Options</button>
+    </td>
+  </tr>
+  </div>
+
+    <div class="form-group"> 
+    <label>openTime</label>
+     <input class="form-control m-input" type="time" formControlName="openTime"  [(ngModel)]="openTime"> 
+    <span *ngIf="RestaurantForm.controls.openTime.errors?.required" class="lbl-err">openTime is required.</span>
+    </div>
+    
+    <div class="form-group">
+    <label for="time">Close Time</label>
+    <input class="form-control m-input" type="time" formControlName="closeTime"  [(ngModel)]="closeTime"> 
+    <span *ngIf="RestaurantForm.controls.closeTime.errors?.required" class="lbl-err">closeTime is required.</span>
+    </div>
+
+
+   
+
+    <div class="form-group"> 
+    <label>Contact Number</label>
+     <input class="form-control m-input" type="tel" formControlName="cphone"  [(ngModel)]="cphone"> 
+    <span *ngIf="RestaurantForm.controls.cphone.errors?.required" class="lbl-err">Contact Number is required.</span>
+    </div>
+
+    <div class="form-group">
+    <label>Website</label>
+     <input class="form-control m-input" type="text" formControlName="website"  [(ngModel)]="website"> 
+    <span *ngIf="RestaurantForm.controls.website.errors?.required" class="lbl-err">Website is required.</span>
+    </div>
+ 
+   <div class="form-group">
+   <label>mealOffers</label>
+   <fieldset>      
+   <input type="checkbox" name="mealOffers" value="BREAKFAST" checked/>BREAKFAST<br>      
+   <input type="checkbox" name="mealOffers" value="LUNCH">LUNCH<br>      
+   <input type="checkbox" name="mealOffers" value="DINNER">DINNER<br>    
+   <input type="checkbox" name="mealOffers" value="ALL">ALL<br>       
+   <br>      
+   </fieldset>      
+   </div>
+  
+
+ <div class="form-group">
+ <label>Menu</label>
+ <div>
+ <img *ngFor="let url of urls" [src]="url" class="rounded mb-3" width="180">
+ </div>
+ <input type="file" multiple (change)="detectFiles($event)">
+ </div>
+  
+   
+ <div class="form-group">
+ <label >Per Person Cost</label>
+ <input class="form-control m-input" type="Number" formControlName="perPersonCost"  [(ngModel)]="perPersonCost"> 
+ </div>
+ 
+ <div class="row" >	
+ <table>			
+   <label>cuisin</label>
+   <tbody>
+     <tr *ngFor="let field of fieldArray; let i = index">
+       <td>
+         <div>							
+                   <input type="text"  class="form-control" id='cuisin{{i}}'   (change)='changeName($event,i)' placeholder="Name..." required/>
+                   <input type="file" class="form-control" id = 'cuisin_image{{i}}' multiple (change)="detectFiles($event,i)" >
+                   <button class="btn btn-dark btn-small" (click)="delete(i)">Delete</button>
+         </div>
+       </td>
+     </tr>
+     <tr>
+       <td align="right">
+         <button class="btn btn-secondary btn-lg1" type="button" (click)="add()" style="margin-right:10px">Add Options</button>
+       </td>
+     </tr>
+   </tbody>
+ </table>
+</div>
+ 
+......
+<div class="row" >	
+  <table>			
+    <label>cuisin</label>
+    <tbody>
+      <tr *ngFor="let field of fieldArray; let i = index">
+        <td>
+          <div>							
+            <input type="text"  class="form-control" id='cuisin{{i}}'   (change)='changeName($event,i)' placeholder="Name..."  formControlName="cname"/>
+            <p *ngIf="RestaurantForm.controls.cname.errors?.required && (RestaurantForm.controls.cname.dirty || RestaurantForm.controls.cname.touched)" class="lbl-err">name is required.</p>
+            <input type="file" class="form-control" id = 'cuisin_image{{i}}' (change)="handleInputChange($event,i)">
+            <p *ngIf="RestaurantForm.controls.image.errors?.required && (RestaurantForm.controls.image.dirty || RestaurantForm.controls.image.touched)" class="lbl-err">image is required.</p>
+            <button class="btn btn-dark btn-small" (click)="delete(i)">Delete</button>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td align="right">
+          <button class="btn btn-secondary btn-lg1" type="button" (click)="add()" style="margin-right:10px">Add Options</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="form-group">
+  <label>Photos</label>
+  <div>
+  <img *ngFor="let url of urls" [src]="url" class="rounded mb-3" width="180">
+   <input type= "file" multiple (change)="detectFiles($event)" formControlName="photos">
+ </div>
+ <tr>
+ <td align="right">
+   <button class="btn btn-secondary " type="button" (click)="add()" style="margin-right:10px">Add Options</button>
+ </td>
+</tr>
+</div>
+<div>
+  <img *ngFor="let url of urls" [src]="url" class="rounded mb-3" width="180">
+ </div>
+ <input type="file" multiple (change)="detectFiles($event)">
+       <label class="btn-bs-file btn btn-ls btn-info" style="height:30px;width:150px">select photos
+        <input type="file" formControlName="menu" style="display: none"  multiple (change)="detectFiles($event)">
+        <img *ngIf="url" [src]="url" class="rounded mb-3" width="180">
+        </label>&nbsp;&nbsp;&nbsp;
+       <button class="btn btn-secondary btn-lg1" type="button"  (click)="upload()" style="margin-right:20px" >Add More</button>
+       </tr>
+        <img *ngIf="url" [src]="url" class="rounded mb-3" width="180">

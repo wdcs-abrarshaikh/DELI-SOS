@@ -1,0 +1,52 @@
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Banner</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+   Name: <input type="text">
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Close</button>
+  </div>
+</ng-template>
+
+<button class="btn-add" (click)="open(content)"><i class="fas fa-plus"></i></button>
+            <div>
+            
+              <div>
+                <div class="table-responsive">
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Contact</th>
+                        <th>City</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th scope="row">1</th>
+                      
+                        <td>aaa</td>
+                        <td>9876543210</td>
+                        <td>Ahmedabad</td>
+                        <td>
+                            <button type="button" class="btn-edit" (click)="open(content)">
+                              <i class="fas fa-edit"></i>
+                            </button>&nbsp;&nbsp;
+                            <button type="button" class="btn-delete">
+                              <i class="fas fa-trash-alt"></i>
+                            </button>
+                          </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+        

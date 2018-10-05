@@ -1,0 +1,17 @@
+img.m--img-rounded.m--marginless {
+    margin-left: 95%!important;
+    margin-top: -6%!important;
+    cursor: pointer !important;
+    width:50px !important;
+    height:50px !important;
+}
+
+.image{
+    vertical-align: middle;
+    border-style: none;
+    float: right;
+    height: 70px;
+}
+h3{
+    color: orange
+}
