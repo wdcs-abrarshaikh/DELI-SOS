@@ -23,6 +23,9 @@ messages = {
     invalidToken: 'Invalid token',
     updated: 'Updated',
     imageUploaded: "Image uploaded successfully",
+    userDelete:"User Deleted successfully",
+    noMealOffer:"No offers",
+    noCuisin:"No cuisin found",    
     restRequestSent: "Add restaurant request sent to the admin",
     restAddSucessfully:"Successfully created restaurant.",
     restNotFound: "No such restuarant is registered",
@@ -66,10 +69,10 @@ criteria = {
 }
 
 mealTypes = {
-    breakfast: 'BREAKFAST',
-    lunch: 'LUNCH',
-    dinner: 'DINNER',
-    all: 'ALL'
+    breakfast : 'BREAKFAST',
+    lunch : 'LUNCH',
+    dinner:'DINNER',
+    all : 'ALL'
 }
 
 module.exports = {

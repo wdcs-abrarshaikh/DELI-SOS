@@ -99,15 +99,69 @@ async function validateBody(req, res, next) {
         }
     }
 }
+
+
 function validateRestaurant(req, res, next) {
-    let data = req.body
-    if (data.name && data.description && data.latitude && data.longitude && data.cuisin && data.openTime && data.closeTime && data.menu) {
-        next();
+    let rest = req.body
+    //function to check whether the array is empty or not
+    function isEmpty(arr) {
+        for (var key in arr) {
+            if (arr.hasOwnProperty(key))
+                return false;
+        }
+        return true;
     }
-    else {
-        res.json({ code: code.badRequest, message: msg.invalidBody })
+
+    if (rest.name && rest.description && rest.latitude &&
+        rest.longitude && rest.cuisin && rest.openTime &&
+        rest.closeTime && rest.menu) {
+
+        let name = rest.name.trim(),
+            description = rest.description.trim(),
+            latitude = rest.latitude.trim(),
+            longitude = rest.latitude.trim(),
+            openTime = rest.openTime.trim(),
+            closeTime = rest.closeTime.trim()
+        
+        len = rest.cuisin
+        cusinlen = len.length;
+            if(cusinlen==0){ return res.json({ code: code.badRequest, message: msg.invalidBody })}//if array is empty then return bcoz its required
+        cuisin = (!isEmpty(rest.cuisin))
+        let i = 0
+        do {
+            if (cuisin) {//if array is not empty then trim insides string
+                
+                let cname = rest.cuisin[i].name.trim(),
+                    image = rest.cuisin[i].image.trim()
+                    // console.log("cnm",cname)
+                i++;
+                if (cname && image) {
+                    cuisin = true;
+                }
+                else {
+                    cuisin = false;
+                    break;
+                }
+
+            }
+        } while (i < cusinlen)
+
+
+        
+        // console.log("array length", cusinlen)
+
+        if (name && description && latitude && longitude && openTime && closeTime && cuisin) {
+            next();
+        }
+        else {
+            return res.json({ code: code.badRequest, message: msg.invalidBody })
+        }
+
+
     }
+    else { return res.json({ code: code.badRequest, message: msg.invalidBody }) }
 }
+
 
 function validaterestId(req, res, next) {
     let {restaurant_id} = req.params
@@ -119,13 +173,12 @@ function validaterestId(req, res, next) {
     }
 }
 
-
 module.exports = {
     validateSignUp,
     validateLogin,
     verifyAdminToken,
     validateBody,
-    validateSocialLogin,
+    // validateSocialLogin,
     validateRestaurant,
     validaterestId
 }

@@ -11,7 +11,6 @@ var userSchema = new schema({
     email: {
         type: String, required: function () {
             return (this.isSocialLogin == false) ? true : false
-
         }
     },
     password: {
