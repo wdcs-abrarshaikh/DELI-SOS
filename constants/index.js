@@ -11,7 +11,7 @@ messages = {
     emailAlreadyRegistered: 'Email already registered',
     internalServerError: 'Internal server error',
     registered: 'Successfully registered',
-    invalidEmailPass: 'Invalid email or password',
+    invalidEmailPass: 'Invalid email or password, Email_format:standard email format. Password_format eg.: Superm@n123',
     adminNotFound: 'No such admin is registered',
     loggedIn: 'Logged in',
     invalidPassword: 'Invalid password',
@@ -23,9 +23,20 @@ messages = {
     invalidToken: 'Invalid token',
     updated: 'Updated',
     imageUploaded: "Image uploaded successfully",
-    restRequestSent:"Add restaurant request sent to the admin",
-    restNotFound:"No such restuarant is registered",
-    imageDeleted:"Image deleted successfully"
+    restRequestSent: "Add restaurant request sent to the admin",
+    restAddSucessfully:"Successfully created restaurant.",
+    restNotFound: "No such restuarant is registered",
+    imageDeleted: "Image deleted successfully",
+    reviewAdded: "Review added successfully",
+    reviewNotFound: "No such review is posted",
+    deleted: "Successfully deleted",
+    addedToFavourites: "Successfully added to favourites",
+    removeFromFavourites: "Successfully removed from favourites",
+    profileUpdated: "Profile successfully updated",
+    wrongPassword: "You entered wrong old password",
+    passwordChanged: "Password changed successfully",
+    invalidLatLong:"Please check your lat long and try again.",
+    idMissing:"Please provide user id."
 }
 
 roles = {
@@ -55,10 +66,10 @@ criteria = {
 }
 
 mealTypes = {
-    breakfast : 'Breakfast',
-    lunch : 'Lunch',
-    dinner:'Dinner',
-    all : 'All'
+    breakfast: 'BREAKFAST',
+    lunch: 'LUNCH',
+    dinner: 'DINNER',
+    all: 'ALL'
 }
 
 module.exports = {

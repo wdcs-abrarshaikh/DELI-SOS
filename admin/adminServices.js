@@ -2,11 +2,11 @@ var userModel = require('../schema/user');
 var restModel = require('../schema/restaurant');
 var bcrypt = require('bcrypt');
 var util = require('../app util/util');
-var config = require('./adminConfig');
 var code = require('../constants').http_codes;
 var msg = require('../constants').messages;
 var role = require('../constants').roles;
 var status = require('../constants').status;
+var validate = require('./adminValidator')
 
 async function createAdmin(req, res) {
     let data = req.body;
@@ -26,7 +26,7 @@ async function createAdmin(req, res) {
             });
         }
         else {
-            return res.json({ code: code.badRequest, message: invalidEmailPass })
+            return res.json({ code: code.badRequest, message: msg.invalidEmailPass })
         }
     }
 }
@@ -42,8 +42,8 @@ async function authenticateAdmin(req, res) {
         }
         else {
             if (bcrypt.compareSync(data.password, result.password)) {
-                let token = util.generateToken(result, config.secret)
-                return res.json({ code: code.ok, message: msg.loggedIn, token: token })
+                let token = util.generateToken(result, process.env.admin_secret)
+                return res.json({ code: code.ok, message: msg.loggedIn, token: token,data:result })
             }
             else {
                 return res.json({ code: code.badRequest, message: msg.invalidPassword })
@@ -67,13 +67,13 @@ async function manageSocialLogin(req, res) {
                     return res.json({ code: code.internalError, message: msg.internalServerError })
                 }
                 else {
-                    let token = util.generateToken(result, config.secret)
+                    let token = util.generateToken(result, process.env.admin_secret)
                     return res.json({ code: code.ok, message: msg.loggedIn, token: token })
                 }
             })
         }
         else {
-            let token = util.generateToken(data, config.secret)
+            let token = util.generateToken(data, process.env.admin_secret)
             return res.json({ code: code.ok, message: msg.loggedIn, token: token })
         }
     })
@@ -108,7 +108,7 @@ async function getUsers(req, res) {
     })
 }
 
-async function getUserDetails(req, res) {
+async function getUserDetail(req, res) {
     let id = req.params.id
     userModel.findOne({ _id: id }, (err, result) => {
         if (err) {
@@ -124,13 +124,16 @@ async function getUserDetails(req, res) {
 }
 
 async function createUser(req, res) {
+    console.log(req.body)
     let data = req.body;
     if (await userModel.findOne({ email: data.email })) {
         return res.json({ code: code.badRequest, message: msg.emailAlreadyRegistered });
     }
     else {
+        console.log(util.validatePassword(data.password))
         if (util.validateEmail(data.email)
             && util.validatePassword(data.password)) {
+                
             let user = new userModel(data)
             user.password = bcrypt.hashSync(data.password, 11)
             user.save((err, data) => {
@@ -138,6 +141,9 @@ async function createUser(req, res) {
                     res.json({ code: code.internalError, message: msg.internalServerError }) :
                     res.json({ code: code.created, message: msg.registered, data: data })
             });
+        }
+        else{
+            return res.json({code:code.badRequest,message:msg.invalidEmailPass})
         }
     }
 }
@@ -158,11 +164,16 @@ async function updateUserDetail(req, res) {
 }
 
 async function addRestaurant(req, res) {
+    req.body.location = {
+        type:"Point",
+        coordinates:[req.body.longitude,req.body.latitude]
+    }
     let rest = new restModel(req.body)
     rest.status = status.active;
     rest.save((err, data) => {
+        console.log(err)
         return (err) ? res.json({ code: code.internalError, message: msg.internalServerError }) :
-            res.json({ code: code.created, message: msg.restRequestSent, data: data })
+            res.json({ code: code.created, message: msg.restAddSucessfully, data: data })
     })
 }
 
@@ -190,7 +201,9 @@ async function getRestaurantList(req, res) {
 
 async function updateRestaurant(req, res) {
     let id = req.params.id;
+    console.log(typeof(obj))
     await restModel.findByIdAndUpdate({ _id: id }, { $set: req.body }, { new: true }, (err, data) => {
+        console.log(err)
         if (err) {
             res.json({ code: code.internalError, message: msg.internalServerError })
         }
@@ -219,21 +232,26 @@ async function deleteRestaurant(req, res) {
         })
 }
 
-async function addPhoto(req, res) {
-    id = req.body.restId
-    util.uploadPhoto(req).then((data) => {
-        console.log("data",data)
-        restModel.findByIdAndUpdate({ _id: id }, { $push: { photos: data } }, (err, result) => {
-            return (err) ? res.json({ code: code.internalError, message: msg.internalServerError }) :
-                res.json({ code: code.created, message: msg.imageUploaded, url: data })
-        })
+async function uploadPhoto(req, res) {
+    req.newFile_name = [];
 
-    }).catch((err) => {
-        return res.json({ code: code.internalError, message: msg.internalServerError })
-    })
+    util.upload(req, res, function (err) {
+        if (err) {
+            return res.json({code:code.badRequest,message:err})
+        }
+        else{
+            console.log(req.newFile_name)
+            var response = req.newFile_name.map((result)=>{
+                result = process.cwd()+'/img/'+result;
+                console.log(result);
+                return result;
+            })
+            return res.json({code:code.created,message:msg.ok,data:response})
+        }
+    });
+
 }
-
-async function deletePhoto(req, res) {
+async function deleteRestaurantPhoto(req, res) {
     url = req.body.url
     id = req.body.restId
     restModel.findOneAndUpdate({ _id: id }, { $pull: { photos: url } }, (err, data) => {
@@ -243,12 +261,37 @@ async function deletePhoto(req, res) {
     })
 }
 
+async function approveRestaurantProposal(rest_id, res) {
+    restModel.findByIdAndUpdate({ _id: rest_id },
+        { $set: { status: status.active } }, { new: true }, (err, data) => {
+            if (err) {
+                return res.json({ code: code.internalError, message: msg.internalServerError })
+            }
+            else if (!data) {
+                return res.json({ code: code.notFound, message: msg.restNotFound })
+            }
+            else {
+                return res.json({ code: code.ok, message: msg.ok, data: data })
+            }
+        })
+}
+
+
+function getAllPendingRestaurant(req, res) {
+    url = req.body.url
+    id = req.body.restId
+    restModel.find({ status:status.pending }, (err, data) => {
+        
+        return (err) ? res.json({ code: code.internalError, message: msg.internalServerError }) :
+            res.json({ code: code.ok, data: data })
+    })
+}
 module.exports = {
     createAdmin,
     authenticateAdmin,
     resetPassword,
     getUsers,
-    getUserDetails,
+    getUserDetail,
     createUser,
     updateUserDetail,
     manageSocialLogin,
@@ -257,6 +300,8 @@ module.exports = {
     getRestaurantList,
     updateRestaurant,
     deleteRestaurant,
-    addPhoto,
-    deletePhoto
+    uploadPhoto,
+    deleteRestaurantPhoto,
+    approveRestaurantProposal,
+    getAllPendingRestaurant
 }

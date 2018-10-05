@@ -14,26 +14,39 @@ var restaurantSchema = new schema({
         state: String,
         pincode: Number
     },
-    latitude: { type: String, required: true },
-    longitude: { type: String, required: true },
+    // latitude: { type: String, required: true },
+    // longitude: { type: String, required: true },
+    location: {
+        type: {type:String},
+        coordinates: [Number]
+    },
     mealOffers: { type: [{ type: String, enum: [meal.breakfast, meal.lunch, meal.dinner, meal.all] }], default: meal.all },
     photos: [{ type: String }],
-    cuisin: [{
-        name: String,
-        image: String
-    }],
+    cuisin: {
+        type: [{
+            name: { type: String },
+            image: { type: String }
+        }], required: true
+    },
     openTime: { type: String, required: true },
     closeTime: { type: String, required: true },
     contactNumber: { type: Number },
     website: { type: String },
-    menu: [{ type: String }],
-    photoByUser: [{ type: String }],
+    menu: [{ type: String,required:true }],
+    photoByUser: [{
+        userId: { type: String },
+        url: { type: String },
+        postedAt: { type: Date }
+    }],
     reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: cnst.reviews }],
     ratings: { type: Number },
     perPersonCost: { type: Number },
     status: { type: String, enum: [status.active, status.inactive, status.pending], default: status.pending },
     createdBy: { type: mongoose.Schema.Types.ObjectId, ref: cnst.users },
     editedBy: { type: mongoose.Schema.Types.ObjectId, ref: cnst.users }
+    
+},{
+    versionKey:false
 })
 
 module.exports = mongoose.model(cnst.restaurants, restaurantSchema)

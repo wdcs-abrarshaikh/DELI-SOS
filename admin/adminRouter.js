@@ -14,7 +14,7 @@ adminRouter.route('/login')
     });
 
 adminRouter.route('/socialLogin')
-    .post([validate.validateBody], (req, res) => {
+    .post([validate.validateSocialLogin], (req, res) => {
         action.socialLogin(req, res)
     })
 
@@ -28,9 +28,9 @@ adminRouter.route('/getUserList')
         action.getUserList(req, res)
     });
 
-adminRouter.route('/gerUserDetails/:id')
+adminRouter.route('/getUserDetail/:id')
     .get([validate.verifyAdminToken], (req, res) => {
-        action.gerUserDetails(req, res)
+        action.getUserDetail(req, res)
     })
 
 adminRouter.route('/addUser')
@@ -44,7 +44,7 @@ adminRouter.route('/updateUser/:id')
     })
 
 adminRouter.route('/addRestaurant')
-    .post([validate.validateBody, validate.verifyAdminToken], (req, res) => {
+    .post([validate.validateRestaurant,validate.verifyAdminToken], (req, res) => {
         action.addRestaurant(req, res)
     })
 
@@ -59,7 +59,7 @@ adminRouter.route('/getRestaurantList')
     })
 
 adminRouter.route('/updateRestaurant/:id')
-    .put([validate.validateBody, validate.verifyAdminToken], (req, res) => {
+    .put([validate.verifyAdminToken], (req, res) => {
         action.updateRestaurant(req, res)
     })
 
@@ -68,13 +68,21 @@ adminRouter.route('/deleteRestaurant/:id')
         action.deleteRestaurant(req, res)
     })
 
-adminRouter.route('/addPhoto/')
-    .post([validate.verifyAdminToken], (req, res) => {
-        action.addPhoto(req, res)
+adminRouter.route('/uploadPhoto')
+    .post([validate.validateBody],(req, res) => {
+        action.uploadPhoto(req, res)
     })
 
-adminRouter.route('/deletePhoto')
-    .post([validate.verifyAdminToken], (req, res) => {
-        action.deletePhoto(req, res)
-    })
+adminRouter.route('/deletePhoto').post([validate.verifyAdminToken],(req,res)=>{
+    action.deletePhoto(req,res)
+})
+
+adminRouter.route('/approveRestaurantProposal/:restaurant_id').get([validate.validaterestId,validate.verifyAdminToken],(req,res)=>{
+    let {restaurant_id}= req.params;
+    action.approveRestaurantProposal(restaurant_id,res)
+})
+
+adminRouter.route('/getAllPendingRestaurant').get([validate.verifyAdminToken],(req,res)=>{
+    action.getAllPendingRestaurant(res)
+})
 module.exports = adminRouter
