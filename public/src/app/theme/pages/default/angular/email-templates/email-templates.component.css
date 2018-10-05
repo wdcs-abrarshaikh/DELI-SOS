@@ -1,0 +1,43 @@
+.header{
+    font-size: 3.15rem;
+    margin-left: 30%;
+    padding: 1.25rem 4.65rem;
+   }
+.btn-add{
+    padding: 1.25rem 1.65rem;
+    font-size: 1.25rem;
+    line-height: 1.5;
+    color:white;
+    background-color: transparent;
+    background: #5867dd;
+    border-color: #5867dd;
+    margin-left: 95%;
+    margin-top:2%;
+}
+.btn-view{
+    color:white;
+    background-color: transparent;
+    background: #5867dd;
+    border-color: #5867dd;
+}
+.btn-edit{
+    color:white;
+    background-color: transparent;
+    background: #029c16;
+    border-color:  #029c16;
+
+}
+.btn-delete{
+    color:white;
+    background-color: transparent;
+    background: #a73a08;
+    border-color: #a73a08;
+
+}
+.ngx-editor {
+    height: auto !important;
+    min-height: 250px !important;
+}
+.lbl-err {
+    color: red;
+ } 

@@ -1,0 +1,30 @@
+<h2 class="header">Notifications</h2>
+
+
+<div class="table-responsive">
+  <table class="table">
+    <thead>
+      <tr class="headers">
+        <th>Name</th>
+        <th>Content</th>
+        <th>Flag</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <tr *ngFor="let notify of notificationList; let i=index">
+        <td> {{notify.name}}</td>
+        <td>{{notify.content}}</td>
+        <td>{{notify.flag}}</td>
+        <td>{{notify.isActive}}</td>
+        <td>
+          <button type="button" class="btn-edit">
+            <i class="fas fa-edit" (click)="updateNotificationModel(notify)"></i>
+          </button> &nbsp;&nbsp;
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
