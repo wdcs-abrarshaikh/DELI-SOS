@@ -142,6 +142,7 @@ paths:
                 - fcmToken
                 - latitude
                 - longitude
+                - email
               properties:
                 name:
                     type: string
@@ -158,7 +159,9 @@ paths:
                     description: 'The value must be between -90 to 90'
                 longitude:
                     type: string
-                    description: 'The value must be between -180 to 180'                    
+                    description: 'The value must be between -180 to 180' 
+                email:
+                    type: string    
         responses:
           "200":
             description: Sucessfully Login.
@@ -298,7 +301,6 @@ paths:
             description: user id for get details.
             required: true
             type: string
-            
           - name: authorization
             in: header
             description: token for validation.
@@ -767,7 +769,55 @@ paths:
           "404":
             description: Erorr message.
             schema:
-              $ref: '#/definitions/errorMessage'             
+              $ref: '#/definitions/errorMessage'       
+              
+  "/user/updateProfile":
+      put:
+        tags:
+        - 'user'
+        summary: Update particular user.
+        parameters: 
+          - in: header
+            name: authorization
+            description: User token for basic authorization..
+            required: true
+            type: string
+          - in: body
+            name: user
+            description: register in body.
+            required: true
+            schema:
+              type: object
+              required:
+                - email
+                - name
+                - profilePicture
+                - locationVisible
+              properties:
+                name:
+                    type: string
+                    description: Update the name of the user
+                email:
+                    type: string
+                    description: Update the email of the user
+                profilePicture:
+                    type: string
+                    description: send the path from upload image api .
+                locationVisible:
+                    type: boolean
+        responses:
+          "201":
+            description: Success.
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "500":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "404":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'              
               
   "/admin/signUp":
       post:
