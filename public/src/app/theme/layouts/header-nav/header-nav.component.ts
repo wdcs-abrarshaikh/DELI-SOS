@@ -25,15 +25,15 @@ constructor(private loginService:LoginService,
           private router:Router,
           private profileService:ProfileService)  {
            
-            this.profileService.getProfile().subscribe((data: any) => {
+            // this.profileService.getProfile().subscribe((data: any) => {
         
-             
-              this.profilesList=data.response.data.imageUrl
+              
+            //   this.profilesList=data.response.data.imageUrl
               
               
         
         
-            });
+            // });
 
 }
 ngOnInit()  {

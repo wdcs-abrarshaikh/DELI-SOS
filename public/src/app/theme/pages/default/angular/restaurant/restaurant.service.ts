@@ -27,14 +27,14 @@ export class RestaurantService {
     }
     getHeaderWithToken() {
         let headers = new HttpHeaders()
-        let token= JSON.parse(localStorage.getItem('currentuser'))
+        let token= JSON.parse(localStorage.getItem('_token'))
         headers = headers.set('Authorization', token)
         headers = headers.set('Content-Type', 'application/json');
         return headers;
     }
 
     addRestaurant(data: any){
-       var admin_id=JSON.parse(localStorage.getItem('currentUser'));
+       var admin_id=JSON.parse(localStorage.getItem('_id'));
        
         return this.http.post<any>(URL + 'admin/addRestaurant', data, { headers: this.getHeaderWithToken() })
             .pipe(
@@ -61,9 +61,6 @@ export class RestaurantService {
     }
 
     deleteRestaurant(R_id:any){
-        console.log(R_id)
-        console.log("delete dfgvdsfggggggggggggggg")
-      
         return this.http.get (URL + 'admin/deleteRestaurant/' + R_id , { headers: this.getHeaderWithToken() })
         .pipe(
             map((res: Response) => { return res }),
@@ -82,7 +79,11 @@ export class RestaurantService {
     uploadPic(pic:any){
         console.log(pic)
         let formData =  new FormData();
-        formData.append('img',pic);
+        pic.map(async(res)=>{
+            formData.append('img',res);
+
+        })
+        console.log(formData)
     //    return new Promise((resolve,reject)=>{
         return this.http.post<any>(URL + 'admin/uploadPhoto',formData);
         

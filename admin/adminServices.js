@@ -16,6 +16,7 @@ cloudinary.config({
 
 
 
+//admin signup function which register admin filtering from email and password validation nd also check email already exist or not
 async function createAdmin(req, res) {
     let data = req.body;
     if (await userModel.findOne({ email: data.email })) {
@@ -25,7 +26,7 @@ async function createAdmin(req, res) {
         if (util.validateEmail(data.email)
             && util.validatePassword(data.password)) {
             let user = new userModel(data)
-            user.role = role.ADMIN
+            user.role = role.ADMIN  //assign bydefault role admin
             user.password = bcrypt.hashSync(data.password, 11)
             user.save((err, data) => {
                 return (err) ?
@@ -39,6 +40,7 @@ async function createAdmin(req, res) {
     }
 }
 
+//this is a login function of admin. it returns token which expires in 1hr and result:id,mail and role
 async function authenticateAdmin(req, res) {
     let data = req.body;
     await userModel.findOne({ email: data.email, role: role.ADMIN }, (err, result) => {
@@ -50,8 +52,8 @@ async function authenticateAdmin(req, res) {
         }
         else {
             if (bcrypt.compareSync(data.password, result.password)) {
-                let token = util.generateToken(result, process.env.admin_secret)
-                return res.json({ code: code.ok, message: msg.loggedIn, token: token,data:result })
+                let token = util.generateToken(result, process.env.admin_secret)//config.secret=admin@codezero
+                return res.json({ code: code.ok, message: msg.loggedIn, token: token, data: result })
             }
             else {
                 return res.json({ code: code.badRequest, message: msg.invalidPassword })
@@ -60,32 +62,32 @@ async function authenticateAdmin(req, res) {
     })
 }
 
-async function manageSocialLogin(req, res) {
-    let data = req.body
-    let user = new userModel(data)
-    await userModel.findOne({ socialId: data.socialId }, (err, data) => {
-        if (err) {
-            return json({ code: code.internalError, message: msg.internalServerError })
-        }
-        else if (!data) {
-            user.isSocialLogin = true
-            user.role = role.ADMIN
-            user.save((err, result) => {
-                if (err) {
-                    return res.json({ code: code.internalError, message: msg.internalServerError })
-                }
-                else {
-                    let token = util.generateToken(result, process.env.admin_secret)
-                    return res.json({ code: code.ok, message: msg.loggedIn, token: token })
-                }
-            })
-        }
-        else {
-            let token = util.generateToken(data, process.env.admin_secret)
-            return res.json({ code: code.ok, message: msg.loggedIn, token: token })
-        }
-    })
-}
+// async function manageSocialLogin(req, res) {
+//     let data = req.body
+//     let user = new userModel(data)
+//     await userModel.findOne({ socialId: data.socialId }, (err, data) => {
+//         if (err) {
+//             return json({ code: code.internalError, message: msg.internalServerError })
+//         }
+//         else if (!data) {
+//             user.isSocialLogin = true
+//             user.role = role.ADMIN
+//             user.save((err, result) => {
+//                 if (err) {
+//                     return res.json({ code: code.internalError, message: msg.internalServerError })
+//                 }
+//                 else {
+//                     let token = util.generateToken(result, config.secret)
+//                     return res.json({ code: code.ok, message: msg.loggedIn, token: token })
+//                 }
+//             })
+//         }
+//         else {
+//             let token = util.generateToken(data, config.secret)
+//             return res.json({ code: code.ok, message: msg.loggedIn, token: token })
+//         }
+//     })
+// }
 
 async function resetPassword(req, res) {
     let newpass = util.generateRandomPassword().toUpperCase()
@@ -141,17 +143,17 @@ async function createUser(req, res) {
         console.log(util.validatePassword(data.password))
         if (util.validateEmail(data.email)
             && util.validatePassword(data.password)) {
-                
             let user = new userModel(data)
             user.password = bcrypt.hashSync(data.password, 11)
             user.save((err, data) => {
+                console.log(err);
                 return (err) ?
                     res.json({ code: code.internalError, message: msg.internalServerError }) :
                     res.json({ code: code.created, message: msg.registered, data: data })
             });
         }
-        else{
-            return res.json({code:code.badRequest,message:msg.invalidEmailPass})
+        else {
+            return res.json({ code: code.badRequest, message: msg.invalidEmailPass })
         }
     }
 }
@@ -172,11 +174,14 @@ async function updateUserDetail(req, res) {
 }
 
 async function addRestaurant(req, res) {
+    
     req.body.location = {
         type:"Point",
         coordinates:[req.body.longitude,req.body.latitude]
     }
     let rest = new restModel(req.body)
+    let obj = util.decodeToken(req.headers['authorization'])
+    rest.createdBy = obj.id;
     rest.status = status.active;
     rest.save((err, data) => {
         console.log(err)
@@ -209,9 +214,9 @@ async function getRestaurantList(req, res) {
 
 async function updateRestaurant(req, res) {
     let id = req.params.id;
-    console.log(typeof(obj))
+    obj = util.decodeToken(req.headers['authorization'])
+    req.body.editedBy = obj.id
     await restModel.findByIdAndUpdate({ _id: id }, { $set: req.body }, { new: true }, (err, data) => {
-        console.log(err)
         if (err) {
             res.json({ code: code.internalError, message: msg.internalServerError })
         }
@@ -240,7 +245,15 @@ async function deleteRestaurant(req, res) {
         })
 }
 
-async function uploadPhoto(req, res) {
+// async function uploadPhoto(req, res) {
+//     util.uploadPhoto(req).then((data) => {
+//         return res.json({ code: code.created, message: msg.imageUploaded, url: data })
+//     }).catch((err) => {
+//         return res.json({ code: code.internalError, message: msg.internalServerError })
+//     })
+
+// }
+function uploadPhoto(req, res) {
     req.newFile_name = [];
 
     util.upload(req, res,async  function (err) {
@@ -249,49 +262,160 @@ async function uploadPhoto(req, res) {
         }
         else{
             console.log(req.newFile_name)
-
-            var response = req.newFile_name.map(async (result)=>{
-                // result =process.cwd()+'/img/'+result;
-                // console.log(`/img/${result}`)
-                console.log('image files'+result)
-                console.log(__dirname);
-                console.log(process.cwd())
-
-                let result_val= await  cloudinary.v2.uploader.upload(`${process.cwd()}/img/${result}`, async function (err,result_val) {
-                            console.log('inside path')
-                            console.log(err);
-                            console.log(result_val)
-                            return new Promise((resolve,reject)=>{
-                            console.log(result_val)
-                            if (result_val)
-                                resolve(result_val.url)
-                            else
-                                reject('error');
+            let multipleUpload = new Promise(async (resolve, reject) => {
+                let upload_len = req.newFile_name.length
+                    ,upload_res = new Array();
+                    await req.newFile_name.map(async (image)=>{
+                        let filePath = image;
+                        await cloudinary.v2.uploader.upload(`${process.cwd()}/img/${filePath}`,async (error, result) => {
+                          console.log(result)
+                          if(result)
+                            {
+                              let response_unlink = await require('fs').unlink(`${process.cwd()}/img/${filePath}`);
+                              upload_res.push(result.url);
+                            }
+                            if(upload_res.length === upload_len)
+                            {
+                              resolve(upload_res)
+                            }else if(error) {
+                              console.log(error)
+                              reject(error)
+                            }
+            
                         })
                     })
-            console.log(result_val);
-            return res.json({code:code.created,message:msg.ok,data:result_val.url})
-            // return new Promise((resol,reject)=>{
-            //     resol(result_val)
-            // })
-                
-            });
-            // console.log(response)
-            // return response.then((result)=>);
-             
+              })
+              .then((result) => result)
+              .catch((error) => error)
+
+              let upload = await multipleUpload; 
+              return res.json({code:code.created,message:msg.ok,data:upload})
         }
     });
-
 }
+
 async function deleteRestaurantPhoto(req, res) {
     url = req.body.url
     id = req.body.restId
     restModel.findOneAndUpdate({ _id: id }, { $pull: { photos: url } }, (err, data) => {
-        
         return (err) ? res.json({ code: code.internalError, message: msg.internalServerError }) :
             res.json({ code: code.ok, message: msg.imageDeleted })
     })
 }
+
+
+async function deleteUser(req, res) {
+    await userModel.findByIdAndUpdate({ _id: req.params.id }, { $set: { status: status.inactive } }, (err, data) => {
+        if (err) {
+            return res.json({ code: code.internalError, message: msg.internalError })
+        }
+        else if (!data) {
+            return res.json({ code: code.notFound, message: msg.userNotFound })
+        }
+        else {
+            return res.json({ code: code.ok, message: msg.userDelete })
+        }
+    })
+}
+
+// async function whatuLike(req, res) {
+//     meal = req.body.meal;
+//     console.log("meal", meal)
+//     await restModel.find(({ mealOffers: meal, mealOffers: 'ALL' }), async(err, data) => {
+//         if (err) {
+//             return res.json({ code: code.internalError, message: msg.internalError })
+//         }
+//         else if (data.length < 1) {
+//             return res.json({ code: code.badRequest, message: msg.noMealOffer })
+//         }
+//         else {
+//             var arr=[]
+
+//             for (let j = 0; j < data.length; j++) {
+//                 for (let i = 0; i < data[j].cuisin.length; i++) {
+//                     console.log("cui",data[j].cuisin)
+//                     console.log("cui name",data[j].cuisin[i].name)
+//                     // console.log("i and j", data[j].cuisin[i].name)
+//                     let cui = data[j].cuisin[i].name;
+//                     if(req.body.cuisin==data[j].cuisin[i].name)
+//                     {
+//                         var obj={
+//                             name:data[j].name
+//                         }
+//                         arr.push(obj);
+
+//                     }
+
+//                 }
+//             }
+//             console.log("arrFinal",arr)
+//             return res.json({ code: code.ok,data:arr})
+//             }
+//     })
+// }
+
+//pending for multiple cuisins,range
+// async function whatuLike(req, res) {
+//     meal = req.body.meal;
+//     cui = req.body.cuisin;
+//     // console.log("cuisin array", cui)
+//     // cuii=cuisin.name;
+    
+//     await restModel.find(({ mealOffers: meal, mealOffers: 'ALL'},{ perPersonCost: { $gte: req.body.min, $lte: req.body.max }}), async (err, data) => {
+//         if (err) { return res.json({ code: code.internalError, message: msg.internalServerError }) }
+//         else {
+//             // console.log("------cuisin",JSON.stringify(data[0].cuisin[0].name))
+//             return res.json({ code: code.ok, data: data })
+//         }
+//     })
+// }
+//returning unique cuisin function getCuisin
+async function getCuisin(req, res) {
+    await restModel.aggregate([
+        {
+            $project: {
+                cuisin: 1
+            }
+        },
+        {
+            $unwind: '$cuisin'
+        },
+
+        {
+            $group: {
+                name: '$cuisin.name',
+                image: { $first: '$cuisin.image' }
+
+            }
+        }
+    ]).exec((err, data) => {
+        if (err) {
+            return res.json({ code: code.internalError, message: msg.internalServerError })
+        }
+        else if (!data) {
+            return res.json({ code: code.notFound, message: msg.restNotFound })
+        }
+        else {
+            // console.log("data cuisin name",data)
+            return res.json({ code: code.ok, data: data })
+
+
+        }
+    })
+
+}
+async function searchRestaurant(req, res) {
+    restModel.find({name: new RegExp('^' + req.params.name , "i")},(err, data) => {
+        if(err){
+            return res.json({ code: code.internalError, message: msg.internalServerError })
+        }
+        else{
+            return res.json({ code: code.ok, data: data })
+        }
+      });
+
+}
+
 
 async function approveRestaurantProposal(rest_id, res) {
     restModel.findByIdAndUpdate({ _id: rest_id },
@@ -326,7 +450,7 @@ module.exports = {
     getUserDetail,
     createUser,
     updateUserDetail,
-    manageSocialLogin,
+    // manageSocialLogin,
     addRestaurant,
     getRestaurantDetails,
     getRestaurantList,
@@ -334,6 +458,10 @@ module.exports = {
     deleteRestaurant,
     uploadPhoto,
     deleteRestaurantPhoto,
+    deleteUser, //Cb:nami
+    // whatuLike, //Cb:nami
+    getCuisin, //Cb:nami
+    searchRestaurant,
     approveRestaurantProposal,
     getAllPendingRestaurant
 }

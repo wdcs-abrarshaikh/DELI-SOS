@@ -89,7 +89,7 @@ import * as _ from 'lodash';
       <label>Upload Menu Images:</label><br/>
       <div  *ngFor="let url of menuImages ;let i=index"  >
       <img  [src]="url" class="rounded mb-3" width="50">
-      <button class="btn btn-danger btn-xs" type="button"   (click)="deleteImage(i,'menu')" style="margin-right:10px" >Delete</button>
+      <button class="btn btn-danger btn-xs" type="button" style="margin-left:10%"  (click)="deleteImage(i,'menu')" >Delete</button>
       </div>
       <label class="btn-bs-file btn btn-ls btn-info" style="margin-top:6px" text-align="center" >image
       <input type="file" formControlName="menu" accept="image/*" style="display: none" multiple (change)="imageUploading($event,'menu')">
@@ -101,14 +101,14 @@ import * as _ from 'lodash';
     <label >Per Person Cost</label>
     <input class="form-control m-input" type="Number" formControlName="perPersonCost"  [(ngModel)]="perPersonCost"> 
     <p *ngIf="RestaurantForm.controls.perPersonCost.errors?.required && (RestaurantForm.controls.perPersonCost.dirty || RestaurantForm.controls.perPersonCost.touched)" class="lbl-err">perPersonCost is required.</p>
-    </div>/
+    </div>
     
 
   <div class="form-group">
     <label>Photos:</label><br/>
     <div  *ngFor="let files of restaurantImages;let i=index"  >
-    <img  [src]="files" class="rounded mb-3" width="50">{{files}}
-    <button class="btn btn-danger btn-xs" type="button" (click)="deleteImage(i,'restaurant')" style="margin-right:10px" >Delete</button>
+    <img  [src]="files" class="rounded mb-3" width="50">
+    <button class="btn btn-danger btn-xs" type="button" style="margin-left:10%"  (click)="deleteImage(i,'restaurant')"  >Delete</button>
     </div>
     <label class="btn-bs-file btn btn-ls btn-info" style="margin-top:6px" text-align="center" >image
     <input type="file" formControlName="photos" accept="image/*" style="display: none" multiple (change)="imageUploading($event,'restaurant')">
@@ -163,7 +163,7 @@ import * as _ from 'lodash';
   
     
 <div class="modal-footer">
-<button type="submit" class="btn btn-outline-dark" [disabled]="validateForm()" (click)="addRestaurant()">Save</button>
+<button type="submit" class="btn btn-outline-dark" [disabled]='validateForm()' (click)="addRestaurant()">Save</button>
 <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Cancel</button>
 
 </div>
@@ -178,8 +178,8 @@ export class NgbdModalContent {
   
   RestaurantList: Array<any>;
   RestaurantForm: FormGroup;
-  menuImages:Array<any>;
-  restaurantImages:Array<any>;
+  menuImages:Array<any> = [];
+  restaurantImages:Array<any>=[];
   cuisinImagesObject:Array<any>=[
     {
       name:'',
@@ -239,7 +239,7 @@ export class NgbdModalContent {
      photos:[''],
      contactNumber:['',Validators.required],
      website:[''],
-     menu: ['',Validators.required],
+     menu: [''],
      mealOffers:[''],
      perPersonCost:['',Validators.required]
       });
@@ -283,7 +283,7 @@ selectSelector(flag:string,arr){
    console.log('PPPPPPPPP',arr)
   switch(flag){ 
     case 'menu':
-          this.menuImages = arr;
+          this.menuImages = [...this.menuImages,...arr]
           break;
     case 'restaurant':
           this.restaurantImages  = arr;
@@ -307,37 +307,68 @@ selectSelector(flag:string,arr){
           })
           break;           
   };
-  console.log(this.cuisinImagesObject)
+  console.log(this.menuImages)
 }
 
-  async imageUploading(event,flag,section,idx) {
-    console.log("here")
+
+async imageUploading(event,flag,section,idx){
     let queryArray = [];
-    let files = event.target.files ;    
+    let files = event.target.files ; 
+    let allFiles= []   
     if (files.length<=5) {
       var counter =0;
       for(let i in files){
-        counter++;
-        if(counter <= files.length){
-          var obj;
-          if(section){
+        if(counter < files.length){
+          allFiles.push(files[i]);
+          counter++;
+        }
+      }
+      console.log(allFiles);
+        let obj;
+      if(section){
             obj= {
                 name:(this.cuisinImagesObject[idx].name)?(this.cuisinImagesObject[idx].name):'',
-                image: await this.uploadImage(files[i])
+                image: await this.uploadImage(allFiles)
+                
               }
-            }else{
-            obj = await this.uploadImage(files[i]);
+              console.log(obj)
+              obj.image = obj.image[0];
+              queryArray.push(obj); 
+            }else{  
+            obj = await this.uploadImage(allFiles);
               console.log("ttt",obj)
-            }  
-           await queryArray.push(obj); 
-            }
-      }
-      this.selectSelector(flag,queryArray);
+              queryArray = [...queryArray,...obj]
+             }  
+             
+          
+           console.log(queryArray)
+            this.selectSelector(flag,queryArray);
     }else{
       this.toastService.error("please select only five image");
       return;
     }
-  }
+}
+
+
+
+
+
+
+
+async uploadImage(images) {
+  //  let response = images.map((image,idx)=>{
+     return new Promise((resolve,reject)=>{
+       this.restaurantService.uploadPic(images).subscribe((data)=>{
+       resolve(data.data)
+       });
+    })
+  //  })
+  //  return await response;
+          
+ }
+
+
+
 
   deleteImage(i:number,flag){
     switch(flag){
@@ -355,6 +386,7 @@ selectSelector(flag:string,arr){
 
 
  async addRestaurant() {
+   console.log(this.RestaurantForm);
     let isValid = await this.checkCuisinValid();
     console.log('is valid==>'+isValid);
     if(!isValid){
@@ -386,10 +418,15 @@ selectSelector(flag:string,arr){
     if (this.isAdd) {
       await this.restaurantService.addRestaurant(addObj).subscribe(
         data => {
-          console.log(data)
-          this.getAllRestaurant();
-          this.activeModal.dismiss();
-          this.toastService.success(data['message']);
+          console.log(data);
+          if(data['code'] !=201){
+            this.toastService.error("Please check all the fields and try again.");
+          }else{
+            this.activeModal.dismiss();
+            this.getAllRestaurant();
+            this.toastService.success(data['message']);
+          }
+
         },
         error => {
           this.toastService.error(error['message']);
@@ -409,9 +446,7 @@ selectSelector(flag:string,arr){
   }
 
   getAllRestaurant() {
-    console.log("hello")
     this.restaurantService.getAllRestaurant().subscribe((response: any) => {
-      console.log("response")
       this.restaurantService.setRestaurant(response);
     })
   }
@@ -434,13 +469,7 @@ selectSelector(flag:string,arr){
     return res;
   }
 
- async uploadImage(images) {
-        return new Promise((resolve,reject)=>{
-           this.restaurantService.uploadPic(images).subscribe((data)=>{
-           resolve(data.data)
-           });
-        })   
-  }
+
 
 
 
@@ -464,7 +493,6 @@ export class RestaurantComponent implements OnInit {
   @Input() description;
   @Input() latitude;
   @Input() longitude;
-  @Input() photos;
   @Input() openTime;
   @Input () closeTime;
   @Input () contactNumber;
@@ -517,10 +545,10 @@ export class RestaurantComponent implements OnInit {
       longitude:['',Validators.required],
       openTime:['',Validators.required],
       closeTime:['',Validators.required],
-      photos:[''],
+      restaurantImages:[''],
       contactNumber:['',Validators.required],
       website:[''],
-      menu: ['',Validators.required],
+      menuImages: [''],
       mealOffers:[''],
       perPersonCost:['',Validators.required]
     });
@@ -547,12 +575,14 @@ export class RestaurantComponent implements OnInit {
     modalRef.componentInstance.contactNumber = content ? content.contactNumber : "";
     modalRef.componentInstance.website = content ? content.website : "";
     modalRef.componentInstance.perPersonCost = content ? content.perPersonCost : "";
-    modalRef.componentInstance.menu = content ? content.menu: "";
-    modalRef.componentInstance.photos = content ? content.photos : "";
-    modalRef.componentInstance.cuisin = content ? content.cuisin: "";
+    modalRef.componentInstance.menuImages = content ? content.menu: "";
+    modalRef.componentInstance.restaurantImages = content ? content.photos : "";
+    modalRef.componentInstance.cuisinImagesObject = content ? content.cuisin: "";
     
     modalRef.componentInstance.isAdd = this.isAdd;
     
+
+    console.log(modalRef)
   }
 
 

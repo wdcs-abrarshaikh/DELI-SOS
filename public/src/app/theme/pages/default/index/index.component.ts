@@ -25,10 +25,11 @@ constructor(
 
 totalUser;
 ngOnInit()  {
-    this.getUserList();
+    // this.getUserList();
 }
 getUserList(){
     this.indexService.getAllUsers().subscribe((response: any) => {
+        console.log(response)
        this.usersList = response.response.count;
     
     });

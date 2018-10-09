@@ -99,15 +99,76 @@ async function validateBody(req, res, next) {
         }
     }
 }
-function validateRestaurant(req, res, next) {
-    let data = req.body
-    if (data.name && data.description && data.latitude && data.longitude && data.cuisin && data.openTime && data.closeTime && data.menu) {
-        next();
+
+function isEmpty(arr) {
+    for (var key in arr) {
+        if (arr.hasOwnProperty(key)) {
+            return false;
+        }
     }
-    else {
-        res.json({ code: code.badRequest, message: msg.invalidBody })
-    }
+    return true;
 }
+
+
+function validateLatLong(long,lat){
+    console.log(`lat==>${lat}  long==>${long}`)
+    if ((long > -180 && lat < 180)&& (lat >-90 && lat <90)){
+        return true
+    }else{
+        return false
+    }
+
+}
+function validateRestaurant(req, res, next) {
+    let rest = req.body;
+
+    if (rest.name && rest.description && rest.latitude &&
+        rest.longitude && rest.cuisin && rest.openTime &&
+        rest.closeTime && rest.menu  ) {
+
+        let name = rest.name.trim(),
+            description = rest.description.trim(),
+            latitude = rest.latitude.trim(),
+            longitude = rest.latitude.trim(),
+            openTime = rest.openTime.trim(),
+            closeTime = rest.closeTime.trim()
+            cusinlen = rest.cuisin.length;
+        if (cusinlen == 0) {
+            return res.json({ code: code.badRequest, message: msg.invalidBody })
+        }
+        if(!validateLatLong(parseFloat(longitude),parseFloat(latitude))){
+            return res.json({ code: code.badRequest, message: msg.invalidLatLong })
+        }
+
+        cuisin = (!isEmpty(rest.cuisin))
+        let i = 0
+        do {
+            if (cuisin) {
+                let cname = rest.cuisin[i].name.trim(),
+                    image = rest.cuisin[i].image.trim()
+                i++;
+                if (cname && image) {
+                    cuisin = true;
+                }
+                else {
+                    cuisin = false;
+                    break;
+                }
+
+            }
+        } while (i < cusinlen)
+
+        if (name && description && latitude && longitude && openTime && closeTime && cuisin) {
+            next();
+        }
+        else {
+            return res.json({ code: code.badRequest, message: msg.invalidBody })
+        }
+    }
+    else { return res.json({ code: code.badRequest, message: msg.invalidBody }) }
+
+}
+
 
 function validaterestId(req, res, next) {
     let {restaurant_id} = req.params
@@ -119,13 +180,12 @@ function validaterestId(req, res, next) {
     }
 }
 
-
 module.exports = {
     validateSignUp,
     validateLogin,
     verifyAdminToken,
     validateBody,
-    validateSocialLogin,
+    // validateSocialLogin,
     validateRestaurant,
     validaterestId
 }

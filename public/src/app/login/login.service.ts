@@ -15,8 +15,6 @@ export class LoginService {
   }
 
   post(obj:any) {
-    console.log(URL)
-    console.log(obj)
     return this.http.post(URL + 'admin/login', obj, { headers: this.getHeaderWithToken() })
       .map((res) => {
         return res
