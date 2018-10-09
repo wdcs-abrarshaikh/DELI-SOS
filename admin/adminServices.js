@@ -6,7 +6,15 @@ var code = require('../constants').http_codes;
 var msg = require('../constants').messages;
 var role = require('../constants').roles;
 var status = require('../constants').status;
-var validate = require('./adminValidator')
+var validate = require('./adminValidator');
+var cloudinary = require('cloudinary')
+cloudinary.config({
+    cloud_name: process.env.cloudinary_name,
+    api_key: process.env.cloudinary_key,
+    api_secret: process.env.cloudinary_secret
+ });
+
+
 
 async function createAdmin(req, res) {
     let data = req.body;
@@ -235,18 +243,42 @@ async function deleteRestaurant(req, res) {
 async function uploadPhoto(req, res) {
     req.newFile_name = [];
 
-    util.upload(req, res, function (err) {
+    util.upload(req, res,async  function (err) {
         if (err) {
             return res.json({code:code.badRequest,message:err})
         }
         else{
             console.log(req.newFile_name)
-            var response = req.newFile_name.map((result)=>{
-                result = process.cwd()+'/img/'+result;
-                console.log(result);
-                return result;
-            })
-            return res.json({code:code.created,message:msg.ok,data:response})
+
+            var response = req.newFile_name.map(async (result)=>{
+                // result =process.cwd()+'/img/'+result;
+                // console.log(`/img/${result}`)
+                console.log('image files'+result)
+                console.log(__dirname);
+                console.log(process.cwd())
+
+                let result_val= await  cloudinary.v2.uploader.upload(`${process.cwd()}/img/${result}`, async function (err,result_val) {
+                            console.log('inside path')
+                            console.log(err);
+                            console.log(result_val)
+                            return new Promise((resolve,reject)=>{
+                            console.log(result_val)
+                            if (result_val)
+                                resolve(result_val.url)
+                            else
+                                reject('error');
+                        })
+                    })
+            console.log(result_val);
+            return res.json({code:code.created,message:msg.ok,data:result_val.url})
+            // return new Promise((resol,reject)=>{
+            //     resol(result_val)
+            // })
+                
+            });
+            // console.log(response)
+            // return response.then((result)=>);
+             
         }
     });
 

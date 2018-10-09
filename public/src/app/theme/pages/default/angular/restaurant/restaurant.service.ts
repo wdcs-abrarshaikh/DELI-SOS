@@ -17,8 +17,10 @@ export class RestaurantService {
 
     }
     setRestaurant(data: any) {
+        console.log("set data")
         this.RestautantList.next({ RestautantList: data });
     }
+   
     getRestaurant(): Observable<any>{
         return this.RestautantList.asObservable();
 
@@ -30,9 +32,9 @@ export class RestaurantService {
         headers = headers.set('Content-Type', 'application/json');
         return headers;
     }
+
     addRestaurant(data: any){
-        
-        var admin_id=JSON.parse(localStorage.getItem('currentUser'));
+       var admin_id=JSON.parse(localStorage.getItem('currentUser'));
        
         return this.http.post<any>(URL + 'admin/addRestaurant', data, { headers: this.getHeaderWithToken() })
             .pipe(
@@ -40,6 +42,7 @@ export class RestaurantService {
             );
     
     }
+
     getAllRestaurant() {
         console.log("re list here")
         return this.http.get(URL + 'admin/getRestaurantList', { headers: this.getHeaderWithToken() })
@@ -49,23 +52,22 @@ export class RestaurantService {
     }
 
    
-    editRestaurant(data:any) {
-        
-        var admin_id=JSON.parse(localStorage.getItem('currentUser'));
-      
-        return this.http.put<any>(URL + 'admin/updateRestaurant' +'/'+ admin_id, data,{ headers: this.getHeaderWithToken() })
+    editRestaurant(data:any,id) {
+   
+      return this.http.put<any>(URL + 'admin/updateRestaurant/' +id, data,{ headers: this.getHeaderWithToken() })
             .pipe(
                 map((res: Response) => { return res }),
             );
     }
-    deleteRestaurant(cat_id:any){
 
-       var admin_id=JSON.parse(localStorage.getItem('currentUser'));
-       
-
-        return this.http.get (URL + ' admin/deleteRestaurant' + cat_id , { headers: this.getHeaderWithToken() }).map((res: Response) => {
-           
-            return res });
+    deleteRestaurant(R_id:any){
+        console.log(R_id)
+        console.log("delete dfgvdsfggggggggggggggg")
+      
+        return this.http.get (URL + 'admin/deleteRestaurant/' + R_id , { headers: this.getHeaderWithToken() })
+        .pipe(
+            map((res: Response) => { return res }),
+        );
 
     }
     // resurrectCategory(id:any){

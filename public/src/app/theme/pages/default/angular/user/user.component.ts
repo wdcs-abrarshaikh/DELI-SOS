@@ -106,6 +106,7 @@ export class NgbdModalContent {
           this.toastService.success(data['message']);
         },
         error => {
+          console.log(error)
           console.log('error' + error);
           this.toastService.error(error['message']);
         });
@@ -213,6 +214,15 @@ export class UserComponent {
     modalRef.componentInstance.email = content ? content.email : "";
     modalRef.componentInstance.isAdd = this.isAdd;
   }
+
+  view(content) {
+   const modalRef = this.modalService.open(NgbdModalContent);
+    modalRef.componentInstance.id = content ? content._id : "";
+    modalRef.componentInstance.name = content ? content.name : "";
+    modalRef.componentInstance.password = content ? content.password : "";
+    modalRef.componentInstance.email = content ? content.email : "";
+    modalRef.componentInstance.isAdd = this.isAdd;
+  }
   
 
    // All User Display Method
@@ -259,7 +269,7 @@ export class UserComponent {
         })
       },
       error => {
-
+          
         this.toastService.error(error['response'].responseMessage);
       });
   }

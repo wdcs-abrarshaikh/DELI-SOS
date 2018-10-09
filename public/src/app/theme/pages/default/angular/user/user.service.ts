@@ -32,8 +32,7 @@ export class UserService {
         return headers;
     }
     addUser(user: any) {
-
-        // var id=JSON.parse(localStorage.getItem('currentUser'));
+      // var id=JSON.parse(localStorage.getItem('currentUser'));
        console.log("add data here ")
         return this.http.post<any>(URL + 'admin/addUser', user, { headers: this.getHeaderWithToken() })
             .pipe(
@@ -58,11 +57,9 @@ export class UserService {
                 map((res: Response) => { return res }),
             );
     }
+
     deleteUser(id: any) {
-
-
-        var user_id = JSON.parse(localStorage.getItem('currentUser'));
-        return this.http.put<any>(URL + '/deleteUser/' + id + '/' + user_id, {}, { headers: this.getHeaderWithToken() }).map((res: Response) => {
+return this.http.put<any>(URL + '/deleteUser/' + id , {}, { headers: this.getHeaderWithToken() }).map((res: Response) => {
             return res
         });
         // .pipe(

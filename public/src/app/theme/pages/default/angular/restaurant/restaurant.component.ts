@@ -87,7 +87,7 @@ import * as _ from 'lodash';
 
    <div class="form-group">
       <label>Upload Menu Images:</label><br/>
-      <div  *ngFor="let url of menuImages;let i=index"  >
+      <div  *ngFor="let url of menuImages ;let i=index"  >
       <img  [src]="url" class="rounded mb-3" width="50">
       <button class="btn btn-danger btn-xs" type="button"   (click)="deleteImage(i,'menu')" style="margin-right:10px" >Delete</button>
       </div>
@@ -101,13 +101,13 @@ import * as _ from 'lodash';
     <label >Per Person Cost</label>
     <input class="form-control m-input" type="Number" formControlName="perPersonCost"  [(ngModel)]="perPersonCost"> 
     <p *ngIf="RestaurantForm.controls.perPersonCost.errors?.required && (RestaurantForm.controls.perPersonCost.dirty || RestaurantForm.controls.perPersonCost.touched)" class="lbl-err">perPersonCost is required.</p>
-    </div>
+    </div>/
     
 
   <div class="form-group">
     <label>Photos:</label><br/>
-    <div  *ngFor="let url of restaurantImages;let i=index"  >
-    <img  [src]="url" class="rounded mb-3" width="50">
+    <div  *ngFor="let files of restaurantImages;let i=index"  >
+    <img  [src]="files" class="rounded mb-3" width="50">{{files}}
     <button class="btn btn-danger btn-xs" type="button" (click)="deleteImage(i,'restaurant')" style="margin-right:10px" >Delete</button>
     </div>
     <label class="btn-bs-file btn btn-ls btn-info" style="margin-top:6px" text-align="center" >image
@@ -280,7 +280,7 @@ export class NgbdModalContent {
 
 selectSelector(flag:string,arr){
   console.log(flag)
-  console.log(arr)
+   console.log('PPPPPPPPP',arr)
   switch(flag){ 
     case 'menu':
           this.menuImages = arr;
@@ -326,7 +326,8 @@ selectSelector(flag:string,arr){
                 image: await this.uploadImage(files[i])
               }
             }else{
-              obj = await this.uploadImage(files[i]);
+            obj = await this.uploadImage(files[i]);
+              console.log("ttt",obj)
             }  
            await queryArray.push(obj); 
             }
@@ -394,7 +395,8 @@ selectSelector(flag:string,arr){
           this.toastService.error(error['message']);
         });
     } else {
-      this.restaurantService.editRestaurant(addObj).subscribe(
+      console.log(addObj)
+      this.restaurantService.editRestaurant(addObj,this.id).subscribe(
         data => {
           this.getAllRestaurant();
           this.activeModal.dismiss();
@@ -435,8 +437,7 @@ selectSelector(flag:string,arr){
  async uploadImage(images) {
         return new Promise((resolve,reject)=>{
            this.restaurantService.uploadPic(images).subscribe((data)=>{
-            console.log(data)
-            resolve(data.data[0])
+           resolve(data.data)
            });
         })   
   }
@@ -460,24 +461,27 @@ export class RestaurantComponent implements OnInit {
   bannersDetail: any;
 
   @Input() name;
-  @Input() descriptions;
+  @Input() description;
   @Input() latitude;
   @Input() longitude;
-  @Input() image;
+  @Input() photos;
   @Input() openTime;
   @Input () closeTime;
   @Input () contactNumber;
   @Input () website;
   @Input () perPersonCost;
   @Input () mealOffers;
+  // @Input () menu;
+  @Input () cuisin;
 
- 
   modalReference: any;
   isAdd: boolean = false;
   RestaurantList: Array<any>;
+  // menu: Array<any>;
   RestaurantForm: FormGroup;
   loading = false;
   submitted = false;
+  i;
 
   constructor(private modalService: NgbModal,
     private location: Location,
@@ -487,7 +491,7 @@ export class RestaurantComponent implements OnInit {
 
     this.restaurantService.getRestaurant().subscribe((data:any)=>{
       console.log("re",data)
-      this.RestaurantList = data.RestautantList.response.LIST
+      this.RestaurantList = data.RestautantList.data
     });
    }
 
@@ -496,9 +500,9 @@ export class RestaurantComponent implements OnInit {
      this.getRestaurantList();
   }
   getRestaurantList(){
-    console.log ("data")
+    // console.log ("data")
     this.restaurantService.getAllRestaurant().subscribe((response: any) => {
-      console.log("res",response)
+      // console.log("res",response)
       console.log(response.data)
       this.RestaurantList = response.data;
    
@@ -508,34 +512,45 @@ export class RestaurantComponent implements OnInit {
   buildRestaurantForm() {
     this.RestaurantForm = this._formBuilder.group({
       name: ['', [Validators.required]],
-      image: ['', [Validators.required]],
-      apiKey: ['', [Validators.required]],
-      apiSecret: ['', [Validators.required]],
-       url: ['', [Validators.required]],
+      description: ['', [Validators.required]],
+      latitude:['',Validators.required],
+      longitude:['',Validators.required],
+      openTime:['',Validators.required],
+      closeTime:['',Validators.required],
+      photos:[''],
+      contactNumber:['',Validators.required],
+      website:[''],
+      menu: ['',Validators.required],
+      mealOffers:[''],
+      perPersonCost:['',Validators.required]
     });
 
   }
+   
   open(content) {
-    
-  
-    if (!content) {
+   var i:number;
+    // console.log("content",content.menu[0])
+   if (!content) {
       this.isAdd = true
     } else {
       this.isAdd = false
     }
     const modalRef = this.modalService.open(NgbdModalContent);
-   
     modalRef.componentInstance.id = content ? content._id : "";
     modalRef.componentInstance.name = content ? content.name : "";
     modalRef.componentInstance.description = content ? content.description : "";
-    modalRef.componentInstance.latitude = content ? content.latitude: "";
-    modalRef.componentInstance.longitude = content ? content.longitude : "";
+    modalRef.componentInstance.latitude = content ? content.location.coordinates[0]: "";
+    modalRef.componentInstance.longitude = content ? content.location.coordinates[1] : "";
     modalRef.componentInstance.mealOffers = content ? content.mealOffers : "";
     modalRef.componentInstance.openTime = content ? content.openTime : "";
     modalRef.componentInstance.closeTime = content ? content.closeTime : "";
     modalRef.componentInstance.contactNumber = content ? content.contactNumber : "";
     modalRef.componentInstance.website = content ? content.website : "";
     modalRef.componentInstance.perPersonCost = content ? content.perPersonCost : "";
+    modalRef.componentInstance.menu = content ? content.menu: "";
+    modalRef.componentInstance.photos = content ? content.photos : "";
+    modalRef.componentInstance.cuisin = content ? content.cuisin: "";
+    
     modalRef.componentInstance.isAdd = this.isAdd;
     
   }
@@ -552,20 +567,16 @@ export class RestaurantComponent implements OnInit {
 
     this.loading = true;
   }
-  deleteRestaurant(category) {
-    this.restaurantService.deleteRestaurant(category).subscribe(
+  deleteRestaurant(Rid) {
+
+    this.restaurantService.deleteRestaurant(Rid).subscribe(
       data => {
+        console.log("delete")
+        console.log(data)
         this.modalReference.close();
-       
-        this.toastService.success(data['response'].responseMessage);
-        
-        this.restaurantService.getAllRestaurant().subscribe((response: any) => {
-          this.restaurantService.setRestaurant(response);
-         
-        })
-      },
+       this.toastService.success(data['messgae']);
+       },
       error => {
-       
         this.toastService.error(error.errors);
       });
   }
