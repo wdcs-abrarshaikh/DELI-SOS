@@ -145,6 +145,7 @@ async function createUser(req, res) {
             let user = new userModel(data)
             user.password = bcrypt.hashSync(data.password, 11)
             user.save((err, data) => {
+                console.log(err);
                 return (err) ?
                     res.json({ code: code.internalError, message: msg.internalServerError }) :
                     res.json({ code: code.created, message: msg.registered, data: data })
@@ -249,36 +250,34 @@ async function uploadPhoto(req, res) {
         }
         else{
             console.log(req.newFile_name)
-
-            var response = req.newFile_name.map(async (result)=>{
-                // result =process.cwd()+'/img/'+result;
-                // console.log(`/img/${result}`)
-                console.log('image files'+result)
-                console.log(__dirname);
-                console.log(process.cwd())
-
-                let result_val= await  cloudinary.v2.uploader.upload(`${process.cwd()}/img/${result}`, async function (err,result_val) {
-                            console.log('inside path')
-                            console.log(err);
-                            console.log(result_val)
-                            return new Promise((resolve,reject)=>{
-                            console.log(result_val)
-                            if (result_val)
-                                resolve(result_val.url)
-                            else
-                                reject('error');
+            let multipleUpload = new Promise(async (resolve, reject) => {
+                let upload_len = req.newFile_name.length
+                    ,upload_res = new Array();
+                    await req.newFile_name.map(async (image)=>{
+                        let filePath = image;
+                        await cloudinary.v2.uploader.upload(`${process.cwd()}/img/${filePath}`,async (error, result) => {
+                          console.log(result)
+                          if(result)
+                            {
+                              let response_unlink = await require('fs').unlink(`${process.cwd()}/img/${filePath}`);
+                              upload_res.push(result.url);
+                            }
+                            if(upload_res.length === upload_len)
+                            {
+                              resolve(upload_res)
+                            }else if(error) {
+                              console.log(error)
+                              reject(error)
+                            }
+            
                         })
                     })
-            console.log(result_val);
-            return res.json({code:code.created,message:msg.ok,data:result_val.url})
-            // return new Promise((resol,reject)=>{
-            //     resol(result_val)
-            // })
-                
-            });
-            // console.log(response)
-            // return response.then((result)=>);
-             
+              })
+              .then((result) => result)
+              .catch((error) => error)
+
+              let upload = await multipleUpload; 
+              return res.json({code:code.created,message:msg.ok,data:upload})
         }
     });
 
