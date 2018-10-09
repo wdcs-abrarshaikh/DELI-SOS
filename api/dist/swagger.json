@@ -200,7 +200,8 @@
                                 "deviceType",
                                 "fcmToken",
                                 "latitude",
-                                "longitude"
+                                "longitude",
+                                "email"
                             ],
                             "properties": {
                                 "name": {
@@ -225,6 +226,9 @@
                                 "longitude": {
                                     "type": "string",
                                     "description": "The value must be between -180 to 180"
+                                },
+                                "email": {
+                                    "type": "string"
                                 }
                             }
                         }
@@ -1088,6 +1092,75 @@
                 }
             }
         },
+        "/user/updateProfile": {
+            "put": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "Update particular user.",
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "authorization",
+                        "description": "User token for basic authorization..",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "user",
+                        "description": "register in body.",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "email",
+                                "name",
+                                "profilePicture",
+                                "locationVisible"
+                            ],
+                            "properties": {
+                                "name": {
+                                    "type": "string",
+                                    "description": "Update the name of the user"
+                                },
+                                "email": {
+                                    "type": "string",
+                                    "description": "Update the email of the user"
+                                },
+                                "profilePicture": {
+                                    "type": "string",
+                                    "description": "send the path from upload image api ."
+                                },
+                                "locationVisible": {
+                                    "type": "boolean"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Success.",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessMessage"
+                        }
+                    },
+                    "404": {
+                        "description": "Erorr message.",
+                        "schema": {
+                            "$ref": "#/definitions/errorMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Erorr message.",
+                        "schema": {
+                            "$ref": "#/definitions/errorMessage"
+                        }
+                    }
+                }
+            }
+        },
         "/admin/signUp": {
             "post": {
                 "tags": [
@@ -1136,61 +1209,6 @@
                         }
                     },
                     "404": {
-                        "description": "Erorr message.",
-                        "schema": {
-                            "$ref": "#/definitions/errorMessage"
-                        }
-                    },
-                    "500": {
-                        "description": "Erorr message.",
-                        "schema": {
-                            "$ref": "#/definitions/errorMessage"
-                        }
-                    }
-                }
-            }
-        },
-        "/admin/socialLogin": {
-            "post": {
-                "tags": [
-                    "admin"
-                ],
-                "summary": "login admin by social account.",
-                "parameters": [
-                    {
-                        "in": "body",
-                        "name": "admin",
-                        "description": "login via social id.",
-                        "required": true,
-                        "schema": {
-                            "type": "object",
-                            "required": [
-                                "socialId",
-                                "name",
-                                "isSocialLogin"
-                            ],
-                            "properties": {
-                                "name": {
-                                    "type": "string"
-                                },
-                                "socialId": {
-                                    "type": "string"
-                                },
-                                "isSocialLogin": {
-                                    "type": "boolean"
-                                }
-                            }
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Sucessfully Login.",
-                        "schema": {
-                            "$ref": "#/definitions/SuccessMessage"
-                        }
-                    },
-                    "400": {
                         "description": "Erorr message.",
                         "schema": {
                             "$ref": "#/definitions/errorMessage"
@@ -1325,7 +1343,7 @@
                         }
                     },
                     "400": {
-                        "description": "Error message.",
+                        "description": "User Not Found",
                         "schema": {
                             "$ref": "#/definitions/errorMessage"
                         }
@@ -1338,6 +1356,78 @@
                     },
                     "500": {
                         "description": "Erorr message.",
+                        "schema": {
+                            "$ref": "#/definitions/errorMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/getCuisin": {
+            "get": {
+                "tags": [
+                    "admin"
+                ],
+                "summary": "get unique cuisin.",
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "schema": {
+                            "$ref": "#/definitions/cuisinArray"
+                        }
+                    },
+                    "404": {
+                        "description": "Error message.",
+                        "schema": {
+                            "$ref": "#/definitions/errorMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/errorMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/deleteUser/{id}": {
+            "put": {
+                "tags": [
+                    "admin"
+                ],
+                "summary": "Delete a particular user.",
+                "parameters": [
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "description": "token for validation.",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of particular user",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessMessage"
+                        }
+                    },
+                    "404": {
+                        "description": "User Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/errorMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
                         "schema": {
                             "$ref": "#/definitions/errorMessage"
                         }
@@ -1840,6 +1930,37 @@
                     },
                     "500": {
                         "description": "Erorr message.",
+                        "schema": {
+                            "$ref": "#/definitions/errorMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/searchRestaurant/{name}": {
+            "get": {
+                "tags": [
+                    "admin"
+                ],
+                "summary": "Search Restaurant.",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "path",
+                        "description": "name of restaurant for search",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error.",
                         "schema": {
                             "$ref": "#/definitions/errorMessage"
                         }

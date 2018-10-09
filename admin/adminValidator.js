@@ -169,6 +169,7 @@ function validateRestaurant(req, res, next) {
 
 }
 
+
 function validaterestId(req, res, next) {
     let {restaurant_id} = req.params
     if (restaurant_id) {
@@ -179,13 +180,12 @@ function validaterestId(req, res, next) {
     }
 }
 
-
 module.exports = {
     validateSignUp,
     validateLogin,
     verifyAdminToken,
     validateBody,
-    validateSocialLogin,
+    // validateSocialLogin,
     validateRestaurant,
     validaterestId
 }

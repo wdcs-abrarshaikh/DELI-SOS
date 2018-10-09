@@ -11,7 +11,6 @@ var userSchema = new schema({
     email: {
         type: String, required: function () {
             return (this.isSocialLogin == false) ? true : false
-
         }
     },
     password: {
@@ -26,8 +25,7 @@ var userSchema = new schema({
         state: String,
         pincode: Number
     },
-    // lat: { type: String },
-    // long: { type: String },
+    locationVisible:{type:Boolean,default:true},
     location:{
         type:{type:String},
         coordinates: [Number]
