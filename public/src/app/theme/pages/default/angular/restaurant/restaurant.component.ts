@@ -61,11 +61,11 @@ import * as _ from 'lodash';
       
     <div class="form-group">
     <label>mealOffers</label>
-    <fieldset>      
-    <input type="checkbox" name="mealOffers" value="BREAKFAST" />BREAKFAST<br>      
-    <input type="checkbox" name="mealOffers" value="LUNCH">LUNCH<br>      
-    <input type="checkbox" name="mealOffers" value="DINNER">DINNER<br>    
-    <input type="checkbox" name="mealOffers" value="ALL" checked>ALL<br>       
+    <fieldset>     
+    <div *ngFor="let category of RestaurantForm.controls['mealOffers'].controls; let i = index">
+		<input type="checkbox" [formControl]="category">
+    <label>{{ mealOffers_arr[i]}}</label>
+      </div>
     <br>      
     </fieldset>      
     </div>
@@ -92,8 +92,8 @@ import * as _ from 'lodash';
       <button class="btn btn-danger btn-xs" type="button" style="margin-left:10%"  (click)="deleteImage(i,'menu')" >Delete</button>
       </div>
       <label class="btn-bs-file btn btn-ls btn-info" style="margin-top:6px" text-align="center" >image
-      <input type="file" formControlName="menu" accept="image/*" style="display: none" multiple (change)="imageUploading($event,'menu')">
-      <p *ngIf="RestaurantForm.controls.menu.errors?.required && (RestaurantForm.controls.menu.dirty || RestaurantForm.controls.menu.touched)" class="lbl-err">Menu Required.</p>
+      <input type="file" formControlName="menuImages" accept="image/*" style="display: none" multiple (change)="imageUploading($event,'menu')">
+     
       </label>     
     </div>
 
@@ -111,7 +111,7 @@ import * as _ from 'lodash';
     <button class="btn btn-danger btn-xs" type="button" style="margin-left:10%"  (click)="deleteImage(i,'restaurant')"  >Delete</button>
     </div>
     <label class="btn-bs-file btn btn-ls btn-info" style="margin-top:6px" text-align="center" >image
-    <input type="file" formControlName="photos" accept="image/*" style="display: none" multiple (change)="imageUploading($event,'restaurant')">
+    <input type="file" formControlName="restaurantImages" accept="image/*" style="display: none" multiple (change)="imageUploading($event,'restaurant')">
     </label>
    </div>
 
@@ -163,7 +163,7 @@ import * as _ from 'lodash';
   
     
 <div class="modal-footer">
-<button type="submit" class="btn btn-outline-dark" [disabled]='validateForm()' (click)="addRestaurant()">Save</button>
+<button type="submit" class="btn btn-outline-dark"  (click)="addRestaurant()">Save</button>
 <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Cancel</button>
 
 </div>
@@ -175,82 +175,92 @@ import * as _ from 'lodash';
 })
 export class NgbdModalContent {
     /* <button  class="btn btn-success" style="margin-left:10px" (click)="uploadImage(urls1)">UPLOAD</button>*/
-  
-  RestaurantList: Array<any>;
-  RestaurantForm: FormGroup;
-  menuImages:Array<any> = [];
-  restaurantImages:Array<any>=[];
-  cuisinImagesObject:Array<any>=[
-    {
-      name:'',
-      image:''
-    }
-  ];
-  @Input() name;
-  @Input() description;
-  @Input() latitude;
-  @Input() longitude;
-  @Input() photos;
-  @Input() openTime;
-  @Input () closeTime;
-  @Input () contactNumber;
-  @Input () website;
-  @Input () perPersonCost;
-  @Input () mealOffers;
-  @Input () menu;
-  @Input () cuisin;
-  loading = false;
-  submitted = false;
-  mypic:any = null; 
-  id: number;
-  isAdd: boolean;
- 
-  newAttribute: any = {};
-  constructor(public activeModal: NgbActiveModal,
-    private _router: Router,
-    private _formBuilder: FormBuilder,
-    private modalService: NgbModal,
-    private restaurantService: RestaurantService,
-    private toastService: ToastrService) { }
-     ngOnInit() {
-        this.buildRestaurantForm();
+    // [disabled]='validateForm()'
+    RestaurantList: Array<any>;
+    RestaurantForm: FormGroup;
+    menuImages:Array<any>;
+    restaurantImages:Array<any>;
+    cuisinImagesObject:Array<any>=[
+      {
+        name:'',
+        image:''
+      }
+    ];
+
+    mealOffers_arr:Array<any> = ["BREAKFAST","LUNCH","DINNER","ALL"]
+
+    @Input() name;
+    @Input() description;
+    @Input() latitude;
+    @Input() longitude;
+    @Input() photos;
+    @Input() openTime;
+    @Input () closeTime;
+    @Input () contactNumber;
+    @Input () website;
+    @Input () perPersonCost;
+    @Input () mealOffers;
+    @Input () menu;
+    @Input () cuisin;
+    loading = false;
+    submitted = false;
+    mypic:any = null; 
+    id: number;
+    isAdd: boolean;
+   
+    newAttribute: any = {};
+    constructor(public activeModal: NgbActiveModal,
+      private _router: Router,
+      private _formBuilder: FormBuilder,
+      private modalService: NgbModal,
+      private restaurantService: RestaurantService,
+      private toastService: ToastrService) { }
+       ngOnInit() {
+          this.buildRestaurantForm();
+        }
+    
+      get f() {
+        return this.RestaurantForm.controls;
       }
   
-    get f() {
-      return this.RestaurantForm.controls;
+    onSubmit() {
+      this.submitted = true;
+        if (this.RestaurantForm.invalid) {
+        return;
+      }
+       this.loading = true;
     }
-
-  onSubmit() {
-    this.submitted = true;
-      if (this.RestaurantForm.invalid) {
-      return;
-    }
-     this.loading = true;
-  }
+    public arr_value:any = [false,false,false,false]
+    
+    buildRestaurantForm() {
+        console.log(this.modalService)
+      if(this.mealOffers.length>0){
+        this.arr_value = this.mealOffers 
+      }
+      this.RestaurantForm = this._formBuilder.group({
+       name: ['', [Validators.required]],
+       description: ['', [Validators.required]],
+       latitude:['',Validators.required],
+       longitude:['',Validators.required],
+       openTime:['',Validators.required],
+       closeTime:['',Validators.required],
+       restaurantImages:[''],
+       contactNumber:['',Validators.required],
+       website:[''],
+       menuImages: [''],
+       mealOffers: this._formBuilder.array(this.arr_value),
+       perPersonCost:['',Validators.required]
+        });
   
-  buildRestaurantForm() {
-    this.RestaurantForm = this._formBuilder.group({
-     name: ['', [Validators.required]],
-     description: ['', [Validators.required]],
-     latitude:['',Validators.required],
-     longitude:['',Validators.required],
-     openTime:['',Validators.required],
-     closeTime:['',Validators.required],
-     photos:[''],
-     contactNumber:['',Validators.required],
-     website:[''],
-     menu: [''],
-     mealOffers:[''],
-     perPersonCost:['',Validators.required]
-      });
+        console.log(this.RestaurantForm)
 
-  }
-  createItem(){
-    return {
-      name: '',
-      image:''
-     };
-  }
+    }
+    createItem(){
+      return {
+        name: '',
+        image:''
+       };
+    }
   
   changeCuisinName(index,value){
     console.log(value)
@@ -352,18 +362,12 @@ async imageUploading(event,flag,section,idx){
 
 
 
-
-
-
 async uploadImage(images) {
-  //  let response = images.map((image,idx)=>{
      return new Promise((resolve,reject)=>{
        this.restaurantService.uploadPic(images).subscribe((data)=>{
        resolve(data.data)
        });
     })
-  //  })
-  //  return await response;
           
  }
 
@@ -384,9 +388,21 @@ async uploadImage(images) {
     }
 }
 
+  async mealOffer_result(value){
+    var arr =[];
+    var result = value.map(async (res,idx)=>{
+      if(res.value){
+        arr.push(this.mealOffers_arr[idx])
+      }
+    })
+    return arr;
+  }
+
+
 
  async addRestaurant() {
    console.log(this.RestaurantForm);
+  //  return 
     let isValid = await this.checkCuisinValid();
     console.log('is valid==>'+isValid);
     if(!isValid){
@@ -406,6 +422,7 @@ async uploadImage(images) {
         "longitude": this.RestaurantForm.controls['longitude'].value,
         "openTime": this.RestaurantForm.controls['openTime'].value,
         "closeTime": this.RestaurantForm.controls['closeTime'].value,
+        "mealOffers":await this.mealOffer_result(this.RestaurantForm.controls['mealOffers']['controls']),
         "contactNumber": this.RestaurantForm.controls['contactNumber'].value,
         "website": this.RestaurantForm.controls['website'].value,
         "perPersonCost": this.RestaurantForm.controls['perPersonCost'].value,
@@ -414,8 +431,9 @@ async uploadImage(images) {
         "cuisin":this.cuisinImagesObject
         };
 
-
+        // console.log()
     if (this.isAdd) {
+
       await this.restaurantService.addRestaurant(addObj).subscribe(
         data => {
           console.log(data);
@@ -433,6 +451,9 @@ async uploadImage(images) {
         });
     } else {
       console.log(addObj)
+      addObj.latitude = JSON.stringify(addObj.latitude);
+      addObj.longitude = JSON.stringify(addObj.longitude);
+
       this.restaurantService.editRestaurant(addObj,this.id).subscribe(
         data => {
           this.getAllRestaurant();
@@ -489,25 +510,10 @@ async uploadImage(images) {
 export class RestaurantComponent implements OnInit {
   bannersDetail: any;
 
-  @Input() name;
-  @Input() description;
-  @Input() latitude;
-  @Input() longitude;
-  @Input() openTime;
-  @Input () closeTime;
-  @Input () contactNumber;
-  @Input () website;
-  @Input () perPersonCost;
-  @Input () mealOffers;
-  // @Input () menu;
-  @Input () cuisin;
-
   modalReference: any;
   isAdd: boolean = false;
   RestaurantList: Array<any>;
-  // menu: Array<any>;
-  RestaurantForm: FormGroup;
-  loading = false;
+
   submitted = false;
   i;
 
@@ -524,7 +530,6 @@ export class RestaurantComponent implements OnInit {
    }
 
   ngOnInit() {
-    this.buildRestaurantForm();
      this.getRestaurantList();
   }
   getRestaurantList(){
@@ -537,25 +542,24 @@ export class RestaurantComponent implements OnInit {
     });
   }
 
-  buildRestaurantForm() {
-    this.RestaurantForm = this._formBuilder.group({
-      name: ['', [Validators.required]],
-      description: ['', [Validators.required]],
-      latitude:['',Validators.required],
-      longitude:['',Validators.required],
-      openTime:['',Validators.required],
-      closeTime:['',Validators.required],
-      restaurantImages:[''],
-      contactNumber:['',Validators.required],
-      website:[''],
-      menuImages: [''],
-      mealOffers:[''],
-      perPersonCost:['',Validators.required]
-    });
 
+  mealOffers_arr:Array<any> = ["BREAKFAST","LUNCH","DINNER","ALL"]
+  async checkValue(arr){
+    console.log(arr)
+    var array_val:Array<any> = [false,false,false,false];
+    console.log(array_val)
+    let res = await this.mealOffers_arr.map(async (response,idx)=>{
+        arr.map(async (arr_res,idnx)=>{
+            if(arr_res == response){
+              console.log(idx);
+              array_val[idx] = true;
+            }
+        })
+    });
+    console.log(array_val)
+    return array_val;
   }
-   
-  open(content) {
+  async open(content) {
    var i:number;
     // console.log("content",content.menu[0])
    if (!content) {
@@ -564,12 +568,12 @@ export class RestaurantComponent implements OnInit {
       this.isAdd = false
     }
     const modalRef = this.modalService.open(NgbdModalContent);
+    let  arr_value:any = [false,false,false,false];
     modalRef.componentInstance.id = content ? content._id : "";
     modalRef.componentInstance.name = content ? content.name : "";
     modalRef.componentInstance.description = content ? content.description : "";
     modalRef.componentInstance.latitude = content ? content.location.coordinates[0]: "";
     modalRef.componentInstance.longitude = content ? content.location.coordinates[1] : "";
-    modalRef.componentInstance.mealOffers = content ? content.mealOffers : "";
     modalRef.componentInstance.openTime = content ? content.openTime : "";
     modalRef.componentInstance.closeTime = content ? content.closeTime : "";
     modalRef.componentInstance.contactNumber = content ? content.contactNumber : "";
@@ -577,26 +581,18 @@ export class RestaurantComponent implements OnInit {
     modalRef.componentInstance.perPersonCost = content ? content.perPersonCost : "";
     modalRef.componentInstance.menuImages = content ? content.menu: "";
     modalRef.componentInstance.restaurantImages = content ? content.photos : "";
-    modalRef.componentInstance.cuisinImagesObject = content ? content.cuisin: "";
-    
+    modalRef.componentInstance.cuisinImagesObject = content ? content.cuisin: [{name:'',image:''}];
     modalRef.componentInstance.isAdd = this.isAdd;
-    
-
-    console.log(modalRef)
-  }
-
-
-  get f() {
-    return this.RestaurantForm.controls;
-  }
-  onSubmit() {
-    this.submitted = true;
-    if (this.RestaurantForm.invalid) {
-      return;
+    if(content && content.mealOffers.length>0){
+      content.mealOffers = await this.checkValue(content.mealOffers)
     }
+    console.log(content)
+    modalRef.componentInstance.mealOffers = (content) ? content.mealOffers : arr_value;
 
-    this.loading = true;
+    console.log(modalRef.componentInstance)
   }
+
+
   deleteRestaurant(Rid) {
 
     this.restaurantService.deleteRestaurant(Rid).subscribe(
