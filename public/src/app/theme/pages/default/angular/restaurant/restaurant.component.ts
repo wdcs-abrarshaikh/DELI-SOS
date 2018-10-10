@@ -149,7 +149,7 @@ import * as _ from 'lodash';
      </div>
      </td>
      <td >
-     <button *ngIf='cuisinSubset.image' class="btn btn-danger btn-xs" type="button" (click)="deleteImage(i,'cuisin')" style="margin-right:10px" >Delete</button>
+     <button *ngIf='cuisinSubset' class="btn btn-danger btn-xs" type="button" (click)="deleteImage(i,'cuisin')" style="margin-right:10px" >Delete</button>
       </td>
      </tr>
      </tbody>
