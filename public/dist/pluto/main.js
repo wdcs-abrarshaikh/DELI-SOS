@@ -8,59 +8,14 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
-	"./pages/default/angular/about-us/about-us.module": [
-		"./src/app/theme/pages/default/angular/about-us/about-us.module.ts",
-		"pages-default-angular-about-us-about-us-module~pages-default-angular-banner-banner-module~pages-defa~715a2c32",
-		"pages-default-angular-about-us-about-us-module~pages-default-angular-email-templates-email-templates~e7c7906c",
-		"pages-default-angular-about-us-about-us-module"
-	],
-	"./pages/default/angular/banner/banner.module": [
-		"./src/app/theme/pages/default/angular/banner/banner.module.ts",
-		"pages-default-angular-about-us-about-us-module~pages-default-angular-banner-banner-module~pages-defa~715a2c32",
-		"pages-default-angular-banner-banner-module"
-	],
-	"./pages/default/angular/email-templates/email-templates.module": [
-		"./src/app/theme/pages/default/angular/email-templates/email-templates.module.ts",
-		"pages-default-angular-about-us-about-us-module~pages-default-angular-banner-banner-module~pages-defa~715a2c32",
-		"pages-default-angular-about-us-about-us-module~pages-default-angular-email-templates-email-templates~e7c7906c",
-		"pages-default-angular-email-templates-email-templates-module"
-	],
-	"./pages/default/angular/menu/menu.module": [
-		"./src/app/theme/pages/default/angular/menu/menu.module.ts",
-		"pages-default-angular-about-us-about-us-module~pages-default-angular-banner-banner-module~pages-defa~715a2c32",
-		"pages-default-angular-menu-menu-module"
-	],
-	"./pages/default/angular/notifications/notifications.module": [
-		"./src/app/theme/pages/default/angular/notifications/notifications.module.ts",
-		"pages-default-angular-about-us-about-us-module~pages-default-angular-banner-banner-module~pages-defa~715a2c32",
-		"pages-default-angular-about-us-about-us-module~pages-default-angular-email-templates-email-templates~e7c7906c",
-		"pages-default-angular-notifications-notifications-module"
-	],
-	"./pages/default/angular/privacy-policy/privacy-policy.module": [
-		"./src/app/theme/pages/default/angular/privacy-policy/privacy-policy.module.ts",
-		"pages-default-angular-about-us-about-us-module~pages-default-angular-banner-banner-module~pages-defa~715a2c32",
-		"pages-default-angular-about-us-about-us-module~pages-default-angular-email-templates-email-templates~e7c7906c",
-		"pages-default-angular-privacy-policy-privacy-policy-module"
-	],
-	"./pages/default/angular/profile/profile.module": [
-		"./src/app/theme/pages/default/angular/profile/profile.module.ts",
-		"pages-default-angular-about-us-about-us-module~pages-default-angular-banner-banner-module~pages-defa~715a2c32",
-		"pages-default-angular-profile-profile-module"
-	],
 	"./pages/default/angular/restaurant/restaurant.module": [
 		"./src/app/theme/pages/default/angular/restaurant/restaurant.module.ts",
-		"pages-default-angular-about-us-about-us-module~pages-default-angular-banner-banner-module~pages-defa~715a2c32",
+		"pages-default-angular-restaurant-restaurant-module~pages-default-angular-user-user-module",
 		"pages-default-angular-restaurant-restaurant-module"
-	],
-	"./pages/default/angular/terms-conditions/terms-conditions.module": [
-		"./src/app/theme/pages/default/angular/terms-conditions/terms-conditions.module.ts",
-		"pages-default-angular-about-us-about-us-module~pages-default-angular-banner-banner-module~pages-defa~715a2c32",
-		"pages-default-angular-about-us-about-us-module~pages-default-angular-email-templates-email-templates~e7c7906c",
-		"pages-default-angular-terms-conditions-terms-conditions-module"
 	],
 	"./pages/default/angular/user/user.module": [
 		"./src/app/theme/pages/default/angular/user/user.module.ts",
-		"pages-default-angular-about-us-about-us-module~pages-default-angular-banner-banner-module~pages-defa~715a2c32",
+		"pages-default-angular-restaurant-restaurant-module~pages-default-angular-user-user-module",
 		"pages-default-angular-user-user-module"
 	],
 	"./pages/default/index/index.module": [
@@ -348,6 +303,10 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+// import { SignUpService } from './sign-up/sign-up.service';
+// import { AuthGuard } from './auth/_guards/auth.guard';
+// import { AuthService } from './auth/_services/authentication.service';
+// import { BannerModule } from './theme/pages/default/angular/banner/banner.module';
 
 
 
@@ -418,7 +377,7 @@ var AppModule = /** @class */ (function () {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "URL", function() { return URL; });
 // export const URL:string="http://66.70.179.133:8080/";
-var URL = "http://localhost:8080/";
+var URL = "http://192.168.0.136:8080/";
 
 
 /***/ }),
@@ -1714,7 +1673,7 @@ var Helpers = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\nbody{\n\tmargin:0;\n\t\n}\n.lbl-err {\n    color: red; \n\t}\n.size{\n       text-align: center;\n       width:100%;\n\t   display: flex;\n\t   justify-content: center;\n\t   align-items: center;\n\t   height: auto;\n\t   flex-direction: column;\n\t   -webkit-user-select: none;\n\t      -moz-user-select: none;\n\t       -ms-user-select: none;\n\t           user-select: none;\n\t   padding-top: 2rem;\n    }\n.btn-login{\n        color: white;\n        background-color: orange;\n        padding: .85rem 2rem;\n\t\tfont-size: 1rem;\n\t\tfont-weight: 400;\n\t\tfont-family: monospace;\n\t\t/* border-radius: 60px; */\n\t\tborder-color: rgb(240, 161, 14);\n\t\twidth: 50%;\n\t\ttext-align: center;\n\t\tfloat: center;\n\t\tcursor: pointer;\n\t\tborder: none;\n\t\toutline: none;\n\t\tbox-shadow: 0 2px 2px 0 rgba(0,0,0,0.15);\n\t\ttransition: box-shadow 0.15s ease;\n    }\n.btn-login:hover{\n\t\tbox-shadow: 0 8px 16px 0 rgba(0,0,0,0.15);\n\t}\n.checkbox{\n        border-color: white;\n        color:#575962;\n    }\n.cen{\n        -ms-grid-row-align: center;\n            align-self: center;\n    }\n.app-logo{\n\t\theight:250px;\n\t\twidth:250px;\n\t\tbackground-position: center;\n\t\tbackground-repeat: no-repeat;\n\t\tbackground-size: contain;\n\t\tbackground-image: url(\"deli_sos_app_mark.png\");\n\t\t-webkit-transform-origin: bottom;\n\t\t        transform-origin: bottom;\n\t\t-webkit-animation: app-logo-intro-anim 0.35s ease;\n\t\t        animation: app-logo-intro-anim 0.35s ease;\n\t}\n@-webkit-keyframes app-logo-intro-anim{\n\t\t0%{\n\t\t\t-webkit-transform: scale(0,0);\n\t\t\t        transform: scale(0,0);\n\t\t}\n\t\t100%{\n\t\t\t-webkit-transform: scale(1,1);\n\t\t\t        transform: scale(1,1);\n\t\t}\n\t}\n@keyframes app-logo-intro-anim{\n\t\t0%{\n\t\t\t-webkit-transform: scale(0,0);\n\t\t\t        transform: scale(0,0);\n\t\t}\n\t\t100%{\n\t\t\t-webkit-transform: scale(1,1);\n\t\t\t        transform: scale(1,1);\n\t\t}\n\t}\n.size h1{\n\t\tfont-family: 'Changa One', cursive;\n\t\tfont-size: 24pt;\n\t\tfont-weight: 400;\n\t\tcolor: #212121;\n    }\n.style{\n        background-size: cover;\n        height:100vh;\n        width:100%;\n        background-position: center;\n        background-repeat: no-repeat;\n    }\n.top{\n        background-image: url(\"bg-3.jpg\");\n         background-size: cover;\n         height:100vh;\n         width:100%;\n         background-position: center;\n         background-repeat: no-repeat;\n     }\n    "
+module.exports = "\nbody{\n\tmargin:0;\n\t\n}\n.lbl-err {\n    color: red; \n\t}\n.size{\n       text-align: center;\n       width:100%;\n\t   display: flex;\n\t   justify-content: center;\n\t   align-items: center;\n\t   height: auto;\n\t   flex-direction: column;\n\t   -webkit-user-select: none;\n\t      -moz-user-select: none;\n\t       -ms-user-select: none;\n\t           user-select: none;\n\t   padding-top: 2rem;\n    }\n.btn-login{\n        color: white;\n        background-color: orange;\n        padding: .85rem 2rem;\n\t\tfont-size: 1rem;\n\t\tfont-weight: 400;\n\t\tfont-family: monospace;\n\t\t/* border-radius: 60px; */\n\t\tborder-color: rgb(240, 161, 14);\n\t\twidth: 50%;\n\t\ttext-align: center;\n\t\tfloat: center;\n\t\tcursor: pointer;\n\t\tborder: none;\n\t\toutline: none;\n\t\tbox-shadow: 0 2px 2px 0 rgba(0,0,0,0.15);\n\t\ttransition: box-shadow 0.15s ease;\n    }\n.btn-login:hover{\n\t\tbox-shadow: 0 8px 16px 0 rgba(0,0,0,0.15);\n\t}\n.checkbox{\n        border-color: white;\n        color:#575962;\n    }\n.cen{\n        -ms-grid-row-align: center;\n            align-self: center;\n    }\n.app-logo{\n\t\theight:250px;\n\t\twidth:250px;\n\t\tbackground-position: center;\n\t\tbackground-repeat: no-repeat;\n\t\tbackground-size: contain;\n\t\tbackground-image: url(\"deli_sos_app_mark.png\");\n\t\t-webkit-transform-origin: bottom;\n\t\t        transform-origin: bottom;\n\t\t-webkit-animation: app-logo-intro-anim 0.35s ease;\n\t\t        animation: app-logo-intro-anim 0.35s ease;\n\t}\n@-webkit-keyframes app-logo-intro-anim{\n\t\t0%{\n\t\t\t-webkit-transform: scale(0,0);\n\t\t\t        transform: scale(0,0);\n\t\t}\n\t\t100%{\n\t\t\t-webkit-transform: scale(1,1);\n\t\t\t        transform: scale(1,1);\n\t\t}\n\t}\n@keyframes app-logo-intro-anim{\n\t\t0%{\n\t\t\t-webkit-transform: scale(0,0);\n\t\t\t        transform: scale(0,0);\n\t\t}\n\t\t100%{\n\t\t\t-webkit-transform: scale(1,1);\n\t\t\t        transform: scale(1,1);\n\t\t}\n\t}\n.size h1{\n\t\tfont-family: 'Changa One', cursive;\n\t\tfont-size: 24pt;\n\t\tfont-weight: 400;\n\t\tcolor: #212121;\n    }\n.style{\n        background-size: cover;\n        height:100vh;\n        width:100%;\n        background-position: center;\n        background-repeat: no-repeat;\n    }\n.top{\n        background-image: url(\"bg-3.jpg\");\n         background-size: cover;\n         height:100vh;\n         width:100%;\n         background-position: center;\n         background-repeat: no-repeat;\n     }\n"
 
 /***/ }),
 
@@ -1787,13 +1746,10 @@ var LoginComponent = /** @class */ (function () {
     LoginComponent.prototype.signIn = function () {
         var _this = this;
         this._loginService.post(this.loginForm.value).subscribe(function (response) {
-            console.log("data", response);
             if (response['code'] == 200) {
                 _this.toastService.success(response.message);
-                console.log(response.token);
-                console.log(response.data._id);
-                localStorage.setItem('currentuser', JSON.stringify(response.token));
-                localStorage.setItem('currentid', JSON.stringify(response.data._id));
+                localStorage.setItem('_token', JSON.stringify(response.token));
+                localStorage.setItem('_id', JSON.stringify(response.data._id));
                 _this._router.navigate(['/index']);
             }
             else
@@ -1862,8 +1818,6 @@ var LoginService = /** @class */ (function () {
         return headers;
     };
     LoginService.prototype.post = function (obj) {
-        console.log(_app_service__WEBPACK_IMPORTED_MODULE_0__["URL"]);
-        console.log(obj);
         return this.http.post(_app_service__WEBPACK_IMPORTED_MODULE_0__["URL"] + 'admin/login', obj, { headers: this.getHeaderWithToken() })
             .map(function (res) {
             return res;
@@ -1893,7 +1847,7 @@ var LoginService = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!-- BEGIN: Left Aside -->\n<app-header-nav></app-header-nav>\n<button class=\"m-aside-left-close  m-aside-left-close--skin-dark\" id=\"m_aside_left_close_btn\" appunwraptag=\"\"><i class=\"la la-close\"></i></button>\n<div id=\"m_aside_left\" class=\"m-grid__item\tm-aside-left  m-aside-left--skin-dark\">\n\t<!-- BEGIN: Aside Menu -->\n\t<div id=\"m_ver_menu\" class=\"m-aside-menu  m-aside-menu--skin-dark m-aside-menu--submenu-skin-dark\" m-menu-vertical=\"1\"\n\t m-menu-scrollable=\"1\" m-menu-dropdown-timeout=\"500\" style=\"position: relative;\">\n\t\t<ul class=\"m-menu__nav  m-menu__nav--dropdown-submenu-arrow\">\n\t\t\t<li class=\"m-menu__item  \" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\"\n\t\t\t aria-haspopup=\"true\"><a routerLink=\"/index\" class=\"m-menu__link\"><i class=\"m-menu__link-icon flaticon-line-graph\"></i><span\n\t\t\t\t\t class=\"m-menu__link-title\">\n\t\t\t\t\t\t<span class=\"m-menu__link-wrap\"> <span class=\"m-menu__link-text\">Dashboard</span>  </span></span></a></li>\n\t\t\t<li class=\"m-menu__section\">\n\t\t\t\t<h4 class=\"m-menu__section-text\">Masters</h4> <i class=\"m-menu__section-icon flaticon-more-v3\"></i>\n\t\t\t</li>\n\t\t\t<!-- <li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\"\n\t\t\t routerLinkActiveOptions=\"{ exact: true }\" aria-haspopup=\"true\"><a routerLink=\"/angular/ng-bootstrap\" class=\"m-menu__link\"><i class=\"m-menu__link-icon flaticon-settings\"></i><span class=\"m-menu__link-text\">Ng-Bootstrap</span></a></li> -->\n\n\t\t\t<li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\" aria-haspopup=\"true\"><a\n\t\t\t\t routerLink=\"/admin/banner\" class=\"m-menu__link\"><i class=\"far fa-images\"></i>&nbsp;&nbsp;&nbsp;Banner</a>\n\t\t\t</li>\n\t\t\t<li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\" aria-haspopup=\"true\"><a\n\t\t\t\trouterLink=\"/admin/restaurant\" class=\"m-menu__link\"><i class=\"fas fa-bars\"></i>&nbsp;&nbsp;&nbsp;Restaurant\n\t\t\t\t\t </a>\n\t\t   </li>\n\t\t\t<li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\" aria-haspopup=\"true\"><a\n\t\t\t\t routerLink=\"/admin/menu\" class=\"m-menu__link\"><i class=\"fas fa-bars\"></i>&nbsp;&nbsp;&nbsp;menu</a>\n\t\t\t</li>\n\t\t\n\t\t\t\n\t\t\t\n\t\t\t<li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\" aria-haspopup=\"true\"><a\n\t\t\t\t routerLink=\"/admin/email-templates\" class=\"m-menu__link\"><i class=\"fas fa-envelope-open\"></i>&nbsp;&nbsp;&nbsp; Email\n\t\t\t\t\t\tTemplate</a>\n\t\t\t</li>\n\t\t\t<li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\" aria-haspopup=\"true\"><a\n\t\t\t\trouterLink=\"/admin/getUserList\" class=\"m-menu__link\"><i class=\"fas fa-users\"></i>&nbsp;&nbsp;&nbsp;User\n\t\t\t\t\t  </a>\n\t\t   </li>\n\t\t   <li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\" aria-haspopup=\"true\"><a\n\t\t\trouterLink=\"/admin/about-us\" class=\"m-menu__link\"><i class=\"far fa-building\"></i>&nbsp;&nbsp;&nbsp;About us\n\t\t\t\t   </a>\n\t   </li>\n\t \n   \n\t   <li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\"\n\t   aria-haspopup=\"true\"><a routerLink=\"/admin/privacy-policy\" class=\"m-menu__link\"><i class=\"m-menu__link-icon flaticon-settings\"></i><span\n\t\t\t   class=\"m-menu__link-text\">Privacy policy\n\t\t\t  </span></a>\n\t  </li>\n\n\n\t  <li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\"\n\t   aria-haspopup=\"true\"><a routerLink=\"/admin/terms-conditions\" class=\"m-menu__link\"><i class=\"m-menu__link-icon flaticon-settings\"></i><span\n\t\t\t   class=\"m-menu__link-text\">Terms & Conditions\n\t\t\t  </span></a>\n\t  </li>\n\n\n\t  <li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\"\n\t  aria-haspopup=\"true\"><a routerLink=\"/admin/notifications\" class=\"m-menu__link\"><i class=\"m-menu__link-icon flaticon-settings\"></i><span\n\t\t\t  class=\"m-menu__link-text\">Notifications\n\t\t\t </span></a>\n\t </li>\n\n\t\t\t\n\t\t\t\n\t\t\t\t\t</ul>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\n"
+module.exports = "<!-- BEGIN: Left Aside -->\n<app-header-nav></app-header-nav>\n<button class=\"m-aside-left-close  m-aside-left-close--skin-dark\" id=\"m_aside_left_close_btn\" appunwraptag=\"\"><i class=\"la la-close\"></i></button>\n<div id=\"m_aside_left\" class=\"m-grid__item\tm-aside-left  m-aside-left--skin-dark\">\n\t<!-- BEGIN: Aside Menu -->\n\t<div id=\"m_ver_menu\" class=\"m-aside-menu  m-aside-menu--skin-dark m-aside-menu--submenu-skin-dark\" m-menu-vertical=\"1\"\n\t m-menu-scrollable=\"1\" m-menu-dropdown-timeout=\"500\" style=\"position: relative;\">\n\t\t<ul class=\"m-menu__nav  m-menu__nav--dropdown-submenu-arrow\">\n\t\t\t<li class=\"m-menu__item  \" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\"\n\t\t\t aria-haspopup=\"true\"><a routerLink=\"/index\" class=\"m-menu__link\"><i class=\"m-menu__link-icon flaticon-line-graph\"></i><span\n\t\t\t\t\t class=\"m-menu__link-title\">\n\t\t\t\t\t\t<span class=\"m-menu__link-wrap\"> <span class=\"m-menu__link-text\">Dashboard</span>  </span></span></a></li>\n\t\t\t<li class=\"m-menu__section\">\n\t\t\t\t<h4 class=\"m-menu__section-text\">Masters</h4> <i class=\"m-menu__section-icon flaticon-more-v3\"></i>\n\t\t\t</li>\n\t\t\t<!-- <li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\"\n\t\t\t routerLinkActiveOptions=\"{ exact: true }\" aria-haspopup=\"true\"><a routerLink=\"/angular/ng-bootstrap\" class=\"m-menu__link\"><i class=\"m-menu__link-icon flaticon-settings\"></i><span class=\"m-menu__link-text\">Ng-Bootstrap</span></a></li> -->\n\n\t\t\t<!-- <li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\" aria-haspopup=\"true\"><a\n\t\t\t\t routerLink=\"/admin/banner\" class=\"m-menu__link\"><i class=\"far fa-images\"></i>&nbsp;&nbsp;&nbsp;Banner</a>\n\t\t\t</li> -->\n\t\t\t<li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\" aria-haspopup=\"true\"><a\n\t\t\t\trouterLink=\"/admin/restaurant\" class=\"m-menu__link\"><i class=\"fas fa-bars\"></i>&nbsp;&nbsp;&nbsp;Restaurant\n\t\t\t\t\t </a>\n\t\t   </li>\n\t\t\t<!-- <li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\" aria-haspopup=\"true\"><a\n\t\t\t\t routerLink=\"/admin/menu\" class=\"m-menu__link\"><i class=\"fas fa-bars\"></i>&nbsp;&nbsp;&nbsp;menu</a>\n\t\t\t</li>\n\t\t\n\t\t\t\n\t\t\t\n\t\t\t<li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\" aria-haspopup=\"true\"><a\n\t\t\t\t routerLink=\"/admin/email-templates\" class=\"m-menu__link\"><i class=\"fas fa-envelope-open\"></i>&nbsp;&nbsp;&nbsp; Email\n\t\t\t\t\t\tTemplate</a>\n\t\t\t</li>\n\t\t\t<li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\" aria-haspopup=\"true\"><a\n\t\t\t\trouterLink=\"/admin/getUserList\" class=\"m-menu__link\"><i class=\"fas fa-users\"></i>&nbsp;&nbsp;&nbsp;User\n\t\t\t\t\t  </a>\n\t\t   </li>\n\t\t   <li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\" aria-haspopup=\"true\"><a\n\t\t\trouterLink=\"/admin/about-us\" class=\"m-menu__link\"><i class=\"far fa-building\"></i>&nbsp;&nbsp;&nbsp;About us\n\t\t\t\t   </a>\n\t   </li>\n\t  -->\n<!--    \n\t   <li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\"\n\t   aria-haspopup=\"true\"><a routerLink=\"/admin/privacy-policy\" class=\"m-menu__link\"><i class=\"m-menu__link-icon flaticon-settings\"></i><span\n\t\t\t   class=\"m-menu__link-text\">Privacy policy\n\t\t\t  </span></a>\n\t  </li>\n\n\n\t  <li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\"\n\t   aria-haspopup=\"true\"><a routerLink=\"/admin/terms-conditions\" class=\"m-menu__link\"><i class=\"m-menu__link-icon flaticon-settings\"></i><span\n\t\t\t   class=\"m-menu__link-text\">Terms & Conditions\n\t\t\t  </span></a>\n\t  </li>\n\n\n\t  <li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\"\n\t  aria-haspopup=\"true\"><a routerLink=\"/admin/notifications\" class=\"m-menu__link\"><i class=\"m-menu__link-icon flaticon-settings\"></i><span\n\t\t\t  class=\"m-menu__link-text\">Notifications\n\t\t\t </span></a>\n\t </li>\n\n\t\t\t -->\n\t\t\t\n\t\t\t\t\t</ul>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\n"
 
 /***/ }),
 
@@ -2034,13 +1988,12 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 // declare let mLayout: any;
 var HeaderNavComponent = /** @class */ (function () {
     function HeaderNavComponent(loginService, router, profileService) {
-        var _this = this;
+        // this.profileService.getProfile().subscribe((data: any) => {
         this.loginService = loginService;
         this.router = router;
         this.profileService = profileService;
-        this.profileService.getProfile().subscribe(function (data) {
-            _this.profilesList = data.response.data.imageUrl;
-        });
+        //   this.profilesList=data.response.data.imageUrl
+        // });
     }
     HeaderNavComponent.prototype.ngOnInit = function () {
         this.name = JSON.parse(localStorage.getItem('userName'));
@@ -2329,7 +2282,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ProfileService", function() { return ProfileService; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
-/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2342,35 +2294,14 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 // import { URL } from './../../../../../app.service';
 
 
-
-var URL = "http://66.70.179.133:4009/solow/v2/api/admin/";
-var URLS = "http://66.70.179.133:4009/solow/v2/api/";
+// const URL: string = "http://66.70.179.133:4009/solow/v2/api/admin/";
+// const URLS: string = "http://66.70.179.133:4009/solow/v2/api/";
+var URLS = "http://192.168.0.136:8080/";
 var ProfileService = /** @class */ (function () {
     // private categoriesList = new Subject<any>()
     function ProfileService(http) {
         this.http = http;
     }
-    ProfileService.prototype.getHeaderWithToken = function () {
-        var headers = new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpHeaders"]();
-        headers = headers.set('Authorization', JSON.parse(localStorage.getItem('jwt')));
-        headers = headers.set('Content-Type', 'application/json');
-        return headers;
-    };
-    ProfileService.prototype.getProfile = function () {
-        var admin_id = JSON.parse(localStorage.getItem('currentUser'));
-        return this.http.get(URL + 'getAdminProfile/' + admin_id, { headers: this.getHeaderWithToken() })
-            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["map"])(function (res) { return res; }));
-    };
-    ProfileService.prototype.editProfile = function (profile) {
-        var admin_id = JSON.parse(localStorage.getItem('currentUser'));
-        return this.http.put(URL + 'editAdminProfile/' + admin_id, profile, { headers: this.getHeaderWithToken() }).map(function (res) { return res; });
-    };
-    ProfileService.prototype.uploadPic = function (pic) {
-        return this.http.post(URLS + 'user/uploadPicture', pic, { headers: this.getHeaderWithToken() })
-            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["map"])(function (res) {
-            return res;
-        }));
-    };
     ProfileService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
             providedIn: 'root'
@@ -2466,18 +2397,6 @@ var routes = [
         // "canActivate": [AuthGuard],
         "children": [
             {
-                "path": "admin/banner",
-                "loadChildren": "./pages/default/angular/banner/banner.module#BannerModule"
-            },
-            {
-                "path": "admin/menu",
-                "loadChildren": "./pages/default/angular/menu/menu.module#MenuModule"
-            },
-            {
-                "path": "admin/email-templates",
-                "loadChildren": "./pages/default/angular/email-templates/email-templates.module#EmailTemplatesModule"
-            },
-            {
                 "path": "admin/getUserList",
                 "loadChildren": "./pages/default/angular/user/user.module#UserModule"
             },
@@ -2486,29 +2405,9 @@ var routes = [
                 "loadChildren": "./pages/default/angular/restaurant/restaurant.module#RestaurantModule"
             },
             {
-                "path": "admin/about-us",
-                "loadChildren": "./pages/default/angular/about-us/about-us.module#AboutUsModule"
-            },
-            {
                 "path": "index",
                 "loadChildren": "./pages/default/index/index.module#IndexModule"
             },
-            {
-                "path": "admin/profile",
-                "loadChildren": "./pages/default/angular/profile/profile.module#ProfileModule"
-            },
-            {
-                "path": "admin/privacy-policy",
-                "loadChildren": "./pages/default/angular/privacy-policy/privacy-policy.module#PrivacyPolicyModule"
-            },
-            {
-                "path": "admin/terms-conditions",
-                "loadChildren": "./pages/default/angular/terms-conditions/terms-conditions.module#TermConditionModule"
-            },
-            {
-                "path": "admin/notifications",
-                "loadChildren": "./pages/default/angular/notifications/notifications.module#NotificationsModule"
-            }
         ]
     },
 ];

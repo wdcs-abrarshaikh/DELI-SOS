@@ -25,11 +25,6 @@ const routes: Routes = [
                 "path": "admin/restaurant",
                 "loadChildren": "./pages/default/angular/restaurant/restaurant.module#RestaurantModule"
             },
-            {
-                "path": "admin/approveR",
-                "loadChildren": "./pages/default/angular/approveR/approveR.module#ApproveRModule"
-            },
-            
         ]
     },
 

@@ -7,7 +7,7 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!-- BEGIN: Subheader -->\n<div class=\"m-subheader\" appunwraptag=\"\">\n\t<div class=\"d-flex align-items-center\">\n\t\t<div class=\"mr-auto\">\n\t\t\t<h3 class=\"m-subheader__title\">Dashboard</h3>\n\t\t</div>\n\t\n\t</div>\n</div> <!-- END: Subheader -->\n<div class=\"m-content\">\n\t<!--Begin::Section-->\n\t<div class=\"row\">\n\t\t<div class=\"col-xl-4\">\n\t\t\t<!--begin:: Widgets/Top Products-->\n\t\t\t<div class=\"m-portlet m-portlet--bordered-semi m-portlet--full-height\">\n\t\t\t\t<div class=\"m-portlet__head\">\n\t\t\t\t\t<div class=\"m-portlet__head-caption\">\n\t\t\t\t\t\t<div class=\"m-portlet__head-title\">\n\t\t\t\t\t\t\t<h3 class=\"m-portlet__head-text\"> Users </h3><br>\n\t\t\t\t\t\t\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<h3 class=\"m-portlet__head-caption\">{{usersList}}</h3>\n\t\t\t\t</div>\n\t\t\t\t\n\t\t\t</div>\n\t\t\t<!--end:: Widgets/Top Products-->\n\t\t</div>\n\t\t<div class=\"col-xl-4\">\n\t\t\t<!--begin:: Widgets/Activity-->\n\t\t\t<div class=\"m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force\">\n\t\t\t\t<div class=\"m-portlet__head\">\n\t\t\t\t\t<div class=\"m-portlet__head-caption\">\n\t\t\t\t\t\t<div class=\"m-portlet__head-title\">\n\t\t\t\t\t\t\t<h3 class=\"m-portlet__head-text\"> Watchers </h3>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\n\t\t\t\t</div>\n\t\t\t\n\t\t\t</div>\n\t\t\t<!--end:: Widgets/Activity-->\n\t\t</div>\n\t\t\n\t</div>\n\t</div>\n\t\t\n\t"
+module.exports = "<!-- BEGIN: Subheader -->\n<div class=\"m-subheader\" appunwraptag=\"\">\n\t<div class=\"d-flex align-items-center\">\n\t\t<div class=\"mr-auto\">\n\t\t\t<h3 class=\"m-subheader__title\">Dashboard</h3>\n\t\t</div>\n\t\n\t</div>\n</div> <!-- END: Subheader -->\n<div class=\"m-content\">\n\t<!--Begin::Section-->\n\t<div class=\"row\">\n\t\t<div class=\"col-xl-4\">\n\t\t\t<!--begin:: Widgets/Top Products-->\n\t\t\t<div class=\"m-portlet m-portlet--bordered-semi m-portlet--full-height\">\n\t\t\t\t<div class=\"m-portlet__head\">\n\t\t\t\t\t<div class=\"m-portlet__head-caption\">\n\t\t\t\t\t\t<div class=\"m-portlet__head-title\">\n\t\t\t\t\t\t\t<h3 class=\"m-portlet__head-text\"> Users </h3><br>\n\t\t\t\t\t\t\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<h3 class=\"m-portlet__head-caption\">5</h3>\n\t\t\t\t</div>\n\t\t\t\t\n\t\t\t</div>\n\t\t\t<!--end:: Widgets/Top Products-->\n\t\t</div>\n\t\t<!-- <div class=\"col-xl-4\"> -->\n\t\t\t<!-- <div class=\"m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force\">\n\t\t\t\t<div class=\"m-portlet__head\">\n\t\t\t\t\t<div class=\"m-portlet__head-caption\">\n\t\t\t\t\t\t<div class=\"m-portlet__head-title\">\n\t\t\t\t\t\t\t<h3 class=\"m-portlet__head-text\"> Watchers </h3>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\n\t\t\t\t</div>\n\t\t\t\n\t\t\t</div>\n\t\t</div> -->\n\t\t\n\t</div>\n\t</div>\n\t\t\n\t"
 
 /***/ }),
 
@@ -42,11 +42,12 @@ var IndexComponent = /** @class */ (function () {
         this.toastService = toastService;
     }
     IndexComponent.prototype.ngOnInit = function () {
-        this.getUserList();
+        // this.getUserList();
     };
     IndexComponent.prototype.getUserList = function () {
         var _this = this;
         this.indexService.getAllUsers().subscribe(function (response) {
+            console.log(response);
             _this.usersList = response.response.count;
         });
     };
