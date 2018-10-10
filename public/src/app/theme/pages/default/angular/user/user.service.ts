@@ -41,13 +41,18 @@ export class UserService {
 
     }
     getAllUsers() {
-         console.log("in servicce")
-        return this.http.get(URL + 'admin/getUserList', { headers: this.getHeaderWithToken() })
+         return this.http.get(URL + 'admin/getUserList', { headers: this.getHeaderWithToken() })
             .pipe(
                 map((res: Response) => { return res })
             );
     }
-
+       
+    // getUserDetail(id:any){
+    //     return this.http.get(URL + 'admin/ getUserDetail/' + id, { headers: this.getHeaderWithToken() })
+    //         .pipe(
+    //             map((res: Response) => { return res }),
+    //         );
+    // }
 
     editUser(user: any, id: any) {
         console.log("edit user here")
@@ -59,13 +64,13 @@ export class UserService {
     }
 
     deleteUser(id: any) {
-return this.http.put<any>(URL + '/deleteUser/' + id , {}, { headers: this.getHeaderWithToken() }).map((res: Response) => {
+        console.log(id)
+        console.log("feletvcxbhhh")
+          return this.http.put<any>(URL + 'admin/deleteUser/' + id , {}, { headers: this.getHeaderWithToken() })
+          .map((res: Response) => {
             return res
         });
-        // .pipe(
-
-        // );
-
+      
     }
 
 
