@@ -1,7 +1,7 @@
 // import { SignUpService } from './sign-up/sign-up.service';
 // import { AuthGuard } from './auth/_guards/auth.guard';
 // import { AuthService } from './auth/_services/authentication.service';
-import { BannerModule } from './theme/pages/default/angular/banner/banner.module';
+// import { BannerModule } from './theme/pages/default/angular/banner/banner.module';
 import { HttpModule } from '@angular/http';
 import { ScriptLoaderService } from './_services/script-loader.service';
 import { AuthModule } from './auth/auth.module';

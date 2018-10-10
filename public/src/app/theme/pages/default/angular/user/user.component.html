@@ -1,14 +1,16 @@
 <h2 class="header">Users</h2>
+<div class="m-portlet">
 <div>
   <button class="btn-add" (click)="open()"><i class="fas fa-plus"></i></button>
 </div>
 <div class="table-responsive">
-  <table class="table">
+  <table *ngIf="usersList" datatable class="table-bordered table-hover" >
     <thead>
       <tr>
         <th>Sr.</th>
         <th style="width:350px">UserName</th>
         <th>Email</th>
+        <th>Status</th>
         <th>Action</th>
       </tr>
     </thead>
@@ -18,6 +20,7 @@
         <td>{{i+1}}</td>
         <td>{{user.name}}</td>
         <td>{{user.email}}</td>
+        <td>{{user.status}}</td>
      <td>
          
           <button type="button" class="btn-view">
@@ -49,4 +52,6 @@
       </tr>
     </tbody>
   </table>
+  
+</div>
 </div>

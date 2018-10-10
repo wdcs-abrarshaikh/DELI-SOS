@@ -1,11 +1,11 @@
 import { Subject } from 'rxjs/Subject';
-// import { URL } from './../../../../../app.service';
+ import { URL } from './../../../../app.service';
 import { Injectable, EventEmitter } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { map, catchError } from "rxjs/operators";
 import { Observable, throwError } from 'rxjs';
 
-const URL: string = "http://66.70.179.133:4009/solow/v2/api/admin";
+
 
 @Injectable({
     providedIn: 'root'
@@ -36,6 +36,14 @@ export class IndexService {
         .pipe(
             map((res:Response)=>{ return res})
         );
+    }
+
+    getAllRequest(){
+        console.log("hhhhhhhhhh")
+        return this.http.get(URL+ 'admin/getAllPendingRestaurant',{ headers: this.getHeaderWithToken() })
+        .pipe(
+            map((res:Response)=>{ return res})
+        )
     }
 
    

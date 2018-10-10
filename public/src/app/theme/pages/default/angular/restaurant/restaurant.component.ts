@@ -124,7 +124,7 @@ import * as _ from 'lodash';
     <div >	
      <table class="table table-bordered">		
      <tbody>
-     <tr *ngIf="i==0">
+     <tr>
      <th>Name</th>
      <th>Image</th>
      <th>Action</th>
@@ -214,6 +214,7 @@ export class NgbdModalContent {
     private toastService: ToastrService) { }
      ngOnInit() {
         this.buildRestaurantForm();
+        console.log(this.cuisinImagesObject);
       }
   
     get f() {
@@ -241,7 +242,8 @@ export class NgbdModalContent {
      website:[''],
      menu: [''],
      mealOffers:[''],
-     perPersonCost:['',Validators.required]
+     perPersonCost:['',Validators.required],
+    //  cuisin:[this.cuisinImagesObject]
       });
 
   }
@@ -269,6 +271,12 @@ export class NgbdModalContent {
 
 
   async checkCuisinValid(){
+    console.log(this.cuisinImagesObject);
+    // if(!this.cuisinImagesObject){
+    //   this.cuisinImagesObject=[]
+    //     this.cuisinImagesObject.push(this.createItem())
+    //   return true;
+    // }
     let result = await this.cuisinImagesObject.filter((res)=>{
       if(!res.name || !res.image){
         return res;
@@ -336,7 +344,6 @@ async imageUploading(event,flag,section,idx){
               queryArray.push(obj); 
             }else{  
             obj = await this.uploadImage(allFiles);
-              console.log("ttt",obj)
               queryArray = [...queryArray,...obj]
              }  
              
