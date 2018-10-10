@@ -984,6 +984,9 @@ paths:
                 - email
                 - password
                 - name  
+                - deviceId
+                - deviceType
+                - fcmToken
               properties:
                 name:
                     type: string
@@ -992,6 +995,12 @@ paths:
                 password:
                     type: string
                     format: One capital letter,small letter,special char and one number is required.Length lies between 6 to 16
+                deviceId:
+                    type: string
+                deviceType:
+                    type: string
+                fcmToken:
+                    type: string
         responses:
           "201":
             description: Sucessfully registered.

@@ -78,6 +78,20 @@ function approveRestaurantProposal(rest_id,res){
 function getAllPendingRestaurant(res){
     service.getAllPendingRestaurant(res)
 }
+
+function noOfRestaurant(req,res){
+     service.noOfRestaurant(req,res)
+}
+
+function noOfUsers(req,res){
+    service.noOfUsers(req,res)
+}
+
+function noOfReviews(req,res){
+    service.noOfReviews(req,res)
+}
+
+
 module.exports = {
     signup,
     login,
@@ -99,5 +113,8 @@ module.exports = {
     getCuisin,
     searchRestaurant,
     approveRestaurantProposal,
-    getAllPendingRestaurant
+    getAllPendingRestaurant,
+    noOfRestaurant,
+    noOfUsers,
+    noOfReviews
 }

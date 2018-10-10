@@ -39,7 +39,9 @@ messages = {
     wrongPassword: "You entered wrong old password",
     passwordChanged: "Password changed successfully",
     invalidLatLong:"Please check your lat long and try again.",
-    idMissing:"Please provide user id."
+    idMissing:"Please provide user id.",
+    noPendingRestaurant:"There Is No Pending Restaurant",
+    reviewsNotFound:"No Reviews Found"
 }
 
 roles = {
