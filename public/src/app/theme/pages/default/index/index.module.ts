@@ -9,7 +9,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { IndexRoutingModule } from './index.routing';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
-import { ScriptLoaderService } from './../../../../_services/script-loader.service';
 
 const routes: Routes = [
     {
@@ -33,7 +32,7 @@ const routes: Routes = [
         NgbModule.forRoot(),
         FormsModule,
         ReactiveFormsModule,
-        ScriptLoaderService
+        // ScriptLoaderService
         ],
         exports: [
         RouterModule,NgbdModalContent

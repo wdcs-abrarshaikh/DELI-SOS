@@ -210,7 +210,7 @@ export class IndexComponent implements OnInit, AfterViewInit {
     totalUser;
     ngOnInit() {
         this.getAllRequest()
-        this.getUserList();
+        // this.getUserList();
     }
     getUserList() {
         this.indexService.getAllUsers().subscribe((response: any) => {
