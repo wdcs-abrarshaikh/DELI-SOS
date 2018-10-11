@@ -1,5 +1,5 @@
 import { DefaultComponent } from './../default.component';
-import { IndexComponent } from './index.component';
+import { IndexComponent,NgbdModalContent } from './index.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { Router, ActivatedRoute, Params } from '@angular/router';

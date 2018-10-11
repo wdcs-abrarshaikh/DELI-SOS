@@ -58,3 +58,11 @@
 .label {
     font-weight: 500;
 }
+.table1{
+    margin: 43px;
+}
+.header{
+    font-size: 3.15rem;
+    margin-left: 25%;
+    padding: 1.25rem 4.65rem;
+   }

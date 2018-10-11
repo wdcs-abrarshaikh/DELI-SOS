@@ -1,7 +1,7 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input,AfterViewInit  } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RestaurantService } from './restaurant.service';
-
+import { ScriptLoaderService } from '../../../../../_services/script-loader.service';
 import { FormBuilder, Validators, FormControl, FormGroup, FormArray } from '@angular/forms';
 import { Location } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
@@ -12,13 +12,13 @@ import * as _ from 'lodash';
   template: `
  
   <div class="modal-header">
-  <h4 class="modal-title">{{ isAdd ? 'Add' : 'Edit'}} Restaurant</h4>
+  <h4 class="modal-title">{{ isAdd ? 'Add' : isView ? 'View' : 'Edit'}} Restaurant</h4>
   <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
 <div class="modal-body">
-   <form name="RestaurantForm" [formGroup]="RestaurantForm"  >
+   <form name="RestaurantForm" [formGroup]="RestaurantForm" >
       <div class="form-group"> 
       <label> Restaurant Name</label>
       <input class="form-control m-input" type="text" formControlName="name"  [(ngModel)]="name"> 
@@ -88,13 +88,14 @@ import * as _ from 'lodash';
    <div class="form-group">
       <label>Upload Menu Images:</label><br/>
       <div  *ngFor="let url of menuImages ;let i=index"  >
-      <img  [src]="url" class="rounded mb-3" width="50">
-      <button class="btn btn-danger btn-xs" type="button" style="margin-left:10%"  (click)="deleteImage(i,'menu')" >Delete</button>
-      </div>
-      <label class="btn-bs-file btn btn-ls btn-info" style="margin-top:6px" text-align="center" >image
-      <input type="file" formControlName="menuImages" accept="image/*" style="display: none" multiple (change)="imageUploading($event,'menu')">
+      <img  [src]="url" class="rounded mb-3" width="50"  height="50">
+    
+      <button class="btn btn-danger btn-xs" *ngIf="!isView"  type="button" style="margin-left:10%"  (click)="deleteImage(i,'menu')" >Delete</button>
      
-      </label>     
+      </div>
+      <label class="btn-bs-file btn btn-ls btn-info" style="margin-top:6px" text-align="center"*ngIf="!isView" >image
+      <input type="file" formControlName="menuImages" accept="image/*" style="display: none" multiple (change)="imageUploading($event,'menu')">
+     </label>     
     </div>
 
     <div class="form-group">
@@ -107,10 +108,10 @@ import * as _ from 'lodash';
   <div class="form-group">
     <label>Photos:</label><br/>
     <div  *ngFor="let files of restaurantImages;let i=index"  >
-    <img  [src]="files" class="rounded mb-3" width="50">
-    <button class="btn btn-danger btn-xs" type="button" style="margin-left:10%"  (click)="deleteImage(i,'restaurant')"  >Delete</button>
+    <img  [src]="files" class="rounded mb-3" width="50"  height="50">
+   <button class="btn btn-danger btn-xs" *ngIf="!isView" type="button" style="margin-left:10%"  (click)="deleteImage(i,'restaurant')"  >Delete</button>
     </div>
-    <label class="btn-bs-file btn btn-ls btn-info" style="margin-top:6px" text-align="center" >image
+    <label class="btn-bs-file btn btn-ls btn-info" *ngIf="!isView" style="margin-top:6px" text-align="center" >image
     <input type="file" formControlName="restaurantImages" accept="image/*" style="display: none" multiple (change)="imageUploading($event,'restaurant')">
     </label>
    </div>
@@ -140,29 +141,30 @@ import * as _ from 'lodash';
      <div class="form-group required"> 
      <label>Image:</label><br/>
       <div>
-      <img  [src]="cuisinSubset.image" class="rounded mb-3" width="50">
+      <img  [src]="cuisinSubset.image" class="rounded mb-3" width="50" height="50">
       </div>
-      <label class="btn-bs-file btn btn-ls btn-info" style="margin-top:6px" text-align="center" >image
+      <label class="btn-bs-file btn btn-ls btn-info"*ngIf="!isView" style="margin-top:6px" text-align="center" >image
       <input type="file" accept="image/*" style="display: none" (change)="imageUploading($event,'cuisin',true,i)">
       </label>   
      <div class="help-block"></div>
      </div>
      </td>
      <td >
-     <button *ngIf='cuisinSubset' class="btn btn-danger btn-xs" type="button" (click)="deleteImage(i,'cuisin')" style="margin-right:10px" >Delete</button>
+   <button *ngIf='cuisinSubset && !isView' class="btn btn-danger btn-xs" type="button" (click)="deleteImage(i,'cuisin')" style="margin-right:10px" >Delete</button>
       </td>
      </tr>
      </tbody>
      </table>
      </div>
      </div>
+     <div *ngIf="!isView">
      <button class="btn btn-secondary btn-lg1" type="button"  (click)="addCuisin()" style="margin-right:10px" >Add More</button>
-   
+   </div>
     </div>
     </div>
   
     
-<div class="modal-footer">
+<div class="modal-footer" *ngIf="!isView">
 <button type="submit" class="btn btn-outline-dark"  (click)="addRestaurant()">Save</button>
 <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Cancel</button>
 
@@ -233,7 +235,7 @@ export class NgbdModalContent {
     public arr_value:any = [false,false,false,false]
     
     buildRestaurantForm() {
-        console.log(this.modalService)
+        console.log(this.mealOffers)
       if(this.mealOffers.length>0){
         this.arr_value = this.mealOffers 
       }
@@ -299,7 +301,7 @@ selectSelector(flag:string,arr){
    console.log('PPPPPPPPP',arr)
   switch(flag){ 
     case 'menu':
-          this.menuImages = [...this.menuImages,...arr]
+          this.menuImages = arr;
           break;
     case 'restaurant':
           this.restaurantImages  = arr;
@@ -512,13 +514,13 @@ async uploadImage(images) {
   styleUrls: ['./restaurant.component.css']
 })
 
-export class RestaurantComponent implements OnInit {
+export class RestaurantComponent implements OnInit,AfterViewInit {
   bannersDetail: any;
 
   modalReference: any;
   isAdd: boolean = false;
   RestaurantList: Array<any>;
-
+  isView:boolean=false;
   submitted = false;
   i;
 
@@ -526,13 +528,20 @@ export class RestaurantComponent implements OnInit {
     private location: Location,
     private toastService: ToastrService,
     private _formBuilder: FormBuilder,
-     private restaurantService:RestaurantService) {
+     private restaurantService:RestaurantService,
+     private _script:ScriptLoaderService) {
 
     this.restaurantService.getRestaurant().subscribe((data:any)=>{
       console.log("re",data)
       this.RestaurantList = data.RestautantList.data
     });
    }
+   ngAfterViewInit() {
+    this._script.loadScripts('app-restaurant',
+      ['assets/vendors/custom/datatables/datatables.bundle.js',
+        'assets/demo/default/custom/crud/datatables/basic/paginations.js']);
+  }
+
 
   ngOnInit() {
      this.getRestaurantList();
@@ -556,6 +565,8 @@ export class RestaurantComponent implements OnInit {
     let res = await this.mealOffers_arr.map(async (response,idx)=>{
         arr.map(async (arr_res,idnx)=>{
             if(arr_res == response){
+              console.log("111111",arr_res)
+              console.log("222",response)
               console.log(idx);
               array_val[idx] = true;
             }
@@ -564,13 +575,20 @@ export class RestaurantComponent implements OnInit {
     console.log(array_val)
     return array_val;
   }
-  async open(content) {
+  async open(content,type) {
+
    var i:number;
     // console.log("content",content.menu[0])
    if (!content) {
       this.isAdd = true
     } else {
-      this.isAdd = false
+      if (type == 'view') {
+        this.isView = true
+        this.isAdd = false
+      } else {
+        this.isAdd = false
+        this.isView = false
+      }
     }
     const modalRef = this.modalService.open(NgbdModalContent);
     let  arr_value:any = [false,false,false,false];
@@ -588,6 +606,7 @@ export class RestaurantComponent implements OnInit {
     modalRef.componentInstance.restaurantImages = content ? content.photos : "";
     modalRef.componentInstance.cuisinImagesObject = content ? content.cuisin: [{name:'',image:''}];
     modalRef.componentInstance.isAdd = this.isAdd;
+    modalRef.componentInstance.isView=this.isView;
     if(content && content.mealOffers.length>0){
       content.mealOffers = await this.checkValue(content.mealOffers)
     }
@@ -599,13 +618,11 @@ export class RestaurantComponent implements OnInit {
 
 
   deleteRestaurant(Rid) {
-
-    this.restaurantService.deleteRestaurant(Rid).subscribe(
+   this.restaurantService.deleteRestaurant(Rid).subscribe(
       data => {
-        console.log("delete")
-        console.log(data)
-        this.modalReference.close();
-       this.toastService.success(data['messgae']);
+       this.modalReference.close();
+       this.toastService.success(data['message']);
+       this. getRestaurantList()
        },
       error => {
         this.toastService.error(error.errors);

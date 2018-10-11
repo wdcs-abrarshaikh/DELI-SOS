@@ -202,8 +202,7 @@ export class UserComponent implements OnInit, AfterViewInit {
     if (!content) {
       this.isAdd = true
     } else {
-      console.log('content....', content)
-      console.log('type....', type)
+      
       if (type == 'view') {
         this.isView = true
         this.isAdd = false

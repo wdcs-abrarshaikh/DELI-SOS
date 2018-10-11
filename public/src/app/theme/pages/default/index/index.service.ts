@@ -26,13 +26,14 @@ export class IndexService {
     getHeaderWithToken() {
         let headers = new HttpHeaders()
         headers = headers.set('Content-Type', 'application/json')
-        headers = headers.set('Authorization', JSON.parse(localStorage.getItem('jwt')))
+        let token = JSON.parse(localStorage.getItem('_token'))
+        headers = headers.set('Authorization', token)
       
         return headers;
     }
    
     getAllUsers() {
-        return this.http.get(URL + '/getUsers', { headers: this.getHeaderWithToken() })
+        return this.http.get(URL + 'getUsers', { headers: this.getHeaderWithToken() })
         .pipe(
             map((res:Response)=>{ return res})
         );
@@ -44,6 +45,16 @@ export class IndexService {
         .pipe(
             map((res:Response)=>{ return res})
         )
+    }
+    approveRestaurant(R_id){
+        console.log(R_id)
+        return this.http.get(URL+'admin/approveRestaurantProposal/'+ R_id ,{ headers: this.getHeaderWithToken() })
+        .pipe(
+            map((res:Response)=>{
+                return res
+            })
+        )
+
     }
 
    

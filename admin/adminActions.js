@@ -75,8 +75,8 @@ function approveRestaurantProposal(rest_id,res){
     service.approveRestaurantProposal(rest_id,res)
 }
 
-function getAllPendingRestaurant(res){
-    service.getAllPendingRestaurant(res)
+function getAllPendingRestaurant(req,res){
+    service.getAllPendingRestaurant(req,res)
 }
 module.exports = {
     signup,

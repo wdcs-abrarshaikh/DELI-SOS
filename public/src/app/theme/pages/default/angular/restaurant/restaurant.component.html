@@ -1,9 +1,9 @@
-<div>
+
+<h2 class="header">Restaurant</h2>
   <button class="btn-add" (click)="open()"><i class="fas fa-plus"></i></button>
-</div>
-<!-- <button class="btn btn-lg btn-outline-primary" (click)="open()">Launch demo modal</button> -->
-<div class="table-responsive">
-  <table class="table">
+
+ <div class="table1">
+  <table  *ngIf="RestaurantList" datatable class="table-bordered table-hover">
     <thead>
       <tr>
         <th>Sr.</th>
@@ -16,15 +16,15 @@
       <tr *ngFor="let list of RestaurantList;let i=index">
         <td>{{i+1}}</td>
         <td>{{list.name}}</td>
-        <td>{{list.status}}</td>
+        <td >{{list.status}}</td>
         <td>
          
           <button type="button" class="btn-view">
-            <i class="fas fa-eye" (click)="open(list)"></i> 
+            <i class="fas fa-eye" (click)="open(list,'view')"></i> 
             </button>
              &nbsp;&nbsp;
           <button type="button" class="btn-edit">
-            <i class="fas fa-edit" (click)="open(list)"></i>
+            <i class="fas fa-edit" (click)="open(list,'edit')"></i>
           </button> &nbsp;&nbsp;
           <button type="button" class="btn-delete" (click)="delete(content)">
             <i class="fas fa-trash-alt"></i>
@@ -35,7 +35,7 @@
                 <span aria-hidden="true">&times;</span>
               </button>
               <div class="modal-body">
-                <!-- <img class="user-image" src="./assets/app/media/img/users/delete-icn.svg" height="60"> -->
+                <img class="user-image" src="./assets/app/media/img/users/delete-icn.svg" height="60">
                  <p>Are you sure you want to delete this record?</p>
               </div>
               <div class="text-center mt-4">

@@ -26,6 +26,7 @@
 			</div>
 			<!--end:: Widgets/Top Products-->
 		</div>
+		</div>
 		<!-- <div class="col-xl-4"> -->
 			<!-- <div class="m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force">
 				<div class="m-portlet__head">
@@ -39,38 +40,37 @@
 			
 			</div>
 		</div> -->
-	   
-		<div class="table-responsive">
-			<table *ngIf="RestList" datatable class="row-border hover">
-			  <thead>
+
+		<div class="table1">
+			<table  *ngIf="RestList" datatable class="table-bordered table-hover">
+			 <thead>
 				<tr>
 				  <th>Sr.</th>
-				  <th style="width:350px">Restaurant Name</th>
+				  <th>Restaurant Name</th>
 				  <th>Status</th>
 				  <th>Action</th>
 				</tr>
-			  </thead>
+			 </thead>
+				
 			  <tbody>
-			   
-				<tr *ngFor="let Rest of RestList ; let i=index">
+		    	<tr *ngFor="let Rest of RestList ; let i=index">
 				  <td>{{i+1}}</td>
 				  <td>{{Rest.name}}</td>
 				  <td>{{Rest.status}}</td>
-			       <td>
-					<button type="button" class="btn-view">view
-					  <i class="fas fa-eye" (click)="open(user,'view')"></i> 
-					  </button>
+			    <td>
+					<button type="button" class="btn-view">
+					  <i class="fas fa-eye" (click)="open(Rest)"></i> 
+					</button>
 					 &nbsp;&nbsp;
-
-					<button type="button" class="btn btn-success">Approve
-						<i class="fas fa-add" (click)="Approve(Rest._id)"></i>
-					</button> 
-				  </td>
-				</tr>
-			  </tbody>
+         	<button type="button" class="btn btn-success" (click)="Approve(Rest._id)" >Approve	</button> 
+			   </td>
+				 </tr>
+				</tbody> 
+			 
 			</table>
+	</div>
+	</div>
 	
-	</div>
-	</div>
+	
 		
 	

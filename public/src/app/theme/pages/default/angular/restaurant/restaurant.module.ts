@@ -1,5 +1,3 @@
-import { ImagesPipe } from './../../../../../images.pipe';
-// import { ParseDomPipe } from './../../parse-dom.pipe';
 
 
 import { RestaurantComponent, NgbdModalContent} from './../restaurant/restaurant.component';
@@ -13,26 +11,25 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {DefaultComponent} from '../../default.component';
 import {LayoutModule} from '../../../../layouts/layout.module';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
-// import { ImagesPipe } from '../../../../../images.pipe';
-
+import { DataTablesModule } from 'angular-datatables';
 
 //   import {BrowserModule} from '@angular/platform-browser';
 //  import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
  
 
 
-// const routes: Routes = [
-// 	{
-// 		path: "",
-// 		component: DefaultComponent,
-// 		children: [
-// 			{
-// 				path: "",
-// 				component: RestaurantComponent
-// 			}
-// 		]
-// 	}
-// ];
+const routes: Routes = [
+	{
+		path: "",
+		component: DefaultComponent,
+		children: [
+			{
+				path: "",
+				component: RestaurantComponent
+			}
+		]
+	}
+];
 
 @NgModule({
 	imports: [
@@ -46,12 +43,13 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 		ReactiveFormsModule,
 		OwlDateTimeModule,
 		OwlNativeDateTimeModule,
+		DataTablesModule,
 		
 
 	],
 	
-	exports: [RestaurantComponent,NgbdModalContent,ImagesPipe],
-	declarations: [RestaurantComponent,NgbdModalContent,ImagesPipe],
+	exports: [RestaurantComponent,NgbdModalContent],
+	declarations: [RestaurantComponent,NgbdModalContent],
 	providers: [RestaurantComponent], 
 	entryComponents:[NgbdModalContent]
 	
