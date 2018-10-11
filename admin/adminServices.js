@@ -271,7 +271,12 @@ function uploadPhoto(req, res) {
                           console.log(result)
                           if(result)
                             {
+                                try{
                               let response_unlink = await require('fs').unlink(`${process.cwd()}/img/${filePath}`);
+
+                                }  catch(e){
+                                    console.log('in callback')
+                                }
                               upload_res.push(result.url);
                             }
                             if(upload_res.length === upload_len)
@@ -433,7 +438,7 @@ async function approveRestaurantProposal(rest_id, res) {
 }
 
 
-function getAllPendingRestaurant(req, res) {
+function getAllPendingRestaurant( res) {
     restModel.find({ status:status.pending }, (err, data) => {
         
         return (err) ? res.json({ code: code.internalError, message: msg.internalServerError }) :

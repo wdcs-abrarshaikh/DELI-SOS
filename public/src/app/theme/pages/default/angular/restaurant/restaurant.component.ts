@@ -607,11 +607,11 @@ export class RestaurantComponent implements OnInit,AfterViewInit {
     modalRef.componentInstance.cuisinImagesObject = content ? content.cuisin: [{name:'',image:''}];
     modalRef.componentInstance.isAdd = this.isAdd;
     modalRef.componentInstance.isView=this.isView;
-    if(content && content.mealOffers.length>0){
-      content.mealOffers = await this.checkValue(content.mealOffers)
-    }
+    // if(content && content.mealOffers.length>0){
+    //   content.mealOffers = await this.checkValue(content.mealOffers)
+    // }
     console.log(content)
-    modalRef.componentInstance.mealOffers = (content) ? content.mealOffers : arr_value;
+    modalRef.componentInstance.mealOffers = (content) ? await this.checkValue(content.mealOffers) : arr_value;
 
     console.log(modalRef.componentInstance)
   }

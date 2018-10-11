@@ -409,10 +409,11 @@ function getNearByRestaurant(req,res){
             }else if(!data){
                 return res.json({ code: code.notFound, message: msg.userNotFound })
             }else{
+                console.log(data)
                 restModel.aggregate([ 
                     {      $geoNear: {         near: { type: data.location.type, coordinates: [data.location.coordinates[0],data.location.coordinates[1]] },    
                          distanceField: "dist.calculated",   
-                               maxDistance: 10000,   
+                               maxDistance: 100000,   
                                  key:'location',  
                                    query: { status:status.active},      
                                       includeLocs: "dist.location",   
@@ -420,6 +421,7 @@ function getNearByRestaurant(req,res){
                                               spherical: true      } 
                                                  }
                                                   ],(err,response)=>{
+                                                      console.log(err);
                                                     return (err) ? res.json({ code: code.internalError, message: msg.internalError })  :res.json({ code: code.ok, result: response})
                                                   })
             }
