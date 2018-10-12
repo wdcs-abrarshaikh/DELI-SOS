@@ -7,7 +7,7 @@ var code = require('../constants').http_codes;
 var msg = require('../constants').messages;
 var role = require('../constants').roles;
 var status = require('../constants').status;
-
+let schmaName = require('../constants').schemas;
 async function createUser(req, res) {
     let data = req.body;
     if (await userModel.findOne({ email: data.email })) {
@@ -409,21 +409,63 @@ function getNearByRestaurant(req,res){
             }else if(!data){
                 return res.json({ code: code.notFound, message: msg.userNotFound })
             }else{
-                console.log(data)
                 restModel.aggregate([ 
                     {      $geoNear: {         near: { type: data.location.type, coordinates: [data.location.coordinates[0],data.location.coordinates[1]] },    
                          distanceField: "dist.calculated",   
-                               maxDistance: 100000,   
-                                 key:'location',  
-                                   query: { status:status.active},      
-                                      includeLocs: "dist.location",   
-                                            num: 5,       
-                                              spherical: true      } 
-                                                 }
-                                                  ],(err,response)=>{
-                                                      console.log(err);
-                                                    return (err) ? res.json({ code: code.internalError, message: msg.internalError })  :res.json({ code: code.ok, result: response})
-                                                  })
+                        maxDistance: 100000,   
+                            key:'location',  
+                            query: { status:status.active},      
+                                    num: 5,spherical: true} 
+                                            },{
+                                                $project:{
+                                                'location':1,'photos':1,'_id':1,  
+                                                'reviews':1,'name':1,'dist':1,'mealOffers':1   
+                                                }   
+                                            },
+                                            {
+                                                $lookup:{
+                                                from:schmaName.reviews,
+                                                localField:'reviews',
+                                                foreignField:'_id',
+                                                as:'reviews_details'
+                                                }
+                                            },{
+                                                    $addFields:{
+                                                    "rating":{$avg:'$reviews_details.rating'},
+                                                    "distance":'$dist.calculated'
+                                                    }
+                                            },{
+                                                $project:{
+                                                    "reviews_details":false,
+                                                    reviews:false,
+                                                    dist:false
+
+                                                }
+                                            }],(err,response)=>{
+                                                console.log(err);
+                                                console.log(response)
+                                                if(err){
+                                                  return   res.json({ code: code.internalError, message: msg.internalError }) 
+                                                }else{
+                                                    console.log(response);
+                                                    let  marker = [];
+                                                    let recommendation=[]
+                                                    let modifyed_response = response.map(async (response_res)=>{
+                                                            let obj = Object.assign({},response_res);
+                                                            delete obj.mealOffers;
+                                                            obj.lat = obj.location.coordinates[1];
+                                                            obj.long = obj.location.coordinates[0];
+                                                            delete obj.location;
+                                                            delete response_res.location;
+                                                            marker.push(obj);
+                                                            recommendation.push(response_res);
+
+                                                    });
+
+                                                    return res.json({code:code.ok,marker,recommendation})
+                                                }
+                                            
+                                            })
             }
         })
 }
