@@ -455,6 +455,8 @@ function getNearByRestaurant(req,res){
                                                             delete obj.mealOffers;
                                                             obj.lat = obj.location.coordinates[1];
                                                             obj.long = obj.location.coordinates[0];
+                                                            obj.photos = obj.photos[0];
+                                                            response_res.photos = response_res.photos[0];
                                                             delete obj.location;
                                                             delete response_res.location;
                                                             marker.push(obj);
