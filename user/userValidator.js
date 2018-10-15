@@ -60,15 +60,21 @@ function validateLogin(req, res, next) {
     }
 }
 function validateSocialLogin(req, res, next) {
-    if (req.body.name && req.body.socialId && req.body.deviceId && req.body.deviceType && req.body.fcmToken) {
+    if (req.body.name && req.body.socialId && req.body.deviceId && req.body.deviceType && req.body.fcmToken&& req.body.latitude && req.body.longitude) {
         let name = req.body.name.trim(),
             socialId = req.body.socialId.trim(),
             isSocialLogin = req.body.isSocialLogin,
             deviceId = req.body.deviceId.trim(),
             deviceType = req.body.deviceType.trim(),
             fcmToken = req.body.deviceType.trim()
-
+            if(!validateLatLong(parseFloat(req.body.longitude),parseFloat(req.body.latitude))){
+                return res.json({ code: code.badRequest, message: msg.invalidLatLong })
+            }
         if (name && socialId && deviceId && deviceType && fcmToken) {
+            req.body.location = {
+                type:'Point',
+                coordinates:[parseFloat(req.body.longitude),parseFloat(req.body.latitude)]
+            }
             next();
         }
         else {
