@@ -44,7 +44,7 @@ var userSchema = new schema({
             return (this.isSocialLogin == true) ? true : false  
         }
     },
-    profilePicture: { type: String },
+    profilePicture: { type: String,default:' ' },
     deviceId: {
         type: String, required: function () {
             if (this.role == roles.USER) {
@@ -90,7 +90,7 @@ User.countDocuments(async function (err, data) {
             "role": roles.ADMIN,
             location:{
                 type:"Point",
-                coordinates: [72.51231,23.02771]
+                coordinates: [process.env.long,process.env.lat]
             },
             location_address: {
                 street1: '512 new avanue',

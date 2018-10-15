@@ -204,15 +204,10 @@ function validateReview(req, res, next) {
 }
 
 function validateProfile(req, res, next) {
-    if (req.body.name) {
-        let name = req.body.name.trim()
-        console.log(name)
-        if (name) {
-            next();
-        }
-        else {
-            res.json({ code: code.badRequest, message: msg.invalidBody })
-        }
+    let {name,email,profilePicture,locationVisible} = req.body;
+    if (name || email || profilePicture || locationVisible) {
+        console.log(req.body)
+            next(); 
     }
     else {
         res.json({ code: code.badRequest, message: msg.invalidBody })
