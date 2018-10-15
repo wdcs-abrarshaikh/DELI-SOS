@@ -8,6 +8,7 @@ var msg = require('../constants').messages;
 var role = require('../constants').roles;
 var status = require('../constants').status;
 let schmaName = require('../constants').schemas;
+let adminService = require('../admin/adminServices');
 async function createUser(req, res) {
     let data = req.body;
     if (await userModel.findOne({ email: data.email })) {
@@ -122,22 +123,7 @@ function manageSocialLogin(req, res) {
 }
 
 function uploadPhoto(req, res) {
-    req.newFile_name = [];
-
-    util.upload(req, res, function (err) {
-        if (err) {
-            return res.json({code:code.badRequest,message:err})
-        }
-        else{
-            console.log(req.newFile_name)
-            var response = req.newFile_name.map((result)=>{
-                result = process.cwd()+'/img/'+result;
-                console.log(result);
-                return result;
-            })
-            return res.json({code:code.created,message:msg.ok,data:response})
-        }
-    });
+    adminService.uploadPhoto(req,res);
 }
 
 function addRestaurant(req, res) {
