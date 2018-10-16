@@ -25,15 +25,10 @@ constructor(private loginService:LoginService,
           private router:Router,
           private profileService:ProfileService)  {
            
-            // this.profileService.getProfile().subscribe((data: any) => {
-        
-              
-            //   this.profilesList=data.response.data.imageUrl
-              
-              
-        
-        
-            // });
+            this.profileService.getProfile().subscribe((data: any) => {
+              console.log("uuuuuuuuuuuuu",data)
+            this.profilesList=data.response.data.imageUrl
+          });
 
 }
 ngOnInit()  {
@@ -41,24 +36,11 @@ ngOnInit()  {
   this.email = JSON.parse(localStorage.getItem('emailId'));
 
 }
-getName() {
-    let name = JSON.parse(localStorage.getItem('userName'));
-    this.loginService.get(this.loginForm.value).subscribe((response: any) => {
 
-   
-
-     
-    }, error => {
-      console.log('error' + error);
-      
-    });
-    
-        
-  }
   logout(){
-    localStorage.removeItem('userName');
-  localStorage.removeItem('emailId');
-  this.router.navigate(['/login']);
+    localStorage.removeItem('_token');
+    localStorage.removeItem('_id');
+    this.router.navigate(['/login']);
 
 
   }

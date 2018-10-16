@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Router, NavigationStart, NavigationEnd} from '@angular/router';
-// import {Helpers} from "./helpers";
+import {Helpers} from "./helpers";
 
 @Component({
 	selector: 'body',
@@ -15,6 +15,15 @@ export class AppComponent implements OnInit {
 	}
 
 	ngOnInit() {
+		this._router.events.subscribe((route) => {
+			if (route instanceof NavigationStart) {
+				Helpers.setLoading(true);
+				Helpers.bodyClass(this.globalBodyClass);
+			}
+			if (route instanceof NavigationEnd) {
+				Helpers.setLoading(false);
+			}
+		});
 	
 }
 

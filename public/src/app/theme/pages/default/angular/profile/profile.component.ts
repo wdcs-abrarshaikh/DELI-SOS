@@ -34,87 +34,87 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.buildProfileForm();
-    // this.getInfo();
+    this.buildProfileForm();
+    this.getInfo();
 
   }
-  // buildProfileForm() {
-  //   this.profileForm = this._formBuilder.group({
-  //     emailId: ['', [Validators.required]],
-  //     fullName: ['', [Validators.required]],
-  //     imageUrl: [''],
-  //     gender: '',
+  buildProfileForm() {
+    this.profileForm = this._formBuilder.group({
+      // emailId: ['', [Validators.required]],
+      UserName: ['', [Validators.required]],
+      profilePicture: [''],
+     });
+  }
+  
+  getInfo() {
+   this.profileService.getProfile().subscribe((response: any) => {
+     console.log("iiiii",response)
+    this.personalInfo = response.data;
 
+    }, error => {
+      console.log('error' + error);
 
-  //   });
-  // }
-  // getInfo() {
-
-  //   this.profileService.getProfile().subscribe((response: any) => {
-     
-  //     this.personalInfo = response.response.data;
-
-  //   }, error => {
-  //     console.log('error' + error);
-
-  //   });
+    });
 
 
 
-  // }
-  // uploadProfileImage(image) {
+  }
 
-  //   var data = {
-  //     "file": image
-  //   }
-  //   this.profileService.uploadPic(data).subscribe((response: any) => {
+  uploadProfileImage(image) {
 
-  //     this.profilesList = response.response.url;
+    var data = {
+      "file": image
+    }
+    this.profileService.uploadPic(data).subscribe((response: any) => {
+
+      this.profilesList = response.response.url;
     
 
-  //   }, error => {
-  //     console.log('error',error)
-  //   });
+    }, error => {
+      console.log('error',error)
+    });
 
-  // }
-  // handleInputChange(e) {
-  //   var file = e.dataTransfer ? e.dataTransfer.files[0] : e.target.files[0];
-  //   var pattern = /image-*/;
-  //   var reader = new FileReader();
-  //   if (!file.type.match(pattern)) {
-  //     alert('invalid format');
-  //     return;
-  //   }
-  //   reader.onload = this._handleReaderLoaded.bind(this);
-  //   reader.readAsDataURL(file);
+  }
 
-  // }
-  // _handleReaderLoaded(e) {
+  handleInputChange(e) {
+    var file = e.dataTransfer ? e.dataTransfer.files[0] : e.target.files[0];
+    var pattern = /image-*/;
 
-  //   let reader = e.target;
-  //   this.mypic = reader.result;
-  //   var res = this.mypic.split(',')
+    var reader = new FileReader();
+    if (!file.type.match(pattern)) {
+      alert('invalid format');
+      return;
+    }
+    reader.onload = this._handleReaderLoaded.bind(this);
+    reader.readAsDataURL(file);
 
-  //   this.uploadProfileImage(res[1]);
-  // }
+  }
+  _handleReaderLoaded(e) {
 
-  // editProfile() {
-  //   var editObj = {
-  //     "emailId": this.profileForm.controls['emailId'].value,
-  //     "fullName": this.profileForm.controls['fullName'].value,
-  //     "gender": this.profileForm.controls['gender'].value,
-  //     "imageUrl": this.profilesList,
+    let reader = e.target;
+    this.mypic = reader.result;
+    var res = this.mypic.split(',')
+     console.log("rrrr",res)
+    this.uploadProfileImage(res[1]);
+  }
+
+  editProfile() {
+    var editObj = {
+      "emailId": this.profileForm.controls['emailId'].value,
+      "fullName": this.profileForm.controls['fullName'].value,
+      "gender": this.profileForm.controls['gender'].value,
+      "imageUrl": this.profilesList,
      
 
 
-  //   }
+    }
     
-  //   this.profileService.editProfile(editObj).subscribe((response: any) => {
+    this.profileService.editProfile(editObj).subscribe((response: any) => {
      
 
 
-  //   })
-  // }
+    })
+  }
 
 
 }

@@ -34,9 +34,7 @@ export class RestaurantService {
     }
 
     addRestaurant(data: any){
-       var admin_id=JSON.parse(localStorage.getItem('_id'));
-       
-        return this.http.post<any>(URL + 'admin/addRestaurant', data, { headers: this.getHeaderWithToken() })
+       return this.http.post<any>(URL + 'admin/addRestaurant', data, { headers: this.getHeaderWithToken() })
             .pipe(
                 map((res: Response) => { return res }),
             );
@@ -44,8 +42,7 @@ export class RestaurantService {
     }
 
     getAllRestaurant() {
-        console.log("re list here")
-        return this.http.get(URL + 'admin/getRestaurantList', { headers: this.getHeaderWithToken() })
+       return this.http.get(URL + 'admin/getRestaurantList', { headers: this.getHeaderWithToken() })
         .pipe(
             map((res:Response)=>{ return res})
         );
@@ -53,8 +50,7 @@ export class RestaurantService {
 
    
     editRestaurant(data:any,id) {
-   
-      return this.http.put<any>(URL + 'admin/updateRestaurant/' +id, data,{ headers: this.getHeaderWithToken() })
+          return this.http.put<any>(URL + 'admin/updateRestaurant/' +id, data,{ headers: this.getHeaderWithToken() })
             .pipe(
                 map((res: Response) => { return res }),
             );
@@ -84,12 +80,8 @@ export class RestaurantService {
 
         })
         console.log(formData)
-    //    return new Promise((resolve,reject)=>{
         return this.http.post<any>(URL + 'admin/uploadPhoto',formData);
-        
-    //    })
-       
-
+      
     }
    
    

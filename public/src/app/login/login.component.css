@@ -18,14 +18,14 @@ body{
 	   padding-top: 2rem;
     }
     .btn-login{
-        color: white;
-        background-color: orange;
+        color: white; background-color: #e97121;	
+       
         padding: .85rem 2rem;
 		font-size: 1rem;
 		font-weight: 400;
 		font-family: monospace;
 		/* border-radius: 60px; */
-		border-color: rgb(240, 161, 14);
+		border-color: #e97121;
 		width: 50%;
 		text-align: center;
 		float: center;

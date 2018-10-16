@@ -1,3 +1,4 @@
+import { ScriptLoaderService } from './../../../../_services/script-loader.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
@@ -9,7 +10,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { IndexRoutingModule } from './index.routing';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
-import { ScriptLoaderService } from './../../../../_services/script-loader.service';
+
 
 const routes: Routes = [
     {
@@ -32,14 +33,14 @@ const routes: Routes = [
         DataTablesModule,
         NgbModule.forRoot(),
         FormsModule,
-        ReactiveFormsModule,
-        ScriptLoaderService
+		ReactiveFormsModule,
         ],
         exports: [
         RouterModule,NgbdModalContent
         ],
         declarations: [
         IndexComponent,NgbdModalContent],
+        providers:[ScriptLoaderService],
 
         entryComponents: [NgbdModalContent] })
 

@@ -152,7 +152,7 @@ export class NgbdModalContent {
   }
 
   validateForm() {
-    console.log(this.userForm)
+  
     if (this.userForm.valid) {
       return false;
     } else {
@@ -169,7 +169,7 @@ export class NgbdModalContent {
 })
 
 export class UserComponent implements OnInit, AfterViewInit {
-  usersDetail: any;
+  // usersDetail: any;
 
   modalReference: any;
   isAdd: boolean = false;
@@ -185,9 +185,9 @@ export class UserComponent implements OnInit, AfterViewInit {
     private userService: UserService,
     private _script: ScriptLoaderService) {
 
-    this.userService.getUsers().subscribe((data: any) => {
-      this.usersList = data.usersList.data
-    });
+    // this.userService.getUsers().subscribe((data: any) => {
+    //   this.usersList = data.usersList.data
+    // });
   }
   ngAfterViewInit() {
     this._script.loadScripts('app-user',
@@ -202,7 +202,6 @@ export class UserComponent implements OnInit, AfterViewInit {
     if (!content) {
       this.isAdd = true
     } else {
-      
       if (type == 'view') {
         this.isView = true
         this.isAdd = false
@@ -227,7 +226,6 @@ export class UserComponent implements OnInit, AfterViewInit {
   getUserList() {
     this.userService.getAllUsers().subscribe((response: any) => {
       // console.log("all data here display")
-      console.log(response)
       this.usersList = response.data;
     });
   }

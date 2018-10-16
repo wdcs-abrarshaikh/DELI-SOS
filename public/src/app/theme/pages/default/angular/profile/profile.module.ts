@@ -8,7 +8,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {DefaultComponent} from '../../default.component';
 import {LayoutModule} from '../../../../layouts/layout.module';
-
+import {AtomSpinnerModule} from 'angular-epic-spinners'
 const routes: Routes = [
 	{
 		path: "",
@@ -29,7 +29,8 @@ const routes: Routes = [
 		LayoutModule,
 		NgbModule.forRoot(),
 		FormsModule,
-		ReactiveFormsModule
+		ReactiveFormsModule,
+		AtomSpinnerModule
 	],
 	
 	exports: [],

@@ -6,12 +6,14 @@ img.m--img-rounded.m--marginless {
     height:50px !important;
 }
 
-.image{
+.img-circle{
     vertical-align: middle;
     border-style: none;
     float: right;
-    height: 70px;
+    border-radius: 50%;
+    /* height: 80px; */
+    /* background: url("user.jpeg") */
 }
 h3{
-    color: orange
+    color: black
 }

@@ -25,6 +25,10 @@ const routes: Routes = [
                 "path": "admin/restaurant",
                 "loadChildren": "./pages/default/angular/restaurant/restaurant.module#RestaurantModule"
             },
+            {
+                "path": "admin/profile",
+                "loadChildren": "./pages/default/angular/profile/profile.module#ProfileModule"
+            },
         ]
     },
 

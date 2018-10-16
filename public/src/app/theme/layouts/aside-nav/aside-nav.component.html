@@ -1,15 +1,20 @@
 <!-- BEGIN: Left Aside -->
+<div class="t1">
 <app-header-nav></app-header-nav>
 <button class="m-aside-left-close  m-aside-left-close--skin-dark" id="m_aside_left_close_btn" appunwraptag=""><i class="la la-close"></i></button>
 <div id="m_aside_left" class="m-grid__item	m-aside-left  m-aside-left--skin-dark">
 	<!-- BEGIN: Aside Menu -->
 	<div id="m_ver_menu" class="m-aside-menu  m-aside-menu--skin-dark m-aside-menu--submenu-skin-dark" m-menu-vertical="1"
-	 m-menu-scrollable="1" m-menu-dropdown-timeout="500" style="position: relative;">
+	 m-menu-scrollable="1" m-menu-dropdown-timeout="500" style="background: rgb(236, 151, 39);  /* fallback for old browsers */
+	 background: -webkit-linear-gradient(to right, #e97121, rgb(236, 151, 39));  /* Chrome 10-25, Safari 5.1-6 */
+	 background: linear-gradient(to right, #e97121, rgb(236, 151, 39)); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+	 
+	 ">
 		<ul class="m-menu__nav  m-menu__nav--dropdown-submenu-arrow">
 			<li class="m-menu__item  " routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }"
-			 aria-haspopup="true"><a routerLink="/index" class="m-menu__link"><i class="m-menu__link-icon flaticon-line-graph"></i><span
+			 aria-haspopup="true"><a routerLink="/index" class="m-menu__link"><i class="m-menu__link-icon flaticon-line-graph" style="color:black"> </i><span
 					 class="m-menu__link-title">
-						<span class="m-menu__link-wrap"> <span class="m-menu__link-text">Dashboard</span>  </span></span></a></li>
+						<span class="m-menu__link-wrap"> <span class="m-menu__link-text" style="color:black">Dashboard</span>  </span></span></a></li>
 			<li class="m-menu__section">
 				<h4 class="m-menu__section-text">Masters</h4> <i class="m-menu__section-icon flaticon-more-v3"></i>
 			</li>
@@ -20,7 +25,7 @@
 				 routerLink="/admin/banner" class="m-menu__link"><i class="far fa-images"></i>&nbsp;&nbsp;&nbsp;Banner</a>
 			</li> -->
 			<li class="m-menu__item" routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true"><a
-				routerLink="/admin/restaurant" class="m-menu__link"><i class="fas fa-bars"></i>&nbsp;&nbsp;&nbsp;Restaurant
+				routerLink="/admin/restaurant" class="m-menu__link" style="color:black"><i class="fas fa-bars" style="color:black"></i>&nbsp;&nbsp;&nbsp;Restaurant
 					 </a>
 		   </li>
 			<!-- <li class="m-menu__item" routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true"><a
@@ -34,23 +39,22 @@
 						Template</a>
 			</li>-->
 			<li class="m-menu__item" routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true"><a
-				routerLink="/admin/getUserList" class="m-menu__link"><i class="fas fa-users"></i>&nbsp;&nbsp;&nbsp;User
+				routerLink="/admin/getUserList" class="m-menu__link" style="color:black"><i class="fas fa-users" style="color:black"></i>&nbsp;&nbsp;&nbsp;User
 					  </a>
 		   </li>
-		  <!----   <li class="m-menu__item" routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true"><a
-			routerLink="/admin/approveR" class="m-menu__link"><i class="far fa-building"></i>&nbsp;&nbsp;&nbsp;About us
+		    <li class="m-menu__item" routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true"><a
+			routerLink="/login" class="m-menu__link" style="color:black"><i class="far fa-building" style="color:black"></i>&nbsp;&nbsp;&nbsp;About us
 				   </a>
 	   </li>
 	  
    
-	 <li class="m-menu__item" routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }"
-	   aria-haspopup="true"><a routerLink="/admin/privacy-policy" class="m-menu__link"><i class="m-menu__link-icon flaticon-settings"></i><span
-			   class="m-menu__link-text">Privacy policy
-			  </span></a>
+	 <li class="m-menu__item" routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }"aria-haspopup="true">
+	   <a routerLink="/login" class="m-menu__link" style="color:black"><i class="far flaticon-settings" style="color:black"></i>&nbsp;&nbsp;&nbsp;Privacy policy
+    	</a>
 	  </li>
 
 
-	  <li class="m-menu__item" routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }"
+	<!----  <li class="m-menu__item" routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }"
 	   aria-haspopup="true"><a routerLink="/admin/terms-conditions" class="m-menu__link"><i class="m-menu__link-icon flaticon-settings"></i><span
 			   class="m-menu__link-text">Terms & Conditions
 			  </span></a>
@@ -63,9 +67,14 @@
 			 </span></a>
 	 </li>
 
+
+
+
+	 
 			 -->
 			
 					</ul>
 				</div>
 			</div>
+		</div>
 	

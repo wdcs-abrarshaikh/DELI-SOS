@@ -9,6 +9,7 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap'
 import { ScriptLoaderService } from './../../../../_services/script-loader.service';
 
 
+
 @Component({
     selector: 'app-index',
     template: `
@@ -93,7 +94,7 @@ import { ScriptLoaderService } from './../../../../_services/script-loader.servi
       <input type="file" formControlName="photos" accept="image/*" style="display: none" >
      </div>
 
-     </form>
+     
       <div class="box box-solid box-primary">
       <div>
       <label>cuisin</label>
@@ -129,7 +130,7 @@ import { ScriptLoaderService } from './../../../../_services/script-loader.servi
        </div>
      </div>
       </div>
-   
+      </form>
   </div>
   
   
@@ -137,6 +138,7 @@ import { ScriptLoaderService } from './../../../../_services/script-loader.servi
     styleUrls: ['./index.component.css']
 })
 export class NgbdModalContent {
+   
     RestaurantForm: FormGroup;
     menuImages: Array<any>;
     restaurantImages: Array<any>;
@@ -148,6 +150,7 @@ export class NgbdModalContent {
         }
     ];
     constructor(
+
         public activeModal: NgbActiveModal,
         private _router: Router,
         private _formBuilder: FormBuilder,
@@ -190,7 +193,7 @@ export class NgbdModalContent {
     // encapsulation: ViewEncapsulation.None,
 })
 export class IndexComponent implements OnInit, AfterViewInit {
-    usersList: Array<any>;
+    restList: Array<any>;
     isView: boolean = false;
     constructor(
         private _router: Router,
@@ -199,7 +202,11 @@ export class IndexComponent implements OnInit, AfterViewInit {
         private indexService: IndexService,
         private toastService: ToastrService,
         private modalService: NgbModal,
-        private location: Location) { }
+        private location: Location) {
+           this.indexService.getAllRequest().subscribe((response: any) => {
+            this.restList = response.data
+        }) 
+         }
 
     ngAfterViewInit() {
         this._script.loadScripts('app-index',
@@ -210,19 +217,20 @@ export class IndexComponent implements OnInit, AfterViewInit {
     totalUser;
     ngOnInit() {
         this.getAllRequest()
-        this.getUserList();
+        // this.getUserList();
     }
-    getUserList() {
-        this.indexService.getAllUsers().subscribe((response: any) => {
-            console.log(response)
-            this.usersList = response.response.count;
-        });
-    }
-    RestList: Array<any> = [];
+    // getUserList() {
+    //     this.indexService.getAllUsers().subscribe((response: any) => {
+    //         console.log(response)
+    //         this.usersList = response.response.count;
+    //     });
+    // }
+    // restList: Array<any> = [];
 
     getAllRequest() {
         this.indexService.getAllRequest().subscribe((response: any) => {
-            this.RestList = response.data
+            this.restList = response.data
+            console.log('rrr',this.restList)
         })
     }
     open(content) {
@@ -241,8 +249,6 @@ export class IndexComponent implements OnInit, AfterViewInit {
         modalRef.componentInstance.menuImages = content ? content.menu : "";
         modalRef.componentInstance.restaurantImages = content ? content.photos : "";
         modalRef.componentInstance.cuisinImagesObject = content ? content.cuisin : "";
-        modalRef.componentInstance.isView = this.isView;
-        console.log(modalRef)
     }
 
     Approve(id) {

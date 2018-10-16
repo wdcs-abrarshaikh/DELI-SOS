@@ -4,10 +4,10 @@
     line-height: 1.5;
     color:white;
     background-color: transparent;
-    background: #5867dd;
-    border-color: #5867dd;
+    background: linear-gradient(to right, #fc4a1a, #f7b733);
     margin-left: 95%;
     margin-top:0%;
+    border-color:#f7b733;
 }
 .lbl-err {
     color: red;

@@ -1,13 +1,17 @@
 <!-- BEGIN: Header -->
-<header id="m_header" class="m-grid__item    m-header" m-minimize-offset="200" m-minimize-mobile-offset="200" appunwraptag="">
+<header id="m_header" class="m-grid__item    m-header" m-minimize-offset="200" m-minimize-mobile-offset="200" appunwraptag="" >
 	<div class="m-container m-container--fluid m-container--full-height">
-		<div class="m-stack m-stack--ver m-stack--desktop">
+		<div class="m-stack m-stack--ver m-stack--desktop" style="background: white " >
 			<!-- BEGIN: Brand -->
-			<div class="m-stack__item m-brand  m-brand--skin-dark">
+			<div class="m-stack__item m-brand  m-brand--skin-dark" style="background:  rgb(236, 151, 39);  /* fallback for old browsers */
+			background: -webkit-linear-gradient(to right, rgb(236, 151, 39)), #e97121;  /* Chrome 10-25, Safari 5.1-6 */
+			background: linear-gradient(to right, rgb(236, 151, 39), #e97121); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+			
+			">
 				<div class="m-stack m-stack--ver m-stack--general">
 					<div class="m-stack__item m-stack__item--middle m-brand__logo"> <img alt="" src="./assets/demo/default/media/img/logo/logo1.png" height="45px" margin-top="50px"/> <a routerLink="/index" class="m-brand__logo-wrapper">
 							
-						<h3>DeliSos</h3>
+						<h3 >DeliSos</h3>
 						
 					</a> </div>
 
@@ -25,7 +29,7 @@
 				
 			</div> <!-- END: Brand -->
 			<div class="m-stack__item m-stack__item--fluid m-header-head" id="m_header_nav">
-				<!-- BEGIN: Horizontal Menu --><button class="m-aside-header-menu-mobile-close  m-aside-header-menu-mobile-close--skin-dark" id="m_aside_header_menu_mobile_close_btn"><i
+				<!-- BEGIN: Horizontal Menu --><button class="m-aside-header-menu-mobile-close  m-aside-header-menu-mobile-close--skin-dark" id="m_aside_header_menu_mobile_close_btn" style="background-color:rgb(236, 159, 87)"><i
 					 class="la la-close"></i></button> 
 					 <div id="m_header_menu" class="m-header-menu m-aside-header-menu-mobile m-aside-header-menu-mobile--offcanvas  m-header-menu--skin-light m-header-menu--submenu-skin-light m-aside-header-menu-mobile--skin-dark m-aside-header-menu-mobile--submenu-skin-dark">
 					
@@ -35,13 +39,13 @@
 							 m-dropdown-toggle="click"> 
 							
 								<div class="m-nav__link m-dropdown__toggle"> <span class="m-topbar__userpic">
-										<div>
-										<img [src]="profilesList" class="image" [alt]="profilesList" /> 
+									<div>
+										<img src="user.jpeg" class="img-circle" alt="Cinque Terre" width="100" height="100"> 
 									</div>
 									</span> <span
 									 class="m-topbar__username m--hide">Nick</span>
 									 </div>
-									 
+									
 									 <div class="m-card-profile__pic">
 								<!-- </a>  -->
 							
@@ -49,14 +53,14 @@
 							
 								<div class="m-dropdown__wrapper"> <span class="m-dropdown__arrow m-dropdown__arrow--right m-dropdown__arrow--adjust"></span>
 									<div class="m-dropdown__inner">
-										<div class="m-dropdown__header m--align-center" style="background: url(./assets/app/media/img/misc/user_profile_bg.jpg); background-size: cover;">
+										<div class="m-dropdown__header m--align-center" style="background: url(./assets/app/media/img/misc/user.jpeg); background-size: cover;">
 											<div class="m-card-user m-card-user--skin-dark">
 												<!-- <div class="m-card-user__pic"> <img src="./assets/app/media/img/users/user4.jpg" class="m--img-rounded m--marginless"
 													 alt="" /> -->
 													<!-- 						<span class="m-type m-type--lg m--bg-danger"><span class="m--font-light">S<span><span> 						-->
 												<!-- </div> -->
-												<div class="m-card-user__details"> <span class="m-card-user__name m--font-weight-500"(click)="getName()">{{name}}</span> <a href=""
-													 class="m-card-user__email m--font-weight-300 m-link">{{email}}</a>
+												<div class="m-card-user__details"> <span class="m-card-user__name m--font-weight-500"(click)="getName()">fghfgh</span> <a href=""
+													 class="m-card-user__email m--font-weight-300 m-link">dfhfghfgh</a>
 												</div>
 											</div>
 										</div>
@@ -69,7 +73,7 @@
 																	<span class="m-nav__link-badge"></span> </span> </span> </a>
 													</li>
 													
-													<li class="m-nav__item"> <a routerLink="/snippets/pages/user/login-1" class="btn m-btn--pill    btn-secondary m-btn m-btn--custom m-btn--label-brand m-btn--bolder"
+													<li class="m-nav__item"> <a routerLink="/snippets/pages/user/login-1"  style="color: orangered"class="btn m-btn--pill   btn-secondary m-btn m-btn--custom m-btn--label-brand m-btn--bolder"
 														 (click)="logout()">Logout</a> </li>
 														 
 												</ul>
