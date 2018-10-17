@@ -13,24 +13,21 @@ export class ProfileComponent implements OnInit {
   mypic: any;
   profilesList: any;
   personalInfo: Array<any>;
-  userName: any;
-  userEmail: any;
+  name: any;
+  email: any;
+  display:boolean
 
   profileForm: FormGroup;
 
   constructor(private loginService: LoginService,
     private profileService: ProfileService,
     private _formBuilder: FormBuilder, ) {
-    // this.profileService.getProfile().subscribe((data: any) => {
-    
-
-      // this.userName = data.response.data.fullName
-      // this.userEmail = data.response.data.emailId
-      // this.profilesList=data.response.data.imageUrl
-      // this.personalInfo = data.response.data
-
-
-    // });
+    this.profileService.getProfile().subscribe((data: any) => {
+     this.name = data.data.name
+      this.email = data.data.email
+      this.profilesList=data.data.profilePicture
+      this.personalInfo = data.response.data
+ });
   }
 
   ngOnInit() {
@@ -40,15 +37,15 @@ export class ProfileComponent implements OnInit {
   }
   buildProfileForm() {
     this.profileForm = this._formBuilder.group({
-      // emailId: ['', [Validators.required]],
-      UserName: ['', [Validators.required]],
+      email: ['', [Validators.required]],
+      name: ['', [Validators.required]],
       profilePicture: [''],
      });
   }
   
   getInfo() {
    this.profileService.getProfile().subscribe((response: any) => {
-     console.log("iiiii",response)
+   
     this.personalInfo = response.data;
 
     }, error => {
@@ -60,21 +57,32 @@ export class ProfileComponent implements OnInit {
 
   }
 
-  uploadProfileImage(image) {
+  // uploadProfileImage(image) {
 
-    var data = {
-      "file": image
-    }
-    this.profileService.uploadPic(data).subscribe((response: any) => {
+  //   var data = {
+  //     "file": image
+  //   }
+  //   console.log("data",data)
+  //   this.profileService.uploadPic(data).subscribe((response: any) => {
 
-      this.profilesList = response.response.url;
+  //    console.log("rrrrrrrr",response)
     
 
-    }, error => {
-      console.log('error',error)
-    });
+  //   }, error => {
+  //     console.log('error',error)
+  //   });
 
-  }
+  // }
+  async uploadProfileImage(images) {
+    console.log("fffffffffff",images)
+       return new Promise((resolve,reject)=>{
+         this.profileService.uploadPic(images).subscribe((data)=>{
+           console.log("ooooooooo",data)
+         resolve(data.data)
+         });
+      })
+            
+   }
 
   handleInputChange(e) {
     var file = e.dataTransfer ? e.dataTransfer.files[0] : e.target.files[0];
@@ -85,29 +93,28 @@ export class ProfileComponent implements OnInit {
       alert('invalid format');
       return;
     }
-    reader.onload = this._handleReaderLoaded.bind(this);
-    reader.readAsDataURL(file);
+    console.log("kkkkkk",file)
+    this.uploadProfileImage(file);
+    // reader.onload = this._handleReaderLoaded.bind(this);
+    // reader.readAsDataURL(file);
 
   }
-  _handleReaderLoaded(e) {
+  // _handleReaderLoaded(e) {
 
-    let reader = e.target;
-    this.mypic = reader.result;
-    var res = this.mypic.split(',')
-     console.log("rrrr",res)
-    this.uploadProfileImage(res[1]);
-  }
+  //   let reader = e.target;
+  //   this.mypic = reader.result;
+  //   var res = this.mypic.split(',')
+  //   //  console.log("rrrr",res)
+  //   this.uploadProfileImage(res[1]);
+  // }
 
   editProfile() {
     var editObj = {
-      "emailId": this.profileForm.controls['emailId'].value,
-      "fullName": this.profileForm.controls['fullName'].value,
-      "gender": this.profileForm.controls['gender'].value,
-      "imageUrl": this.profilesList,
-     
-
-
-    }
+      "email": this.profileForm.controls['email'].value,
+      "name": this.profileForm.controls['name'].value,
+      // "gender": this.profileForm.controls['gender'].value,
+      "profilePicture": this.profilesList,
+   }
     
     this.profileService.editProfile(editObj).subscribe((response: any) => {
      

@@ -89,10 +89,8 @@ import * as _ from 'lodash';
       <label>Upload Menu Images:</label><br/>
       <div  *ngFor="let url of menuImages ;let i=index"  >
       <img  [src]="url" class="rounded mb-3" width="50"  height="50">
-    
-      <button class="btn btn-danger btn-xs" *ngIf="!isView"  type="button" style="margin-left:10%"  (click)="deleteImage(i,'menu')" >Delete</button>
-     
-      </div>
+     <button class="btn btn-danger btn-xs" *ngIf="!isView"  type="button" style="margin-left:10%"  (click)="deleteImage(i,'menu')" >Delete</button>
+    </div>
       <label class="btn-bs-file btn btn-ls btn-info" style="margin-top:6px" text-align="center"*ngIf="!isView" >image
       <input type="file" formControlName="menuImages" accept="image/*" style="display: none" multiple (change)="imageUploading($event,'menu')">
      </label>     
@@ -141,7 +139,7 @@ import * as _ from 'lodash';
      <div class="form-group required"> 
      <label>Image:</label><br/>
       <div>
-      <img  [src]="cuisinSubset.image" class="rounded mb-3" width="50" height="50">
+      <img  [src]="cuisinSubset.image" class="rounded mb-3"  width="50"  height=auto>
       </div>
       <label class="btn-bs-file btn btn-ls btn-info"*ngIf="!isView" style="margin-top:6px" text-align="center" >image
       <input type="file" accept="image/*" style="display: none" (change)="imageUploading($event,'cuisin',true,i)">
@@ -333,7 +331,7 @@ async imageUploading(event,flag,section,idx){
               obj.image = obj.image[0];
               queryArray.push(obj); 
             }else{  
-            obj = await this.uploadImage(allFiles);
+              obj = await this.uploadImage(allFiles);
               queryArray = [...queryArray,...obj]
              }  
            this.selectSelector(flag,queryArray);
@@ -345,7 +343,7 @@ async imageUploading(event,flag,section,idx){
 
 
 async uploadImage(images) {
-     return new Promise((resolve,reject)=>{
+  return new Promise((resolve,reject)=>{
        this.restaurantService.uploadPic(images).subscribe((data)=>{
        resolve(data.data)
        });
@@ -492,9 +490,9 @@ export class RestaurantComponent implements OnInit,AfterViewInit {
      private restaurantService:RestaurantService,
      private _script:ScriptLoaderService) {
 
-    // this.restaurantService.getRestaurant().subscribe((data:any)=>{
-    //   this.RestaurantList = data.RestautantList.data
-    // });
+    this.restaurantService.getRestaurant().subscribe((data:any)=>{
+      this.RestaurantList = data.RestautantList.data
+    });
    }
    ngAfterViewInit() {
     this._script.loadScripts('app-restaurant',

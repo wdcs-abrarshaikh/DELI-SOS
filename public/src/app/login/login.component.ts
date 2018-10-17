@@ -40,8 +40,7 @@ export class LoginComponent implements OnInit {
   signIn() {
     this._loginService.post(this.loginForm.value).subscribe((response: any) => {
       if (response['code'] == 200) {
-        console.log("response",response)
-        this.toastService.success(response.message);
+       this.toastService.success(response.message);
        localStorage.setItem('_token', JSON.stringify(response.token))
         localStorage.setItem('_id', JSON.stringify(response.data._id));
         this._router.navigate(['/index']);

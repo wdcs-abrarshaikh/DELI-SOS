@@ -47,16 +47,19 @@ export class ProfileService {
     }
  
     uploadPic(pic:any){
-        console.log(pic)
-    
-        return this.http.post<any>(URL + 'admin/uploadPhoto',pic, { headers: this.getHeaderWithToken() })
-            .pipe(
-                map((res: Response) => {
-              
-                    return res }),
-            );
+        // console.log("jjjjjjjjjj",pic)
+        let formData =  new FormData();
+        pic.map(async(res)=>{
+            formData.append('img',res);
+
+        })
+        // console.log(formData)
+    //   console.log( "mmmmmmmm",pic)
+        return this.http.post<any>(URL + 'admin/uploadPhoto',pic);
+        
 
     }
+  
    
    
 }

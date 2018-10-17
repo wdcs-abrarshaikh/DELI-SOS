@@ -26,8 +26,9 @@ constructor(private loginService:LoginService,
           private profileService:ProfileService)  {
            
             this.profileService.getProfile().subscribe((data: any) => {
-              console.log("uuuuuuuuuuuuu",data)
-            this.profilesList=data.response.data.imageUrl
+              // console.log("uuuuuuuuuuuuu",data)
+              // console.log("llllllllllllll",data.data.profilePicture)
+              this.profilesList=data.data.profilePicture
           });
 
 }

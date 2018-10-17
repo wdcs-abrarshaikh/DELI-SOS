@@ -185,9 +185,9 @@ export class UserComponent implements OnInit, AfterViewInit {
     private userService: UserService,
     private _script: ScriptLoaderService) {
 
-    // this.userService.getUsers().subscribe((data: any) => {
-    //   this.usersList = data.usersList.data
-    // });
+    this.userService.getUsers().subscribe((data: any) => {
+      this.usersList = data.usersList.data
+    });
   }
   ngAfterViewInit() {
     this._script.loadScripts('app-user',

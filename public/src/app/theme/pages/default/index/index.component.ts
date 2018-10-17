@@ -93,7 +93,7 @@ import { ScriptLoaderService } from './../../../../_services/script-loader.servi
       </div>
       <input type="file" formControlName="photos" accept="image/*" style="display: none" >
      </div>
-
+     </form>
      
       <div class="box box-solid box-primary">
       <div>
@@ -109,7 +109,7 @@ import { ScriptLoaderService } from './../../../../_services/script-loader.servi
       <tr *ngFor="let cuisinSubset of cuisinImagesObject; let i=index" >
        <td>
        <div class="form-group ">
-       <input  placeholder="name"  [(ngModel)]='cuisinSubset.name' style="width:150px"  required="required"/>
+       <input  [(ngModel)]='cuisinSubset.name' placeholder="name"  style="width:150px"  required="required"/>
         <div class="help-block"></div>
        </div>
        </td>
@@ -119,7 +119,6 @@ import { ScriptLoaderService } from './../../../../_services/script-loader.servi
         <div>
         <img  [src]="cuisinSubset.image" class="rounded mb-3" width="50"  height="50">
         </div>
-    
        <div class="help-block"></div>
        </div>
        </td>
@@ -130,7 +129,7 @@ import { ScriptLoaderService } from './../../../../_services/script-loader.servi
        </div>
      </div>
       </div>
-      </form>
+     
   </div>
   
   
@@ -139,16 +138,17 @@ import { ScriptLoaderService } from './../../../../_services/script-loader.servi
 })
 export class NgbdModalContent {
    
+    @Input () cuisin;
     RestaurantForm: FormGroup;
     menuImages: Array<any>;
     restaurantImages: Array<any>;
     mealOffers: Array<any> = []
-    cuisinImagesObject: Array<any> = [
+    cuisinImagesObject:Array<any>=[
         {
-            name: '',
-            image: ''
+          cname:'',
+          image:''
         }
-    ];
+      ];
     constructor(
 
         public activeModal: NgbActiveModal,
@@ -181,6 +181,7 @@ export class NgbdModalContent {
             photos: [''],
             mealOffers: [''],
             perPersonCost: ['']
+        
         });
     }
 }
@@ -190,7 +191,7 @@ export class NgbdModalContent {
     styleUrls: ['./index.component.css'],
     selector: 'app-index',
     templateUrl: './index.component.html',
-    // encapsulation: ViewEncapsulation.None,
+    encapsulation: ViewEncapsulation.None,
 })
 export class IndexComponent implements OnInit, AfterViewInit {
     restList: Array<any>;
@@ -217,11 +218,11 @@ export class IndexComponent implements OnInit, AfterViewInit {
     totalUser;
     ngOnInit() {
         this.getAllRequest()
-        // this.getUserList();
+      
     }
     // getUserList() {
     //     this.indexService.getAllUsers().subscribe((response: any) => {
-    //         console.log(response)
+    //       
     //         this.usersList = response.response.count;
     //     });
     // }
@@ -230,7 +231,7 @@ export class IndexComponent implements OnInit, AfterViewInit {
     getAllRequest() {
         this.indexService.getAllRequest().subscribe((response: any) => {
             this.restList = response.data
-            console.log('rrr',this.restList)
+            
         })
     }
     open(content) {
@@ -248,12 +249,11 @@ export class IndexComponent implements OnInit, AfterViewInit {
         modalRef.componentInstance.perPersonCost = content ? content.perPersonCost : "";
         modalRef.componentInstance.menuImages = content ? content.menu : "";
         modalRef.componentInstance.restaurantImages = content ? content.photos : "";
-        modalRef.componentInstance.cuisinImagesObject = content ? content.cuisin : "";
+        modalRef.componentInstance.cuisinImagesObject = content ? content.cuisin: [{name:'',image:''}];
     }
 
     Approve(id) {
-        console.log("iiii", id)
-        this.indexService.approveRestaurant(id).subscribe((response: any) => {
+       this.indexService.approveRestaurant(id).subscribe((response: any) => {
             this.getAllRequest()
 
         })

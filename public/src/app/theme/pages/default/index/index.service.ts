@@ -40,15 +40,13 @@ export class IndexService {
     }
 
     getAllRequest(){
-        console.log("hhhhhhhhhh")
         return this.http.get(URL+ 'admin/getAllPendingRestaurant',{ headers: this.getHeaderWithToken() })
         .pipe(
             map((res:Response)=>{ return res})
         )
     }
     approveRestaurant(R_id){
-        console.log(R_id)
-        return this.http.get(URL+'admin/approveRestaurantProposal/'+ R_id ,{ headers: this.getHeaderWithToken() })
+       return this.http.get(URL+'admin/approveRestaurantProposal/'+ R_id ,{ headers: this.getHeaderWithToken() })
         .pipe(
             map((res:Response)=>{
                 return res

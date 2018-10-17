@@ -26,7 +26,7 @@
                                                             
                                                     </div>
                                                     <div *ngIf="!display">
-                                                            <img [src]="profilePicture" [alt]="profilePicture" class="image" id="files"  style="cursor: pointer" />
+                                                            <img [src]="file" [alt]="profilePicture" class="image" id="files"  style="cursor: pointer" />
                                                 
                                                     <label class="change-image" data-toggle="m-tooltip" title="upload Image">
                                                         <!-- <input type="file" id="files" style="display: none"  formControlName="imageUrl" (change)="handleInputChange($event)" ><br> -->
@@ -38,8 +38,8 @@
                                             </div>
                                             
                                             <div class="description-container">
-                                              <p class="username">{{UserName}}</p>
-                                              <!-- <p class="fullname">{{emailId}}</p> -->
+                                              <p class="username">{{name}}</p>
+                                              <p class="email">{{email}}</p>
                                             </div>
                                           </div>
                                 <!-- <div class="m-card-profile__pic-wrapper" *ngIf="display">
@@ -134,8 +134,8 @@
                                                 <div class="row">
                                                     <div class="col-2"> </div>
                                                     <div class="col-7">
-                                                        <button type="button" class="btn btn-accent m-btn m-btn--air m-btn--custom mrgLeft686" [disabled]="validateForm()" (click)="editProfile()">Save
-                                                            changes</button>
+                                                        <!-- <button type="button" class="btn btn-accent m-btn m-btn--air m-btn--custom mrgLeft686" [disabled]="validateForm()" (click)="editProfile()">Save
+                                                            changes</button> -->
                                                     </div>
                                                 </div>
                                             </div>
