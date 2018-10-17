@@ -83,7 +83,7 @@ adminRouter.route('/approveRestaurantProposal/:restaurant_id').get([validate.val
 })
 
 adminRouter.route('/getAllPendingRestaurant').get([validate.verifyAdminToken], (req, res) => {
-    action.getAllPendingRestaurant(res)
+    action.getAllPendingRestaurant(req,res)
 })
 
 adminRouter.route('/deleteRestaurantPhoto')

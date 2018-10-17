@@ -411,8 +411,8 @@ async function approveRestaurantProposal(rest_id, res) {
 
 
 function getAllPendingRestaurant(req, res) {
-    url = req.body.url
-    id = req.body.restId
+    // url = req.body.url
+    // id = req.body.restId
     restModel.find({ status: status.pending }, (err, data) => {
 
         return (err) ? res.json({ code: code.internalError, message: msg.internalServerError }) :
