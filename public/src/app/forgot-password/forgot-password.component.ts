@@ -36,9 +36,10 @@ export class ForgotPasswordComponent implements OnInit {
 
    forgotPassword() {
      this.forgotPasswordService.post(this.forgotPasswordForm.value).subscribe((response: any) => {
-    if(response.code==200){
-      this.router.navigate(['/forgotemail']);
-    }
+      if(response.code==200){
+       this.router.navigate(['/forgotemail']);
+       this.loading = false;
+      }
      
     }, error => {
       console.log('error',JSON.stringify(error));

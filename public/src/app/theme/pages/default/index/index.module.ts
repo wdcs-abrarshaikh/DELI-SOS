@@ -1,3 +1,4 @@
+import { ScriptLoaderService } from './../../../../_services/script-loader.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
@@ -39,6 +40,7 @@ const routes: Routes = [
         ],
         declarations: [
         IndexComponent,NgbdModalContent],
+        providers:[ScriptLoaderService],
 
         entryComponents: [NgbdModalContent] })
 

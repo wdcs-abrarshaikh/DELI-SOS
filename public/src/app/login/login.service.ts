@@ -21,11 +21,11 @@ export class LoginService {
       });
   }
 
-  get(obj:any){
-    return this.http.get(URL + 'user/login', obj)
-      .map((res) =>  res);
+  // get(obj:any){
+  //   return this.http.get(URL + 'user/login', obj)
+  //     .map((res) =>  res);
 
-  }
+  // }
 
 
 }

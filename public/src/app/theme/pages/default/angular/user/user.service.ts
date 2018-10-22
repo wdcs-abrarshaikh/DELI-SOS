@@ -30,8 +30,7 @@ export class UserService {
         return headers;
     }
     addUser(user: any) {
-        console.log("add data here ")
-        return this.http.post<any>(URL + 'admin/addUser', user, { headers: this.getHeaderWithToken() })
+       return this.http.post<any>(URL + 'admin/addUser', user, { headers: this.getHeaderWithToken() })
             .pipe(
                 map((res: Response) => { return res }),
             );

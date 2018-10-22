@@ -3,11 +3,11 @@
     font-size: 1.25rem;
     line-height: 1.5;
     color:white;
-    background-color: transparent;
-    background: #5867dd;
-    border-color: #5867dd;
+    /* background-color: transparent; */
+    border-color:#f7b733;
     margin-left: 95%;
     margin-top:2%;
+    background: linear-gradient(to right, #fc4a1a, #f7b733);
 }
 .lbl-err {
     color: red;
@@ -66,3 +66,8 @@
     margin-left: 25%;
     padding: 1.25rem 4.65rem;
    }
+   /* .rounded mb-3{
+       height: 50;
+       width: 50;
+   } */
+  

@@ -23,6 +23,7 @@
     "@angular/router": "^6.1.0",
     "@ng-bootstrap/ng-bootstrap": "^3.0.0",
     "angular-datatables": "^6.0.1",
+    "angular-epic-spinners": "^1.0.9",
     "classlist.js": "^1.1.20150312",
     "core-js": "^2.5.4",
     "datatables.net": "^1.10.19",

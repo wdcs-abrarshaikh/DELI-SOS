@@ -21,7 +21,7 @@ export class AuthenticationService {
 
 	login() {
 		
-		return this.http.post(URL+'user/login', { headers: this.getHeaderWithToken() } )
+		return this.http.post(URL+'login', { headers: this.getHeaderWithToken() } )
 			.map(response => {
 				console.log('responsesss',response);
 				// login successful if there's a jwt token in the response

@@ -40,9 +40,9 @@
 			
 			</div>
 		</div> -->
-
+	</div>
 		<div class="table1">
-			<table  *ngIf="RestList" datatable class="table-bordered table-hover">
+			<table  datatable class="table-bordered table-hover"  *ngIf="restList">
 			 <thead>
 				<tr>
 				  <th>Sr.</th>
@@ -53,7 +53,7 @@
 			 </thead>
 				
 			  <tbody>
-		    	<tr *ngFor="let Rest of RestList ; let i=index">
+		    	<tr *ngFor="let Rest of restList ; let i=index">
 				  <td>{{i+1}}</td>
 				  <td>{{Rest.name}}</td>
 				  <td>{{Rest.status}}</td>
@@ -62,14 +62,14 @@
 					  <i class="fas fa-eye" (click)="open(Rest)"></i> 
 					</button>
 					 &nbsp;&nbsp;
-         	<button type="button" class="btn btn-success" (click)="Approve(Rest._id)" >Approve	</button> 
+         	<button type="button" class="btn btn-success" (click)="Approve(Rest._id)" >Approve</button> 
 			   </td>
 				 </tr>
 				</tbody> 
 			 
 			</table>
 	</div>
-	</div>
+	
 	
 	
 		

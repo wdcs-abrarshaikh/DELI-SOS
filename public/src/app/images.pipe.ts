@@ -6,9 +6,9 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class ImagesPipe implements PipeTransform {
 
   transform(value: any, args?: any): any {
-    console.log("ooooooooo",value)
+    // console.log("ooooooooo",value)
     // for(let i=0;i<value.length;i++){
-      console.log("rrrrr",value)
+      // console.log("rrrrr",value)
       // console.log("ttttt",value[i])
       // if (value[i].indexOf("https") == -1) {
       //   image = image.replace("http", "https");

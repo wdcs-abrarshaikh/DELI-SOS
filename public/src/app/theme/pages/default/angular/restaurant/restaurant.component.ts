@@ -89,10 +89,8 @@ import * as _ from 'lodash';
       <label>Upload Menu Images:</label><br/>
       <div  *ngFor="let url of menuImages ;let i=index"  >
       <img  [src]="url" class="rounded mb-3" width="50"  height="50">
-    
-      <button class="btn btn-danger btn-xs" *ngIf="!isView"  type="button" style="margin-left:10%"  (click)="deleteImage(i,'menu')" >Delete</button>
-     
-      </div>
+     <button class="btn btn-danger btn-xs" *ngIf="!isView"  type="button" style="margin-left:10%"  (click)="deleteImage(i,'menu')" >Delete</button>
+    </div>
       <label class="btn-bs-file btn btn-ls btn-info" style="margin-top:6px" text-align="center"*ngIf="!isView" >image
       <input type="file" formControlName="menuImages" accept="image/*" style="display: none" multiple (change)="imageUploading($event,'menu')">
      </label>     
@@ -128,7 +126,7 @@ import * as _ from 'lodash';
      <tr>
      <th>Name</th>
      <th>Image</th>
-     <th>Action</th>
+     <th *ngIf="!isView" >Action</th>
     </tr>
     <tr *ngFor="let cuisinSubset of cuisinImagesObject; let i=index" >
      <td>
@@ -141,7 +139,7 @@ import * as _ from 'lodash';
      <div class="form-group required"> 
      <label>Image:</label><br/>
       <div>
-      <img  [src]="cuisinSubset.image" class="rounded mb-3" width="50" height="50">
+      <img  [src]="cuisinSubset.image" class="rounded mb-3"  width="50"  height=auto>
       </div>
       <label class="btn-bs-file btn btn-ls btn-info"*ngIf="!isView" style="margin-top:6px" text-align="center" >image
       <input type="file" accept="image/*" style="display: none" (change)="imageUploading($event,'cuisin',true,i)">
@@ -165,7 +163,7 @@ import * as _ from 'lodash';
   
     
 <div class="modal-footer" *ngIf="!isView">
-<button type="submit" class="btn btn-outline-dark"  (click)="addRestaurant()">Save</button>
+<button type="submit" class="btn btn-outline-dark"  (click)="addRestaurant()">Save</button>&nbsp;&nbsp;
 <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Cancel</button>
 
 </div>
@@ -176,8 +174,6 @@ import * as _ from 'lodash';
   styleUrls: ['./restaurant.component.css']
 })
 export class NgbdModalContent {
-    /* <button  class="btn btn-success" style="margin-left:10px" (click)="uploadImage(urls1)">UPLOAD</button>*/
-    // [disabled]='validateForm()'
     RestaurantList: Array<any>;
     RestaurantForm: FormGroup;
     menuImages:Array<any>;
@@ -235,8 +231,7 @@ export class NgbdModalContent {
     public arr_value:any = [false,false,false,false]
     
     buildRestaurantForm() {
-        console.log(this.mealOffers)
-      if(this.mealOffers.length>0){
+       if(this.mealOffers.length>0){
         this.arr_value = this.mealOffers 
       }
       this.RestaurantForm = this._formBuilder.group({
@@ -254,8 +249,6 @@ export class NgbdModalContent {
        perPersonCost:['',Validators.required]
         });
   
-        console.log(this.RestaurantForm)
-
     }
     createItem(){
       return {
@@ -265,9 +258,7 @@ export class NgbdModalContent {
     }
   
   changeCuisinName(index,value){
-    console.log(value)
-    this.cuisinImagesObject[index].name = value;
-    console.log(this.cuisinImagesObject)
+   this.cuisinImagesObject[index].name = value;
   }
 
   async addCuisin(){
@@ -281,12 +272,7 @@ export class NgbdModalContent {
 
 
   async checkCuisinValid(){
-    console.log(this.cuisinImagesObject);
-    // if(!this.cuisinImagesObject){
-    //   this.cuisinImagesObject=[]
-    //     this.cuisinImagesObject.push(this.createItem())
-    //   return true;
-    // }
+   
     let result = await this.cuisinImagesObject.filter((res)=>{
       if(!res.name || !res.image){
         return res;
@@ -297,8 +283,7 @@ export class NgbdModalContent {
 
 
 selectSelector(flag:string,arr){
-  console.log(flag)
-   console.log('PPPPPPPPP',arr)
+
   switch(flag){ 
     case 'menu':
           this.menuImages = arr;
@@ -309,29 +294,26 @@ selectSelector(flag:string,arr){
     case 'cuisin':
           let flag=false;
           this.cuisinImagesObject.map(async (result,idx)=>{
-            console.log(result)
-            if(result.name == arr[0].name){
-              console.log('name exist');
-              this.cuisinImagesObject[idx]=arr[0];
+          if(result.name == arr[0].name){
+             this.cuisinImagesObject[idx]=arr[0];
               flag = true;
             }
-
-            if(idx == this.cuisinImagesObject.length-1){
+             if(idx == this.cuisinImagesObject.length-1){
               if(!flag){
-                console.log('no image')
-                this.cuisinImagesObject.push(arr[0])
+                 this.cuisinImagesObject.push(arr[0])
               }
             }
           })
           break;           
   };
-  console.log(this.menuImages)
+ 
 }
 
 
 async imageUploading(event,flag,section,idx){
     let queryArray = [];
     let files = event.target.files ; 
+  
     let allFiles= []   
     if (files.length<=5) {
       var counter =0;
@@ -341,44 +323,35 @@ async imageUploading(event,flag,section,idx){
           counter++;
         }
       }
-      console.log(allFiles);
-        let obj;
+      let obj;
       if(section){
             obj= {
                 name:(this.cuisinImagesObject[idx].name)?(this.cuisinImagesObject[idx].name):'',
                 image: await this.uploadImage(allFiles)
-                
-              }
-              console.log(obj)
+               }
               obj.image = obj.image[0];
               queryArray.push(obj); 
             }else{  
-            obj = await this.uploadImage(allFiles);
+              obj = await this.uploadImage(allFiles);
+             
               queryArray = [...queryArray,...obj]
              }  
-             
-          
-           console.log(queryArray)
-            this.selectSelector(flag,queryArray);
+           this.selectSelector(flag,queryArray);
     }else{
-      this.toastService.error("please select only five image");
+      this.toastService.error("please select only five images");
       return;
     }
 }
 
 
-
-
 async uploadImage(images) {
-     return new Promise((resolve,reject)=>{
-       this.restaurantService.uploadPic(images).subscribe((data)=>{
+ return new Promise((resolve,reject)=>{
+      this.restaurantService.uploadPic(images).subscribe((data)=>{
        resolve(data.data)
        });
     })
           
  }
-
-
 
 
   deleteImage(i:number,flag){
@@ -408,20 +381,15 @@ async uploadImage(images) {
 
 
  async addRestaurant() {
-   console.log(this.RestaurantForm);
-  //  return 
     let isValid = await this.checkCuisinValid();
-    console.log('is valid==>'+isValid);
-    if(!isValid){
+     if(!isValid){
       return this.toastService.error("Please fill the All cuisin items.");
-    }
-
-    this.submitted = true;
+     }
+     this.submitted = true;
     if (this.RestaurantForm.invalid) {
       return;
     }
    this.loading = true;
-
       var addObj = {
         "name": this.RestaurantForm.controls['name'].value,
         "description": this.RestaurantForm.controls['description'].value,
@@ -438,12 +406,11 @@ async uploadImage(images) {
         "cuisin":this.cuisinImagesObject
         };
 
-        // console.log()
+      
     if (this.isAdd) {
 
       await this.restaurantService.addRestaurant(addObj).subscribe(
         data => {
-          console.log(data);
           if(data['code'] !=201){
             this.toastService.error("Please check all the fields and try again.");
           }else{
@@ -457,10 +424,8 @@ async uploadImage(images) {
           this.toastService.error(error['message']);
         });
     } else {
-      console.log(addObj)
       addObj.latitude = JSON.stringify(addObj.latitude);
       addObj.longitude = JSON.stringify(addObj.longitude);
-
       this.restaurantService.editRestaurant(addObj,this.id).subscribe(
         data => {
           this.getAllRestaurant();
@@ -498,9 +463,6 @@ async uploadImage(images) {
   }
 
 
-
-
-
 }
  
 
@@ -515,8 +477,7 @@ async uploadImage(images) {
 })
 
 export class RestaurantComponent implements OnInit,AfterViewInit {
-  bannersDetail: any;
-
+  // bannersDetail: any;
   modalReference: any;
   isAdd: boolean = false;
   RestaurantList: Array<any>;
@@ -532,7 +493,6 @@ export class RestaurantComponent implements OnInit,AfterViewInit {
      private _script:ScriptLoaderService) {
 
     this.restaurantService.getRestaurant().subscribe((data:any)=>{
-      console.log("re",data)
       this.RestaurantList = data.RestautantList.data
     });
    }
@@ -547,10 +507,7 @@ export class RestaurantComponent implements OnInit,AfterViewInit {
      this.getRestaurantList();
   }
   getRestaurantList(){
-    // console.log ("data")
-    this.restaurantService.getAllRestaurant().subscribe((response: any) => {
-      // console.log("res",response)
-      console.log(response.data)
+      this.restaurantService.getAllRestaurant().subscribe((response: any) => {
       this.RestaurantList = response.data;
    
     });
@@ -559,27 +516,20 @@ export class RestaurantComponent implements OnInit,AfterViewInit {
 
   mealOffers_arr:Array<any> = ["BREAKFAST","LUNCH","DINNER","ALL"]
   async checkValue(arr){
-    console.log(arr)
-    var array_val:Array<any> = [false,false,false,false];
-    console.log(array_val)
+   var array_val:Array<any> = [false,false,false,false];
     let res = await this.mealOffers_arr.map(async (response,idx)=>{
         arr.map(async (arr_res,idnx)=>{
             if(arr_res == response){
-              console.log("111111",arr_res)
-              console.log("222",response)
-              console.log(idx);
-              array_val[idx] = true;
+             array_val[idx] = true;
             }
         })
     });
-    console.log(array_val)
     return array_val;
   }
   async open(content,type) {
 
    var i:number;
-    // console.log("content",content.menu[0])
-   if (!content) {
+    if (!content) {
       this.isAdd = true
     } else {
       if (type == 'view') {
@@ -607,13 +557,8 @@ export class RestaurantComponent implements OnInit,AfterViewInit {
     modalRef.componentInstance.cuisinImagesObject = content ? content.cuisin: [{name:'',image:''}];
     modalRef.componentInstance.isAdd = this.isAdd;
     modalRef.componentInstance.isView=this.isView;
-    // if(content && content.mealOffers.length>0){
-    //   content.mealOffers = await this.checkValue(content.mealOffers)
-    // }
-    console.log(content)
-    modalRef.componentInstance.mealOffers = (content) ? await this.checkValue(content.mealOffers) : arr_value;
-
-    console.log(modalRef.componentInstance)
+   modalRef.componentInstance.mealOffers = (content) ? await this.checkValue(content.mealOffers) : arr_value;
+ 
   }
 
 

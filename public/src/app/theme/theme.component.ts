@@ -9,7 +9,7 @@ declare let mLayout: any;
 @Component({
 selector: ".m-grid.m-grid--hor.m-grid--root.m-page",
 templateUrl: "./theme.component.html",
-encapsulation: ViewEncapsulation.None,
+// encapsulation: ViewEncapsulation.None,
 })
 export class ThemeComponent implements OnInit {
 

@@ -19,13 +19,13 @@ body{
     }
     .btn-login{
         color: white;
-        background-color: orange;
+		background-color: #e97121;	
         padding: .85rem 2rem;
 		font-size: 1rem;
 		font-weight: 400;
 		font-family: monospace;
 		/* border-radius: 60px; */
-		border-color: orange;
+		border-color: #e97121;
 		width: 50%;
 		text-align: center;
 		float: center;

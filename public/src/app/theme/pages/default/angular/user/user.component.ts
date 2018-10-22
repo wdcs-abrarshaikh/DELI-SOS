@@ -63,7 +63,7 @@ import { ScriptLoaderService } from '../../../../../_services/script-loader.serv
            </div>
         <div class="modal-footer">
             <div class="form-group" *ngIf="!isView">
-           <button type="submit"  class="btn btn-outline-dark" [disabled]="validateForm()">Save</button>
+           <button type="submit"  class="btn btn-outline-dark" [disabled]="validateForm()">Save</button>&nbsp;&nbsp;
            <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Cancel</button>
             </div>
          </div>
@@ -152,7 +152,7 @@ export class NgbdModalContent {
   }
 
   validateForm() {
-    console.log(this.userForm)
+  
     if (this.userForm.valid) {
       return false;
     } else {
@@ -169,7 +169,7 @@ export class NgbdModalContent {
 })
 
 export class UserComponent implements OnInit, AfterViewInit {
-  usersDetail: any;
+  // usersDetail: any;
 
   modalReference: any;
   isAdd: boolean = false;
@@ -202,7 +202,6 @@ export class UserComponent implements OnInit, AfterViewInit {
     if (!content) {
       this.isAdd = true
     } else {
-      
       if (type == 'view') {
         this.isView = true
         this.isAdd = false
@@ -227,7 +226,6 @@ export class UserComponent implements OnInit, AfterViewInit {
   getUserList() {
     this.userService.getAllUsers().subscribe((response: any) => {
       // console.log("all data here display")
-      console.log(response)
       this.usersList = response.data;
     });
   }
