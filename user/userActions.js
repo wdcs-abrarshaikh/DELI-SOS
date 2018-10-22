@@ -30,8 +30,8 @@ function getRestaurantDetail(req, res) {
     service.getRestaurantDetail(req, res)
 }
 
-function getRestaurantList(req,res){
-    service.getRestaurantList(req,res)
+function getRestaurantList(req, res) {
+    service.getRestaurantList(req, res)
 }
 
 function uploadPhoto(req, res) {
@@ -90,6 +90,30 @@ function getNearByRestaurant(req, res) {
     service.getNearByRestaurant(req, res)
 }
 
+function followUser(req, res) {
+    service.followUser(req, res)
+}
+
+function getFollowingList(req, res) {
+    service.getFollowingList(req, res)
+}
+
+function getFollowerList(req, res) {
+    service.getFollowerList(req, res)
+}
+
+function unfollowUser(req,res){
+    service.unfollowUser(req,res)
+}
+
+function searchFollower(req,res){
+    service.searchFollower(req,res)
+}
+
+function searchFollowing(req,res){
+    service.searchFollowing(req,res)
+}
+
 module.exports = {
     signup,
     login,
@@ -112,5 +136,11 @@ module.exports = {
     updateProfile,
     changePassword,
     getRestaurantList,
-    getNearByRestaurant
+    getNearByRestaurant,
+    followUser,
+    getFollowingList,
+    getFollowerList,
+    unfollowUser,
+    searchFollower,
+    searchFollowing
 }

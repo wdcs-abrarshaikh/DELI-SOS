@@ -23,14 +23,13 @@ function validateSignUp(req, res, next) {
     }
 }
 
-function validateLatLong(long,lat){
+function validateLatLong(long, lat) {
     console.log(`lat==>${lat}  long==>${long}`)
-    if ((long > -180 && lat < 180)&& (lat >-90 && lat <90)){
+    if ((long > -180 && lat < 180) && (lat > -90 && lat < 90)) {
         return true
-    }else{
+    } else {
         return false
     }
-
 }
 
 function validateLogin(req, res, next) {
@@ -41,13 +40,13 @@ function validateLogin(req, res, next) {
             deviceType = req.body.deviceType.trim(),
             fcmToken = req.body.fcmToken.trim()
         console.log(req.body)
-            if(!validateLatLong(parseFloat(req.body.longitude),parseFloat(req.body.latitude))){
-                return res.json({ code: code.badRequest, message: msg.invalidLatLong })
-            }
+        if (!validateLatLong(parseFloat(req.body.longitude), parseFloat(req.body.latitude))) {
+            return res.json({ code: code.badRequest, message: msg.invalidLatLong })
+        }
         if (email && password && deviceId && deviceType && fcmToken) {
             req.body.location = {
-                type:'Point',
-                coordinates:[parseFloat(req.body.longitude),parseFloat(req.body.latitude)]
+                type: 'Point',
+                coordinates: [parseFloat(req.body.longitude), parseFloat(req.body.latitude)]
             }
             next();
         }
@@ -60,20 +59,20 @@ function validateLogin(req, res, next) {
     }
 }
 function validateSocialLogin(req, res, next) {
-    if (req.body.name && req.body.socialId && req.body.deviceId && req.body.deviceType && req.body.fcmToken&& req.body.latitude && req.body.longitude) {
+    if (req.body.name && req.body.socialId && req.body.deviceId && req.body.deviceType && req.body.fcmToken && req.body.latitude && req.body.longitude) {
         let name = req.body.name.trim(),
             socialId = req.body.socialId.trim(),
             isSocialLogin = req.body.isSocialLogin,
             deviceId = req.body.deviceId.trim(),
             deviceType = req.body.deviceType.trim(),
             fcmToken = req.body.deviceType.trim()
-            if(!validateLatLong(parseFloat(req.body.longitude),parseFloat(req.body.latitude))){
-                return res.json({ code: code.badRequest, message: msg.invalidLatLong })
-            }
+        if (!validateLatLong(parseFloat(req.body.longitude), parseFloat(req.body.latitude))) {
+            return res.json({ code: code.badRequest, message: msg.invalidLatLong })
+        }
         if (name && socialId && deviceId && deviceType && fcmToken) {
             req.body.location = {
-                type:'Point',
-                coordinates:[parseFloat(req.body.longitude),parseFloat(req.body.latitude)]
+                type: 'Point',
+                coordinates: [parseFloat(req.body.longitude), parseFloat(req.body.latitude)]
             }
             next();
         }
@@ -143,18 +142,22 @@ function validateRestaurant(req, res, next) {
 
     if (rest.name && rest.description && rest.latitude &&
         rest.longitude && rest.cuisin && rest.openTime &&
-        rest.closeTime && rest.menu) {
+        rest.closeTime && rest.menu  ) {
 
         let name = rest.name.trim(),
             description = rest.description.trim(),
-            latitude = rest.latitude.trim(),
-            longitude = rest.latitude.trim(),
             openTime = rest.openTime.trim(),
             closeTime = rest.closeTime.trim()
-        cusinlen = rest.cuisin.length;
+            cusinlen = rest.cuisin.length,
+            longitude = rest.longitude,
+            latitude = rest.latitude;
         if (cusinlen == 0) {
             return res.json({ code: code.badRequest, message: msg.invalidBody })
         }
+        if(!validateLatLong(parseFloat(longitude),parseFloat(latitude))){
+            return res.json({ code: code.badRequest, message: msg.invalidLatLong })
+        }
+
         cuisin = (!isEmpty(rest.cuisin))
         let i = 0
         do {
@@ -173,7 +176,7 @@ function validateRestaurant(req, res, next) {
             }
         } while (i < cusinlen)
 
-        if (name && description && latitude && longitude && openTime && closeTime && cuisin) {
+        if (name && description && openTime && closeTime && cuisin) {
             next();
         }
         else {
@@ -204,10 +207,10 @@ function validateReview(req, res, next) {
 }
 
 function validateProfile(req, res, next) {
-    let {name,email,profilePicture,locationVisible} = req.body;
+    let { name, email, profilePicture, locationVisible } = req.body;
     if (name || email || profilePicture || locationVisible) {
         console.log(req.body)
-            next(); 
+        next();
     }
     else {
         res.json({ code: code.badRequest, message: msg.invalidBody })
@@ -228,10 +231,10 @@ function validateChangePassword(req, res, next) {
     else {
         res.json({ code: code.badRequest, message: msg.invalidBody })
     }
-}   
+}
 
-function validateUserId(req,res,next){
-    if (!req.params.userId ) {
+function validateUserId(req, res, next) {
+    if (!req.params.userId) {
         res.json({ code: code.badRequest, message: msg.idMissing })
     }
     else {

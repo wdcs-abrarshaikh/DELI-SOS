@@ -41,7 +41,9 @@ messages = {
     invalidLatLong:"Please check your lat long and try again.",
     idMissing:"Please provide user id.",
     noPendingRestaurant:"There Is No Pending Restaurant",
-    reviewsNotFound:"No Reviews Found"
+    reviewsNotFound:"No Reviews Found",
+    followed:"Followed user successfully",
+    unfollowed:"Unfollwed user successfully"
 }
 
 roles = {

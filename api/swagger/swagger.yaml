@@ -732,6 +732,191 @@ paths:
             description: Erorr message.
             schema:
               $ref: '#/definitions/errorMessage'              
+  
+  "/user/followUser/{userId}":
+      get:
+        tags:
+        - 'user'
+        summary: Follow particular user.
+        parameters: 
+          - in: path
+            name: userId
+            description: User id of the user ,to be followed.
+            required: true
+            type: string
+          - name: authorization
+            in: header
+            description: token for validation.
+            required: true
+            type: string
+        
+        responses:
+          "200":
+            description: Sucessfully followed.
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "404":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "400":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "500":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'              
+              
+  "/user/unfollowUser/{userId}":
+      get:
+        tags:
+        - 'user'
+        summary: unfollow particular user.
+        parameters: 
+          - in: path
+            name: userId
+            description: User id of the user ,to be unfollowed.
+            required: true
+            type: string
+          - name: authorization
+            in: header
+            description: token for validation.
+            required: true
+            type: string
+        
+        responses:
+          "200":
+            description: Sucessfully followed.
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "404":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "400":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "500":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'              
+ 
+  "/user/getFollowingList":
+      get:
+        tags:
+        - 'user'
+        summary: get list of all the peoples followed by you.
+        parameters: 
+          - name: authorization
+            in: header
+            description: token for validation.
+            required: true
+            type: string
+        
+        responses:
+          "200":
+            description: ok.
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "400":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "500":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'              
+              
+  "/user/getFollowerList":
+      get:
+        tags:
+        - 'user'
+        summary: get list of all the peoples who followed you.
+        parameters: 
+          - name: authorization
+            in: header
+            description: token for validation.
+            required: true
+            type: string
+        
+        responses:
+          "200":
+            description: ok.
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "400":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "500":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'              
+ 
+  "/user/searchFollower/{name}":
+      get:
+        tags:
+        - 'user'
+        summary: get details of particular follower.
+        parameters: 
+          - in: path
+            name: name
+            description: name of follower, to be search.
+            required: true
+            type: string
+          - name: authorization
+            in: header
+            description: token for validation.
+            required: true
+            type: string
+        
+        responses:
+          "200":
+            description: ok.
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "400":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "500":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'              
+              
+  "/user/searchFollowing/{name}":
+      get:
+        tags:
+        - 'user'
+        summary: get details of particular use whom you followed.
+        parameters: 
+          - in: path
+            name: name
+            description: name of user, to be search.
+            required: true
+            type: string
+          - name: authorization
+            in: header
+            description: token for validation.
+            required: true
+            type: string
+        
+        responses:
+          "200":
+            description: ok.
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "400":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "500":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'              
+ 
  
   "/admin/login":
       post:
