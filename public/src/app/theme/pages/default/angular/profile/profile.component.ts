@@ -3,6 +3,7 @@ import { LoginService } from './../../../../../login/login.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormControl, FormGroup, FormArray } from '@angular/forms';
 import { map } from 'rxjs/operators';
+import { ToastrService } from 'ngx-toastr';
 
 
 
@@ -25,7 +26,8 @@ export class ProfileComponent implements OnInit {
 
   constructor(private loginService: LoginService,
     private profileService: ProfileService,
-    private _formBuilder: FormBuilder, ) {
+    private _formBuilder: FormBuilder,
+    private toastService: ToastrService) {
     this.profileService.getProfile().subscribe((data: any) => {
       this.id = data.data._id
       this.name = data.data.name
@@ -37,7 +39,7 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit() {
     this.buildProfileForm();
-    this.getInfo();
+    // this.getInfo();
 
   }
   buildProfileForm() {
@@ -47,23 +49,21 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  getInfo() {
-    this.profileService.getProfile().subscribe((response: any) => {
-      this.personalInfo = response.data;
+  // getInfo() {
+  //   this.profileService.getProfile().subscribe((response: any) => {
+  //     this.personalInfo = response.data;
 
-    }, error => {
-      console.log('error' + error);
+  //   }, error => {
+  //     console.log('error' + error);
 
-    });
-  }
+  //   });
+  // }
 
 
   async uploadImage(images) {
     let files = images.target.files;
     return new Promise((resolve, reject) => {
       this.profileService.uploadPic(files).subscribe((data) => {
-      
-
         this.profilesList = data.data[0]
         resolve(data.data)
       });
@@ -82,10 +82,11 @@ export class ProfileComponent implements OnInit {
 
     this.profileService.editProfile(editObj).subscribe((response: any) => {
       this.personalInfo = response.data;
-
-    }, (err) => {
-      console.log(err)
-    })
+      this.toastService.success(response['message']);
+    },
+      (err) => {
+        this.toastService.error(err['message']);
+      })
   }
 
 

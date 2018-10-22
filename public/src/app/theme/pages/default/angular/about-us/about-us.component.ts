@@ -47,7 +47,7 @@ export class AboutUsComponent implements OnInit {
 
   ngOnInit() {
     this.buildAboutusForm();
-    this.getAboutusList();
+    // this.getAboutusList();
   }
   buildAboutusForm() {
     this.aboutUsForm = this._formBuilder.group({
@@ -56,18 +56,18 @@ export class AboutUsComponent implements OnInit {
     });
   }
 
-  getAboutusList() {
-    this.aboutUsService.getAllAboutus().subscribe((response: any) => {
-      this.aboutUsLists = response.response.result.content;
-      this.id = response.response.result._id;
+  // getAboutusList() {
+  //   this.aboutUsService.getAllAboutus().subscribe((response: any) => {
+  //     this.aboutUsLists = response.response.result.content;
+  //     this.id = response.response.result._id;
 
-    });
-  }
-  getAllAboutus() {
-    this.aboutUsService.getAllAboutus().subscribe((response: any) => {
-      this.aboutUsService.setAboutus(response.response.result);
-    })
-  }
+  //   });
+  // }
+  // getAllAboutus() {
+  //   this.aboutUsService.getAllAboutus().subscribe((response: any) => {
+  //     this.aboutUsService.setAboutus(response.response.result);
+  //   })
+  // }
   validateForm() {
     if (this.aboutUsForm.valid) {
       return false;
@@ -90,7 +90,7 @@ export class AboutUsComponent implements OnInit {
         if (!this.editorConfig.editable) {
           this.toastService.success(data['response'].responseMessage);
         }
-        this.getAllAboutus();
+        // this.getAllAboutus();
       },
       error => {
         this.toastService.error(error['error'].message);
@@ -127,6 +127,6 @@ export class AboutUsComponent implements OnInit {
 
   cancelAboutUs() {
     this.editorConfig.editable = false;
-    this.getAllAboutus();
+    // this.getAllAboutus();
   }
 }

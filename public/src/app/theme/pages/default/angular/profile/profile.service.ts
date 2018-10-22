@@ -7,12 +7,6 @@ import { Observable, throwError } from 'rxjs';
 import { BehaviorSubject } from 'rxjs';
 
 
-
-// const URL: string = "http://66.70.179.133:4009/solow/v2/api/admin/";
-// const URLS: string = "http://66.70.179.133:4009/solow/v2/api/";
-// const URLS: string = "http://192.168.0.136:8080/";
-
-
 @Injectable({
     providedIn: 'root'
 })
@@ -32,7 +26,7 @@ export class ProfileService {
     changeName(name: string) {
         this.nameSource.next(name)
     }
-    // private categoriesList = new Subject<any>()
+   
     constructor(private http: HttpClient) {
 
     }

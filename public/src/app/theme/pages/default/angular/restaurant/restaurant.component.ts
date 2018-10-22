@@ -163,7 +163,7 @@ import * as _ from 'lodash';
   
     
 <div class="modal-footer" *ngIf="!isView">
-<button type="submit" class="btn btn-outline-dark"  (click)="addRestaurant()">Save</button>
+<button type="submit" class="btn btn-outline-dark"  (click)="addRestaurant()">Save</button>&nbsp;&nbsp;
 <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Cancel</button>
 
 </div>
@@ -313,7 +313,7 @@ selectSelector(flag:string,arr){
 async imageUploading(event,flag,section,idx){
     let queryArray = [];
     let files = event.target.files ; 
-    console.log('***',event.target)
+  
     let allFiles= []   
     if (files.length<=5) {
       var counter =0;
@@ -333,7 +333,7 @@ async imageUploading(event,flag,section,idx){
               queryArray.push(obj); 
             }else{  
               obj = await this.uploadImage(allFiles);
-              // console.log("ooo",obj)
+             
               queryArray = [...queryArray,...obj]
              }  
            this.selectSelector(flag,queryArray);
@@ -345,10 +345,8 @@ async imageUploading(event,flag,section,idx){
 
 
 async uploadImage(images) {
-  console.log("kkkkkkk",images)
-  return new Promise((resolve,reject)=>{
-    console.log(resolve)
-       this.restaurantService.uploadPic(images).subscribe((data)=>{
+ return new Promise((resolve,reject)=>{
+      this.restaurantService.uploadPic(images).subscribe((data)=>{
        resolve(data.data)
        });
     })

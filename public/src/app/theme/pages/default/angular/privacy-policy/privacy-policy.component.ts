@@ -41,7 +41,7 @@ export class PrivacyPolicyComponent implements OnInit {
 
   ngOnInit() {
     this.buildprivacyPolicyForm();
-    this.getPrivacyPolicyList();
+    // this.getPrivacyPolicyList();
   }
 
   buildprivacyPolicyForm() {
@@ -65,7 +65,7 @@ export class PrivacyPolicyComponent implements OnInit {
         if (!this.editorConfig.editable) {
           this.toastService.success(data['response'].responseMessage);
         }
-        this.getAllPrivacyPolicy();
+        // this.getAllPrivacyPolicy();
       },
       error => {
         this.toastService.error(error['error'].message);
@@ -81,18 +81,18 @@ export class PrivacyPolicyComponent implements OnInit {
     }
   }
 
-  getAllPrivacyPolicy() {
-    this.privacyPolicyService.getAllPrivacyPolicy().subscribe((response: any) => {
-      this.privacyPolicyService.setPrivacyPolicy(response.response.result);
-    })
-  }
+  // getAllPrivacyPolicy() {
+  //   this.privacyPolicyService.getAllPrivacyPolicy().subscribe((response: any) => {
+  //     this.privacyPolicyService.setPrivacyPolicy(response.response.result);
+  //   })
+  // }
 
-  getPrivacyPolicyList() {
-    this.privacyPolicyService.getAllPrivacyPolicy().subscribe((response: any) => {
-      this.privacyPolicyLists = response.response.result.content;
-      this.id = response.response.result._id;
-    });
-  }
+  // getPrivacyPolicyList() {
+  //   this.privacyPolicyService.getAllPrivacyPolicy().subscribe((response: any) => {
+  //     this.privacyPolicyLists = response.response.result.content;
+  //     this.id = response.response.result._id;
+  //   });
+  // }
 
   get f() {
     return this.privacyPolicyForm.controls;
@@ -125,6 +125,6 @@ export class PrivacyPolicyComponent implements OnInit {
 
   cancelPrivacyPolicy() {
     this.editorConfig.editable = false;
-    this.getAllPrivacyPolicy();
+    // this.getAllPrivacyPolicy();
   }
 }
