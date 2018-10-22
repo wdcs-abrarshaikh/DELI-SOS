@@ -427,7 +427,7 @@ function noOfRestaurant(req, res) {
         }
         else {
             var count = results.length
-            console.log("no. of restaurant", count)
+            // console.log("no. of restaurant", count)
             // return res.json({count:count});
             return res.json({ code: code.ok, message: msg.ok, data: count })
         }
