@@ -3,8 +3,8 @@ var validate = require('./userValidator')
 var actions = require('./userActions')
 
 
-userRouter.post('/uploadPhoto',(req, res) => {
-    actions.uploadPhoto(req,res)
+userRouter.post('/uploadPhoto', (req, res) => {
+    actions.uploadPhoto(req, res)
 });
 
 userRouter.route('/signUp')
@@ -108,8 +108,38 @@ userRouter.route('/changePassword')
     });
 
 userRouter.route('/getNearByRestaurant/:userId')
-    .get([validate.validateUserId,validate.verifyUserToken], (req, res) => {
+    .get([validate.validateUserId, validate.verifyUserToken], (req, res) => {
         actions.getNearByRestaurant(req, res)
-});
+    });
+
+userRouter.route('/followUser/:userId')
+    .get([validate.validateUserId, validate.verifyUserToken], (req, res) => {
+        actions.followUser(req, res)
+    })
+
+userRouter.route('/unfollowUser/:userId')
+    .get([validate.validateUserId, validate.verifyUserToken], (req, res) => {
+        actions.unfollowUser(req, res)
+    })
+
+userRouter.route('/getFollowingList')
+    .get([validate.verifyUserToken], (req, res) => {
+        actions.getFollowingList(req, res)
+    })
+
+userRouter.route('/getFollowerList')
+    .get([validate.verifyUserToken], (req, res) => {
+        actions.getFollowerList(req, res)
+    })
+
+userRouter.route('/searchFollower/:name')
+    .get([validate.verifyUserToken], (req, res) => {
+        actions.searchFollower(req, res)
+    })
+
+userRouter.route('/searchFollowing/:name')
+    .get([validate.verifyUserToken], (req, res) => {
+        actions.searchFollowing(req, res)
+    })
 
 module.exports = userRouter;

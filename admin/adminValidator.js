@@ -128,11 +128,11 @@ function validateRestaurant(req, res, next) {
 
         let name = rest.name.trim(),
             description = rest.description.trim(),
-            latitude = rest.latitude.trim(),
-            longitude = rest.latitude.trim(),
             openTime = rest.openTime.trim(),
             closeTime = rest.closeTime.trim()
-            cusinlen = rest.cuisin.length;
+            cusinlen = rest.cuisin.length,
+            longitude = rest.longitude,
+            latitude = rest.latitude;
         if (cusinlen == 0) {
             return res.json({ code: code.badRequest, message: msg.invalidBody })
         }
@@ -158,7 +158,7 @@ function validateRestaurant(req, res, next) {
             }
         } while (i < cusinlen)
 
-        if (name && description && latitude && longitude && openTime && closeTime && cuisin) {
+        if (name && description && openTime && closeTime && cuisin) {
             next();
         }
         else {

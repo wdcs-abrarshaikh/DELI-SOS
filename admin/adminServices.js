@@ -12,7 +12,7 @@ cloudinary.config({
     cloud_name: process.env.cloudinary_name,
     api_key: process.env.cloudinary_key,
     api_secret: process.env.cloudinary_secret
- });
+});
 
 
 
@@ -112,7 +112,7 @@ async function resetPassword(req, res) {
 }
 
 async function getUsers(req, res) {
-    userModel.find({ role: role.USER,status:status.active }, (err, result) => {
+    userModel.find({ role: role.USER, status: status.active }, (err, result) => {
         return (err) ? res.json({ code: code.internalError, message: internalServerError })
             : res.json({ code: code.ok, message: msg.ok, data: result })
     })
@@ -174,10 +174,10 @@ async function updateUserDetail(req, res) {
 }
 
 async function addRestaurant(req, res) {
-    
+
     req.body.location = {
-        type:"Point",
-        coordinates:[req.body.longitude,req.body.latitude]
+        type: "Point",
+        coordinates: [req.body.longitude, req.body.latitude]
     }
     let rest = new restModel(req.body)
     let obj = util.decodeToken(req.headers['authorization'])
@@ -216,6 +216,10 @@ async function updateRestaurant(req, res) {
     let id = req.params.id;
     obj = util.decodeToken(req.headers['authorization'])
     req.body.editedBy = obj.id
+    req.body.location = {
+        type: "Point",
+        coordinates: [req.body.longitude, req.body.latitude]
+    }
     await restModel.findByIdAndUpdate({ _id: id }, { $set: req.body }, { new: true }, (err, data) => {
         if (err) {
             res.json({ code: code.internalError, message: msg.internalServerError })
@@ -256,45 +260,43 @@ async function deleteRestaurant(req, res) {
 function uploadPhoto(req, res) {
     req.newFile_name = [];
 
-    util.upload(req, res,async  function (err) {
+    util.upload(req, res, async function (err) {
         if (err) {
-            return res.json({code:code.badRequest,message:err})
+            return res.json({ code: code.badRequest, message: err })
         }
-        else{
+        else {
             console.log(req.newFile_name)
             let multipleUpload = new Promise(async (resolve, reject) => {
                 let upload_len = req.newFile_name.length
-                    ,upload_res = new Array();
-                    await req.newFile_name.map(async (image)=>{
-                        let filePath = image;
-                        await cloudinary.v2.uploader.upload(`${process.cwd()}/img/${filePath}`,async (error, result) => {
-                          console.log(result)
-                          if(result)
-                            {
-                                try{
-                              let response_unlink = await require('fs').unlink(`${process.cwd()}/img/${filePath}`);
+                    , upload_res = new Array();
+                await req.newFile_name.map(async (image) => {
+                    let filePath = image;
+                    await cloudinary.v2.uploader.upload(`${process.cwd()}/img/${filePath}`, async (error, result) => {
+                        console.log(result)
+                        if (result) {
+                            try {
+                                let response_unlink = await require('fs').unlink(`${process.cwd()}/img/${filePath}`);
 
-                                }  catch(e){
-                                    console.log('in callback')
-                                }
-                              upload_res.push(result.url);
+                            } catch (e) {
+                                console.log('in callback')
                             }
-                            if(upload_res.length === upload_len)
-                            {
-                              resolve(upload_res)
-                            }else if(error) {
-                              console.log(error)
-                              reject(error)
-                            }
-            
-                        })
+                            upload_res.push(result.url);
+                        }
+                        if (upload_res.length === upload_len) {
+                            resolve(upload_res)
+                        } else if (error) {
+                            console.log(error)
+                            reject(error)
+                        }
+
                     })
-              })
-              .then((result) => result)
-              .catch((error) => error)
+                })
+            })
+                .then((result) => result)
+                .catch((error) => error)
 
-              let upload = await multipleUpload; 
-              return res.json({code:code.created,message:msg.ok,data:upload})
+            let upload = await multipleUpload;
+            return res.json({ code: code.created, message: msg.ok, data: upload })
         }
     });
 }
@@ -365,7 +367,7 @@ async function deleteUser(req, res) {
 //     cui = req.body.cuisin;
 //     // console.log("cuisin array", cui)
 //     // cuii=cuisin.name;
-    
+
 //     await restModel.find(({ mealOffers: meal, mealOffers: 'ALL'},{ perPersonCost: { $gte: req.body.min, $lte: req.body.max }}), async (err, data) => {
 //         if (err) { return res.json({ code: code.internalError, message: msg.internalServerError }) }
 //         else {
@@ -410,14 +412,14 @@ async function getCuisin(req, res) {
 
 }
 async function searchRestaurant(req, res) {
-    restModel.find({name: new RegExp('^' + req.params.name , "i")},(err, data) => {
-        if(err){
+    restModel.find({ name: new RegExp('^' + req.params.name, "i") }, (err, data) => {
+        if (err) {
             return res.json({ code: code.internalError, message: msg.internalServerError })
         }
-        else{
+        else {
             return res.json({ code: code.ok, data: data })
         }
-      });
+    });
 
 }
 
@@ -438,9 +440,9 @@ async function approveRestaurantProposal(rest_id, res) {
 }
 
 
-function getAllPendingRestaurant( res) {
-    restModel.find({ status:status.pending }, (err, data) => {
-        
+function getAllPendingRestaurant(res) {
+    restModel.find({ status: status.pending }, (err, data) => {
+
         return (err) ? res.json({ code: code.internalError, message: msg.internalServerError }) :
             res.json({ code: code.ok, data: data })
     })

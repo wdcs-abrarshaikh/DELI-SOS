@@ -9,6 +9,7 @@ var role = require('../constants').roles;
 var status = require('../constants').status;
 let schmaName = require('../constants').schemas;
 let adminService = require('../admin/adminServices');
+
 async function createUser(req, res) {
     let data = req.body;
     if (await userModel.findOne({ email: data.email })) {
@@ -35,7 +36,7 @@ async function createUser(req, res) {
 function authenticateUser(req, res) {
     let data = req.body;
     userModel.findOneAndUpdate({ email: data.email, role: role.USER },
-        { $set: { deviceId: data.deviceId, deviceType: data.deviceType, fcmToken: data.fcmToken,location:data.location } },
+        { $set: { deviceId: data.deviceId, deviceType: data.deviceType, fcmToken: data.fcmToken, location: data.location } },
         { new: true }, (err, result) => {
             if (err) {
                 return res.json({ code: code.ineternalError, message: msg.internalServerError })
@@ -97,7 +98,7 @@ function manageSocialLogin(req, res) {
     let data = req.body
     let user = new userModel(data)
     userModel.findOneAndUpdate({ socialId: data.socialId },
-        { $set: { deviceId: data.deviceId, deviceType: data.deviceType, fcmToken: data.fcmToken,email:data.email,location:data.location } },
+        { $set: { deviceId: data.deviceId, deviceType: data.deviceType, fcmToken: data.fcmToken, email: data.email, location: data.location } },
         { new: true }, (err, data) => {
             if (err) {
                 return json({ code: code.internalError, message: msg.internalServerError })
@@ -123,15 +124,15 @@ function manageSocialLogin(req, res) {
 }
 
 function uploadPhoto(req, res) {
-    adminService.uploadPhoto(req,res);
+    adminService.uploadPhoto(req, res);
 }
 
 function addRestaurant(req, res) {
     obj = util.decodeToken(req.headers['authorization'])
     req.body.createdBy = obj.id;
     req.body.location = {
-        type:"Point",
-        coordinates:[req.body.longitude,req.body.latitude]
+        type: "Point",
+        coordinates: [req.body.longitude, req.body.latitude]
     }
     req.body.status = status.pending;
     let rest = new restModel(req.body)
@@ -387,73 +388,171 @@ function changePassword(req, res) {
     })
 }
 
+function getNearByRestaurant(req, res) {
+    userModel.findOne({ _id: req.params.userId, status: status.active }, (err, data) => {
+        if (err) {
+            return res.json({ code: code.internalError, message: msg.internalError })
+        } else if (!data) {
+            return res.json({ code: code.notFound, message: msg.userNotFound })
+        } else {
+            restModel.aggregate([
+                {
+                    $geoNear: {
+                        near: { type: data.location.type, coordinates: [data.location.coordinates[0], data.location.coordinates[1]] },
+                        distanceField: "dist.calculated",
+                        maxDistance: 100000,
+                        key: 'location',
+                        query: { status: status.active },
+                        num: 5, spherical: true
+                    }
+                }, {
+                    $project: {
+                        'location': 1, 'photos': 1, '_id': 1,
+                        'reviews': 1, 'name': 1, 'dist': 1, 'mealOffers': 1
+                    }
+                },
+                {
+                    $lookup: {
+                        from: schmaName.reviews,
+                        localField: 'reviews',
+                        foreignField: '_id',
+                        as: 'reviews_details'
+                    }
+                }, {
+                    $addFields: {
+                        "rating": { $avg: '$reviews_details.rating' },
+                        "distance": '$dist.calculated'
+                    }
+                }, {
+                    $project: {
+                        "reviews_details": false,
+                        reviews: false,
+                        dist: false
 
-function getNearByRestaurant(req,res){
-        userModel.findOne({_id:req.params.userId,status:status.active},(err,data)=>{
-            if(err){
-                return res.json({ code: code.internalError, message: msg.internalError })
-            }else if(!data){
-                return res.json({ code: code.notFound, message: msg.userNotFound })
-            }else{
-                restModel.aggregate([ 
-                    {      $geoNear: {         near: { type: data.location.type, coordinates: [data.location.coordinates[0],data.location.coordinates[1]] },    
-                         distanceField: "dist.calculated",   
-                        maxDistance: 100000,   
-                            key:'location',  
-                            query: { status:status.active},      
-                                    num: 5,spherical: true} 
-                                            },{
-                                                $project:{
-                                                'location':1,'photos':1,'_id':1,  
-                                                'reviews':1,'name':1,'dist':1,'mealOffers':1   
-                                                }   
-                                            },
-                                            {
-                                                $lookup:{
-                                                from:schmaName.reviews,
-                                                localField:'reviews',
-                                                foreignField:'_id',
-                                                as:'reviews_details'
-                                                }
-                                            },{
-                                                    $addFields:{
-                                                    "rating":{$avg:'$reviews_details.rating'},
-                                                    "distance":'$dist.calculated'
-                                                    }
-                                            },{
-                                                $project:{
-                                                    "reviews_details":false,
-                                                    reviews:false,
-                                                    dist:false
+                    }
+                }], (err, response) => {
+                    console.log(err);
+                    console.log(response)
+                    if (err) {
+                        return res.json({ code: code.internalError, message: msg.internalError })
+                    } else {
+                        console.log(response);
+                        let marker = [];
+                        let recommendation = []
+                        let modifyed_response = response.map(async (response_res) => {
+                            let obj = Object.assign({}, response_res);
+                            delete obj.mealOffers;
+                            obj.lat = obj.location.coordinates[1];
+                            obj.long = obj.location.coordinates[0];
+                            obj.photos = obj.photos[0];
+                            response_res.photos = response_res.photos[0];
+                            delete obj.location;
+                            delete response_res.location;
+                            marker.push(obj);
+                            recommendation.push(response_res);
 
-                                                }
-                                            }],(err,response)=>{
-                                                console.log(err);
-                                                console.log(response)
-                                                if(err){
-                                                  return   res.json({ code: code.internalError, message: msg.internalError }) 
-                                                }else{
-                                                    console.log(response);
-                                                    let  marker = [];
-                                                    let recommendation=[]
-                                                    let modifyed_response = response.map(async (response_res)=>{
-                                                            let obj = Object.assign({},response_res);
-                                                            delete obj.mealOffers;
-                                                            obj.lat = obj.location.coordinates[1];
-                                                            obj.long = obj.location.coordinates[0];
-                                                            obj.photos = obj.photos[0];
-                                                            response_res.photos = response_res.photos[0];
-                                                            delete obj.location;
-                                                            delete response_res.location;
-                                                            marker.push(obj);
-                                                            recommendation.push(response_res);
+                        });
 
-                                                    });
+                        return res.json({ code: code.ok, marker, recommendation })
+                    }
 
-                                                    return res.json({code:code.ok,marker,recommendation})
-                                                }
-                                            
-                                            })
+                })
+        }
+    })
+}
+
+function followUser(req, res) {
+    let obj = util.decodeToken(req.headers['authorization']),
+        uid = req.params.userId
+    return userModel.findByIdAndUpdate({ _id: uid }, { $addToSet: { follower: obj.id } },  (err, result) => {
+        if (err) {
+            res.json({ code: code.ineternalError, message: msg.internalServerError })
+        }
+        else if (!result) {
+            res.json({ code: code.notFound, message: msg.userNotFound })
+        }
+        else {
+            userModel.findOneAndUpdate({ _id: obj.id }, { $addToSet: { following: uid } },  (err, data) => {
+                if (err) {
+                    res.json({ code: code.ineternalError, message: msg.internalServerError })
+                }
+                else {
+                    res.json({ code: code.ok, message: msg.followed })
+                }
+            })
+        }
+    })
+}
+
+function unfollowUser(req, res) {
+    let obj = util.decodeToken(req.headers['authorization']),
+        uid = req.params.userId
+    return userModel.findByIdAndUpdate({ _id: uid }, { $pull: { follower: obj.id } },  (err, result) => {
+        if (err) {
+            res.json({ code: code.ineternalError, message: msg.internalServerError })
+        }
+        else if (!result) {
+            res.json({ code: code.notFound, message: msg.userNotFound })
+        }
+        else {
+            userModel.findOneAndUpdate({ _id: obj.id }, { $pull: { following: uid } }, (err, data) => {
+                if (err) {
+                    res.json({ code: code.ineternalError, message: msg.internalServerError })
+                }
+                else {
+                    res.json({ code: code.ok, message: msg.unfollowed })
+                }
+            })
+        }
+    })
+}
+
+function getFollowingList(req, res) {
+    let obj = util.decodeToken(req.headers['authorization'])
+    userModel.findOne({ _id: obj.id })
+        .select({ "following": 1, "_id": 0 }).populate({ path: "following", select: "_id name profilePicture" }).exec((err, data) => {
+            if (err) {
+                res.json({ code: code.ineternalError, message: msg.internalServerError })
+            }
+            else {
+                res.json({ code: code.ok, message: msg.ok, data: data })
+            }
+        })
+}
+
+function getFollowerList(req, res) {
+    let obj = util.decodeToken(req.headers['authorization'])
+    userModel.findOne({ _id: obj.id })
+        .select({ "follower": 1, "_id": 0 }).populate({ path: "follower", select: "_id name profilePicture" }).exec((err, data) => {
+            if (err) {
+                res.json({ code: code.ineternalError, message: msg.internalServerError })
+            }
+            else {
+                res.json({ code: code.ok, message: msg.ok, data: data })
+            }
+        })
+}
+
+function searchFollower(req, res) {
+    let list = "follower"
+    searchInList(req,res,list)
+}
+
+function searchFollowing(req, res) {
+    let list = "following"
+    searchInList(req,res,list)
+}
+
+function searchInList(req,res,list){
+    let obj = util.decodeToken(req.headers['authorization'])
+    userModel.findOne({ _id: obj.id }).select({ list: 1, "_id": 0 })
+        .populate({ path: list, select: "_id name profilePicture", match: { name: new RegExp('^' + req.params.name, "i") } })
+        .exec((err, data) => {
+            if (err) {
+                res.json({ code: code.ineternalError, message: msg.internalServerError })
+            }
+            else {
+                res.json({ code: code.ok, message: msg.ok, data: data })
             }
         })
 }
@@ -480,5 +579,11 @@ module.exports = {
     updateProfile,
     changePassword,
     getRestaurantList,
-    getNearByRestaurant
+    getNearByRestaurant,
+    followUser,
+    unfollowUser,
+    getFollowingList,
+    getFollowerList,
+    searchFollower,
+    searchFollowing
 }

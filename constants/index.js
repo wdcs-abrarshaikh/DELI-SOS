@@ -39,7 +39,9 @@ messages = {
     wrongPassword: "You entered wrong old password",
     passwordChanged: "Password changed successfully",
     invalidLatLong:"Please check your lat long and try again.",
-    idMissing:"Please provide user id."
+    idMissing:"Please provide user id.",
+    followed:"Followed user successfully",
+    unfollowed:"Unfollwed user successfully"
 }
 
 roles = {
