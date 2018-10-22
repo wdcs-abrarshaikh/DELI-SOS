@@ -313,6 +313,7 @@ selectSelector(flag:string,arr){
 async imageUploading(event,flag,section,idx){
     let queryArray = [];
     let files = event.target.files ; 
+    console.log('***',event.target)
     let allFiles= []   
     if (files.length<=5) {
       var counter =0;
@@ -332,6 +333,7 @@ async imageUploading(event,flag,section,idx){
               queryArray.push(obj); 
             }else{  
               obj = await this.uploadImage(allFiles);
+              // console.log("ooo",obj)
               queryArray = [...queryArray,...obj]
              }  
            this.selectSelector(flag,queryArray);
@@ -343,7 +345,9 @@ async imageUploading(event,flag,section,idx){
 
 
 async uploadImage(images) {
+  console.log("kkkkkkk",images)
   return new Promise((resolve,reject)=>{
+    console.log(resolve)
        this.restaurantService.uploadPic(images).subscribe((data)=>{
        resolve(data.data)
        });
@@ -422,7 +426,7 @@ async uploadImage(images) {
           this.toastService.error(error['message']);
         });
     } else {
-     addObj.latitude = JSON.stringify(addObj.latitude);
+      addObj.latitude = JSON.stringify(addObj.latitude);
       addObj.longitude = JSON.stringify(addObj.longitude);
       this.restaurantService.editRestaurant(addObj,this.id).subscribe(
         data => {

@@ -1,17 +1,14 @@
 import { NgModule } from '@angular/core';
 import { ThemeComponent } from './theme.component';
 import { Routes, RouterModule } from '@angular/router';
-// import {AuthGuard} from "../auth/_guards/auth.guard";
+import {AuthGuard} from "../auth/_guards/auth.guard";
 
 const routes: Routes = [
     {
         "path": "",
         "component": ThemeComponent,
-        // "canActivate": [AuthGuard],
+        "canActivate": [AuthGuard],
         "children": [
-
-            
-          
             {
                 "path": "index",
                 "loadChildren": "./pages/default/index/index.module#IndexModule"
@@ -28,6 +25,14 @@ const routes: Routes = [
             {
                 "path": "admin/profile",
                 "loadChildren": "./pages/default/angular/profile/profile.module#ProfileModule"
+            },
+            {
+                "path": "admin/about-us",
+                "loadChildren": "./pages/default/angular/about-us/about-us.module#AboutUsModule"
+            },
+            {
+                "path": "admin/privacy-policy",
+                "loadChildren": "./pages/default/angular/privacy-policy/privacy-policy.module#PrivacyPolicyModule"
             },
         ]
     },

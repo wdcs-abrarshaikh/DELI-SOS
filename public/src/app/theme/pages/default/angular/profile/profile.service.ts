@@ -4,6 +4,9 @@ import { Injectable, EventEmitter } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { map, catchError } from "rxjs/operators";
 import { Observable, throwError } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
+
+
 
 // const URL: string = "http://66.70.179.133:4009/solow/v2/api/admin/";
 // const URLS: string = "http://66.70.179.133:4009/solow/v2/api/";
@@ -15,51 +18,58 @@ import { Observable, throwError } from 'rxjs';
 })
 
 export class ProfileService {
+    private profilesList = new Subject<any>()
+    private name = new Subject<any>()
+    private imageSource = new BehaviorSubject('');
+    private nameSource = new BehaviorSubject('');
+    currentImage = this.imageSource.asObservable();
+    currentName = this.nameSource.asObservable();
+
+
+    changeImage(image: string) {
+        this.imageSource.next(image)
+    }
+    changeName(name: string) {
+        this.nameSource.next(name)
+    }
     // private categoriesList = new Subject<any>()
     constructor(private http: HttpClient) {
 
     }
-   
+
     getHeaderWithToken() {
         let headers = new HttpHeaders()
-        let token= JSON.parse(localStorage.getItem('_token'))
+        let token = JSON.parse(localStorage.getItem('_token'))
         headers = headers.set('Authorization', token)
-        headers = headers.set('Content-Type', 'application/json')
+        headers = headers.set('Content-Type', 'application/json');
         return headers;
     }
-  
+
+
     getProfile() {
-        var admin_id=JSON.parse(localStorage.getItem('_id'));
-        console.log("admin id",admin_id)
+
+        var admin_id = JSON.parse(localStorage.getItem('_id'));
         return this.http.get(URL + 'admin/getUserDetail/' + admin_id, { headers: this.getHeaderWithToken() })
-        .pipe(
-            map((res:Response)=>{ return res})
-        );
+            .pipe(
+                map((res: Response) => { return res })
+            );
     }
 
-   
-    editProfile(profile:any) {
-        
-        var admin_id=JSON.parse(localStorage.getItem('currentUser'));
-      
-        return this.http.put<any>(URL + 'editAdminProfile/' + admin_id, profile,{ headers: this.getHeaderWithToken() }).map((res: Response) => { return res })
-           
-    }
- 
-    uploadPic(pic:any){
-        // console.log("jjjjjjjjjj",pic)
-        let formData =  new FormData();
-        pic.map(async(res)=>{
-            formData.append('img',res);
 
-        })
-        // console.log(formData)
-    //   console.log( "mmmmmmmm",pic)
-        return this.http.post<any>(URL + 'admin/uploadPhoto',pic);
-        
+    editProfile(profile: any) {
+        var admin_id = JSON.parse(localStorage.getItem('_id'));
+
+        return this.http.put<any>(URL + 'admin/updateUser/' + admin_id, profile, { headers: this.getHeaderWithToken() }).map((res: Response) => { return res })
 
     }
-  
-   
-   
+
+    uploadPic(pic: any) {
+        let formData = new FormData();
+        formData.append('img', pic[0]);
+        return this.http.post<any>(URL + 'admin/uploadPhoto', formData);
+
+    }
+
+
+
 }

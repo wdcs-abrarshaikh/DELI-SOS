@@ -63,7 +63,7 @@ import { ScriptLoaderService } from '../../../../../_services/script-loader.serv
            </div>
         <div class="modal-footer">
             <div class="form-group" *ngIf="!isView">
-           <button type="submit"  class="btn btn-outline-dark" [disabled]="validateForm()">Save</button>
+           <button type="submit"  class="btn btn-outline-dark" [disabled]="validateForm()">Save</button>&nbsp;&nbsp;
            <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Cancel</button>
             </div>
          </div>

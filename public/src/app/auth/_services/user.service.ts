@@ -8,8 +8,10 @@ export class UserService {
 	constructor(private http: Http) {
 	}
 
-	verify() {
-		return this.http.get('/api/verify', this.jwt()).map((response: Response) => response.json());
+   verify() {
+		
+		console.log("sdhgf")
+		return this.http.get('/login', this.jwt()).map((response: Response) => response.json());
 	}
 
 	forgotPassword(email: string) {
@@ -40,9 +42,10 @@ export class UserService {
 
 	private jwt() {
 		// create authorization header with jwt token
-		let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+		let currentUser = JSON.parse(localStorage.getItem('_token'));
 		if (currentUser && currentUser.token) {
-			let headers = new Headers({'Authorization':JSON.parse(localStorage.getItem('jwt')) });
+			console.log(currentUser)
+			let headers = new Headers({'Authorization':JSON.parse(localStorage.getItem('_token')) });
 			return new RequestOptions({headers: headers});
 		}
 	}

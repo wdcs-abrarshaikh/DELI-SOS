@@ -232,6 +232,7 @@ export class IndexComponent implements OnInit, AfterViewInit {
         this.indexService.getAllRequest().subscribe((response: any) => {
             this.restList = response.data
             
+            
         })
     }
     open(content) {

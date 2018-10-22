@@ -15,5 +15,15 @@ img.m--img-rounded.m--marginless {
     /* background: url("user.jpeg") */
 }
 h3{
-    color: black
+    color:white
+}
+.label{
+    font-style: bold;
+    text-align: right
+}
+.user{
+    color:orangered;
+    font-weight: 500;
+    font :bold;
+    font-size: 25px
 }
