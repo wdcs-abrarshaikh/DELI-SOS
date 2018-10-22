@@ -6,6 +6,7 @@ var code = require('../constants').http_codes;
 var msg = require('../constants').messages;
 var role = require('../constants').roles;
 var status = require('../constants').status;
+<<<<<<< HEAD
 var validate = require('./adminValidator');
 var cloudinary = require('cloudinary')
 cloudinary.config({
@@ -15,6 +16,9 @@ cloudinary.config({
  });
 
 
+=======
+var reviews = require('../schema/review');
+>>>>>>> origin/nami_new
 
 //admin signup function which register admin filtering from email and password validation nd also check email already exist or not
 async function createAdmin(req, res) {
@@ -112,7 +116,11 @@ async function resetPassword(req, res) {
 }
 
 async function getUsers(req, res) {
+<<<<<<< HEAD
     userModel.find({ role: role.USER,status:status.active }, (err, result) => {
+=======
+    userModel.find({ role: role.USER, status: status.active }, (err, result) => {
+>>>>>>> origin/nami_new
         return (err) ? res.json({ code: code.internalError, message: internalServerError })
             : res.json({ code: code.ok, message: msg.ok, data: result })
     })
@@ -134,7 +142,7 @@ async function getUserDetail(req, res) {
 }
 
 async function createUser(req, res) {
-    console.log(req.body)
+    console.log("in  create user api", req.body)
     let data = req.body;
     if (await userModel.findOne({ email: data.email })) {
         return res.json({ code: code.badRequest, message: msg.emailAlreadyRegistered });
@@ -146,9 +154,14 @@ async function createUser(req, res) {
             let user = new userModel(data)
             user.password = bcrypt.hashSync(data.password, 11)
             user.save((err, data) => {
+<<<<<<< HEAD
                 console.log(err);
+=======
+                // if(err){console.log("error in create user api",err)}
+                // else{console.log("message:user successfully created")}
+>>>>>>> origin/nami_new
                 return (err) ?
-                    res.json({ code: code.internalError, message: msg.internalServerError }) :
+                    res.json({ code: code.internalError, message: err }) :
                     res.json({ code: code.created, message: msg.registered, data: data })
             });
         }
@@ -174,10 +187,10 @@ async function updateUserDetail(req, res) {
 }
 
 async function addRestaurant(req, res) {
-    
+
     req.body.location = {
-        type:"Point",
-        coordinates:[req.body.longitude,req.body.latitude]
+        type: "Point",
+        coordinates: [req.body.longitude, req.body.latitude]
     }
     let rest = new restModel(req.body)
     let obj = util.decodeToken(req.headers['authorization'])
@@ -206,9 +219,14 @@ async function getRestaurantDetails(req, res) {
 }
 
 async function getRestaurantList(req, res) {
-    restModel.find((err, result) => {
-        return (err) ? res.json({ code: code.internalError, message: internalServerError })
-            : res.json({ code: code.ok, message: msg.ok, data: result })
+    restModel.find(({ $or: [{ status: status.inactive }, { status: status.active }] }), (err, result) => {
+        if (err) {
+            console.log("error", err)
+            res.json({ code: code.internalError, message: msg.internalServerError })
+        }
+        else {
+            res.json({ code: code.ok, message: msg.ok, data: result })
+        }
     })
 }
 
@@ -258,10 +276,11 @@ function uploadPhoto(req, res) {
 
     util.upload(req, res,async  function (err) {
         if (err) {
-            return res.json({code:code.badRequest,message:err})
+            return res.json({ code: code.badRequest, message: err })
         }
-        else{
+        else {
             console.log(req.newFile_name)
+<<<<<<< HEAD
             let multipleUpload = new Promise(async (resolve, reject) => {
                 let upload_len = req.newFile_name.length
                     ,upload_res = new Array();
@@ -295,6 +314,14 @@ function uploadPhoto(req, res) {
 
               let upload = await multipleUpload; 
               return res.json({code:code.created,message:msg.ok,data:upload})
+=======
+            var response = req.newFile_name.map((result) => {
+                result = process.cwd() + '/img/' + result;
+                console.log(result);
+                return result;
+            })
+            return res.json({ code: code.created, message: msg.ok, data: response })
+>>>>>>> origin/nami_new
         }
     });
 }
@@ -365,7 +392,7 @@ async function deleteUser(req, res) {
 //     cui = req.body.cuisin;
 //     // console.log("cuisin array", cui)
 //     // cuii=cuisin.name;
-    
+
 //     await restModel.find(({ mealOffers: meal, mealOffers: 'ALL'},{ perPersonCost: { $gte: req.body.min, $lte: req.body.max }}), async (err, data) => {
 //         if (err) { return res.json({ code: code.internalError, message: msg.internalServerError }) }
 //         else {
@@ -388,13 +415,14 @@ async function getCuisin(req, res) {
 
         {
             $group: {
-                name: '$cuisin.name',
+                _id: '$cuisin.name',
                 image: { $first: '$cuisin.image' }
 
             }
         }
     ]).exec((err, data) => {
         if (err) {
+            console.log("jiiiiiiiiii", err)
             return res.json({ code: code.internalError, message: msg.internalServerError })
         }
         else if (!data) {
@@ -410,14 +438,14 @@ async function getCuisin(req, res) {
 
 }
 async function searchRestaurant(req, res) {
-    restModel.find({name: new RegExp('^' + req.params.name , "i")},(err, data) => {
-        if(err){
+    restModel.find({ name: new RegExp('^' + req.params.name, "i") }, (err, data) => {
+        if (err) {
             return res.json({ code: code.internalError, message: msg.internalServerError })
         }
-        else{
+        else {
             return res.json({ code: code.ok, data: data })
         }
-      });
+    });
 
 }
 
@@ -445,6 +473,56 @@ function getAllPendingRestaurant( res) {
             res.json({ code: code.ok, data: data })
     })
 }
+
+function noOfRestaurant(req, res) {
+    restModel.find({ status: status.active }, (err, results) => {
+        if (err) {
+            return res.json({ code: code.internalError, message: msg.internalServerError })
+        }
+        else {
+            var count = results.length
+            // console.log("no. of restaurant", count)
+            // return res.json({count:count});
+            return res.json({ code: code.ok, message: msg.ok, data: count })
+        }
+    });
+
+}
+
+function noOfUsers(req, res) {
+    userModel.find({ status: status.active }, (err, results) => {
+        if (err) {
+            return res.json({ code: code.internalError, message: msg.internalServerError })
+        }
+        else {
+            var count = results.length
+            console.log("no. of restaurant", count)
+            return res.json({ code: code.ok, message: msg.ok, data: count })
+        }
+    });
+
+}
+
+function noOfReviews(req, res) {
+    reviews.find({ status: status.active }, (err, results) => {
+        if (err) {
+            console.log("error in noofreviews", err)
+            return res.json({ code: code.internalError, message: msg.internalServerError })
+        }
+        else if (results.length == 0) {
+            return res.json({ code: code.notFound, message: msg.reviewsNotFound })
+        }
+        else {
+            // console.log("data cuisin name",data)
+            console.log("reviews", results.length)
+            return res.json({ code: code.ok, data: results})
+
+
+        }
+    });
+
+}
+
 module.exports = {
     createAdmin,
     authenticateAdmin,
@@ -466,5 +544,9 @@ module.exports = {
     getCuisin, //Cb:nami
     searchRestaurant,
     approveRestaurantProposal,
-    getAllPendingRestaurant
+    getAllPendingRestaurant,
+    noOfRestaurant,
+    noOfUsers,
+    noOfReviews,
+
 }

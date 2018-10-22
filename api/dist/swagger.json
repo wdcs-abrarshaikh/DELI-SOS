@@ -1459,7 +1459,10 @@
                             "required": [
                                 "email",
                                 "password",
-                                "name"
+                                "name",
+                                "deviceId",
+                                "deviceType",
+                                "fcmToken"
                             ],
                             "properties": {
                                 "name": {
@@ -1471,6 +1474,15 @@
                                 "password": {
                                     "type": "string",
                                     "format": "One capital letter,small letter,special char and one number is required.Length lies between 6 to 16"
+                                },
+                                "deviceId": {
+                                    "type": "string"
+                                },
+                                "deviceType": {
+                                    "type": "string"
+                                },
+                                "fcmToken": {
+                                    "type": "string"
                                 }
                             }
                         }
@@ -2136,6 +2148,99 @@
                         }
                     },
                     "500": {
+                        "description": "Erorr message.",
+                        "schema": {
+                            "$ref": "#/definitions/errorMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/noOfRestaurant": {
+            "get": {
+                "tags": [
+                    "admin"
+                ],
+                "summary": "Get number of  restaurants(active,inactive).",
+                "parameters": [
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "description": "token for validation.",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Sucess.",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Erorr message.",
+                        "schema": {
+                            "$ref": "#/definitions/errorMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/noOfUsers": {
+            "get": {
+                "tags": [
+                    "admin"
+                ],
+                "summary": "Get number of  users(active).",
+                "parameters": [
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "description": "token for validation.",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Sucess.",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Erorr message.",
+                        "schema": {
+                            "$ref": "#/definitions/errorMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/noOfReviews": {
+            "get": {
+                "tags": [
+                    "admin"
+                ],
+                "summary": "Get number of  Reviews (active).",
+                "parameters": [
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "description": "token for validation.",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Sucess.",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessMessage"
+                        }
+                    },
+                    "404": {
                         "description": "Erorr message.",
                         "schema": {
                             "$ref": "#/definitions/errorMessage"
