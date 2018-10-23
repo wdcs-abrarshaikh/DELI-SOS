@@ -534,19 +534,19 @@ function getFollowerList(req, res) {
 }
 
 function searchFollower(req, res) {
-    let list = "follower"
-    searchInList(req,res,list)
+    let listName = "follower"
+    searchInList(req,res,listName)
 }
 
 function searchFollowing(req, res) {
-    let list = "following"
-    searchInList(req,res,list)
+    let listName = "following"
+    searchInList(req,res,listName)
 }
 
-function searchInList(req,res,list){
+function searchInList(req,res,listName){
     let obj = util.decodeToken(req.headers['authorization'])
-    userModel.findOne({ _id: obj.id }).select({ list: 1, "_id": 0 })
-        .populate({ path: list, select: "_id name profilePicture", match: { name: new RegExp('^' + req.params.name, "i") } })
+    userModel.findOne({ _id: obj.id }).select({ listName: 1, "_id": 0 })
+        .populate({ path: listName, select: "_id name profilePicture", match: { name: new RegExp('^' + req.params.name, "i") } })
         .exec((err, data) => {
             if (err) {
                 res.json({ code: code.ineternalError, message: msg.internalServerError })

@@ -39,7 +39,7 @@ function validateEmail(data) {
 }
 
 function validatePassword(data) {
-    let regex = /^(?=.*[A-z])(?=.*[0-9])(?=.*[@#$_-])\S{6,16}$/;
+    let regex = /^(?=.*[A-z])(?=.*[0-9])(?=.*[@#$_-])\S{8,20}$/;
     return regex.test(data)
 }
 
