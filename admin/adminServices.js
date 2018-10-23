@@ -1,5 +1,6 @@
 var userModel = require('../schema/user');
 var restModel = require('../schema/restaurant');
+var aboutModel = require('../schema/about_Privacy')
 var bcrypt = require('bcrypt');
 var util = require('../app util/util');
 var code = require('../constants').http_codes;
@@ -7,6 +8,7 @@ var msg = require('../constants').messages;
 var role = require('../constants').roles;
 var status = require('../constants').status;
 var reviews = require('../schema/review');
+var jwt = require('jsonwebtoken')
 
 //admin signup function which register admin filtering from email and password validation nd also check email already exist or not
 async function createAdmin(req, res) {
@@ -436,23 +438,23 @@ function noOfRestaurant(req, res) {
 }
 
 function noOfUsers(req, res) {
-    userModel.find({ status: status.active }, (err, results) => {
+    console.log("in noofuser")
+    userModel.find({ $and: [{ status: status.active }, { role: role.USER }] }, (err, results) => {
         if (err) {
             return res.json({ code: code.internalError, message: msg.internalServerError })
         }
         else {
             var count = results.length
-            console.log("no. of restaurant", count)
+            console.log("no. of users", count)
             return res.json({ code: code.ok, message: msg.ok, data: count })
         }
     });
 
 }
-
 function noOfReviews(req, res) {
     reviews.find({ status: status.active }, (err, results) => {
         if (err) {
-            console.log("error in noofreviews", err)
+            // console.log("error in noofreviews", err)
             return res.json({ code: code.internalError, message: msg.internalServerError })
         }
         else if (results.length == 0) {
@@ -460,8 +462,8 @@ function noOfReviews(req, res) {
         }
         else {
             // console.log("data cuisin name",data)
-            console.log("reviews", results.length)
-            return res.json({ code: code.ok, data: results})
+            // console.log("reviews", results.length)
+            return res.json({ code: code.ok, data: results })
 
 
         }
@@ -469,6 +471,155 @@ function noOfReviews(req, res) {
 
 }
 
+async function verifyToken(req, res) {
+    let token = req.headers['authorization']
+
+    await jwt.verify(token, process.env.admin_secret, (err) => {
+        if (err) {
+            return res.json({ code: code.badRequest, message: msg.invalidToken })
+        }
+        else {
+            return res.json({ code: code.ok, message: msg.ok })
+        }
+    })
+
+}
+
+async function about_Us(req, res) {
+
+    let about = new aboutModel(req.body)
+    about.Type = "About_Us"
+    await about.save((err, data) => {
+
+        return (err) ? res.json({ code: code.internalError, message: msg.internalServerError }) :
+            res.json({ code: code.created, message: msg.contentSaved, data: data })
+    })
+}
+
+async function getAbout_Us(req, res) {
+    await aboutModel.find({ $and: [{ status: status.active }, { Type:"About_Us"}] },(err, data) => {
+        if (err) {
+            return res.json({ code: code.internalError, message: msg.internalServerError })
+        }
+        else if (!data) {
+            return res.json({ code: code.notFound, message: msg.restNotFound })
+        }
+        else {
+            return res.json({ code: code.ok, message: msg.ok, data: data })
+        }
+    })
+}
+
+async function delAbout_Us(req, res) {
+    await aboutModel.findByIdAndUpdate({ _id: req.params.id }, { $set: { status: status.inactive } }, (err, data) => {
+        if (err) {
+            return res.json({ code: code.internalError, message: msg.internalError })
+        }
+        else if (!data) {
+            return res.json({ code: code.notFound, message: msg.contentNotFound })
+        }
+        else {
+            return res.json({ code: code.ok, message: msg.contentDel })
+        }
+    })
+}
+
+async function updateAbout_Us(req, res) {
+    let id = req.params.id;
+    await aboutModel.findByIdAndUpdate({ _id: id }, { $set: req.body }, { new: true }, (err, data) => {
+        if (err) {
+            res.json({ code: code.internalError, message: msg.internalServerError })
+        }
+        else if (!data) {
+            res.json({ code: code.notFound, message: msg.contentNotFound })
+        }
+        else {
+            res.json({ code: code.ok, message: msg.contentSaved, data: data })
+        }
+    })
+}
+
+async function privacyPolicy(req, res) {
+    let about = new aboutModel(req.body)
+    about.Type = "Privacy_Policy"
+    await about.save((err, data) => {
+
+        return (err) ? res.json({ code: code.internalError, message: msg.internalServerError }) :
+            res.json({ code: code.created, message: msg.contentSaved, data: data })
+    })
+}
+
+async function getPrivacyPolicy(req, res) {
+    await aboutModel.find({ $and: [{ status: status.active }, { Type:"Privacy_Policy"}] },(err, data) => {
+        if (err) {
+            return res.json({ code: code.internalError, message: msg.internalServerError })
+        }
+        else if (!data) {
+            return res.json({ code: code.notFound, message: msg.contentNotFound})
+        }
+        else {
+            return res.json({ code: code.ok, message: msg.ok, data: data })
+        }
+    })
+}
+
+async function updatePrivacyPolicy(req, res) {
+    let id = req.params.id;
+    await aboutModel.findByIdAndUpdate({ _id: id }, { $set: req.body }, { new: true }, (err, data) => {
+        if (err) {
+            res.json({ code: code.internalError, message: msg.internalServerError })
+        }
+        else if (!data) {
+            res.json({ code: code.notFound, message: msg.contentNotFound })
+        }
+        else {
+            res.json({ code: code.ok, message: msg.contentSaved, data: data })
+        }
+    })
+}
+
+async function delPrivacyPolicy(req, res) {
+    await aboutModel.findByIdAndUpdate({ _id: req.params.id }, { $set: { status: status.inactive } }, (err, data) => {
+        if (err) {
+            return res.json({ code: code.internalError, message: msg.internalError })
+        }
+        else if (!data) {
+            return res.json({ code: code.notFound, message: msg.contentNotFound })
+        }
+        else {
+            return res.json({ code: code.ok, message: msg.contentDel })
+        }
+    })
+}
+
+async function getContactUs(req, res) {
+    await aboutModel.find({ $and: [{ status: status.pending }, { Type:"Contact_Us"}] },(err, data) => {
+        if (err) {
+            return res.json({ code: code.internalError, message: msg.internalServerError })
+        }
+        else if (!data) {
+            return res.json({ code: code.notFound, message: msg.contentNotFound})
+        }
+        else {
+            return res.json({ code: code.ok, message: msg.ok, data: data })
+        }
+    })
+}
+
+async function resolveContactUs(req, res) {
+    let id = req.params.id;
+    await aboutModel.findByIdAndUpdate({ _id: id }, { $set:{status:status.resolved }}, { new: true }, (err, data) => {
+        if (err) {
+            res.json({ code: code.internalError, message: msg.internalServerError })
+        }
+        else if (!data) {
+            res.json({ code: code.notFound, message: msg.contentNotFound })
+        }
+        else {
+            res.json({ code: code.ok, message: msg.resolved, data: data })
+        }
+    })
+}
 module.exports = {
     createAdmin,
     authenticateAdmin,
@@ -485,14 +636,24 @@ module.exports = {
     deleteRestaurant,
     uploadPhoto,
     deleteRestaurantPhoto,
-    deleteUser, //Cb:nami
-    // whatuLike, //Cb:nami
-    getCuisin, //Cb:nami
+    deleteUser, 
+    // whatuLike,
+    getCuisin, 
     searchRestaurant,
     approveRestaurantProposal,
     getAllPendingRestaurant,
     noOfRestaurant,
     noOfUsers,
     noOfReviews,
-
+    verifyToken,
+    about_Us,
+    getAbout_Us,
+    delAbout_Us,
+    updateAbout_Us,
+    privacyPolicy,
+    getPrivacyPolicy,
+    updatePrivacyPolicy,
+    delPrivacyPolicy,
+    getContactUs,
+    resolveContactUs
 }

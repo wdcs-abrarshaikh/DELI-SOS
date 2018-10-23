@@ -1550,6 +1550,279 @@ paths:
             schema:
               $ref: '#/definitions/errorMessage'          
               
+  "/admin/about_Us":
+      post:
+        tags:
+        - 'admin'
+        summary: Add About Us Content.
+        parameters: 
+          - name: authorization
+            in: header
+            description: token for validation.
+            required: true
+            type: string
+          - in: body
+            name: admin
+            description: About us body.
+            required: true
+            schema:
+              type: object
+              required:
+                - content
+              properties:
+                content:
+                    type: string
+        responses:
+          "200":
+            description: Sucess.
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "404":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'          
+  
+  "/admin/getAbout_Us":
+      get:
+        tags:
+        - 'admin'
+        summary: get About Us content.
+        parameters: 
+        
+          - name: authorization
+            in: header
+            description: token for validation.
+            required: true
+            type: string
+            
+            
+              
+        responses:
+          "200":
+            description: ok
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "500":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "404":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'              
+
+  "/admin/delAbout_Us/{id}":
+      put:
+        tags:
+        - 'admin'
+        summary: Delete a particular content.
+        parameters: 
+            
+          - name: authorization
+            in: header
+            description: token for validation.
+            required: true
+            type: string
+          - name: id
+            in: path
+            description: Id of particular content 
+            required: true
+            type: string
+          
+        responses:
+          "200":
+            description: ok
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "500":
+            description: Internal Server Error
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "404":
+            description: Content Not Found
+            schema:
+              $ref: '#/definitions/errorMessage'
+
+  "/admin/updateAbout_Us/{id}":
+      put:
+        tags:
+        - 'admin'
+        summary: update about us details.
+        parameters: 
+          - name: id
+            in: path
+            description: content id for get details.
+            required: true
+            type: string
+            
+          - name: content
+            in: body
+            description: content in body.
+            required: true
+            schema:
+              type: object
+              required:
+                - content
+              properties:
+                content:
+                    type: string
+          - name: authorization
+            in: header
+            description: token for validation.
+            required: true
+            type: string
+              
+        responses:
+          "201":
+            description: About Us Updated
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "500":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "404":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+
+  "/admin/privacyPolicy":
+      post:
+        tags:
+        - 'admin'
+        summary: Add Privacy Policy Content.
+        parameters: 
+          - name: authorization
+            in: header
+            description: token for validation.
+            required: true
+            type: string
+          - in: body
+            name: admin
+            description: Privacy Policy body.
+            required: true
+            schema:
+              type: object
+              required:
+                - content
+              properties:
+                content:
+                    type: string
+        responses:
+          "200":
+            description: Sucess.
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "404":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'          
+  
+  "/admin/getPrivacyPolicy":
+      get:
+        tags:
+        - 'admin'
+        summary: get Privacy Policy content.
+        parameters: 
+        
+          - name: authorization
+            in: header
+            description: token for validation.
+            required: true
+            type: string
+            
+            
+              
+        responses:
+          "200":
+            description: ok
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "500":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "404":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'              
+  
+  "/admin/updatePrivacyPolicy/{id}":
+      put:
+        tags:
+        - 'admin'
+        summary: update Privacy Policy details.
+        parameters: 
+          - name: id
+            in: path
+            description: content id for get details.
+            required: true
+            type: string
+            
+          - name: content
+            in: body
+            description: content in body.
+            required: true
+            schema:
+              type: object
+              required:
+                - content
+              properties:
+                content:
+                    type: string
+          - name: authorization
+            in: header
+            description: token for validation.
+            required: true
+            type: string
+              
+        responses:
+          "201":
+            description: Privacy Policy Updated
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "500":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "404":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+  
+  "/admin/delPrivacyPolicy/{id}":
+      put:
+        tags:
+        - 'admin'
+        summary: Delete a particular content.
+        parameters: 
+            
+          - name: authorization
+            in: header
+            description: token for validation.
+            required: true
+            type: string
+          - name: id
+            in: path
+            description: Id of particular content 
+            required: true
+            type: string
+          
+        responses:
+          "200":
+            description: ok
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "500":
+            description: Internal Server Error
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "404":
+            description: Content Not Found
+            schema:
+              $ref: '#/definitions/errorMessage'
+
+
 definitions:
   errorMessage:
     type: "object"

@@ -41,7 +41,11 @@ messages = {
     invalidLatLong:"Please check your lat long and try again.",
     idMissing:"Please provide user id.",
     noPendingRestaurant:"There Is No Pending Restaurant",
-    reviewsNotFound:"No Reviews Found"
+    reviewsNotFound:"No Reviews Found",
+    contentSaved:"Content Saved Successfully",
+    contentNotFound:"Content Not Found",
+    contentDel:"Content Deleted Successfully",
+    resolved:"Resolved Successfully"
 }
 
 roles = {
@@ -51,15 +55,17 @@ roles = {
 
 schemas = {
     users: 'users',
-    restaurants: 'restaurants',
+    restaurants: 'restaurant',
     reviews: 'reviews',
-    notifications: 'notifications'
+    notifications: 'notifications',
+    about:'about_Privacy'
 }
 
 status = {
     active: "ACTIVE",
     inactive: "INACTIVE",
-    pending: "PENDING"
+    pending: "PENDING",
+    resolved:"RESOLVED"
 }
 
 criteria = {
@@ -77,6 +83,12 @@ mealTypes = {
     all : 'ALL'
 }
 
+Type = {
+    about:'About_Us',
+    privacy:'Privacy_Policy',
+    contact:'Contact_Us'
+}
+
 module.exports = {
     http_codes,
     messages,
@@ -84,5 +96,6 @@ module.exports = {
     schemas,
     status,
     criteria,
-    mealTypes
+    mealTypes,
+    Type
 }

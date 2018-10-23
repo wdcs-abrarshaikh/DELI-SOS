@@ -83,7 +83,7 @@ adminRouter.route('/approveRestaurantProposal/:restaurant_id').get([validate.val
 })
 
 adminRouter.route('/getAllPendingRestaurant').get([validate.verifyAdminToken], (req, res) => {
-    action.getAllPendingRestaurant(req,res)
+    action.getAllPendingRestaurant(req, res)
 })
 
 adminRouter.route('/deleteRestaurantPhoto')
@@ -117,7 +117,7 @@ adminRouter.route('/noOfRestaurant')
 
 adminRouter.route('/noOfUsers')
     .get((req, res) => {
-        action.noOfRestaurant(req, res)
+        action.noOfUsers(req, res)
     })
 
 adminRouter.route('/noOfReviews')
@@ -125,4 +125,58 @@ adminRouter.route('/noOfReviews')
         action.noOfReviews(req, res)
     })
 
+adminRouter.route('/verifyToken')
+    .get((req, res) => {
+        action.verifyToken(req, res)
+    })
+
+adminRouter.route('/about_Us')
+    .post([validate.verifyAdminToken], (req, res) => {
+        action.about_Us(req, res)
+    })
+
+adminRouter.route('/getAbout_Us')
+    .get((req, res) => {
+        action.getAbout_Us(req, res)
+    })
+
+adminRouter.route('/delAbout_Us/:id')
+    .put((req, res) => {
+        action.delAbout_Us(req, res)
+    })
+
+adminRouter.route('/updateAbout_Us/:id')
+    .put([validate.verifyAdminToken], (req, res) => {
+        action.updateAbout_Us(req, res)
+    })
+
+adminRouter.route('/privacyPolicy')
+    .post([validate.verifyAdminToken], (req, res) => {
+        action.privacyPolicy(req, res)
+    })
+
+adminRouter.route('/getPrivacyPolicy')
+    .get((req, res) => {
+        action.getPrivacyPolicy(req, res)
+    })
+
+adminRouter.route('/updatePrivacyPolicy/:id')
+    .put([validate.verifyAdminToken], (req, res) => {
+        action.updatePrivacyPolicy(req, res)
+    })
+
+adminRouter.route('/delPrivacyPolicy/:id')
+    .put((req, res) => {
+        action.delPrivacyPolicy(req, res)
+    })
+
+adminRouter.route('/getContactUs')
+    .get([validate.verifyAdminToken], (req, res) => {
+        action.getContactUs(req, res)
+    })
+
+adminRouter.route('/resolveContactUs/:id')
+    .put([validate.verifyAdminToken], (req, res) => {
+        action.resolveContactUs(req, res)
+    })
 module.exports = adminRouter
