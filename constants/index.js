@@ -43,7 +43,11 @@ messages = {
     noPendingRestaurant:"There Is No Pending Restaurant",
     reviewsNotFound:"No Reviews Found",
     followed:"Followed user successfully",
-    unfollowed:"Unfollwed user successfully"
+    unfollowed:"Unfollwed user successfully",
+    contentSaved:"Content Saved Successfully",
+    contentNotFound:"Content Not Found",
+    contentDel:"Content Deleted Successfully",
+    resolved:"Resolved Successfully"
 }
 
 roles = {
@@ -53,15 +57,17 @@ roles = {
 
 schemas = {
     users: 'users',
-    restaurants: 'restaurants',
+    restaurants: 'restaurant',
     reviews: 'reviews',
-    notifications: 'notifications'
+    notifications: 'notifications',
+    about:'about_Privacy'
 }
 
 status = {
     active: "ACTIVE",
     inactive: "INACTIVE",
-    pending: "PENDING"
+    pending: "PENDING",
+    resolved:"RESOLVED"
 }
 
 criteria = {
@@ -79,6 +85,12 @@ mealTypes = {
     all : 'ALL'
 }
 
+Type = {
+    about:'About_Us',
+    privacy:'Privacy_Policy',
+    contact:'Contact_Us'
+}
+
 module.exports = {
     http_codes,
     messages,
@@ -86,5 +98,6 @@ module.exports = {
     schemas,
     status,
     criteria,
-    mealTypes
+    mealTypes,
+    Type
 }

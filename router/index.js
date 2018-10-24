@@ -10,8 +10,8 @@ var express = require('express');
 module.exports = function(app){
     let distDir='../public/dist/pluto'
     app.use('/',express.static(process.cwd()+'/public/dist/pluto'))
-    app.use(express.static(path.join(__dirname, distDir)))
-    app.use(/^((?!(api)).)*/, (req, res) => {
+    // app.use(express.static(path.join(__dirname, distDir)))
+    app.use(/^((?!(admin)).)*/, (req, res) => {
     res.sendFile(path.join(__dirname, distDir + '/index.html'));
     });
 
