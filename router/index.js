@@ -13,9 +13,9 @@ module.exports = function(app){
     // app.use(express.static(path.join(__dirname, distDir)))
     app.use('/apiDocs',express.static(process.cwd()+'/api/dist'))
 
-    app.use('/', (req, res) => {
-    res.sendFile(path.join(__dirname, distDir + '/index.html'));
-    });
+    // app.use('/', (req, res) => {
+    // res.sendFile(path.join(__dirname, distDir + '/index.html'));
+    // });
 
     app.use('/user',userRouter)
     app.use('/admin',adminRouter)
