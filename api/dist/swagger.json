@@ -2565,6 +2565,104 @@
                     }
                 }
             }
+        },
+        "/admin/getContactUs": {
+            "get": {
+                "tags": [
+                    "admin"
+                ],
+                "summary": "get contact Us content.",
+                "parameters": [
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "description": "token for validation.",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessMessage"
+                        }
+                    },
+                    "404": {
+                        "description": "Erorr message.",
+                        "schema": {
+                            "$ref": "#/definitions/errorMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Erorr message.",
+                        "schema": {
+                            "$ref": "#/definitions/errorMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/resolveContactUs/{id}": {
+            "put": {
+                "tags": [
+                    "admin"
+                ],
+                "summary": "resolve contact us.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "content id for get details.",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "content",
+                        "in": "body",
+                        "description": "content in body.",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "content"
+                            ],
+                            "properties": {
+                                "content": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "description": "token for validation.",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "contact us resolved",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessMessage"
+                        }
+                    },
+                    "404": {
+                        "description": "Erorr message.",
+                        "schema": {
+                            "$ref": "#/definitions/errorMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Erorr message.",
+                        "schema": {
+                            "$ref": "#/definitions/errorMessage"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
