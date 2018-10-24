@@ -11,11 +11,12 @@ module.exports = function(app){
     let distDir='../public/dist/pluto'
     app.use('/',express.static(process.cwd()+'/public/dist/pluto'))
     // app.use(express.static(path.join(__dirname, distDir)))
-    app.use(/^((?!(admin)).)*/, (req, res) => {
+    app.use('/apiDocs',express.static(process.cwd()+'/api/dist'))
+
+    app.use('/', (req, res) => {
     res.sendFile(path.join(__dirname, distDir + '/index.html'));
     });
 
-    app.use('/apiDocs',express.static(process.cwd()+'/api/dist'))
     app.use('/user',userRouter)
     app.use('/admin',adminRouter)
 
