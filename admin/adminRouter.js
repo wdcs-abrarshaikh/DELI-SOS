@@ -110,19 +110,19 @@ adminRouter.route('/searchRestaurant/:name')
     .get((req, res) => {
         action.searchRestaurant(req, res)
     })
-adminRouter.route('/noOfRestaurant')
+adminRouter.route('/restaurantCounts')
     .get((req, res) => {
-        action.noOfRestaurant(req, res)
+        action.restaurantCounts(req, res)
     })
 
-adminRouter.route('/noOfUsers')
+adminRouter.route('/userCounts')
     .get((req, res) => {
-        action.noOfUsers(req, res)
+        action.userCounts(req, res)
     })
 
-adminRouter.route('/noOfReviews')
+adminRouter.route('/reviewCounts')
     .get((req, res) => {
-        action.noOfReviews(req, res)
+        action.reviewCounts(req, res)
     })
 
 adminRouter.route('/verifyToken')
@@ -130,34 +130,34 @@ adminRouter.route('/verifyToken')
         action.verifyToken(req, res)
     })
 
-adminRouter.route('/about_Us')
+adminRouter.route('/addAboutUs')
     .post([validate.verifyAdminToken], (req, res) => {
-        action.about_Us(req, res)
+        action.addAboutUs(req, res)
     })
 
-adminRouter.route('/getAbout_Us')
+adminRouter.route('/aboutUsList')
     .get((req, res) => {
-        action.getAbout_Us(req, res)
+        action.aboutUsList(req, res)
     })
 
-adminRouter.route('/delAbout_Us/:id')
+adminRouter.route('/deleteAboutUs/:id')
     .put((req, res) => {
-        action.delAbout_Us(req, res)
+        action.deleteAboutUs(req, res)
     })
 
-adminRouter.route('/updateAbout_Us/:id')
+adminRouter.route('/updateAboutUs/:id')
     .put([validate.verifyAdminToken], (req, res) => {
-        action.updateAbout_Us(req, res)
+        action.updateAboutUs(req, res)
     })
 
-adminRouter.route('/privacyPolicy')
+adminRouter.route('/AddPrivacyPolicy')
     .post([validate.verifyAdminToken], (req, res) => {
-        action.privacyPolicy(req, res)
+        action.AddPrivacyPolicy(req, res)
     })
 
-adminRouter.route('/getPrivacyPolicy')
+adminRouter.route('/privacyPolicyList')
     .get((req, res) => {
-        action.getPrivacyPolicy(req, res)
+        action.privacyPolicyList(req, res)
     })
 
 adminRouter.route('/updatePrivacyPolicy/:id')
@@ -165,18 +165,18 @@ adminRouter.route('/updatePrivacyPolicy/:id')
         action.updatePrivacyPolicy(req, res)
     })
 
-adminRouter.route('/delPrivacyPolicy/:id')
+adminRouter.route('/deletePrivacyPolicy/:id')
     .put((req, res) => {
-        action.delPrivacyPolicy(req, res)
+        action.deletePrivacyPolicy(req, res)
     })
 
-adminRouter.route('/getContactUs')
+adminRouter.route('/getContactRequest')
     .get([validate.verifyAdminToken], (req, res) => {
-        action.getContactUs(req, res)
+        action.getContactRequest(req, res)
     })
 
-adminRouter.route('/resolveContactUs/:id')
+adminRouter.route('/resolveContactRequest/:id')
     .put([validate.verifyAdminToken], (req, res) => {
-        action.resolveContactUs(req, res)
+        action.resolveContactRequest(req, res)
     })
 module.exports = adminRouter
