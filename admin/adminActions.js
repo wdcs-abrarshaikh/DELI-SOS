@@ -79,60 +79,60 @@ function getAllPendingRestaurant(req, res) {
     service.getAllPendingRestaurant(req, res)
 }
 
-function noOfRestaurant(req, res) {
-    service.noOfRestaurant(req, res)
+function restaurantCounts(req, res) {
+    service.restaurantCounts(req, res)
 }
 
-function noOfUsers(req, res) {
-    service.noOfUsers(req, res)
+function userCounts(req, res) {
+    service.userCounts(req, res)
 }
 
-function noOfReviews(req, res) {
-    service.noOfReviews(req, res)
+function reviewCounts(req, res) {
+    service.reviewCounts(req, res)
 }
 
 function verifyToken(req, res) {
     service.verifyToken(req, res)
 }
 
-function about_Us(req, res) {
-    service.about_Us(req, res)
+function addAboutUs(req, res) {
+    service.addAboutUs(req, res)
 }
 
-function getAbout_Us(req, res) {
-    service.getAbout_Us(req, res)
+function aboutUsList(req, res) {
+    service.aboutUsList(req, res)
 }
 
-function delAbout_Us(req, res) {
-    service.delAbout_Us(req, res)
+function deleteAboutUs(req, res) {
+    service.deleteAboutUs(req, res)
 }
 
-function updateAbout_Us(req, res) {
-    service.updateAbout_Us(req, res)
+function updateAboutUs(req, res) {
+    service.updateAboutUs(req, res)
 }
 
-function privacyPolicy(req, res) {
-    service.privacyPolicy(req, res)
+function AddPrivacyPolicy(req, res) {
+    service.AddPrivacyPolicy(req, res)
 }
 
-function getPrivacyPolicy(req, res) {
-    service.getPrivacyPolicy(req, res)
+function privacyPolicyList(req, res) {
+    service.privacyPolicyList(req, res)
 }
 
 function updatePrivacyPolicy(req, res) {
     service.updatePrivacyPolicy(req, res)
 }
 
-function delPrivacyPolicy(req, res) {
-    service.delPrivacyPolicy(req, res)
+function deletePrivacyPolicy(req, res) {
+    service.deletePrivacyPolicy(req, res)
 }
 
-function getContactUs(req, res) {
-    service.getContactUs(req, res)
+function getContactRequest(req, res) {
+    service.getContactRequest(req, res)
 }
 
-function resolveContactUs(req, res) {
-    service.resolveContactUs(req, res)
+function resolveContactRequest(req, res) {
+    service.resolveContactRequest(req, res)
 }
 
 module.exports = {
@@ -157,18 +157,18 @@ module.exports = {
     searchRestaurant,
     approveRestaurantProposal,
     getAllPendingRestaurant,
-    noOfRestaurant,
-    noOfUsers,
-    noOfReviews,
+    restaurantCounts,
+    userCounts,
+    reviewCounts,
     verifyToken,
-    about_Us,
-    getAbout_Us,
-    delAbout_Us,
-    updateAbout_Us,
-    privacyPolicy,
-    getPrivacyPolicy,
+    addAboutUs,
+    aboutUsList,
+    deleteAboutUs,
+    updateAboutUs,
+    AddPrivacyPolicy,
+    privacyPolicyList,
     updatePrivacyPolicy,
-    delPrivacyPolicy,
-    getContactUs,
-    resolveContactUs
+    deletePrivacyPolicy,
+    getContactRequest,
+    resolveContactRequest
 }

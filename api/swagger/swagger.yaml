@@ -1713,7 +1713,7 @@ paths:
             schema:
               $ref: '#/definitions/errorMessage'
               
-  "/admin/noOfRestaurant":
+  "/admin/restaurantCounts":
       get:
         tags:
         - 'admin'
@@ -1735,7 +1735,7 @@ paths:
             schema:
               $ref: '#/definitions/errorMessage'         
               
-  "/admin/noOfUsers":
+  "/admin/userCounts":
       get:
         tags:
         - 'admin'
@@ -1757,7 +1757,7 @@ paths:
             schema:
               $ref: '#/definitions/errorMessage'          
               
-  "/admin/noOfReviews":
+  "/admin/reviewCounts":
       get:
         tags:
         - 'admin'
@@ -1779,7 +1779,7 @@ paths:
             schema:
               $ref: '#/definitions/errorMessage'          
               
-  "/admin/about_Us":
+  "/admin/addAboutUs":
       post:
         tags:
         - 'admin'
@@ -1811,7 +1811,7 @@ paths:
             schema:
               $ref: '#/definitions/errorMessage'          
   
-  "/admin/getAbout_Us":
+  "/admin/aboutUsList":
       get:
         tags:
         - 'admin'
@@ -1840,7 +1840,7 @@ paths:
             schema:
               $ref: '#/definitions/errorMessage'              
 
-  "/admin/delAbout_Us/{id}":
+  "/admin/deleteAboutUs/{id}":
       put:
         tags:
         - 'admin'
@@ -1872,7 +1872,7 @@ paths:
             schema:
               $ref: '#/definitions/errorMessage'
 
-  "/admin/updateAbout_Us/{id}":
+  "/admin/updateAboutUs/{id}":
       put:
         tags:
         - 'admin'
@@ -1915,7 +1915,7 @@ paths:
             schema:
               $ref: '#/definitions/errorMessage'
 
-  "/admin/privacyPolicy":
+  "/admin/AddPrivacyPolicy":
       post:
         tags:
         - 'admin'
@@ -1947,7 +1947,7 @@ paths:
             schema:
               $ref: '#/definitions/errorMessage'          
   
-  "/admin/getPrivacyPolicy":
+  "/admin/privacyPolicyList":
       get:
         tags:
         - 'admin'
@@ -2019,7 +2019,7 @@ paths:
             schema:
               $ref: '#/definitions/errorMessage'
   
-  "/admin/delPrivacyPolicy/{id}":
+  "/admin/deletePrivacyPolicy/{id}":
       put:
         tags:
         - 'admin'
@@ -2051,7 +2051,7 @@ paths:
             schema:
               $ref: '#/definitions/errorMessage'
 
-  "/admin/getContactUs":
+  "/admin/getContactRequest":
       get:
         tags:
         - 'admin'
@@ -2081,7 +2081,7 @@ paths:
               $ref: '#/definitions/errorMessage'              
 
 
-  "/admin/resolveContactUs/{id}":
+  "/admin/resolveContactRequest/{id}":
       put:
         tags:
         - 'admin'
@@ -2123,6 +2123,30 @@ paths:
             description: Erorr message.
             schema:
               $ref: '#/definitions/errorMessage'
+  "/admin/verifyToken":
+      get:
+        tags:
+        - 'admin'
+        summary: verify token.
+        parameters: 
+        
+          - name: authorization
+            in: header
+            description: token to verify.
+            required: true
+            type: string
+            
+            
+              
+        responses:
+          "200":
+            description: ok
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "400":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'              
 
 
 definitions:

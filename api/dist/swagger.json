@@ -2418,7 +2418,7 @@
                 }
             }
         },
-        "/admin/noOfRestaurant": {
+        "/admin/restaurantCounts": {
             "get": {
                 "tags": [
                     "admin"
@@ -2449,7 +2449,7 @@
                 }
             }
         },
-        "/admin/noOfUsers": {
+        "/admin/userCounts": {
             "get": {
                 "tags": [
                     "admin"
@@ -2480,7 +2480,7 @@
                 }
             }
         },
-        "/admin/noOfReviews": {
+        "/admin/reviewCounts": {
             "get": {
                 "tags": [
                     "admin"
@@ -2511,7 +2511,7 @@
                 }
             }
         },
-        "/admin/about_Us": {
+        "/admin/addAboutUs": {
             "post": {
                 "tags": [
                     "admin"
@@ -2559,7 +2559,7 @@
                 }
             }
         },
-        "/admin/getAbout_Us": {
+        "/admin/aboutUsList": {
             "get": {
                 "tags": [
                     "admin"
@@ -2596,7 +2596,7 @@
                 }
             }
         },
-        "/admin/delAbout_Us/{id}": {
+        "/admin/deleteAboutUs/{id}": {
             "put": {
                 "tags": [
                     "admin"
@@ -2640,7 +2640,7 @@
                 }
             }
         },
-        "/admin/updateAbout_Us/{id}": {
+        "/admin/updateAboutUs/{id}": {
             "put": {
                 "tags": [
                     "admin"
@@ -2701,7 +2701,7 @@
                 }
             }
         },
-        "/admin/privacyPolicy": {
+        "/admin/AddPrivacyPolicy": {
             "post": {
                 "tags": [
                     "admin"
@@ -2749,7 +2749,7 @@
                 }
             }
         },
-        "/admin/getPrivacyPolicy": {
+        "/admin/privacyPolicyList": {
             "get": {
                 "tags": [
                     "admin"
@@ -2847,7 +2847,7 @@
                 }
             }
         },
-        "/admin/delPrivacyPolicy/{id}": {
+        "/admin/deletePrivacyPolicy/{id}": {
             "put": {
                 "tags": [
                     "admin"
@@ -2891,7 +2891,7 @@
                 }
             }
         },
-        "/admin/getContactUs": {
+        "/admin/getContactRequest": {
             "get": {
                 "tags": [
                     "admin"
@@ -2928,7 +2928,7 @@
                 }
             }
         },
-        "/admin/resolveContactUs/{id}": {
+        "/admin/resolveContactRequest/{id}": {
             "put": {
                 "tags": [
                     "admin"
@@ -2981,6 +2981,37 @@
                         }
                     },
                     "500": {
+                        "description": "Erorr message.",
+                        "schema": {
+                            "$ref": "#/definitions/errorMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/verifyToken": {
+            "get": {
+                "tags": [
+                    "admin"
+                ],
+                "summary": "verify token.",
+                "parameters": [
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "description": "token to verify.",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessMessage"
+                        }
+                    },
+                    "400": {
                         "description": "Erorr message.",
                         "schema": {
                             "$ref": "#/definitions/errorMessage"
