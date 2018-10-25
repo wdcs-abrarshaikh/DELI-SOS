@@ -22,12 +22,7 @@ var restaurantSchema = new schema({
     },
     mealOffers: { type: [{ type: String, enum: [meal.breakfast, meal.lunch, meal.dinner, meal.all] }], default: meal.all },
     photos: [{ type: String }],
-    cuisin: {
-        type: [{
-            name: { type: String },
-            image: { type: String }
-        }], required: true
-    },
+    cuisinOffered:[String],
     openTime: { type: String, required: true },
     closeTime: { type: String, required: true },
     contactNumber: { type: Number },

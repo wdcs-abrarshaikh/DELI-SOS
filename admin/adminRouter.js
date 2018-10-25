@@ -150,9 +150,9 @@ adminRouter.route('/updateAboutUs/:id')
         action.updateAboutUs(req, res)
     })
 
-adminRouter.route('/AddPrivacyPolicy')
+adminRouter.route('/addPrivacyPolicy')
     .post([validate.verifyAdminToken], (req, res) => {
-        action.AddPrivacyPolicy(req, res)
+        action.addPrivacyPolicy(req, res)
     })
 
 adminRouter.route('/privacyPolicyList')
@@ -178,5 +178,22 @@ adminRouter.route('/getContactRequest')
 adminRouter.route('/resolveContactRequest/:id')
     .put([validate.verifyAdminToken], (req, res) => {
         action.resolveContactRequest(req, res)
+    })
+
+adminRouter.route('/addCuisin')
+    .post([validate.verifyAdminToken], (req, res) => {
+        action.addCuisin(req, res)
+    })
+adminRouter.route('/searchCuisin/:name')
+    .get((req, res) => {
+        action.searchCuisin(req, res)
+    })
+adminRouter.route('/getCuisinList')
+    .get((req, res) => {
+        action.getCuisinList(req, res)
+    })
+adminRouter.route('/deleteCuisin/:id')
+    .put([validate.verifyAdminToken], (req, res) => {
+        action.deleteCuisin(req, res)
     })
 module.exports = adminRouter

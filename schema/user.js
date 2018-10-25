@@ -75,7 +75,14 @@ var userSchema = new schema({
                 return false;
             }
         }
-    }
+    },
+    cuisin: 
+         [{
+            name: { type: String },
+            image: { type: String },
+            status:{type:String}
+        }]
+    
 });
 
 User = module.exports = mongoose.model(schmaName.users, userSchema)
@@ -100,6 +107,7 @@ User.countDocuments(async function (err, data) {
                 state: 'Gujarat',
                 pincode: 382007
             }
+
         };
 
         let updatedPass = await bcrypt.hashSync(obj.password, 11);

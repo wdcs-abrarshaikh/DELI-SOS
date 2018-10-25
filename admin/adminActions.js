@@ -111,8 +111,8 @@ function updateAboutUs(req, res) {
     service.updateAboutUs(req, res)
 }
 
-function AddPrivacyPolicy(req, res) {
-    service.AddPrivacyPolicy(req, res)
+function addPrivacyPolicy(req, res) {
+    service.addPrivacyPolicy(req, res)
 }
 
 function privacyPolicyList(req, res) {
@@ -133,6 +133,22 @@ function getContactRequest(req, res) {
 
 function resolveContactRequest(req, res) {
     service.resolveContactRequest(req, res)
+}
+
+function addCuisin(req, res) {
+    service.addCuisin(req, res)
+}
+
+function searchCuisin(req, res) {
+    service.searchCuisin(req, res)
+}
+
+function getCuisinList(req, res) {
+    service.getCuisinList(req, res)
+}
+
+function deleteCuisin(req, res) {
+    service.deleteCuisin(req, res)
 }
 
 module.exports = {
@@ -165,10 +181,14 @@ module.exports = {
     aboutUsList,
     deleteAboutUs,
     updateAboutUs,
-    AddPrivacyPolicy,
+    addPrivacyPolicy,
     privacyPolicyList,
     updatePrivacyPolicy,
     deletePrivacyPolicy,
     getContactRequest,
-    resolveContactRequest
+    resolveContactRequest,
+    addCuisin,
+    searchCuisin,
+    getCuisinList,
+    deleteCuisin
 }
