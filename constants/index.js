@@ -45,7 +45,9 @@ messages = {
     contentSaved:"Content saved successfully",
     contentNotFound:"Content not found",
     contentDel:"Content deleted successfully",
-    resolved:"Resolved successfully"
+    resolved:"Contact request resolved successfully",
+    noMatchFound:"No match found",
+    cuisinDeleted:"Cuisin deleted successfully"
 }
 
 roles = {

@@ -12,6 +12,8 @@ var jwt = require('jsonwebtoken')
 var Type = require('../constants').Type;
 var aboutUs = 0;
 var privacyPolicy = 0;
+var mongoose = require('mongoose')
+// var object=mongoose.Schema.Types
 //admin signup function which register admin filtering from email and password validation nd also check email already exist or not
 async function createAdmin(req, res) {
     let data = req.body;
@@ -493,8 +495,20 @@ async function addAboutUs(req, res) {
         let about = new aboutModel(req.body)
         about.type = "About_Us"
         await about.save((err, data) => {
-            return (err) ? res.json({ code: code.internalError, message: msg.internalServerError }) :
+            if (err) {
+                console.log("error",err)
+                return res.json({ code: code.internalError, message: msg.internalServerError })
+            }
+            else if (data.length == 0) {
+                return res.json({ code: code.notFound, message: msg.restNotFound })
+            }
+            else {
                 res.json({ code: code.created, message: msg.contentSaved, data: data })
+    
+    
+            }
+            // return (err) ? res.json({ code: code.internalError, message: msg.internalServerError }) :
+            //     res.json({ code: code.created, message: msg.contentSaved, data: data })
         })
     } else { res.json({ code: code.badRequest, message: "About us already added" }) }
 }
@@ -626,7 +640,7 @@ async function resolveContactRequest(req, res) {
             res.json({ code: code.notFound, message: msg.contentNotFound })
         }
         else {
-            res.json({ code: code.ok, message: msg.resolved, data: data })
+            res.json({ code: code.ok, message: msg.resolved })
         }
     })
 }
@@ -636,59 +650,86 @@ async function addCuisin(req, res) {
         { new: true },
         (err, data) => {
             if (err) {
-                console.log("err in array updation ")
-            } else { return res.json({ msd: "added successfully" }) }
+                return res.json({ code: code.internalError, message: msg.internalServerError })
+                // console.log("err in array updation ")
+            } else { return res.json({ msg: "added successfully" }) }
         });
 
 
 }
 
-//from which i have to find cuisin.name
 async function searchCuisin(req, res) {
-    userModel.find({ cuisin: new RegExp('^' + req.body.name, "i") }, (err, data) => {
-        if (err) {
-            return res.json({ code: code.internalError, message: msg.internalServerError })
-        }
-        else {
-            return res.json({ code: code.ok, data: data })
-        }
-    });
-
-}
-
-//want to give only Active cuisin
-async function getCuisinList(req, res) {
     await userModel.aggregate([
         {
-            // $match: {
-            //     status: "INACTIVE"
-            // },
-            $project: {
-                cuisin: 1
-            }
+            $project: { 'cuisin': 1 }
         },
         {
             $unwind: '$cuisin'
         },
+        {
 
+            $match: {
+                'cuisin.status': 'ACTIVE',
+                'cuisin.name': new RegExp('^' + req.params.name, "i")
+            }
+
+        },
         {
             $group: {
-                _id: '$cuisin.name',
+                _id: object(cuisin._id),
+                name: { $first:'$cuisin.name'},
                 image: { $first: '$cuisin.image' },
-                // status: '$cuisin.status',
-                status:  { $first: '$cuisin.status' } 
+                status: { $first: '$cuisin.status' }
             }
         }
     ]).exec((err, data) => {
         if (err) {
-            console.log("jiiiiiiiiii============>", err)
+            return res.json({ code: code.internalError, message: msg.internalServerError })
+        }
+        else if (data.length == 0) {
+            return res.json({ code: code.notFound, message: msg.noMatchFound })
+        }
+        else {
+            return res.json({ code: code.ok, data: data })
+
+
+        }
+    })
+
+}
+
+async function getCuisinList(req, res) {
+    await userModel.aggregate([
+        {
+            $project: { 'cuisin': 1 }
+        },
+        {
+            $unwind: '$cuisin'
+        },
+        {
+
+            $match: {
+                'cuisin.status': 'ACTIVE'
+            }
+
+        },
+        {
+            $group: {
+                _id: '$cuisin._id',
+                name:{$first:'$cuisin.name'},
+                image: { $first: '$cuisin.image' },
+                status: { $first: '$cuisin.status' }
+            }
+        }
+    ]).exec((err, data) => {
+        if (err) {
+            console.log("error",err)
             return res.json({ code: code.internalError, message: msg.internalServerError })
         }
         else if (!data) {
             return res.json({ code: code.notFound, message: msg.restNotFound })
         }
         else {
-            // console.log("data cuisin name",data)
             return res.json({ code: code.ok, data: data })
 
 
@@ -697,18 +738,32 @@ async function getCuisinList(req, res) {
 
 }
 
+//working on
 async function deleteCuisin(req, res) {
-    await userModel.findByIdAndUpdate({ id: req.params.id }, { $set: { status: status.inactive } }, (err, data) => {
-        if (err) {
-            return res.json({ code: code.internalError, message: msg.internalError })
-        }
-        else if (!data) {
-            return res.json({ code: code.notFound, message: msg.contentNotFound })
-        }
-        else {
-            return res.json({ code: code.ok, message: msg.contentDel })
-        }
-    })
+    //let id1=cuisin.id;
+    //console.log("id", req.params.id)
+    let obj = util.decodeToken(req.headers['authorization'])
+    await userModel.updateOne({ _id: obj.id, cuisin:{$elemMatch:{_id:req.params.id}} },
+        { $set: { 'cuisin.$.status': 'INACTIVE' } }).exec((err, data) => {
+            if (err) {
+                return res.json({ error: err })
+            } else {
+                return res.json({ data:msg.cuisinDeleted})
+            }
+        })
+}
+
+async function updateCuisin(req, res) {
+    
+    let obj = util.decodeToken(req.headers['authorization'])
+    await userModel.updateOne({ _id: obj.id, cuisin:{$elemMatch:{_id:req.params.id}} },
+        { $set:{'cuisin':req.body }},{new:true}).exec((err, data) => {
+            if (err) {
+                return res.json({ error: err })
+            } else {
+                return res.json({ data:data})
+            }
+        })
 }
 module.exports = {
     createAdmin,
@@ -749,5 +804,6 @@ module.exports = {
     addCuisin,
     searchCuisin,
     getCuisinList,
-    deleteCuisin
+    deleteCuisin,
+    updateCuisin
 }

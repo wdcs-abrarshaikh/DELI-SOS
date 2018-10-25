@@ -173,6 +173,12 @@ function validaterestId(req, res, next) {
     }
 }
 
+function validateCuisin(req,res,next){
+    let data = req.body
+    if(data.name&&data.image){next();}
+    else{res.json({ code: code.badRequest, message: msg.invalidBody })}
+}
+
 module.exports = {
     validateSignUp,
     validateLogin,
@@ -180,5 +186,6 @@ module.exports = {
     validateBody,
     // validateSocialLogin,
     validateRestaurant,
-    validaterestId
+    validaterestId,
+    validateCuisin
 }

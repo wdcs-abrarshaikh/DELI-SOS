@@ -196,4 +196,9 @@ adminRouter.route('/deleteCuisin/:id')
     .put([validate.verifyAdminToken], (req, res) => {
         action.deleteCuisin(req, res)
     })
+adminRouter.route('/updateCuisin/:id')
+    .put([validate.verifyAdminToken,validate.validateCuisin], (req, res) => {
+        action.updateCuisin(req, res)
+    })
+
 module.exports = adminRouter

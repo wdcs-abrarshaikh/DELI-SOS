@@ -2240,15 +2240,6 @@
                     "admin"
                 ],
                 "summary": "get About Us content.",
-                "parameters": [
-                    {
-                        "name": "authorization",
-                        "in": "header",
-                        "description": "token for validation.",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "ok",
@@ -2376,7 +2367,7 @@
                 }
             }
         },
-        "/admin/AddPrivacyPolicy": {
+        "/admin/addPrivacyPolicy": {
             "post": {
                 "tags": [
                     "admin"
@@ -2430,15 +2421,6 @@
                     "admin"
                 ],
                 "summary": "get Privacy Policy content.",
-                "parameters": [
-                    {
-                        "name": "authorization",
-                        "in": "header",
-                        "description": "token for validation.",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "ok",
@@ -2618,23 +2600,6 @@
                         "type": "string"
                     },
                     {
-                        "name": "content",
-                        "in": "body",
-                        "description": "content in body.",
-                        "required": true,
-                        "schema": {
-                            "type": "object",
-                            "required": [
-                                "content"
-                            ],
-                            "properties": {
-                                "content": {
-                                    "type": "string"
-                                }
-                            }
-                        }
-                    },
-                    {
                         "name": "authorization",
                         "in": "header",
                         "description": "token for validation.",
@@ -2687,6 +2652,234 @@
                         }
                     },
                     "400": {
+                        "description": "Erorr message.",
+                        "schema": {
+                            "$ref": "#/definitions/errorMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/addCuisin": {
+            "post": {
+                "tags": [
+                    "admin"
+                ],
+                "summary": "add new cuisin.",
+                "parameters": [
+                    {
+                        "name": "cuisin",
+                        "in": "body",
+                        "description": "register cuisin in body.",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "cuisin"
+                            ],
+                            "properties": {
+                                "cuisin": {
+                                    "$ref": "#/definitions/cuisinArray"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "description": "token for validation.",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "add request sent",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessMessage"
+                        }
+                    },
+                    "400": {
+                        "description": "Erorr message.",
+                        "schema": {
+                            "$ref": "#/definitions/errorMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Erorr message.",
+                        "schema": {
+                            "$ref": "#/definitions/errorMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/searchCuisin/{name}": {
+            "get": {
+                "tags": [
+                    "admin"
+                ],
+                "summary": "Search cuisin.",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "path",
+                        "description": "name of cuisin for search",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessMessage"
+                        }
+                    },
+                    "404": {
+                        "description": "Internal Server Error.",
+                        "schema": {
+                            "$ref": "#/definitions/errorMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error.",
+                        "schema": {
+                            "$ref": "#/definitions/errorMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/getCuisinList": {
+            "get": {
+                "tags": [
+                    "admin"
+                ],
+                "summary": "get cuisin list.",
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "schema": {
+                            "$ref": "#/definitions/cuisinArray"
+                        }
+                    },
+                    "404": {
+                        "description": "Erorr message.",
+                        "schema": {
+                            "$ref": "#/definitions/errorMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Erorr message.",
+                        "schema": {
+                            "$ref": "#/definitions/errorMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/deleteCuisin/{id}": {
+            "put": {
+                "tags": [
+                    "admin"
+                ],
+                "summary": "Delete a particular cuisin.",
+                "parameters": [
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "description": "token for validation.",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of particular cuisin",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessMessage"
+                        }
+                    },
+                    "404": {
+                        "description": "Content Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/errorMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/errorMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/updateCuisin/{id}": {
+            "put": {
+                "tags": [
+                    "admin"
+                ],
+                "summary": "update cuisin details.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "user id for get details.",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "cuisin",
+                        "in": "body",
+                        "description": "register cuisin in body.",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "name",
+                                "image"
+                            ],
+                            "properties": {
+                                "name": {
+                                    "type": "string"
+                                },
+                                "image": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "description": "token for validation.",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "add request sent",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessMessage"
+                        }
+                    },
+                    "400": {
+                        "description": "Erorr message.",
+                        "schema": {
+                            "$ref": "#/definitions/errorMessage"
+                        }
+                    },
+                    "500": {
                         "description": "Erorr message.",
                         "schema": {
                             "$ref": "#/definitions/errorMessage"
