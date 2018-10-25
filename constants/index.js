@@ -13,7 +13,7 @@ messages = {
     registered: 'Successfully registered',
     invalidEmailPass: 'Invalid email or password, Email_format:standard email format. Password_format eg.: Superm@n123',
     adminNotFound: 'No such admin is registered',
-    loggedIn: 'Logged in',
+    loggedIn: 'Successfully logged in',
     invalidPassword: 'Invalid password',
     emailNotFound: 'No such email is registered',
     mailNotSent: 'Something went wrong while sending mail',
@@ -40,6 +40,7 @@ messages = {
     passwordChanged: "Password changed successfully",
     invalidLatLong:"Please check your lat long and try again.",
     idMissing:"Please provide user id.",
+<<<<<<< HEAD
     noPendingRestaurant:"There Is No Pending Restaurant",
     reviewsNotFound:"No Reviews Found",
     followed:"Followed user successfully",
@@ -48,6 +49,16 @@ messages = {
     contentNotFound:"Content Not Found",
     contentDel:"Content Deleted Successfully",
     resolved:"Resolved Successfully"
+=======
+    noPendingRestaurant:"There is no pending restaurant",
+    reviewsNotFound:"No reviews found",
+    contentSaved:"Content saved successfully",
+    contentNotFound:"Content not found",
+    contentDel:"Content deleted successfully",
+    resolved:"Contact request resolved successfully",
+    noMatchFound:"No match found",
+    cuisinDeleted:"Cuisin deleted successfully"
+>>>>>>> 961217c3375d7f90973fc37acdc7c16a79ab5e25
 }
 
 roles = {

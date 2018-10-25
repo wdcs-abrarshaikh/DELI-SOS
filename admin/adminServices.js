@@ -19,7 +19,10 @@ cloudinary.config({
 var reviews = require('../schema/review');
 var jwt = require('jsonwebtoken')
 var Type = require('../constants').Type;
-
+var aboutUs = 0;
+var privacyPolicy = 0;
+var mongoose = require('mongoose')
+// var object=mongoose.Schema.Types
 //admin signup function which register admin filtering from email and password validation nd also check email already exist or not
 async function createAdmin(req, res) {
     let data = req.body;
@@ -406,7 +409,7 @@ async function getCuisin(req, res) {
         }
     ]).exec((err, data) => {
         if (err) {
-            console.log("jiiiiiiiiii", err)
+            // console.log("jiiiiiiiiii", err)
             return res.json({ code: code.internalError, message: msg.internalServerError })
         }
         else if (!data) {
@@ -522,17 +525,31 @@ async function verifyToken(req, res) {
 }
 
 async function addAboutUs(req, res) {
-
-    let about = new aboutModel(req.body)
-    about.type = "About_Us"
-    await about.save((err, data) => {
-        return (err) ? res.json({ code: code.internalError, message: msg.internalServerError }) :
-            res.json({ code: code.created, message: msg.contentSaved, data: data })
-    })
+    if (aboutUs == 0) {
+        aboutUs++;
+        let about = new aboutModel(req.body)
+        about.type = "About_Us"
+        await about.save((err, data) => {
+            if (err) {
+                console.log("error",err)
+                return res.json({ code: code.internalError, message: msg.internalServerError })
+            }
+            else if (data.length == 0) {
+                return res.json({ code: code.notFound, message: msg.restNotFound })
+            }
+            else {
+                res.json({ code: code.created, message: msg.contentSaved, data: data })
+    
+    
+            }
+            // return (err) ? res.json({ code: code.internalError, message: msg.internalServerError }) :
+            //     res.json({ code: code.created, message: msg.contentSaved, data: data })
+        })
+    } else { res.json({ code: code.badRequest, message: "About us already added" }) }
 }
 
 async function aboutUsList(req, res) {
-    await aboutModel.find({ $and: [{ status: status.active }, { type:Type.about}] },(err, data) => {
+    await aboutModel.find({ $and: [{ status: status.active }, { type: Type.about }] }, (err, data) => {
         if (err) {
             return res.json({ code: code.internalError, message: msg.internalServerError })
         }
@@ -546,6 +563,7 @@ async function aboutUsList(req, res) {
 }
 
 async function deleteAboutUs(req, res) {
+
     await aboutModel.findByIdAndUpdate({ _id: req.params.id }, { $set: { status: status.inactive } }, (err, data) => {
         if (err) {
             return res.json({ code: code.internalError, message: msg.internalError })
@@ -554,6 +572,7 @@ async function deleteAboutUs(req, res) {
             return res.json({ code: code.notFound, message: msg.contentNotFound })
         }
         else {
+            aboutUs--;
             return res.json({ code: code.ok, message: msg.contentDel })
         }
     })
@@ -574,18 +593,22 @@ async function updateAboutUs(req, res) {
     })
 }
 
-async function AddPrivacyPolicy(req, res) {
-    let about = new aboutModel(req.body)
-    about.type = "Privacy_Policy"
-    await about.save((err, data) => {
+async function addPrivacyPolicy(req, res) {
+    if (privacyPolicy == 0) {
+        privacyPolicy++;
+        let about = new aboutModel(req.body)
+        about.type = "Privacy_Policy"
+        await about.save((err, data) => {
 
-        return (err) ? res.json({ code: code.internalError, message: msg.internalServerError }) :
-            res.json({ code: code.created, message: msg.contentSaved, data: data })
-    })
+            return (err) ? res.json({ code: code.internalError, message: msg.internalServerError }) :
+                res.json({ code: code.created, message: msg.contentSaved, data: data })
+        })
+    }
+    else { res.json({ code: code.badRequest, message: "Privacy Policy already added" }) }
 }
 
 async function privacyPolicyList(req, res) {
-    await aboutModel.find({ $and: [{ status: status.active }, { type:Type.privacy}] },(err, data) => {
+    await aboutModel.find({ $and: [{ status: status.active }, { type: Type.privacy }] }, (err, data) => {
         if (err) {
             return res.json({ code: code.internalError, message: msg.internalServerError })
         }
@@ -622,18 +645,19 @@ async function deletePrivacyPolicy(req, res) {
             return res.json({ code: code.notFound, message: msg.contentNotFound })
         }
         else {
+            privacyPolicy--;
             return res.json({ code: code.ok, message: msg.contentDel })
         }
     })
 }
 
 async function getContactRequest(req, res) {
-    await aboutModel.find({ $and: [{ status: status.pending }, { type:Type.contact}] },(err, data) => {
+    await aboutModel.find({ $and: [{ status: status.pending }, { type: Type.contact }] }, (err, data) => {
         if (err) {
             return res.json({ code: code.internalError, message: msg.internalServerError })
         }
         else if (!data) {
-            return res.json({ code: code.notFound, message: msg.contentNotFound})
+            return res.json({ code: code.notFound, message: msg.contentNotFound })
         }
         else {
             return res.json({ code: code.ok, message: msg.ok, data: data })
@@ -643,7 +667,7 @@ async function getContactRequest(req, res) {
 
 async function resolveContactRequest(req, res) {
     let id = req.params.id;
-    await aboutModel.findByIdAndUpdate({ _id: id }, { $set:{status:status.resolved }}, { new: true }, (err, data) => {
+    await aboutModel.findByIdAndUpdate({ _id: id }, { $set: { status: status.resolved } }, { new: true }, (err, data) => {
         if (err) {
             res.json({ code: code.internalError, message: msg.internalServerError })
         }
@@ -651,9 +675,130 @@ async function resolveContactRequest(req, res) {
             res.json({ code: code.notFound, message: msg.contentNotFound })
         }
         else {
-            res.json({ code: code.ok, message: msg.resolved, data: data })
+            res.json({ code: code.ok, message: msg.resolved })
         }
     })
+}
+
+async function addCuisin(req, res) {
+    userModel.findOneAndUpdate({ role: "ADMIN" }, { $push: { cuisin: req.body.cuisin } },
+        { new: true },
+        (err, data) => {
+            if (err) {
+                return res.json({ code: code.internalError, message: msg.internalServerError })
+                // console.log("err in array updation ")
+            } else { return res.json({ msg: "added successfully" }) }
+        });
+
+
+}
+
+async function searchCuisin(req, res) {
+    await userModel.aggregate([
+        {
+            $project: { 'cuisin': 1 }
+        },
+        {
+            $unwind: '$cuisin'
+        },
+        {
+
+            $match: {
+                'cuisin.status': 'ACTIVE',
+                'cuisin.name': new RegExp('^' + req.params.name, "i")
+            }
+
+        },
+        {
+            $group: {
+                _id: object(cuisin._id),
+                name: { $first:'$cuisin.name'},
+                image: { $first: '$cuisin.image' },
+                status: { $first: '$cuisin.status' }
+            }
+        }
+    ]).exec((err, data) => {
+        if (err) {
+            return res.json({ code: code.internalError, message: msg.internalServerError })
+        }
+        else if (data.length == 0) {
+            return res.json({ code: code.notFound, message: msg.noMatchFound })
+        }
+        else {
+            return res.json({ code: code.ok, data: data })
+
+
+        }
+    })
+
+}
+
+async function getCuisinList(req, res) {
+    await userModel.aggregate([
+        {
+            $project: { 'cuisin': 1 }
+        },
+        {
+            $unwind: '$cuisin'
+        },
+        {
+
+            $match: {
+                'cuisin.status': 'ACTIVE'
+            }
+
+        },
+        {
+            $group: {
+                _id: '$cuisin._id',
+                name:{$first:'$cuisin.name'},
+                image: { $first: '$cuisin.image' },
+                status: { $first: '$cuisin.status' }
+            }
+        }
+    ]).exec((err, data) => {
+        if (err) {
+            console.log("error",err)
+            return res.json({ code: code.internalError, message: msg.internalServerError })
+        }
+        else if (!data) {
+            return res.json({ code: code.notFound, message: msg.restNotFound })
+        }
+        else {
+            return res.json({ code: code.ok, data: data })
+
+
+        }
+    })
+
+}
+
+//working on
+async function deleteCuisin(req, res) {
+    //let id1=cuisin.id;
+    //console.log("id", req.params.id)
+    let obj = util.decodeToken(req.headers['authorization'])
+    await userModel.updateOne({ _id: obj.id, cuisin:{$elemMatch:{_id:req.params.id}} },
+        { $set: { 'cuisin.$.status': 'INACTIVE' } }).exec((err, data) => {
+            if (err) {
+                return res.json({ error: err })
+            } else {
+                return res.json({ data:msg.cuisinDeleted})
+            }
+        })
+}
+
+async function updateCuisin(req, res) {
+    
+    let obj = util.decodeToken(req.headers['authorization'])
+    await userModel.updateOne({ _id: obj.id, cuisin:{$elemMatch:{_id:req.params.id}} },
+        { $set:{'cuisin':req.body }},{new:true}).exec((err, data) => {
+            if (err) {
+                return res.json({ error: err })
+            } else {
+                return res.json({ data:data})
+            }
+        })
 }
 module.exports = {
     createAdmin,
@@ -671,9 +816,9 @@ module.exports = {
     deleteRestaurant,
     uploadPhoto,
     deleteRestaurantPhoto,
-    deleteUser, 
+    deleteUser,
     // whatuLike,
-    getCuisin, 
+    getCuisin,
     searchRestaurant,
     approveRestaurantProposal,
     getAllPendingRestaurant,
@@ -685,10 +830,15 @@ module.exports = {
     aboutUsList,
     deleteAboutUs,
     updateAboutUs,
-    AddPrivacyPolicy,
+    addPrivacyPolicy,
     privacyPolicyList,
     updatePrivacyPolicy,
     deletePrivacyPolicy,
     getContactRequest,
-    resolveContactRequest
+    resolveContactRequest,
+    addCuisin,
+    searchCuisin,
+    getCuisinList,
+    deleteCuisin,
+    updateCuisin
 }
