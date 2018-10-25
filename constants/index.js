@@ -40,7 +40,6 @@ messages = {
     passwordChanged: "Password changed successfully",
     invalidLatLong:"Please check your lat long and try again.",
     idMissing:"Please provide user id.",
-<<<<<<< HEAD
     noPendingRestaurant:"There Is No Pending Restaurant",
     reviewsNotFound:"No Reviews Found",
     followed:"Followed user successfully",
@@ -48,17 +47,9 @@ messages = {
     contentSaved:"Content Saved Successfully",
     contentNotFound:"Content Not Found",
     contentDel:"Content Deleted Successfully",
-    resolved:"Resolved Successfully"
-=======
-    noPendingRestaurant:"There is no pending restaurant",
-    reviewsNotFound:"No reviews found",
-    contentSaved:"Content saved successfully",
-    contentNotFound:"Content not found",
-    contentDel:"Content deleted successfully",
-    resolved:"Contact request resolved successfully",
+    resolved:"Resolved Successfully",
     noMatchFound:"No match found",
     cuisinDeleted:"Cuisin deleted successfully"
->>>>>>> 961217c3375d7f90973fc37acdc7c16a79ab5e25
 }
 
 roles = {
