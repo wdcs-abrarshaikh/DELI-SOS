@@ -49,7 +49,8 @@ messages = {
     contentDel:"Content Deleted Successfully",
     resolved:"Resolved Successfully",
     noMatchFound:"No match found",
-    cuisinDeleted:"Cuisin deleted successfully"
+    cuisinDeleted:"Cuisin deleted successfully",
+    cuisinAdded:"Cuisin added successfully"
 }
 
 roles = {

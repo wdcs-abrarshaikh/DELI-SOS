@@ -1581,6 +1581,11 @@ paths:
             required: true
             type: string
             
+          - name: authorization
+            in: header
+            description: token for validation.
+            required: true
+            type: string
         responses:
           "200":
             description: ok
@@ -1816,7 +1821,13 @@ paths:
         tags:
         - 'admin'
         summary: get About Us content.
-              
+        parameters: 
+            
+          - name: authorization
+            in: header
+            description: token for validation.
+            required: true
+            type: string   
         responses:
           "200":
             description: ok
@@ -1943,6 +1954,14 @@ paths:
         tags:
         - 'admin'
         summary: get Privacy Policy content.
+        
+        parameters: 
+            
+          - name: authorization
+            in: header
+            description: token for validation.
+            required: true
+            type: string
         responses:
           "200":
             description: ok
@@ -2131,10 +2150,13 @@ paths:
             schema:
               type: object
               required:
-                - cuisin
+                - name
+                - image
               properties:
-                cuisin:
-                    $ref: '#/definitions/cuisinArray'
+                name:
+                    type: string
+                image:
+                    type: string
           - name: authorization
             in: header
             description: token for validation.
@@ -2166,7 +2188,12 @@ paths:
             description: name of cuisin for search
             required: true
             type: string
-            
+          
+          - name: authorization
+            in: header
+            description: token for validation.
+            required: true
+            type: string
         responses:
           "200":
             description: ok
@@ -2186,6 +2213,15 @@ paths:
         tags:
         - 'admin'
         summary: get cuisin list.
+        
+        parameters: 
+            
+          - name: authorization
+            in: header
+            description: token for validation.
+            required: true
+            type: string
+            
         responses:
           "200":
             description: ok

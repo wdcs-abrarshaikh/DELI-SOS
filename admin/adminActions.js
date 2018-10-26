@@ -131,9 +131,9 @@ function getContactRequest(req, res) {
     service.getContactRequest(req, res)
 }
 
-function resolveContactRequest(req, res) {
-    service.resolveContactRequest(req, res)
-}
+// function resolveContactRequest(req, res) {
+//     service.resolveContactRequest(req, res)
+// }
 
 function addCuisin(req, res) {
     service.addCuisin(req, res)
@@ -190,7 +190,7 @@ module.exports = {
     updatePrivacyPolicy,
     deletePrivacyPolicy,
     getContactRequest,
-    resolveContactRequest,
+    // resolveContactRequest,
     addCuisin,
     searchCuisin,
     getCuisinList,

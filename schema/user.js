@@ -79,7 +79,7 @@ var userSchema = new schema({
          [{
             name: { type: String },
             image: { type: String },
-            status:{type:String,default:status.active,required:true}
+            status:{type:String,default:status.active}
         }]
     
 });

@@ -19,10 +19,8 @@ cloudinary.config({
 var reviews = require('../schema/review');
 var jwt = require('jsonwebtoken')
 var Type = require('../constants').Type;
-var aboutUs = 0;
-var privacyPolicy = 0;
 var mongoose = require('mongoose')
-// var object=mongoose.Schema.Types
+// var object=mongoose.Schema.Type.ObjectId;
 //admin signup function which register admin filtering from email and password validation nd also check email already exist or not
 async function createAdmin(req, res) {
     let data = req.body;
@@ -525,27 +523,29 @@ async function verifyToken(req, res) {
 }
 
 async function addAboutUs(req, res) {
-    if (aboutUs == 0) {
-        aboutUs++;
-        let about = new aboutModel(req.body)
-        about.type = "About_Us"
-        await about.save((err, data) => {
-            if (err) {
-                console.log("error",err)
-                return res.json({ code: code.internalError, message: msg.internalServerError })
-            }
-            else if (data.length == 0) {
-                return res.json({ code: code.notFound, message: msg.restNotFound })
-            }
-            else {
-                res.json({ code: code.created, message: msg.contentSaved, data: data })
-    
-    
-            }
-            // return (err) ? res.json({ code: code.internalError, message: msg.internalServerError }) :
-            //     res.json({ code: code.created, message: msg.contentSaved, data: data })
-        })
-    } else { res.json({ code: code.badRequest, message: "About us already added" }) }
+    aboutModel.find({ $and: [{ status: status.active }, { type: Type.about }] }, (err, data) => {
+        // if (err) { console.log("error in finding") }
+        // else { console.log("records", data.length) }
+        // console.log("records", data.length)
+        if (data.length == 0) {
+            let about = new aboutModel(req.body)
+            about.type = "About_Us"
+            about.save((err, data) => {
+                if (err) {
+                    console.log("error", err)
+                    return res.json({ code: code.internalError, message: msg.internalServerError })
+                }
+                else if (data.length == 0) {
+                    return res.json({ code: code.notFound, message: msg.restNotFound })
+                }
+                else {
+                    res.json({ code: code.created, message: msg.contentSaved, data: data })
+
+
+                }
+            })
+        } else { res.json({ code: code.badRequest, message: "About us already added" }) }
+    })
 }
 
 async function aboutUsList(req, res) {
@@ -572,7 +572,6 @@ async function deleteAboutUs(req, res) {
             return res.json({ code: code.notFound, message: msg.contentNotFound })
         }
         else {
-            aboutUs--;
             return res.json({ code: code.ok, message: msg.contentDel })
         }
     })
@@ -594,26 +593,27 @@ async function updateAboutUs(req, res) {
 }
 
 async function addPrivacyPolicy(req, res) {
-    if (privacyPolicy == 0) {
-        privacyPolicy++;
+    aboutModel.find({ $and: [{ status: status.active }, { type: Type.privacy }] }, (err, data) => {
+        // if (err) { console.log("error in finding") }
+        // else { console.log("records", data.length) }
+    
+    if(data.length==0){
         let about = new aboutModel(req.body)
         about.type = "Privacy_Policy"
-        await about.save((err, data) => {
+         about.save((err, data) => {
 
             return (err) ? res.json({ code: code.internalError, message: msg.internalServerError }) :
                 res.json({ code: code.created, message: msg.contentSaved, data: data })
         })
     }
     else { res.json({ code: code.badRequest, message: "Privacy Policy already added" }) }
+})
 }
 
 async function privacyPolicyList(req, res) {
-    await aboutModel.find({ $and: [{ status: status.active }, { type: Type.privacy }] }, (err, data) => {
+     aboutModel.findOne({ $and: [{ status: status.active }, { type: Type.privacy }] }, (err, data) => {
         if (err) {
             return res.json({ code: code.internalError, message: msg.internalServerError })
-        }
-        else if (!data) {
-            return res.json({ code: code.notFound, message: msg.restNotFound })
         }
         else {
             return res.json({ code: code.ok, message: msg.ok, data: data })
@@ -623,7 +623,7 @@ async function privacyPolicyList(req, res) {
 
 async function updatePrivacyPolicy(req, res) {
     let id = req.params.id;
-    await aboutModel.findByIdAndUpdate({ _id: id }, { $set: req.body }, { new: true }, (err, data) => {
+     aboutModel.findByIdAndUpdate({ _id: id }, { $set: req.body }, { new: true }, (err, data) => {
         if (err) {
             res.json({ code: code.internalError, message: msg.internalServerError })
         }
@@ -637,7 +637,7 @@ async function updatePrivacyPolicy(req, res) {
 }
 
 async function deletePrivacyPolicy(req, res) {
-    await aboutModel.findByIdAndUpdate({ _id: req.params.id }, { $set: { status: status.inactive } }, (err, data) => {
+     aboutModel.findByIdAndUpdate({ _id: req.params.id }, { $set: { status: status.inactive } }, (err, data) => {
         if (err) {
             return res.json({ code: code.internalError, message: msg.internalError })
         }
@@ -645,19 +645,15 @@ async function deletePrivacyPolicy(req, res) {
             return res.json({ code: code.notFound, message: msg.contentNotFound })
         }
         else {
-            privacyPolicy--;
             return res.json({ code: code.ok, message: msg.contentDel })
         }
     })
 }
 
 async function getContactRequest(req, res) {
-    await aboutModel.find({ $and: [{ status: status.pending }, { type: Type.contact }] }, (err, data) => {
+     aboutModel.find({ $and: [{ status: status.active }, { type: Type.contact }] }, (err, data) => {
         if (err) {
             return res.json({ code: code.internalError, message: msg.internalServerError })
-        }
-        else if (!data) {
-            return res.json({ code: code.notFound, message: msg.contentNotFound })
         }
         else {
             return res.json({ code: code.ok, message: msg.ok, data: data })
@@ -665,36 +661,37 @@ async function getContactRequest(req, res) {
     })
 }
 
-async function resolveContactRequest(req, res) {
-    let id = req.params.id;
-    await aboutModel.findByIdAndUpdate({ _id: id }, { $set: { status: status.resolved } }, { new: true }, (err, data) => {
-        if (err) {
-            res.json({ code: code.internalError, message: msg.internalServerError })
-        }
-        else if (!data) {
-            res.json({ code: code.notFound, message: msg.contentNotFound })
-        }
-        else {
-            res.json({ code: code.ok, message: msg.resolved })
-        }
-    })
-}
+// async function resolveContactRequest(req, res) {
+//     let id = req.params.id;
+//     await aboutModel.findByIdAndUpdate({ _id: id }, { $set: { status: status.resolved } }, { new: true }, (err, data) => {
+//         if (err) {
+//             res.json({ code: code.internalError, message: msg.internalServerError })
+//         }
+//         else if (!data) {
+//             res.json({ code: code.notFound, message: msg.contentNotFound })
+//         }
+//         else {
+//             res.json({ code: code.ok, message: msg.resolved })
+//         }
+//     })
+// }
 
 async function addCuisin(req, res) {
+    let cuisin=req.body;
     userModel.findOneAndUpdate({ role: "ADMIN" }, { $push: { cuisin: req.body.cuisin } },
         { new: true },
         (err, data) => {
             if (err) {
                 return res.json({ code: code.internalError, message: msg.internalServerError })
                 // console.log("err in array updation ")
-            } else { return res.json({ msg: "added successfully" }) }
+            } else { return res.json({code:code.ok,msg:msg.cuisinAdded }) }
         });
 
 
 }
 
 async function searchCuisin(req, res) {
-    await userModel.aggregate([
+     userModel.aggregate([
         {
             $project: { 'cuisin': 1 }
         },
@@ -711,8 +708,8 @@ async function searchCuisin(req, res) {
         },
         {
             $group: {
-                _id: object(cuisin._id),
-                name: { $first:'$cuisin.name'},
+                _id: '$cuisin._id',
+                name: { $first: '$cuisin.name' },
                 image: { $first: '$cuisin.image' },
                 status: { $first: '$cuisin.status' }
             }
@@ -734,7 +731,7 @@ async function searchCuisin(req, res) {
 }
 
 async function getCuisinList(req, res) {
-    await userModel.aggregate([
+     userModel.aggregate([
         {
             $project: { 'cuisin': 1 }
         },
@@ -751,14 +748,14 @@ async function getCuisinList(req, res) {
         {
             $group: {
                 _id: '$cuisin._id',
-                name:{$first:'$cuisin.name'},
+                name: { $first: '$cuisin.name' },
                 image: { $first: '$cuisin.image' },
                 status: { $first: '$cuisin.status' }
             }
         }
     ]).exec((err, data) => {
         if (err) {
-            console.log("error",err)
+            console.log("error", err)
             return res.json({ code: code.internalError, message: msg.internalServerError })
         }
         else if (!data) {
@@ -773,30 +770,26 @@ async function getCuisinList(req, res) {
 
 }
 
-//working on
 async function deleteCuisin(req, res) {
-    //let id1=cuisin.id;
-    //console.log("id", req.params.id)
-    let obj = util.decodeToken(req.headers['authorization'])
-    await userModel.updateOne({ _id: obj.id, cuisin:{$elemMatch:{_id:req.params.id}} },
+     let obj = util.decodeToken(req.headers['authorization'])
+     userModel.updateOne({ _id:obj.id, cuisin: { $elemMatch: { _id: req.params.id } } },
         { $set: { 'cuisin.$.status': 'INACTIVE' } }).exec((err, data) => {
             if (err) {
-                return res.json({ error: err })
+                return res.json({ code: code.internalError, message: msg.internalServerError })
             } else {
-                return res.json({ data:msg.cuisinDeleted})
+                return res.json({ code:code.ok,data: msg.cuisinDeleted })
             }
         })
 }
 
 async function updateCuisin(req, res) {
     
-    let obj = util.decodeToken(req.headers['authorization'])
-    await userModel.updateOne({ _id: obj.id, cuisin:{$elemMatch:{_id:req.params.id}} },
-        { $set:{'cuisin':req.body }},{new:true}).exec((err, data) => {
+     userModel.updateOne({ role:role.ADMIN, cuisin: { $elemMatch: { _id: req.params.id } } },
+        { $set: { 'cuisin.$': req.body } }).exec((err, data) => {
             if (err) {
-                return res.json({ error: err })
+                return res.json({ code: code.internalError, message: msg.internalServerError })
             } else {
-                return res.json({ data:data})
+                return res.json({code:code.ok,data: data })
             }
         })
 }
@@ -835,7 +828,7 @@ module.exports = {
     updatePrivacyPolicy,
     deletePrivacyPolicy,
     getContactRequest,
-    resolveContactRequest,
+    // resolveContactRequest,
     addCuisin,
     searchCuisin,
     getCuisinList,
