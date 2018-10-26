@@ -11,7 +11,7 @@ var aboutSchema = new schema({
    contactNo:{type:String,required:function(){ return (this.Type == Type.contact) ? true : false}},
 //    Email:{type:String,required:function(){ return (this.Type == Type.contact) ? true : false}},
 //    Description:{type:String,required:function(){ return (this.Type == Type.contact) ? true : false}},
-   status:{type:String,enum:[Status.pending,Status.resolved,Status.active,Status.inactive],required:function(){ return (this.Type == Type.contact) ? true : false},default:function(){ return (this.Type == Type.contact) ? Status.pending :  Status.active}}
+   status:{type:String,enum:[Status.active,Status.inactive],default:Status.active}
 });
 
 User = module.exports = mongoose.model(schmaName.about, aboutSchema)

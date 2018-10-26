@@ -174,8 +174,17 @@ function validaterestId(req, res, next) {
 }
 
 function validateCuisin(req,res,next){
+    console.log("syghshddijdjsid nasj",req.body.name)   
+    console.log("syghshddijdjsid",req.body.image)   
     let data = req.body
-    if(data.name&&data.image){next();}
+    if(data.name && data.image)
+    {
+        req.body.cuisin=
+        
+        {name:data.name,image:data.image}         
+        console.log("syghshddijdjsid",req.body.cuisin)   
+        next();
+    }
     else{res.json({ code: code.badRequest, message: msg.invalidBody })}
 }
 
