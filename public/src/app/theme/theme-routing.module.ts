@@ -34,6 +34,14 @@ const routes: Routes = [
                 "path": "admin/privacy-policy",
                 "loadChildren": "./pages/default/angular/privacy-policy/privacy-policy.module#PrivacyPolicyModule"
             },
+            {
+                "path":"admin/contact-us",
+                "loadChildren":"./pages/default/angular/contact-us/contact-us.module#ContactUsModule"
+            },
+            {
+                "path":"admin/cuisin",
+                "loadChildren":"./pages/default/angular/cuisin/cuisin.module#CuisinModule"
+            }
         ]
     },
 

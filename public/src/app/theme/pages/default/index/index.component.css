@@ -1,3 +1,20 @@
 .table1{
     margin: 43px;
 }
+.btn1{
+    background: #f7b733;
+}
+.header{
+    font-size: 3.15rem;
+   
+    padding: 1.25rem 4.65rem;
+    text-align: center;
+}
+ .dataTables_wrapper .pagination .page-item.active>.page-link {
+    background: linear-gradient(45deg, #fc4a1a, #f7b733) !important;
+    color: #fff;
+ }
+ .dataTables_wrapper .pagination .page-item:hover>.page-link {
+    background: linear-gradient(45deg, #fc4a1a, #f7b733) !important;
+    color: #fff;
+ }

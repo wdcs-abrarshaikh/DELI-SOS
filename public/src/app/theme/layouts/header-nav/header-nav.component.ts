@@ -32,9 +32,9 @@ constructor(private loginService:LoginService,
           private router:Router,
           private profileService:ProfileService)  {
           
-          //   this.profileService.getProfile().subscribe((data: any) => {
-          //      this.profilesList=data.data.profilePicture
-          //      this.name=data.data.name
+            // this.profileService.getProfile().subscribe((data: any) => {
+            //    this.profilesList=data.data.profilePicture
+            //    this.name=data.data.name
           // });
 
 }

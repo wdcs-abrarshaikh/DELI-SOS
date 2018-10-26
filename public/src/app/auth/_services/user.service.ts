@@ -8,10 +8,10 @@ export class UserService {
 	constructor(private http: Http) {
 	}
 
-   verify() {
+	verify() {
 		
-		console.log("sdhgf")
-		return this.http.get('/login', this.jwt()).map((response: Response) => response.json());
+	  console.log("vertdsdsghdsghdsgh")
+		return this.http.get('/admin/verifyToken', this.jwt()).map((response: Response) => response.json());
 	}
 
 	forgotPassword(email: string) {

@@ -14,8 +14,17 @@ img.m--img-rounded.m--marginless {
     /* height: 80px; */
     /* background: url("user.jpeg") */
 }
+.name{
+    float:right;
+    font-size:20px;
+    margin-top: 20px;
+}
 h3{
-    color:white
+    color:white;
+    text-align: center;
+    margin-left: 5px;
+    margin-top:20px;
+    font-size: 30px
 }
 .label{
     font-style: bold;
@@ -26,4 +35,10 @@ h3{
     font-weight: 500;
     font :bold;
     font-size: 25px
+}
+.m1{
+    text-align: right;
+    margin-left: 90%;
+    margin-right: 5px;
+  
 }

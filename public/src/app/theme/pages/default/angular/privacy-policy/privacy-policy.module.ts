@@ -6,7 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DefaultComponent } from '../../default.component';
 import { LayoutModule } from '../../../../layouts/layout.module';
 import { NgxEditorModule } from 'ngx-editor';
-import { PrivacyPolicyComponent } from './privacy-policy.component';
+import { PrivacyPolicyComponent,NgbdModalContent } from './privacy-policy.component';
 import { PrivacyPolicyRoutingModule } from './privacy-policy.routing';
 import { PrivacyPolicyService } from './privacy-policy.service';
 
@@ -30,10 +30,10 @@ const routes: Routes = [{
         ReactiveFormsModule
     ],
 
-    exports: [PrivacyPolicyComponent],
-    declarations: [PrivacyPolicyComponent],
+    exports: [PrivacyPolicyComponent,NgbdModalContent],
+    declarations: [PrivacyPolicyComponent,NgbdModalContent],
     providers: [PrivacyPolicyService],
-    entryComponents: []
+    entryComponents: [NgbdModalContent]
 
 })
 export class PrivacyPolicyModule {

@@ -7,8 +7,8 @@ body{
    }
    
    .box{
-       box-align: center;
-    height:500%;
+     box-align: center;
+    height:1000%;
     width:500px;
     display: flex;
     justify-content: center;
@@ -18,7 +18,7 @@ body{
     box-shadow: 0 8px 8px 0 rgba(0,0,0,0.1),0 1px 1px 0 rgba(0,0,0,0.4), 0 0 2px 0 rgba(0,0,0,0.15);
    }
    .image-container{
-    height: 250px;
+    height: 300px;
     width: 100%;
     background: #fff;
     display: flex;
@@ -29,8 +29,8 @@ body{
     position: relative;
    }
    .image{
-    height: 150px;
-    width: 150px;
+    height: 200px;
+    width: 200px;
     border-radius: 500px;
     background-position: center;
     background-size: cover;
@@ -63,7 +63,7 @@ body{
     transform: translateY(2.5%);
    }
    .description-container{
-    height: 150px;
+    height: 175px;
     width: 100%;
     box-shadow: 0 -1px 16px 0 rgba(0,0,0,0.1);
     display: flex;
@@ -91,13 +91,14 @@ input.form-control.m-input.cus_inp:focus{
 }
 button.yellow_btn{
     border: none;
+   
     background: linear-gradient(to right, rgb(233, 113, 33), rgb(236, 151, 39));
     -webkit-box-shadow:none!important;
     box-shadow: none!important;
     margin-top: 10px;
-    width: 100px;
+    width: 150px;
     color: #fff;
-    height: 35px;
+    height: 40px;
  }
  button.yellow_btn:hover, button.yellow_btn:focus, button.yellow_btn:avtive{
  -webkit-box-shadow:none!important;
@@ -107,3 +108,12 @@ button.yellow_btn{
  .pr_l{
      font-weight: 600;
  }
+ .header{
+    font-size: 3.15rem;
+   
+    padding: 1.25rem 4.65rem;
+    text-align: center;
+}
+.lbl-err{
+    color: red;
+}

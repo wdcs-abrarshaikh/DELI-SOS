@@ -1,7 +1,9 @@
-<form name="aboutUsForm" [formGroup]="aboutUsForm" (ngSubmit)="onSubmit()">
+<h2 class="header">About Us</h2>
+  
+<button class="btn-add" (click)="add()" ><i class="fas fa-plus"></i></button>
 
-  <h2 class="header">About Us</h2>
-  <div id='commonCms'>
+<form name="aboutUsForm" [formGroup]="aboutUsForm" (ngSubmit)="onSubmit()">
+ <div id='commonCms'>
     <app-ngx-editor [placeholder]="'Enter text here...'" [spellcheck]="true" formControlName="content" [(ngModel)]="aboutUsLists"
       [config]="editorConfig"></app-ngx-editor>
 
@@ -20,19 +22,6 @@
     </ng-template>
 
   </div>
-  <ng-template #content let-c="close" let-d="dismiss">
-    <div class="modal-body">
-      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-        <span aria-hidden="true">&times;</span>
-      </button>
-      <div class="modal-custom-body">
-        <img class="banner-image" src="./assets/app/media/img/users/delete-icn.svg"><br><br>
-        <p style="text-align: center">Are you sure you want to delete this record?</p>
-      </div>
-      <div class="text-center mt-4">
-        <button type="button" class="btn-del" (click)="deleteAboutus(id)">Delete</button>
-      </div>
-    </div>
-  </ng-template>
+  
 
 </form>

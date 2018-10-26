@@ -1,6 +1,6 @@
 .btn-add{
-    padding: 1rem 1rem;
-    font-size: 1.124rem;
+    padding: 1.10rem 1.40rem;
+    font-size: 1.25rem;
     line-height: 1;
     color:white;
     background-color: transparent;
@@ -64,7 +64,6 @@ table.dataTable thead th.sorting,
    background: none;
    padding: 4px 5px;
    }
- 
    .dataTables_wrapper .pagination .page-item.active>.page-link {
     background: linear-gradient(45deg, #fc4a1a, #f7b733) !important;
     color: #fff;

@@ -1,6 +1,9 @@
-<form name="privacyPolicyForm" [formGroup]="privacyPolicyForm" (ngSubmit)="onSubmit()">
+<h2 class="header">Privacy Policy</h2>
 
-  <h2 class="header">Privacy Policy</h2>
+<button class="btn-add" (click)="add(content )" ><i class="fas fa-plus"></i></button>
+
+<form name="privacyPolicyForm" [formGroup]="privacyPolicyForm" (ngSubmit)="onSubmit()">
+ 
   <div id='commonCms'>
     <app-ngx-editor [placeholder]="'Enter text here...'" [spellcheck]="true" formControlName="content" [(ngModel)]="privacyPolicyLists"
       [config]="editorConfig"></app-ngx-editor>
