@@ -1,24 +1,23 @@
 .btn-add{
-    padding: 1.25rem 1.65rem;
+    padding: 1.20rem 1.65rem;
     font-size: 1.25rem;
-    line-height: 1.5;
+    line-height: 1;
     color:white;
     /* background-color: transparent; */
     border-color:#f7b733;
-    margin-left: 95%;
+    margin-left: 90%;
     margin-top:2%;
+    margin-right: 5%;
     background: linear-gradient(to right, #fc4a1a, #f7b733);
 }
 .lbl-err {
     color: red;
  }
 .btn-edit{
-        color:white;
-        background-color: transparent;
-        background: #029c16;
-        border-color:  #029c16;
-
-    }
+       background-color: transparent;
+       border:none;
+       color:gray
+      }
     .btn-approve{
         color:white;
         background-color: transparent;
@@ -28,12 +27,10 @@
     }
 
 .btn-delete{
-   
-        color:white;
-        background-color: transparent;
-        background: #a73a08;
-        border-color: #a73a08;
-
+       border:none;
+       background-color: transparent;
+       color:gray
+       
     }
 
 .category-image {
@@ -47,8 +44,8 @@
     line-height: 1.5;
     color:white;
     margin-right:45px;
- background-color: transparent;
- background: #a73a08;
+     background-color: transparent;
+     background: #a73a08;
     border-color: #a73a08;
 }
 .btn-bs-file btn btn-ls btn-info{
@@ -63,9 +60,22 @@
 }
 .header{
     font-size: 3.15rem;
-    margin-left: 25%;
     padding: 1.25rem 4.65rem;
+    text-align: center;
    }
+   .dataTables_wrapper .pagination .page-item.active>.page-link {
+    background: linear-gradient(45deg, #fc4a1a, #f7b733) !important;
+    color: #fff;
+ }
+ .dataTables_wrapper .pagination .page-item:hover>.page-link {
+    background: linear-gradient(45deg, #fc4a1a, #f7b733) !important;
+    color: #fff;
+ }
+ .btn-view{
+    background-color: transparent;
+    border:none;
+    color:gray
+ }
    /* .rounded mb-3{
        height: 50;
        width: 50;

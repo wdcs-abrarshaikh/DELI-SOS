@@ -33,9 +33,16 @@ export class IndexService {
     }
    
     getAllUsers() {
-        return this.http.get(URL + 'getUsers', { headers: this.getHeaderWithToken() })
+        return this.http.get(URL + 'admin/userCounts', { headers: this.getHeaderWithToken() })
         .pipe(
             map((res:Response)=>{ return res})
+        );
+    }
+
+    getAllRestaurant(){
+        return this.http.get(URL+'admin/restaurantCounts', { headers: this.getHeaderWithToken() })
+        .pipe(
+            map((res:Response)=>{ return res })
         );
     }
 

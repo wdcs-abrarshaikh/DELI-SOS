@@ -1,5 +1,5 @@
 import { IndexService } from './index.service';
-import { Component, OnInit, ViewEncapsulation, AfterViewInit, Input } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Input,ViewEncapsulation } from '@angular/core';
 import { Helpers } from '../../../../helpers';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, Validators, FormControl, FormGroup, FormArray } from '@angular/forms';
@@ -24,33 +24,33 @@ import { ScriptLoaderService } from './../../../../_services/script-loader.servi
     <form name="RestaurantForm" [formGroup]="RestaurantForm" >
         <div class="form-group"> 
         <label> Restaurant Name</label>
-        <input class="form-control m-input" type="text" formControlName="name"   [(ngModel)]="name"> 
+        <input class="form-control m-input" type="text" formControlName="name"   [(ngModel)]="name" disabled> 
         </div><br>
       
         <div class="form-group"> 
         <label>Description</label>
-        <input class="form-control m-input" type="text" formControlName="description" [(ngModel)]="description"> 
+        <input class="form-control m-input" type="text" formControlName="description" [(ngModel)]="description" disabled> 
         </div><br>
   
         <div class="form-group"> 
         <label>Latitude</label>
-        <input class="form-control m-input" type="text" formControlName="latitude"  [(ngModel)]="latitude" > 
+        <input class="form-control m-input" type="text" formControlName="latitude"  [(ngModel)]="latitude"disabled > 
          </div><br>
   
          <div class="form-group"> 
          <label>Longitude</label>
-         <input class="form-control m-input" type="text" formControlName="longitude"  [(ngModel)]="longitude" > 
+         <input class="form-control m-input" type="text" formControlName="longitude"  [(ngModel)]="longitude" disabled > 
         </div><br>
          
   
          <div class="form-group"> 
          <label>openTime</label>
-         <input class="form-control m-input" type="text" formControlName="openTime"[(ngModel)]="openTime" > 
+         <input class="form-control m-input" type="text" formControlName="openTime"[(ngModel)]="openTime" disabled> 
          </div><br>
         
         <div class="form-group">
         <label for="time">Close Time</label>
-        <input class="form-control m-input" type="text" formControlName="closeTime" [(ngModel)]="closeTime" > 
+        <input class="form-control m-input" type="text" formControlName="closeTime" [(ngModel)]="closeTime"disabled > 
         </div><br>
   
         <div class="form-group">
@@ -64,12 +64,12 @@ import { ScriptLoaderService } from './../../../../_services/script-loader.servi
        
        <div class="form-group"> 
        <label>Contact Number</label>
-       <input class="form-control m-input" type="tel" formControlName="contactNumber"  [(ngModel)]="contactNumber" > 
+       <input class="form-control m-input" type="tel" formControlName="contactNumber"  [(ngModel)]="contactNumber"  disabled> 
        </div>
   
         <div class="form-group">
         <label>Website</label>
-        <input class="form-control m-input" type="text" formControlName="website" [(ngModel)]="website"> 
+        <input class="form-control m-input" type="text" formControlName="website" [(ngModel)]="website" disabled> 
         </div>
      
         <div class="form-group">
@@ -82,7 +82,7 @@ import { ScriptLoaderService } from './../../../../_services/script-loader.servi
   
       <div class="form-group">
       <label >Per Person Cost</label>
-      <input class="form-control m-input" type="Number" formControlName="perPersonCost" [(ngModel)]="perPersonCost"> 
+      <input class="form-control m-input" type="Number" formControlName="perPersonCost" [(ngModel)]="perPersonCost" disabled> 
       </div>
       
   
@@ -109,7 +109,7 @@ import { ScriptLoaderService } from './../../../../_services/script-loader.servi
       <tr *ngFor="let cuisinSubset of cuisinImagesObject; let i=index" >
        <td>
        <div class="form-group ">
-       <input  [(ngModel)]='cuisinSubset.name' placeholder="name"  style="width:150px"  required="required"/>
+       <input  [(ngModel)]='cuisinSubset.name' placeholder="name"  style="width:150px"  required="required"/ disabled>
         <div class="help-block"></div>
        </div>
        </td>
@@ -134,7 +134,8 @@ import { ScriptLoaderService } from './../../../../_services/script-loader.servi
   
   
   `,
-    styleUrls: ['./index.component.css']
+    styleUrls: ['./index.component.css'],
+    encapsulation: ViewEncapsulation.None
 })
 export class NgbdModalContent {
    
@@ -218,15 +219,22 @@ export class IndexComponent implements OnInit, AfterViewInit {
     totalUser;
     ngOnInit() {
         this.getAllRequest()
+        this.getUserList()
+        this.getRestaurant()
       
     }
-    // getUserList() {
-    //     this.indexService.getAllUsers().subscribe((response: any) => {
-    //       
-    //         this.usersList = response.response.count;
-    //     });
-    // }
-    // restList: Array<any> = [];
+    usersList:Array<any>;
+    getUserList() {
+        this.indexService.getAllUsers().subscribe((response: any) => {
+           this.usersList = response.data;
+        });
+    }
+   restaurantList:Array<any>;
+   getRestaurant(){
+       this.indexService.getAllRestaurant().subscribe((response:any)=>{
+           this.restaurantList=response.data
+       })
+   }
 
     getAllRequest() {
         this.indexService.getAllRequest().subscribe((response: any) => {
@@ -256,8 +264,11 @@ export class IndexComponent implements OnInit, AfterViewInit {
     Approve(id) {
        this.indexService.approveRestaurant(id).subscribe((response: any) => {
             this.getAllRequest()
-
-        })
+            this.toastService.success(response['message']);
+        },err=>{
+          this.toastService.error(err['message']);
+        }
+        )
     }
 
 }

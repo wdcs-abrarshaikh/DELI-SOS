@@ -17,7 +17,9 @@ export class AboutUsService {
 
     }
     setAboutus(data: any) {
-        this.aboutUsList.next({ aboutUsList: data });
+        console.log("kkkkkkkkkkkkk")
+        console.log(data)
+        this.aboutUsList.next({ aboutUsList: data});
     }
     getAboutus(): Observable<any> {
         return this.aboutUsList.asObservable();
@@ -25,37 +27,41 @@ export class AboutUsService {
     }
     getHeaderWithToken() {
         let headers = new HttpHeaders()
-        headers = headers.set('Authorization', JSON.parse(localStorage.getItem('jwt')))
         headers = headers.set('Content-Type', 'application/json')
+        let token = JSON.parse(localStorage.getItem('_token'))
+        headers = headers.set('Authorization', token)
         return headers;
     }
     addAboutus(about: any) {
-        var id = localStorage.getItem('currentUser')
-        var id1 = JSON.parse(id)
-        return this.http.post<any>(URL + 'createAboutUs/' + id1, about, { headers: this.getHeaderWithToken() })
+        console.log("lllll", about)
+        return this.http.post<any>(URL + 'admin/addAboutUs', about, { headers: this.getHeaderWithToken() })
             .pipe(
                 map((res: Response) => { return res }),
             );
     }
     getAllAboutus() {
-        return this.http.get(URL + 'aboutUs')
+        return this.http.get(URL + 'admin/aboutUsList',{ headers: this.getHeaderWithToken() })
             .pipe(
-                map((res: Response) => { return res })
+                map((res: Response) => {
+                    console.log("get",res)
+                    return res })
             );
     }
 
 
     editAboutus(about: any, id: any) {
-        var user_id = JSON.parse(localStorage.getItem('currentUser'));
-        return this.http.put<any>(URL + 'editAboutUs/' + id + '/' + user_id, about, { headers: this.getHeaderWithToken() })
+        console.log(id)
+        var admin_id = JSON.parse(localStorage.getItem('_id'));
+        return this.http.put<any>(URL + 'admin/updateAboutUs/' + id, about, { headers: this.getHeaderWithToken() })
             .pipe(
-                map((res: Response) => { return res }),
+                map((res: Response) => { 
+                    console.log(">>>>>>>>>>>>>>>>>>>>",res)
+                    return res }),
             );
     }
     deleteAboutus(id: any) {
-        var user_id = JSON.parse(localStorage.getItem('currentUser'));
-        return this.http.put<any>(URL + 'deleteAboutUs/' + id + '/' + user_id, {}, { headers: this.getHeaderWithToken() }).map((res: Response) => {
-
+        var admin_id = JSON.parse(localStorage.getItem('_id'));
+        return this.http.put<any>(URL + 'admin/delAbout_Us' + admin_id, { headers: this.getHeaderWithToken() }).map((res: Response) => {
             return res
         });
     }

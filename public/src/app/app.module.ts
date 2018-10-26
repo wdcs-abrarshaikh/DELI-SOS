@@ -22,6 +22,8 @@ import { ToastrModule } from 'ngx-toastr';
 import { ForgotEmailComponent } from './forgot-email/forgot-email.component';
 
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+
+
 // import { ImagesPipe } from './images.pipe';
 
 @NgModule({
@@ -32,13 +34,14 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
     ForgotPasswordComponent,
     // SignUpComponent,
     ForgotEmailComponent,
+  
+ 
     // ImagesPipe,
     
    
       
   ],
   imports: [
-
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,

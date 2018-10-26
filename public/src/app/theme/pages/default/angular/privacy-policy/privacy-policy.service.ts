@@ -25,22 +25,21 @@ export class PrivacyPolicyService {
 
   getHeaderWithToken() {
     let headers = new HttpHeaders()
-    headers = headers.set('Authorization', JSON.parse(localStorage.getItem('jwt')))
+    headers = headers.set('Authorization', JSON.parse(localStorage.getItem('_token')))
     headers = headers.set('Content-Type', 'application/json')
     return headers;
   }
 
   addPrivacyPolicy(about: any) {
-    var id = localStorage.getItem('currentUser')
-    var admin_id = JSON.parse(id)
-    return this.http.post<any>(URL + 'createPrivacyPolicy/' + admin_id, about, { headers: this.getHeaderWithToken() })
+    console.log("in service",about)
+    return this.http.post<any>(URL + 'admin/addPrivacyPolicy', about, { headers: this.getHeaderWithToken() })
       .pipe(
         map((res: Response) => { return res }),
       );
   }
 
   getAllPrivacyPolicy() {
-    return this.http.get(URL + 'privacyPolicy')
+    return this.http.get(URL + 'admin/privacyPolicyList')
       .pipe(
         map((res: Response) => { return res })
       );

@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormControl, FormGroup, FormArray } from '@angular/forms';
 import { map } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
+import swal from 'sweetalert2'
 
 
 
@@ -39,8 +40,7 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit() {
     this.buildProfileForm();
-    // this.getInfo();
-
+  
   }
   buildProfileForm() {
     this.profileForm = this._formBuilder.group({
@@ -48,16 +48,6 @@ export class ProfileComponent implements OnInit {
       profilePicture: [''],
     });
   }
-
-  // getInfo() {
-  //   this.profileService.getProfile().subscribe((response: any) => {
-  //     this.personalInfo = response.data;
-
-  //   }, error => {
-  //     console.log('error' + error);
-
-  //   });
-  // }
 
 
   async uploadImage(images) {
@@ -82,10 +72,24 @@ export class ProfileComponent implements OnInit {
 
     this.profileService.editProfile(editObj).subscribe((response: any) => {
       this.personalInfo = response.data;
-      this.toastService.success(response['message']);
+     if (response['code'] ==200 ) {
+        swal({
+          position: 'center',
+          type: 'success',
+          title: response['message'],
+          showConfirmButton: false,
+          timer: 1500
+        })
+     
+      } else {
+        swal({
+          type: 'error',
+          text: response['message']
+        })
+      }
     },
-      (err) => {
-        this.toastService.error(err['message']);
+    (err) => {
+       this.toastService.error(err['message']);
       })
   }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Input,AfterViewInit  } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input,AfterViewInit,ViewEncapsulation  } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RestaurantService } from './restaurant.service';
 import { ScriptLoaderService } from '../../../../../_services/script-loader.service';
@@ -7,6 +7,8 @@ import { Location } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as _ from 'lodash';
+import swal from 'sweetalert2'
+
 @Component({
   selector: 'app-restaurant',
   template: `
@@ -171,7 +173,8 @@ import * as _ from 'lodash';
 
 
 `,
-  styleUrls: ['./restaurant.component.css']
+  styleUrls: ['./restaurant.component.css'],
+ 
 })
 export class NgbdModalContent {
     RestaurantList: Array<any>;
@@ -416,7 +419,21 @@ async uploadImage(images) {
           }else{
             this.activeModal.dismiss();
             this.getAllRestaurant();
-            this.toastService.success(data['message']);
+            if (data['code'] ==200 ) {
+              swal({
+                position: 'center',
+                type: 'success',
+                title: data['message'],
+                showConfirmButton: false,
+                timer: 1500
+              })
+              this.activeModal.dismiss();
+            } else {
+              swal({
+                type: 'error',
+                text: data['message']
+              })
+             }
           }
 
         },
@@ -430,7 +447,21 @@ async uploadImage(images) {
         data => {
           this.getAllRestaurant();
           this.activeModal.dismiss();
-          this.toastService.success(data['message']);       
+          if (data['code'] ==200 ) {
+            swal({
+              position: 'center',
+              type: 'success',
+              title: data['message'],
+              showConfirmButton: false,
+              timer: 1500
+            })
+            this.activeModal.dismiss();
+          } else {
+            swal({
+              type: 'error',
+              text: data['message']
+            })
+           }
         },
         error => {
           this.toastService.error(error['message']);
@@ -473,7 +504,8 @@ async uploadImage(images) {
 @Component({
   selector: 'app-restaurant',
   templateUrl: './restaurant.component.html',
-  styleUrls: ['./restaurant.component.css']
+  styleUrls: ['./restaurant.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 
 export class RestaurantComponent implements OnInit,AfterViewInit {
@@ -562,20 +594,43 @@ export class RestaurantComponent implements OnInit,AfterViewInit {
   }
 
 
-  deleteRestaurant(Rid) {
-   this.restaurantService.deleteRestaurant(Rid).subscribe(
-      data => {
-       this.modalReference.close();
-       this.toastService.success(data['message']);
-       this. getRestaurantList()
-       },
-      error => {
-        this.toastService.error(error.errors);
-      });
+  
+  delete(id) {
+  
+    swal({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.value) {
+        console.log("result",result.value)
+        this.restaurantService.deleteRestaurant(id).subscribe(
+          data => {
+            console.log(data)
+          this.getRestaurantList();
+            swal(
+              'Deleted!',
+              'Your file has been deleted.',
+              'success'
+            )
+          },
+          error => {
+            swal(
+              'error!',
+              'Your file has been deleted.',
+              'success'
+            )
+          });
+      
+      }
+    })
+  
   }
-  delete(content) {
-    this.modalReference = this.modalService.open(content);
-  }
+  
 
 }
 

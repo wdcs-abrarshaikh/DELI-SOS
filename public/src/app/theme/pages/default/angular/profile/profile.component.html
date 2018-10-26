@@ -1,18 +1,19 @@
 <!-- BEGIN: Subheader -->
 <app-header-nav></app-header-nav>
-<div class="m-subheader" appunwraptag="">
+<h2 class="header" >Profile</h2>
+<!-- <div class="m-subheader" appunwraptag="">
     <div class="d-flex align-items-center">
         <div class="m-auto">
-            <h3 class="m-subheader__title comcolor">My Profile</h3>
+           
         </div>
     </div>
-</div>
+</div> -->
 <!-- END: Subheader -->
 <div class="m-content">
     <div class="row">
         <div class="col-xl-3 col-lg-4">
             <form name="profileForm" [formGroup]="profileForm" (ngSubmit)="onSubmit()" style="padding-left: 500px">
-               <div class="box">
+                <div class="box">
                     <div class="image-container">
                         <div class="image-box">
                             <div *ngIf="display">
@@ -22,7 +23,7 @@
                             </div>
                             <div *ngIf="!display">
                                 <img [src]="profilesList" [alt]="profilesList" class="image" id="files" style="cursor: pointer" />
-                               <label class="change-image" data-toggle="m-tooltip" title="upload Image">
+                                <label class="change-image" data-toggle="m-tooltip" title="upload Image">
                                     <input type="file" id="files" style="display: none" (change)="uploadImage($event)">
                                 </label>
                             </div>
@@ -34,15 +35,13 @@
                         <div class="form-group m-form__group row m-auto">
                             <label for="example-text-input" class="col-3 col-form-label pr_l">Name</label>
                             <div class="col-9">
-                                <input class="form-control m-input cus_inp"  type="text" formControlName="name" [(ngModel)]="name">
-                                <button type="button" class="btn m-btn--custom mrgLeft10000 yellow_btn"
-                                                (click)="editProfile()">Save
-                                            </button>
+                                <input class="form-control m-input cus_inp" type="text" formControlName="name"
+                                    [(ngModel)]="name">
+                                    <p *ngIf="profileForm.controls.name.errors?.required && (profileForm.controls.name.dirty || profileForm.controls.name.touched)" class="lbl-err">Name is required.</p>
+                                <button type="button" class="btn m-btn--custom mrgLeft10000 yellow_btn" (click)="editProfile()">Save Changes
+                                </button>
                             </div>
                         </div>
-
-                        
-
                     </div>
 
                 </div>
