@@ -114,6 +114,13 @@ function searchFollowing(req,res){
     service.searchFollowing(req,res)
 }
 
+function changeLocation(req,res){
+    service.changeLocation(req,res)
+}
+
+function likeUnlikeReview(req,res){
+    service.likeUnlikeReview(req,res)
+}
 module.exports = {
     signup,
     login,
@@ -142,5 +149,7 @@ module.exports = {
     getFollowerList,
     unfollowUser,
     searchFollower,
-    searchFollowing
+    searchFollowing,
+    changeLocation,
+    likeUnlikeReview
 }

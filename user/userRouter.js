@@ -142,4 +142,13 @@ userRouter.route('/searchFollowing/:name')
         actions.searchFollowing(req, res)
     })
 
+userRouter.route('/changeLocation')
+    .put([validate.validateChangeLocation, validate.verifyUserToken], (req, res) => {
+        actions.changeLocation(req, res)
+    })
+
+userRouter.route('/likeUnlikeReview/:reviewId')
+    .get([validate.verifyUserToken], (req, res) => {
+        actions.likeUnlikeReview(req,res)
+    })
 module.exports = userRouter;

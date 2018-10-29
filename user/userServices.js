@@ -9,7 +9,7 @@ var role = require('../constants').roles;
 var status = require('../constants').status;
 let schmaName = require('../constants').schemas;
 let adminService = require('../admin/adminServices');
-
+var mongoose = require('mongoose');
 async function createUser(req, res) {
     let data = req.body;
     if (await userModel.findOne({ email: data.email })) {
@@ -35,7 +35,7 @@ async function createUser(req, res) {
 
 function authenticateUser(req, res) {
     let data = req.body;
-    userModel.findOneAndUpdate({ email: data.email, role: role.USER },
+    userModel.findOneAndUpdate({ email: data.email, role: role.USER, status: status.active },
         { $set: { deviceId: data.deviceId, deviceType: data.deviceType, fcmToken: data.fcmToken, location: data.location } },
         { new: true }, (err, result) => {
             if (err) {
@@ -81,15 +81,45 @@ function resetPassword(req, res) {
 
 function fetchDetail(req, res) {
     let id = req.params.id
-    userModel.findOne({ _id: id, status: status.active }, (err, result) => {
-        if (err) {
-            return res.json({ code: code.ineternalError, message: msg.internalServerError })
+    userModel.aggregate([
+        {
+            $match: {
+                _id: mongoose.Types.ObjectId(id)
+            }
+        },
+        {
+            $lookup: {
+                foreignField: "_id",
+                localField: "review",
+                from: schmaName.reviews,
+                as: 'reviews_details'
+            }
+        },
+        {
+            $addFields: {
+                "totalRatings": { $size: "$reviews_details" },
+                "totalFollower": { $size: "$follower" },
+                "totalFollowing": { $size: "$following" },
+                "reviews_details.totalLikes": { $size: "$reviews_details.likedBy" }
+            }
+        },
+        {
+            $project: {
+                "_id": 1, "name": 1,
+                "profilePicture": 1,
+                "location": 1, "locationVisible": 1,
+                "reviews_details": 1, "follower": 1,
+                'totalRatings': 1, 'totalFollower': 1,
+                'totalFollowing': 1
+            }
         }
-        else if (!result) {
-            return res.json({ code: code.notFound, message: msg.userNotFound })
+    ], (err, response) => {
+        if (err) {
+            console.log(err)
+            return res.json({ code: code.internalError, message: msg.internalServerError })
         }
         else {
-            return res.json({ code: code.ok, message: msg.ok, data: result })
+            return res.json({ code: code.ok, message: msg.ok, data: response })
         }
     })
 }
@@ -182,6 +212,7 @@ function addReview(req, res) {
                 }
                 else {
                     let review = new reviewModel(req.body)
+                    review.createdAt = Date.now()
                     review.save((err, data) => {
                         if (err) {
                             rres.json({ code: code.internalError, message: msg.internalServerError })
@@ -321,29 +352,103 @@ function removeFavourite(req, res) {
 }
 
 function showFavourites(req, res) {
-    let obj = util.decodeToken(req.headers['authorization']),
-        userId = obj.id
-    return userModel.findById({ _id: userId }).select("favourites").populate("favourites").exec((err, data) => {
+    let obj = util.decodeToken(req.headers['authorization'])
+    var userId = obj.id
+    return userModel.aggregate([
+        {
+            $match: {
+                _id: mongoose.Types.ObjectId(userId)
+            }
+        },
+        {
+            $lookup: {
+                foreignField: '_id',
+                localField: 'favourites',
+                from: 'restaurants',
+                as: 'favourites_details'
+            }
+        },
+        {
+            $unwind: '$favourites_details'
+        },
+        {
+            $lookup: {
+                foreignField: '_id',
+                localField: 'favourites_details.reviews',
+                from: schmaName.reviews,
+                as: 'reviews_details'
+            }
+        },
+        {
+            $addFields: {
+                "favourites_details.rating": { $avg: '$reviews_details.rating' },
+                "favourites_details.dist": " "
+            }
+        },
+        {
+            $project: {
+                'location': 1, '_id': 0,
+                'favourites_details._id': 1, 'favourites_details.name': 1,
+                'favourites_details.location': 1, 'favourites_details.cuisin': 1,
+                "favourites_details.rating": 1
+            }
+        }
+    ], (err, response) => {
         if (err) {
             res.json({ code: code.ineternalError, message: msg.internalServerError })
         }
         else {
-            res.json({ code: code.ok, message: msg.ok, data: data })
+            let final = response.map(function (data) {
+                data.favourites_details.dist = util.calculateDistance(data.location.coordinates[1], data.location.coordinates[0],
+                    data.favourites_details.location.coordinates[1], data.favourites_details.location.coordinates[0], "K") * 1000;
+                delete data.location;
+                delete data.favourites_details.location;
+                return data;
+            })
+            res.json({ code: code.ok, message: msg.ok, data: final })
         }
     })
 }
 
 function showProfile(req, res) {
     let obj = util.decodeToken(req.headers['authorization'])
-    return userModel.findById({ _id: obj.id }).select({ "name": 1, "profilePicture": 1 }).exec((err, data) => {
-        if (err) {
-            res.json({ code: code.ineternalError, message: msg.internalServerError })
+    userModel.aggregate([
+        {
+            $match: {
+                _id: mongoose.Types.ObjectId(obj.id)
+            }
+        },
+        {
+            $lookup: {
+                foreignField: "_id",
+                localField: "review",
+                from: schmaName.reviews,
+                as: 'reviews_details'
+            }
+        },
+        {
+            $addFields: {
+                "totalRatings": { $size: "$reviews_details" },
+                "totalFollower": { $size: "$follower" },
+                "totalFollowing": { $size: "$following" },
+                "reviews_details.totalLikes": { $size: "$reviews_details.likedBy" }
+            }
+        },
+        {
+            $project: {
+                "_id": 1, "name": 1,
+                "profilePicture": 1,
+                "location": 1, "locationVisible": 1,
+                "reviews_details": 1,'totalRatings': 1, 
+                'totalFollower': 1,'totalFollowing': 1
+            }
         }
-        else if (!data) {
-            res.json({ code: code.notFound, message: msg.userNotFound })
+    ], (err, response) => {
+        if (err) {
+            return res.json({ code: code.internalError, message: msg.internalServerError })
         }
         else {
-            res.json({ code: code.ok, message: msg.ok, data: data })
+            return res.json({ code: code.ok, message: msg.ok, data: response })
         }
     })
 }
@@ -464,7 +569,7 @@ function getNearByRestaurant(req, res) {
 function followUser(req, res) {
     let obj = util.decodeToken(req.headers['authorization']),
         uid = req.params.userId
-    return userModel.findByIdAndUpdate({ _id: uid }, { $addToSet: { follower: obj.id } },  (err, result) => {
+    return userModel.findByIdAndUpdate({ _id: uid }, { $addToSet: { follower: obj.id } }, (err, result) => {
         if (err) {
             res.json({ code: code.ineternalError, message: msg.internalServerError })
         }
@@ -472,7 +577,7 @@ function followUser(req, res) {
             res.json({ code: code.notFound, message: msg.userNotFound })
         }
         else {
-            userModel.findOneAndUpdate({ _id: obj.id }, { $addToSet: { following: uid } },  (err, data) => {
+            userModel.findOneAndUpdate({ _id: obj.id }, { $addToSet: { following: uid } }, (err, data) => {
                 if (err) {
                     res.json({ code: code.ineternalError, message: msg.internalServerError })
                 }
@@ -487,7 +592,7 @@ function followUser(req, res) {
 function unfollowUser(req, res) {
     let obj = util.decodeToken(req.headers['authorization']),
         uid = req.params.userId
-    return userModel.findByIdAndUpdate({ _id: uid }, { $pull: { follower: obj.id } },  (err, result) => {
+    return userModel.findByIdAndUpdate({ _id: uid }, { $pull: { follower: obj.id } }, (err, result) => {
         if (err) {
             res.json({ code: code.ineternalError, message: msg.internalServerError })
         }
@@ -510,7 +615,9 @@ function unfollowUser(req, res) {
 function getFollowingList(req, res) {
     let obj = util.decodeToken(req.headers['authorization'])
     userModel.findOne({ _id: obj.id })
-        .select({ "following": 1, "_id": 0 }).populate({ path: "following", select: "_id name profilePicture" }).exec((err, data) => {
+        .select({ "following": 1, "_id": 0 })
+        .populate({ path: "following", select: "_id name profilePicture location locationVisible" })
+        .exec((err, data) => {
             if (err) {
                 res.json({ code: code.ineternalError, message: msg.internalServerError })
             }
@@ -523,7 +630,9 @@ function getFollowingList(req, res) {
 function getFollowerList(req, res) {
     let obj = util.decodeToken(req.headers['authorization'])
     userModel.findOne({ _id: obj.id })
-        .select({ "follower": 1, "_id": 0 }).populate({ path: "follower", select: "_id name profilePicture" }).exec((err, data) => {
+        .select({ "follower": 1, "_id": 0 })
+        .populate({ path: "follower", select: "_id name profilePicture location locationVisible follower" })
+        .exec((err, data) => {
             if (err) {
                 res.json({ code: code.ineternalError, message: msg.internalServerError })
             }
@@ -535,18 +644,21 @@ function getFollowerList(req, res) {
 
 function searchFollower(req, res) {
     let listName = "follower"
-    searchInList(req,res,listName)
+    searchInList(req, res, listName)
 }
 
 function searchFollowing(req, res) {
     let listName = "following"
-    searchInList(req,res,listName)
+    searchInList(req, res, listName)
 }
 
-function searchInList(req,res,listName){
+function searchInList(req, res, listName) {
     let obj = util.decodeToken(req.headers['authorization'])
     userModel.findOne({ _id: obj.id }).select({ listName: 1, "_id": 0 })
-        .populate({ path: listName, select: "_id name profilePicture", match: { name: new RegExp('^' + req.params.name, "i") } })
+        .populate({
+            path: listName, select: "_id name profilePicture location locationVisible",
+            match: { name: new RegExp('^' + req.params.name, "i") }
+        })
         .exec((err, data) => {
             if (err) {
                 res.json({ code: code.ineternalError, message: msg.internalServerError })
@@ -555,6 +667,36 @@ function searchInList(req,res,listName){
                 res.json({ code: code.ok, message: msg.ok, data: data })
             }
         })
+}
+
+function changeLocation(req, res) {
+    let obj = util.decodeToken(req.headers['authorization'])
+    return userModel.findByIdAndUpdate({ _id: obj.id }, { $set: { location: req.body.location } })
+        .then((result) => {
+            res.json({ code: code.ok, message: msg.locationChanged })
+        }).catch((err) => {
+            res.json({ code: code.ineternalError, message: msg.internalServerError })
+        })
+}
+
+function likeUnlikeReview(req, res) {
+    let obj = util.decodeToken(req.headers['authorization'])
+
+    return reviewModel.findById({ _id: req.params.reviewId }).then((result) => {
+        console.log(result.likedBy.indexOf(obj.id) >= 0)
+        if (result.likedBy.indexOf(obj.id) >= 0) {
+            reviewModel.update({ _id: req.params.reviewId }, { $pull: { likedBy: obj.id } }).then((result) => {
+                res.json({ code: code.ok, message: msg.ok })
+            })
+        }
+        else {
+            reviewModel.update({ _id: req.params.reviewId }, { $push: { likedBy: obj.id } }).then((result) => {
+                res.json({ code: code.ok, message: msg.ok })
+            })
+        }
+    }).catch((err) => {
+        res.json({ code: code.internalError, message: msg.internalServerError })
+    })
 }
 
 module.exports = {
@@ -585,5 +727,7 @@ module.exports = {
     getFollowingList,
     getFollowerList,
     searchFollower,
-    searchFollowing
+    searchFollowing,
+    changeLocation,
+    likeUnlikeReview
 }

@@ -41,7 +41,8 @@ messages = {
     invalidLatLong:"Please check your lat long and try again.",
     idMissing:"Please provide user id.",
     followed:"Followed user successfully",
-    unfollowed:"Unfollwed user successfully"
+    unfollowed:"Unfollwed user successfully",
+    locationChanged:"Location successfully changed"
 }
 
 roles = {
