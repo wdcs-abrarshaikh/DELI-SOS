@@ -7,7 +7,7 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".btn-add{\n    padding: 1.25rem 1.65rem;\n    font-size: 1.25rem;\n    line-height: 1.5;\n    color:white;\n    background-color: transparent;\n    background: #5867dd;\n    border-color: #5867dd;\n    margin-left: 95%;\n    margin-top:2%;\n}\n\n\n.header{\n    font-size: 3.15rem;\n    margin-left: 30%;\n    padding: 1.25rem 4.65rem;\n}\n\n\n.btn-edit{\n    color:white;\n    width:80px;\n    background: #2e85a0;\n       border-radius: 25%;\n    opacity: 0.6;\n}\n\n\n.btn-edit:hover{opacity: 1;}\n\n\n.btn-edit:active {\n  background-color: #3e8e41;\n  box-shadow: 0 5px #666;\n  -webkit-transform: translateY(4px);\n          transform: translateY(4px);\n}\n\n\n.btn-delete{\n    color:white;\n    width:80px;\n    background: #a73a08;\n    opacity: 0.6;\n    border-radius: 25%;\n}\n\n\n.btn-delete:hover{opacity: 1;}\n\n\n.btn-save{\n    color:white;\n    width:80px;\n    background: #49a558;\n   \n    border-radius: 25%;\n    opacity: 0.6;\n}\n\n\n.btn-save:hover{opacity: 1;}\n\n\n.btn-save:active {\n  background-color: #509952;\n  -webkit-transform: translateY(4px);\n          transform: translateY(4px);\n}\n\n\n.ngx-editor {   \n    height: auto !important;\n    min-height: 250px !important;\n}\n\n\n.lbl-err {\n    color: red;\n }\n\n\n.banner-image {\n    /* height: 85px; */\n    width: 130px;\n    margin-left: 122px;\n }\n\n\n.btn-del{\n    padding: 1.25rem 1.65rem;\n    font-size: 1.25rem;\n    line-height: 1.5;\n    color:white;\n    margin-right:45px;\n    background: #a73a08;\n\n }\n\n\n:host app-ngx-editor /deep/ .ngx-editor-textarea {\n    height:500px !important;\n }\n\n\n#commonCms{\n    padding-top: 5%; \n    padding-right: 10%;\n    padding-left: 10%;\n }\n\n\n#customBtns{\n     float: right;\n     margin-right:10%;\n     padding: 5px;\n }\n\n\n.mrgRight5{\n     margin-right: 8px;\n }"
+module.exports = ".btn-add{\n    padding: 1.25rem 1.65rem;\n    font-size: 1.25rem;\n    line-height: 1.5;\n    color:white;\n    background-color: transparent;\n    background: linear-gradient(to right, #fc4a1a, #f7b733);\n    margin-left: 95%;\n    margin-top:2%;\n}\n\n\n.header{\n    font-size: 3.15rem;\n   \n    padding: 1.25rem 4.65rem;\n    text-align: center;\n}\n\n\n.btn-edit{\n    color:white;\n    width:80px;\n    background: #2e85a0;\n       border-radius: 25%;\n    opacity: 0.6;\n}\n\n\n.btn-edit:hover{opacity: 1;}\n\n\n.btn-edit:active {\n  background-color: #3e8e41;\n  box-shadow: 0 5px #666;\n  -webkit-transform: translateY(4px);\n          transform: translateY(4px);\n}\n\n\n.btn-delete{\n    color:white;\n    width:80px;\n    background: #a73a08;\n    opacity: 0.6;\n    border-radius: 25%;\n}\n\n\n.btn-delete:hover{opacity: 1;}\n\n\n.btn-save{\n    color:white;\n    width:80px;\n    background: #49a558;\n   \n    border-radius: 25%;\n    opacity: 0.6;\n}\n\n\n.btn-save:hover{opacity: 1;}\n\n\n.btn-save:active {\n  background-color: #509952;\n  -webkit-transform: translateY(4px);\n          transform: translateY(4px);\n}\n\n\n.ngx-editor {   \n    height: auto !important;\n    min-height: 250px !important;\n}\n\n\n.lbl-err {\n    color: red;\n }\n\n\n.banner-image {\n    /* height: 85px; */\n    width: 130px;\n    margin-left: 122px;\n }\n\n\n.btn-del{\n    padding: 1.25rem 1.65rem;\n    font-size: 1.25rem;\n    line-height: 1.5;\n    color:white;\n    margin-right:45px;\n    background: #a73a08;\n\n }\n\n\n:host app-ngx-editor /deep/ .ngx-editor-textarea {\n    height:500px !important;\n }\n\n\n#commonCms{\n    padding-top: 5%; \n    padding-right: 10%;\n    padding-left: 10%;\n }\n\n\n#customBtns{\n     float: right;\n     margin-right:10%;\n     padding: 5px;\n }\n\n\n.mrgRight5{\n     margin-right: 8px;\n }"
 
 /***/ }),
 
@@ -18,7 +18,7 @@ module.exports = ".btn-add{\n    padding: 1.25rem 1.65rem;\n    font-size: 1.25r
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<form name=\"privacyPolicyForm\" [formGroup]=\"privacyPolicyForm\" (ngSubmit)=\"onSubmit()\">\n\n  <h2 class=\"header\">Privacy Policy</h2>\n  <div id='commonCms'>\n    <app-ngx-editor [placeholder]=\"'Enter text here...'\" [spellcheck]=\"true\" formControlName=\"content\" [(ngModel)]=\"privacyPolicyLists\"\n      [config]=\"editorConfig\"></app-ngx-editor>\n\n  </div>\n\n  <div id='customBtns'>\n    <div *ngIf=\"editorConfig.editable;else save;\">\n      <button type=\"button\" [disabled]=\"loading\" class=\"btn btn-outline-dark mrgRight5 btn-save\" (click)=\"addPrivacyPolicy()\">Save</button>\n      <button type=\"button\" [disabled]=\"loading\" class=\"btn btn-outline-dark btn-delete\" (click)=\"cancelPrivacyPolicy()\">Cancel</button>\n\n    </div>\n  </div>\n  <ng-template #save>\n    <button type=\"button\" [disabled]=\"loading\" class=\"btn btn-outline-dark mrgRight5 btn-edit\" (click)=\"addPrivacyPolicy()\">Edit</button>\n    <button type=\"button\" [disabled]=\"loading\" class=\"btn btn-outline-dark btn-delete\" (click)=\"delete(content)\">Delete</button>\n\n  </ng-template>\n\n  <ng-template #content let-c=\"close\" let-d=\"dismiss\">\n    <div class=\"modal-body\">\n      <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"d('Cross click')\">\n        <span aria-hidden=\"true\">&times;</span>\n      </button>\n      <div class=\"modal-custom-body\">\n        <img class=\"banner-image\" src=\"./assets/app/media/img/users/delete-icn.svg\"><br><br>\n        <p style=\"text-align: center\">Are you sure you want to delete this record?</p>\n      </div>\n      <div class=\"text-center mt-4\">\n        <button type=\"button\" class=\"btn-del\" (click)=\"deletePrivacyPolicy(id)\">Delete</button>\n      </div>\n    </div>\n  </ng-template>\n\n</form>"
+module.exports = "<h2 class=\"header\">Privacy Policy</h2>\n\n<button class=\"btn-add\" (click)=\"add(content )\" ><i class=\"fas fa-plus\"></i></button>\n\n<form name=\"privacyPolicyForm\" [formGroup]=\"privacyPolicyForm\" (ngSubmit)=\"onSubmit()\">\n \n  <div id='commonCms'>\n    <app-ngx-editor [placeholder]=\"'Enter text here...'\" [spellcheck]=\"true\" formControlName=\"content\" [(ngModel)]=\"privacyPolicyLists\"\n      [config]=\"editorConfig\"></app-ngx-editor>\n\n  </div>\n\n  <div id='customBtns'>\n    <div *ngIf=\"editorConfig.editable;else save;\">\n      <button type=\"button\" [disabled]=\"loading\" class=\"btn btn-outline-dark mrgRight5 btn-save\" (click)=\"addPrivacyPolicy()\">Save</button>\n      <button type=\"button\" [disabled]=\"loading\" class=\"btn btn-outline-dark btn-delete\" (click)=\"cancelPrivacyPolicy()\">Cancel</button>\n\n    </div>\n  </div>\n  <ng-template #save>\n    <button type=\"button\" [disabled]=\"loading\" class=\"btn btn-outline-dark mrgRight5 btn-edit\" (click)=\"addPrivacyPolicy()\">Edit</button>\n    <button type=\"button\" [disabled]=\"loading\" class=\"btn btn-outline-dark btn-delete\" (click)=\"delete(content)\">Delete</button>\n\n  </ng-template>\n\n  <ng-template #content let-c=\"close\" let-d=\"dismiss\">\n    <div class=\"modal-body\">\n      <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"d('Cross click')\">\n        <span aria-hidden=\"true\">&times;</span>\n      </button>\n      <div class=\"modal-custom-body\">\n        <img class=\"banner-image\" src=\"./assets/app/media/img/users/delete-icn.svg\"><br><br>\n        <p style=\"text-align: center\">Are you sure you want to delete this record?</p>\n      </div>\n      <div class=\"text-center mt-4\">\n        <button type=\"button\" class=\"btn-del\" (click)=\"deletePrivacyPolicy(id)\">Delete</button>\n      </div>\n    </div>\n  </ng-template>\n\n</form>"
 
 /***/ }),
 
@@ -26,11 +26,12 @@ module.exports = "<form name=\"privacyPolicyForm\" [formGroup]=\"privacyPolicyFo
 /*!****************************************************************************************!*\
   !*** ./src/app/theme/pages/default/angular/privacy-policy/privacy-policy.component.ts ***!
   \****************************************************************************************/
-/*! exports provided: PrivacyPolicyComponent */
+/*! exports provided: NgbdModalContent, PrivacyPolicyComponent */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NgbdModalContent", function() { return NgbdModalContent; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PrivacyPolicyComponent", function() { return PrivacyPolicyComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _privacy_policy_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./privacy-policy.service */ "./src/app/theme/pages/default/angular/privacy-policy/privacy-policy.service.ts");
@@ -50,6 +51,93 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
+var NgbdModalContent = /** @class */ (function () {
+    function NgbdModalContent(modalService, toastService, _formBuilder, privacyPolicyService, activeModal) {
+        // this.privacyPolicyService.getPrivacyPolicy().subscribe((data: any) => {
+        //   this.privacyPolicyLists = data.privacyPolicyList.content;
+        this.modalService = modalService;
+        this.toastService = toastService;
+        this._formBuilder = _formBuilder;
+        this.privacyPolicyService = privacyPolicyService;
+        this.activeModal = activeModal;
+        this.loading = false;
+        this.submitted = false;
+        // })
+    }
+    NgbdModalContent.prototype.ngOnInit = function () {
+        this.buildPrivacyForm();
+    };
+    Object.defineProperty(NgbdModalContent.prototype, "f", {
+        get: function () {
+            return this.privacyForm.controls;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    NgbdModalContent.prototype.buildPrivacyForm = function () {
+        this.privacyForm = this._formBuilder.group({
+            content: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required]]
+        });
+    };
+    NgbdModalContent.prototype.getAllPrivacyPolicy = function () {
+        var _this = this;
+        this.privacyPolicyService.getAllPrivacyPolicy().subscribe(function (response) {
+            console.log("get response", response);
+            _this.privacyPolicyService.setPrivacyPolicy(response.data);
+        });
+    };
+    // getPrivacyPolicyList() {
+    //   this.privacyPolicyService.getAllPrivacyPolicy().subscribe((response: any) => {
+    //     this.privacyPolicyLists = response.response.result.content;
+    //     this.id = response.response.result._id;
+    //   });
+    // }
+    NgbdModalContent.prototype.addContent = function () {
+        var _this = this;
+        var addObj = {
+            "content": this.privacyForm.controls['content'].value,
+        };
+        if (this.isAdd) {
+            this.privacyPolicyService.addPrivacyPolicy(addObj).subscribe(function (data) {
+                _this.getAllPrivacyPolicy();
+                _this.activeModal.dismiss();
+                _this.toastService.success(data['message']);
+            }, function (error) {
+                _this.toastService.error(error['message']);
+            });
+        }
+    };
+    NgbdModalContent.prototype.validateForm = function () {
+        if (this.privacyForm.valid) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    };
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        __metadata("design:type", Object)
+    ], NgbdModalContent.prototype, "id", void 0);
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        __metadata("design:type", Object)
+    ], NgbdModalContent.prototype, "content", void 0);
+    NgbdModalContent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-privacy-policy',
+            template: " <div class=\"modal-header\">\n  <h4 class=\"modal-title\"> Add Content</h4>  \n   <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"activeModal.dismiss('Cross click')\">\n    <span aria-hidden=\"true\">&times;</span>\n  </button>\n</div>\n<div class=\"modal-body\">\n<form [formGroup]=\"privacyForm\" (ngSubmit)=\"addContent()\">\n            <div class=\"form-group\">\n                <label for=\"name\">Content</label>\n                <textarea name=\"message\" rows=\"10\" cols=\"30\" formControlName=\"content\" [(ngModel)]=\"content\" class=\"form-control\"></textarea>\n                <p *ngIf=\"privacyForm.controls.content.errors?.required && (privacyForm.controls.content.dirty || privacyForm.controls.content.touched)\" class=\"lbl-err\">Content is required.</p>\n             </div>\n         <div class=\"modal-footer\">\n            <div class=\"form-group\">\n           <button type=\"submit\"  class=\"btn btn-outline-dark\" [disabled]=\"validateForm()\">Save</button>&nbsp;&nbsp;\n           <button type=\"button\" class=\"btn btn-outline-dark\" (click)=\"activeModal.close('Close click')\">Cancel</button>\n            </div>\n         </div>\n        </form>",
+            styles: [__webpack_require__(/*! ./privacy-policy.component.css */ "./src/app/theme/pages/default/angular/privacy-policy/privacy-policy.component.css")]
+        }),
+        __metadata("design:paramtypes", [_ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_4__["NgbModal"],
+            ngx_toastr__WEBPACK_IMPORTED_MODULE_3__["ToastrService"],
+            _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormBuilder"],
+            _privacy_policy_service__WEBPACK_IMPORTED_MODULE_1__["PrivacyPolicyService"],
+            _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_4__["NgbActiveModal"]])
+    ], NgbdModalContent);
+    return NgbdModalContent;
+}());
 
 var PrivacyPolicyComponent = /** @class */ (function () {
     function PrivacyPolicyComponent(modalService, toastService, _formBuilder, privacyPolicyService) {
@@ -148,6 +236,18 @@ var PrivacyPolicyComponent = /** @class */ (function () {
         this.editorConfig.editable = false;
         // this.getAllPrivacyPolicy();
     };
+    PrivacyPolicyComponent.prototype.add = function (content) {
+        if (!content) {
+            this.isAdd = false;
+        }
+        else {
+            this.isAdd = true;
+        }
+        var modalRef = this.modalService.open(NgbdModalContent);
+        modalRef.componentInstance.id = content ? content._id : "";
+        modalRef.componentInstance.content = content ? content.content : "";
+        modalRef.componentInstance.isAdd = this.isAdd;
+    };
     __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
         __metadata("design:type", Object)
@@ -234,10 +334,10 @@ var PrivacyPolicyModule = /** @class */ (function () {
                 _angular_forms__WEBPACK_IMPORTED_MODULE_4__["FormsModule"],
                 _angular_forms__WEBPACK_IMPORTED_MODULE_4__["ReactiveFormsModule"]
             ],
-            exports: [_privacy_policy_component__WEBPACK_IMPORTED_MODULE_8__["PrivacyPolicyComponent"]],
-            declarations: [_privacy_policy_component__WEBPACK_IMPORTED_MODULE_8__["PrivacyPolicyComponent"]],
+            exports: [_privacy_policy_component__WEBPACK_IMPORTED_MODULE_8__["PrivacyPolicyComponent"], _privacy_policy_component__WEBPACK_IMPORTED_MODULE_8__["NgbdModalContent"]],
+            declarations: [_privacy_policy_component__WEBPACK_IMPORTED_MODULE_8__["PrivacyPolicyComponent"], _privacy_policy_component__WEBPACK_IMPORTED_MODULE_8__["NgbdModalContent"]],
             providers: [_privacy_policy_service__WEBPACK_IMPORTED_MODULE_10__["PrivacyPolicyService"]],
-            entryComponents: []
+            entryComponents: [_privacy_policy_component__WEBPACK_IMPORTED_MODULE_8__["NgbdModalContent"]]
         })
     ], PrivacyPolicyModule);
     return PrivacyPolicyModule;
@@ -338,18 +438,17 @@ var PrivacyPolicyService = /** @class */ (function () {
     };
     PrivacyPolicyService.prototype.getHeaderWithToken = function () {
         var headers = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]();
-        headers = headers.set('Authorization', JSON.parse(localStorage.getItem('jwt')));
+        headers = headers.set('Authorization', JSON.parse(localStorage.getItem('_token')));
         headers = headers.set('Content-Type', 'application/json');
         return headers;
     };
     PrivacyPolicyService.prototype.addPrivacyPolicy = function (about) {
-        var id = localStorage.getItem('currentUser');
-        var admin_id = JSON.parse(id);
-        return this.http.post(_app_service__WEBPACK_IMPORTED_MODULE_4__["URL"] + 'createPrivacyPolicy/' + admin_id, about, { headers: this.getHeaderWithToken() })
+        console.log("in service", about);
+        return this.http.post(_app_service__WEBPACK_IMPORTED_MODULE_4__["URL"] + 'admin/addPrivacyPolicy', about, { headers: this.getHeaderWithToken() })
             .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["map"])(function (res) { return res; }));
     };
     PrivacyPolicyService.prototype.getAllPrivacyPolicy = function () {
-        return this.http.get(_app_service__WEBPACK_IMPORTED_MODULE_4__["URL"] + 'privacyPolicy')
+        return this.http.get(_app_service__WEBPACK_IMPORTED_MODULE_4__["URL"] + 'admin/privacyPolicyList')
             .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["map"])(function (res) { return res; }));
     };
     PrivacyPolicyService.prototype.editPrivacyPolicy = function (about, id) {

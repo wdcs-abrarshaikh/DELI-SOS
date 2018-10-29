@@ -7,7 +7,7 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".btn-add{\n    padding: 1.20rem 1.50rem;\n    font-size: 1.25rem;\n    line-height: 1.5;\n    color:white;\n    background-color: transparent;\n    background: linear-gradient(to right, #fc4a1a, #f7b733);\n    margin-left: 95%;\n    margin-top:0%;\n    border-color:#f7b733;\n}\n.lbl-err {\n    color: red;\n    /* position: inherit;\n    font-size: 14px;\n    bottom: -18px; */\n }\n.header{\n    font-size: 3.15rem;\n    margin-left: 25%;\n    padding: 1.25rem 4.65rem;\n   }\n.btn-edit{\n        color:white;\n        background-color: transparent;\n        background: #029c16;\n        border-color:  #029c16;\n\n    }\n.btn-delete{\n        color:white;\n        background-color: transparent;\n        background: #a73a08;\n        border-color: #a73a08;\n\n    }\n.btn-view{\n        color:white;\n        background-color: transparent;\n        background: #5867dd;\n        border-color: #5867dd;\n    }\n.banner-image {\n        /* height: 85px; */\n        width: 130px;\n        margin-left: 122px;\n}\n.btn-del{\n    padding: 1.25rem 1.65rem;\n    font-size: 1.25rem;\n    line-height: 1.5;\n    color:white;\n    margin-right:45px;\n background-color: transparent;\n background: #a73a08;\n    border-color: #a73a08;\n}\n.table1{\n    margin: 43px;\n}"
+module.exports = ".btn-add{\n    padding: 1rem 1rem;\n    font-size: 1.124rem;\n    line-height: 1;\n    color:white;\n    background-color: transparent;\n    background: linear-gradient(to right, #fc4a1a, #f7b733);\n    margin-left: 90%;\n    margin-top:0%;\n    border-color:#f7b733;\n    margin-right: 5%\n}\n.lbl-err {\n    color: red;\n    /* position: inherit;\n    font-size: 14px;\n    bottom: -18px; */\n }\n.header{\n    font-size: 3.15rem;\n   \n    padding: 1.25rem 4.65rem;\n    text-align: center;\n   }\n.btn-edit{\n        color:gray;\n        background-color: transparent;\n       \n\n    }\n.btn-delete{\n        color:gray;\n        background-color: transparent;\n     \n\n    }\n.btn-view{\n        color:gray;\n        background-color: transparent;\n       \n    }\n.banner-image {\n        /* height: 85px; */\n        width: 130px;\n        margin-left: 122px;\n}\n.btn-del{\n    padding: 1.25rem 1.65rem;\n    font-size: 1.25rem;\n    line-height: 1.5;\n    color:white;\n    margin-right:45px;\n background-color: transparent;\n background: #a73a08;\n    border-color: #a73a08;\n}\n.table1{\n    margin: 43px;\n}\ntable.dataTable thead th.sorting,\n   table.dataTable thead th.sorting_asc,\n   table.dataTable thead th.sorting_desc {\n   background: none;\n   padding: 4px 5px;\n   }\n.dataTables_wrapper .pagination .page-item.active>.page-link {\n    background: linear-gradient(45deg, #fc4a1a, #f7b733) !important;\n    color: #fff;\n }\n.dataTables_wrapper .pagination .page-item:hover>.page-link {\n    background: linear-gradient(45deg, #fc4a1a, #f7b733) !important;\n    color: #fff;\n }"
 
 /***/ }),
 
@@ -18,7 +18,7 @@ module.exports = ".btn-add{\n    padding: 1.20rem 1.50rem;\n    font-size: 1.25r
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n<h2 class=\"header\">Users</h2>\n <button class=\"btn-add\" (click)=\"open()\"><i class=\"fas fa-plus\"></i></button>\n\n<div class=\"table1\">\n  <table  *ngIf=\"usersList\" datatable class=\"table-bordered table-hover\">\n    <thead>\n      <tr>\n        <th>Sr.</th>\n        <th>UserName</th>\n        <th>Email</th>\n        <th>Status</th>\n        <th>Action</th>\n      </tr>\n    </thead>\n    <tbody>\n     \n      <tr *ngFor=\"let user of usersList ; let i=index\">\n        <td>{{i+1}}</td>\n        <td>{{user.name}}</td>\n        <td>{{user.email}}</td>\n        <td>{{user.status}}</td>\n     <td>\n         \n          <button type=\"button\" class=\"btn-view\">\n            <i class=\"fas fa-eye\" (click)=\"open(user,'view')\"></i> \n            </button>\n             &nbsp;&nbsp;\n          <button type=\"button\" class=\"btn-edit\">\n            <i class=\"fas fa-edit\" (click)=\"open(user,'edit')\"></i>\n          </button> &nbsp;&nbsp;\n          <button type=\"button\" class=\"btn-delete\" (click)=\"delete(content)\">\n            <i class=\"fas fa-trash-alt\"></i>\n          </button>\n          <ng-template #content let-c=\"close\" let-d=\"dismiss\">\n            <div class=\"modal-body\">\n              <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"d('Cross click')\">\n                <span aria-hidden=\"true\">&times;</span>\n              </button>\n              <div class=\"modal-body\">\n                <img class=\"user-image\" src=\"./assets/app/media/img/users/delete-icn.svg\" height=\"60\">\n                <p>Are you sure you want to delete this record?</p>\n              </div>\n              <div class=\"text-center mt-4\">\n                <button type=\"button\" class=\"btn btn-red\" (click)=\"deleteUser(user._id)\">Delete</button>\n              </div>\n            </div>\n          </ng-template>\n\n        </td>\n      </tr>\n    </tbody>\n  </table>\n  </div>\n\n\n"
+module.exports = "\n<h2 class=\"header\">Users</h2>\n <button class=\"btn-add\" (click)=\"open()\">Add</button>\n\n<div class=\"table1\">\n  <table  *ngIf=\"usersList\" datatable class=\"table-bordered table-hover\">\n    <thead>\n      <tr>\n        <th>Sr.</th>\n        <th>UserName</th>\n        <th>Email</th>\n        <th>Status</th>\n        <th >Action</th>\n      </tr>\n    </thead>\n    <tbody>\n     \n      <tr *ngFor=\"let user of usersList ; let i=index\">\n        <td>{{i+1}}</td>\n        <td>{{user.name}}</td>\n        <td>{{user.email}}</td>\n        <td>{{user.status}}</td>\n     <td>\n         \n          <button type=\"button\" class=\"btn-view\">\n            <i class=\"fas fa-eye\" (click)=\"open(user,'view')\"></i> \n            </button>\n             &nbsp;&nbsp;\n          <button type=\"button\" class=\"btn-edit\">\n            <i class=\"fas fa-edit\" (click)=\"open(user,'edit')\"></i>\n          </button> &nbsp;&nbsp;\n          <button type=\"button\" class=\"btn-delete\" (click)=\"delete(user._id)\">\n            <i class=\"fas fa-trash-alt\"></i>\n          </button>\n        \n\n        </td>\n      </tr>\n    </tbody>\n  </table>\n  </div>\n\n\n"
 
 /***/ }),
 
@@ -41,6 +41,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var ngx_toastr__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ngx-toastr */ "./node_modules/ngx-toastr/fesm5/ngx-toastr.js");
 /* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ "./node_modules/@ng-bootstrap/ng-bootstrap/fesm5/ng-bootstrap.js");
 /* harmony import */ var _services_script_loader_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../../../../_services/script-loader.service */ "./src/app/_services/script-loader.service.ts");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_8__);
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -50,6 +52,7 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 
@@ -102,8 +105,22 @@ var NgbdModalContent = /** @class */ (function () {
         if (this.isAdd) {
             this.userService.addUser(addObj).subscribe(function (data) {
                 _this.getAllUser();
-                _this.activeModal.dismiss();
-                _this.toastService.success(data['message']);
+                if (data['code'] == 200) {
+                    sweetalert2__WEBPACK_IMPORTED_MODULE_8___default()({
+                        position: 'center',
+                        type: 'success',
+                        title: data['message'],
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    _this.activeModal.dismiss();
+                }
+                else {
+                    sweetalert2__WEBPACK_IMPORTED_MODULE_8___default()({
+                        type: 'error',
+                        text: data['message']
+                    });
+                }
             }, function (error) {
                 _this.toastService.error(error['message']);
             });
@@ -112,7 +129,22 @@ var NgbdModalContent = /** @class */ (function () {
             this.userService.editUser(addObj, this.id).subscribe(function (data) {
                 _this.getAllUser();
                 _this.activeModal.dismiss();
-                _this.toastService.success(data['message']);
+                if (data['code'] == 200) {
+                    sweetalert2__WEBPACK_IMPORTED_MODULE_8___default()({
+                        position: 'center',
+                        type: 'success',
+                        title: data['message'],
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    _this.activeModal.dismiss();
+                }
+                else {
+                    sweetalert2__WEBPACK_IMPORTED_MODULE_8___default()({
+                        type: 'error',
+                        text: data['message']
+                    });
+                }
             }, function (error) {
                 _this.toastService.error(error['message']);
             });
@@ -164,7 +196,8 @@ var NgbdModalContent = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
             selector: 'app-user',
             template: " <div class=\"modal-header\">\n  <h4 class=\"modal-title\">{{ isAdd ? 'Add' : isView ? 'View' : 'Edit'}} User</h4>  \n  <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"activeModal.dismiss('Cross click')\">\n    <span aria-hidden=\"true\">&times;</span>\n  </button>\n</div>\n<div class=\"modal-body\">\n<form [formGroup]=\"userForm\" (ngSubmit)=\"addUsers()\">\n            <div class=\"form-group\">\n                <label for=\"name\">User Name</label>\n                <input type=\"text\" formControlName=\"name\" [(ngModel)]=\"name\" class=\"form-control\"/>\n                <p *ngIf=\"userForm.controls.name.errors?.required && (userForm.controls.name.dirty || userForm.controls.name.touched)\" class=\"lbl-err\">Name is required.</p>\n             </div>\n\n            <div class=\"form-group\">\n                <label for=\"email\">Email</label>\n                <input type=\"text\" formControlName=\"email\" [(ngModel)]=\"email\" class=\"form-control\" />\n                <p *ngIf=\"userForm.controls.email.errors?.required  && (userForm.controls.email.dirty || userForm.controls.email.touched)\" class=\"lbl-err\">email Id is required.</p>\n                <p *ngIf=\"userForm.controls.email.errors?.pattern  && (userForm.controls.email.dirty || userForm.controls.email.touched)\" class=\"lbl-err\">Enter Valid Email.</p>\n             </div>\n\n            <div class=\"form-group\">\n              <label for=\"deviceId\">DeviceId</label>\n              <input type=\"text\" formControlName=\"deviceId\" [(ngModel)]=\"deviceId\" class=\"form-control\" />\n              <p *ngIf=\"userForm.controls.deviceId.errors?.required  && (userForm.controls.deviceId.dirty || userForm.controls.deviceId.touched)\" class=\"lbl-err\">Device Id is required.</p>\n            </div>\n\n            <div class=\"form-group\">\n              <label for=\"deviceType\">Device Type</label>\n              <input type=\"text\" formControlName=\"deviceType\" [(ngModel)]=\"deviceType\" class=\"form-control\" />\n              <p *ngIf=\"userForm.controls.deviceType.errors?.required  && (userForm.controls.deviceType.dirty || userForm.controls.deviceType.touched)\" class=\"lbl-err\">Device Type  is required.</p>\n            </div>\n\n            <div class=\"form-group\">\n              <label for=\"fcmToken\">fcm Token</label>\n              <input type=\"text\" formControlName=\"fcmToken\" [(ngModel)]=\"fcmToken\" class=\"form-control\" />\n              <p *ngIf=\"userForm.controls.fcmToken.errors?.required  && (userForm.controls.fcmToken.dirty || userForm.controls.fcmToken.touched)\" class=\"lbl-err\">fcmToken is required.</p>\n            </div>\n\n            <div [hidden]=\"!isAdd\">\n            <div class=\"form-group\">\n                <label for=\"password\">Password</label>\n                <input type=\"password\" formControlName=\"password\"  [(ngModel)]=\"password\" class=\"form-control\"/>\n                <p *ngIf=\"userForm.controls.password.errors?.required  && (userForm.controls.password.dirty || userForm.controls.password.touched)\" class=\"lbl-err\">password is required.</p>\n                <p *ngIf=\"userForm.controls.password.errors?.pattern  && (userForm.controls.password.dirty || userForm.controls.password.touched)\" class=\"lbl-err\">Enter Valid Password.</p>\n           </div>\n           </div>\n        <div class=\"modal-footer\">\n            <div class=\"form-group\" *ngIf=\"!isView\">\n           <button type=\"submit\"  class=\"btn btn-outline-dark\" [disabled]=\"validateForm()\">Save</button>&nbsp;&nbsp;\n           <button type=\"button\" class=\"btn btn-outline-dark\" (click)=\"activeModal.close('Close click')\">Cancel</button>\n            </div>\n         </div>\n        </form>",
-            styles: [__webpack_require__(/*! ./user.component.css */ "./src/app/theme/pages/default/angular/user/user.component.css")]
+            styles: [__webpack_require__(/*! ./user.component.css */ "./src/app/theme/pages/default/angular/user/user.component.css")],
+            encapsulation: _angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewEncapsulation"].None
         }),
         __metadata("design:paramtypes", [_ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_6__["NgbActiveModal"],
             _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"],
@@ -233,18 +266,29 @@ var UserComponent = /** @class */ (function () {
             _this.usersList = response.data;
         });
     };
-    UserComponent.prototype.deleteUser = function (id) {
+    UserComponent.prototype.delete = function (id) {
         var _this = this;
-        this.userService.deleteUser(id).subscribe(function (data) {
-            _this.modalReference.close();
-            _this.getUserList();
-            _this.toastService.success(data['message']);
-        }, function (error) {
-            _this.toastService.error(error['message']);
+        console.log(id);
+        sweetalert2__WEBPACK_IMPORTED_MODULE_8___default()({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then(function (result) {
+            if (result.value) {
+                console.log("result", result.value);
+                _this.userService.deleteUser(id).subscribe(function (data) {
+                    console.log(data);
+                    _this.getUserList();
+                    sweetalert2__WEBPACK_IMPORTED_MODULE_8___default()('Deleted!', 'Your file has been deleted.', 'success');
+                }, function (error) {
+                    sweetalert2__WEBPACK_IMPORTED_MODULE_8___default()('error!', 'Your file has been deleted.', 'success');
+                });
+            }
         });
-    };
-    UserComponent.prototype.delete = function (content) {
-        this.modalReference = this.modalService.open(content);
     };
     UserComponent.prototype.validateForm = function () {
         if (this.userForm.valid) {
@@ -258,7 +302,8 @@ var UserComponent = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
             selector: 'app-user',
             template: __webpack_require__(/*! ./user.component.html */ "./src/app/theme/pages/default/angular/user/user.component.html"),
-            styles: [__webpack_require__(/*! ./user.component.css */ "./src/app/theme/pages/default/angular/user/user.component.css")]
+            styles: [__webpack_require__(/*! ./user.component.css */ "./src/app/theme/pages/default/angular/user/user.component.css")],
+            encapsulation: _angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewEncapsulation"].None
         }),
         __metadata("design:paramtypes", [_ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_6__["NgbModal"],
             _angular_common__WEBPACK_IMPORTED_MODULE_4__["Location"],

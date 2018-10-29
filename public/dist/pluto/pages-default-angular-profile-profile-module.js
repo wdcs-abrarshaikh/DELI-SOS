@@ -2064,7 +2064,7 @@ TrinityRingsSpinnerModule.ctorParameters = function () { return []; };
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "body{\n    margin: 0;\n    background: #fff;\n   }\n   *{\n    box-sizing: border-box;\n   }\n   .box{\n       box-align: center;\n    height:500%;\n    width:500px;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    flex-direction: column;\n    border-radius: 2.5px;\n    box-shadow: 0 8px 8px 0 rgba(0,0,0,0.1),0 1px 1px 0 rgba(0,0,0,0.4), 0 0 2px 0 rgba(0,0,0,0.15);\n   }\n   .image-container{\n    height: 250px;\n    width: 100%;\n    background: #fff;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n   }\n   .image-box{\n    position: relative;\n   }\n   .image{\n    height: 150px;\n    width: 150px;\n    border-radius: 500px;\n    background-position: center;\n    background-size: cover;\n    background-image: url('https://www.unsplash.it/300/300/?random');\n    position: relative;\n   }\n   .change-image{\n    height: 50px;\n    width: 50px;\n    position: absolute;\n    right: 0;\n    bottom: 0;\n    border-radius: 500px;\n    background-color: #fff;\n    box-shadow: 0 4px 4px 0 rgba(0,0,0,0.1);\n    background-size: 45%;\n    background-repeat: no-repeat;\n    background-position: center;\n    background-image: url(\"https://static.thenounproject.com/png/1971272-200.png \");\n    cursor: pointer;\n    transition: all 0.075s ease;\n   \n   }\n   .change-image:hover{\n    box-shadow: 0 8px 8px 0 rgba(0,0,0,0.1);\n    -webkit-transform: translateY(-2.5%);\n            transform: translateY(-2.5%);\n   }\n   .change-image:active{\n    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.3);\n    -webkit-transform: translateY(2.5%);\n            transform: translateY(2.5%);\n   }\n   .description-container{\n    height: 150px;\n    width: 100%;\n    box-shadow: 0 -1px 16px 0 rgba(0,0,0,0.1);\n    display: flex;\n    padding: 1rem;\n    align-items: flex-start;\n    flex-direction: column;\n    justify-content: flex-start;\n   }\n   .bt{\n       -ms-grid-row-align: center;\n           align-self: center\n   }\n   .name{\n       -webkit-text-emphasis: before;\n               text-emphasis: before;\n   }\n   /* Message Input */\n   /* Message @Jeena */\n   input.form-control.m-input.cus_inp{\n    border: none;\n    border-bottom: 1px solid #ebedf2;\n    border-radius: 0;\n}\n   input.form-control.m-input.cus_inp:focus{\n    border-color: #eb9327\n}\n   button.yellow_btn{\n    border: none;\n    background: linear-gradient(to right, rgb(233, 113, 33), rgb(236, 151, 39));\n    box-shadow: none!important;\n    margin-top: 10px;\n    width: 100px;\n    color: #fff;\n    height: 35px;\n }\n   button.yellow_btn:hover, button.yellow_btn:focus, button.yellow_btn:avtive{\n box-shadow: none!important;\n    background: linear-gradient(to left, rgb(233, 113, 33), rgb(236, 151, 39));\n }\n   .pr_l{\n     font-weight: 600;\n }"
+module.exports = "body{\n    margin: 0;\n    background: #fff;\n   }\n   *{\n    box-sizing: border-box;\n   }\n   .box{\n     box-align: center;\n    height:1000%;\n    width:500px;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    flex-direction: column;\n    border-radius: 2.5px;\n    box-shadow: 0 8px 8px 0 rgba(0,0,0,0.1),0 1px 1px 0 rgba(0,0,0,0.4), 0 0 2px 0 rgba(0,0,0,0.15);\n   }\n   .image-container{\n    height: 300px;\n    width: 100%;\n    background: #fff;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n   }\n   .image-box{\n    position: relative;\n   }\n   .image{\n    height: 200px;\n    width: 200px;\n    border-radius: 500px;\n    background-position: center;\n    background-size: cover;\n    background-image: url('https://www.unsplash.it/300/300/?random');\n    position: relative;\n   }\n   .change-image{\n    height: 50px;\n    width: 50px;\n    position: absolute;\n    right: 0;\n    bottom: 0;\n    border-radius: 500px;\n    background-color: #fff;\n    box-shadow: 0 4px 4px 0 rgba(0,0,0,0.1);\n    background-size: 45%;\n    background-repeat: no-repeat;\n    background-position: center;\n    background-image: url(\"https://static.thenounproject.com/png/1971272-200.png \");\n    cursor: pointer;\n    transition: all 0.075s ease;\n   \n   }\n   .change-image:hover{\n    box-shadow: 0 8px 8px 0 rgba(0,0,0,0.1);\n    -webkit-transform: translateY(-2.5%);\n            transform: translateY(-2.5%);\n   }\n   .change-image:active{\n    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.3);\n    -webkit-transform: translateY(2.5%);\n            transform: translateY(2.5%);\n   }\n   .description-container{\n    height: 175px;\n    width: 100%;\n    box-shadow: 0 -1px 16px 0 rgba(0,0,0,0.1);\n    display: flex;\n    padding: 1rem;\n    align-items: flex-start;\n    flex-direction: column;\n    justify-content: flex-start;\n   }\n   .bt{\n       -ms-grid-row-align: center;\n           align-self: center\n   }\n   .name{\n       -webkit-text-emphasis: before;\n               text-emphasis: before;\n   }\n   /* Message Input */\n   /* Message @Jeena */\n   input.form-control.m-input.cus_inp{\n    border: none;\n    border-bottom: 1px solid #ebedf2;\n    border-radius: 0;\n}\n   input.form-control.m-input.cus_inp:focus{\n    border-color: #eb9327\n}\n   button.yellow_btn{\n    border: none;\n   \n    background: linear-gradient(to right, rgb(233, 113, 33), rgb(236, 151, 39));\n    box-shadow: none!important;\n    margin-top: 10px;\n    width: 150px;\n    color: #fff;\n    height: 40px;\n }\n   button.yellow_btn:hover, button.yellow_btn:focus, button.yellow_btn:avtive{\n box-shadow: none!important;\n    background: linear-gradient(to left, rgb(233, 113, 33), rgb(236, 151, 39));\n }\n   .pr_l{\n     font-weight: 600;\n }\n   .header{\n    font-size: 3.15rem;\n   \n    padding: 1.25rem 4.65rem;\n    text-align: center;\n}\n   .lbl-err{\n    color: red;\n}"
 
 /***/ }),
 
@@ -2075,7 +2075,7 @@ module.exports = "body{\n    margin: 0;\n    background: #fff;\n   }\n   *{\n   
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!-- BEGIN: Subheader -->\n<app-header-nav></app-header-nav>\n<div class=\"m-subheader\" appunwraptag=\"\">\n    <div class=\"d-flex align-items-center\">\n        <div class=\"m-auto\">\n            <h3 class=\"m-subheader__title comcolor\">My Profile</h3>\n        </div>\n    </div>\n</div>\n<!-- END: Subheader -->\n<div class=\"m-content\">\n    <div class=\"row\">\n        <div class=\"col-xl-3 col-lg-4\">\n            <form name=\"profileForm\" [formGroup]=\"profileForm\" (ngSubmit)=\"onSubmit()\" style=\"padding-left: 500px\">\n               <div class=\"box\">\n                    <div class=\"image-container\">\n                        <div class=\"image-box\">\n                            <div *ngIf=\"display\">\n                                <app-atom-spinner [animationDuration]=\"1000\" [size]=\"60\" [color]=\"'#ff1d5e'\">\n                                </app-atom-spinner>\n\n                            </div>\n                            <div *ngIf=\"!display\">\n                                <img [src]=\"profilesList\" [alt]=\"profilesList\" class=\"image\" id=\"files\" style=\"cursor: pointer\" />\n                               <label class=\"change-image\" data-toggle=\"m-tooltip\" title=\"upload Image\">\n                                    <input type=\"file\" id=\"files\" style=\"display: none\" (change)=\"uploadImage($event)\">\n                                </label>\n                            </div>\n\n                        </div>\n                    </div>\n\n                    <div class=\"description-container\">\n                        <div class=\"form-group m-form__group row m-auto\">\n                            <label for=\"example-text-input\" class=\"col-3 col-form-label pr_l\">Name</label>\n                            <div class=\"col-9\">\n                                <input class=\"form-control m-input cus_inp\"  type=\"text\" formControlName=\"name\" [(ngModel)]=\"name\">\n                                <button type=\"button\" class=\"btn m-btn--custom mrgLeft10000 yellow_btn\"\n                                                (click)=\"editProfile()\">Save\n                                            </button>\n                            </div>\n                        </div>\n\n                        \n\n                    </div>\n\n                </div>\n            </form>\n        </div>\n    </div>\n</div>"
+module.exports = "<!-- BEGIN: Subheader -->\n<app-header-nav></app-header-nav>\n<h2 class=\"header\" >Profile</h2>\n<!-- <div class=\"m-subheader\" appunwraptag=\"\">\n    <div class=\"d-flex align-items-center\">\n        <div class=\"m-auto\">\n           \n        </div>\n    </div>\n</div> -->\n<!-- END: Subheader -->\n<div class=\"m-content\">\n    <div class=\"row\">\n        <div class=\"col-xl-3 col-lg-4\">\n            <form name=\"profileForm\" [formGroup]=\"profileForm\" (ngSubmit)=\"onSubmit()\" style=\"padding-left: 500px\">\n                <div class=\"box\">\n                    <div class=\"image-container\">\n                        <div class=\"image-box\">\n                            <div *ngIf=\"display\">\n                                <app-atom-spinner [animationDuration]=\"1000\" [size]=\"60\" [color]=\"'#ff1d5e'\">\n                                </app-atom-spinner>\n\n                            </div>\n                            <div *ngIf=\"!display\">\n                                <img [src]=\"profilesList\" [alt]=\"profilesList\" class=\"image\" id=\"files\" style=\"cursor: pointer\" />\n                                <label class=\"change-image\" data-toggle=\"m-tooltip\" title=\"upload Image\">\n                                    <input type=\"file\" id=\"files\" style=\"display: none\" (change)=\"uploadImage($event)\">\n                                </label>\n                            </div>\n\n                        </div>\n                    </div>\n\n                    <div class=\"description-container\">\n                        <div class=\"form-group m-form__group row m-auto\">\n                            <label for=\"example-text-input\" class=\"col-3 col-form-label pr_l\">Name</label>\n                            <div class=\"col-9\">\n                                <input class=\"form-control m-input cus_inp\" type=\"text\" formControlName=\"name\"\n                                    [(ngModel)]=\"name\">\n                                    <p *ngIf=\"profileForm.controls.name.errors?.required && (profileForm.controls.name.dirty || profileForm.controls.name.touched)\" class=\"lbl-err\">Name is required.</p>\n                                <button type=\"button\" class=\"btn m-btn--custom mrgLeft10000 yellow_btn\" (click)=\"editProfile()\">Save Changes\n                                </button>\n                            </div>\n                        </div>\n                    </div>\n\n                </div>\n            </form>\n        </div>\n    </div>\n</div>"
 
 /***/ }),
 
@@ -2094,6 +2094,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
 /* harmony import */ var ngx_toastr__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ngx-toastr */ "./node_modules/ngx-toastr/fesm5/ngx-toastr.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_5__);
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2143,6 +2145,7 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
 
 
 
+
 var ProfileComponent = /** @class */ (function () {
     function ProfileComponent(loginService, profileService, _formBuilder, toastService) {
         var _this = this;
@@ -2159,7 +2162,6 @@ var ProfileComponent = /** @class */ (function () {
     }
     ProfileComponent.prototype.ngOnInit = function () {
         this.buildProfileForm();
-        // this.getInfo();
     };
     ProfileComponent.prototype.buildProfileForm = function () {
         this.profileForm = this._formBuilder.group({
@@ -2167,13 +2169,6 @@ var ProfileComponent = /** @class */ (function () {
             profilePicture: [''],
         });
     };
-    // getInfo() {
-    //   this.profileService.getProfile().subscribe((response: any) => {
-    //     this.personalInfo = response.data;
-    //   }, error => {
-    //     console.log('error' + error);
-    //   });
-    // }
     ProfileComponent.prototype.uploadImage = function (images) {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
@@ -2199,7 +2194,21 @@ var ProfileComponent = /** @class */ (function () {
         };
         this.profileService.editProfile(editObj).subscribe(function (response) {
             _this.personalInfo = response.data;
-            _this.toastService.success(response['message']);
+            if (response['code'] == 200) {
+                sweetalert2__WEBPACK_IMPORTED_MODULE_5___default()({
+                    position: 'center',
+                    type: 'success',
+                    title: response['message'],
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+            else {
+                sweetalert2__WEBPACK_IMPORTED_MODULE_5___default()({
+                    type: 'error',
+                    text: response['message']
+                });
+            }
         }, function (err) {
             _this.toastService.error(err['message']);
         });
