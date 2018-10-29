@@ -1,14 +1,14 @@
 // import { OnInit } from '@angular/core';
 import { Message, Password } from 'primeng/primeng';
 import { UserService } from './user.service';
-import { Component, OnInit, Output, EventEmitter, Input, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input, AfterViewInit,ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, Validators, FormControl, FormGroup, FormArray } from '@angular/forms';
 import { Location } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ScriptLoaderService } from '../../../../../_services/script-loader.service';
-
+import swal from 'sweetalert2'
 
 
 
@@ -63,12 +63,13 @@ import { ScriptLoaderService } from '../../../../../_services/script-loader.serv
            </div>
         <div class="modal-footer">
             <div class="form-group" *ngIf="!isView">
-           <button type="submit"  class="btn btn-outline-dark" [disabled]="validateForm()">Save</button>
+           <button type="submit"  class="btn btn-outline-dark" [disabled]="validateForm()">Save</button>&nbsp;&nbsp;
            <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Cancel</button>
             </div>
          </div>
         </form>`,
-  styleUrls: ['./user.component.css']
+  styleUrls: ['./user.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 
 export class NgbdModalContent {
@@ -125,9 +126,22 @@ export class NgbdModalContent {
        this.userService.addUser(addObj).subscribe(
         data => {
           this.getAllUser();
-          this.activeModal.dismiss();
-          this.toastService.success(data['message']);
-        },
+         if (data['code'] ==200 ) {
+             swal({
+               position: 'center',
+               type: 'success',
+               title: data['message'],
+               showConfirmButton: false,
+               timer: 1500
+             })
+             this.activeModal.dismiss();
+           } else {
+             swal({
+               type: 'error',
+               text: data['message']
+             })
+            }
+          },
         error => {
           this.toastService.error(error['message']);
         });
@@ -137,7 +151,21 @@ export class NgbdModalContent {
         data => {
           this.getAllUser();
           this.activeModal.dismiss();
-          this.toastService.success(data['message']);
+          if (data['code'] ==200 ) {
+            swal({
+              position: 'center',
+              type: 'success',
+              title: data['message'],
+              showConfirmButton: false,
+              timer: 1500
+            })
+            this.activeModal.dismiss();
+          } else {
+            swal({
+              type: 'error',
+              text: data['message']
+            })
+           }
         },
         error => {
           this.toastService.error(error['message']);
@@ -152,7 +180,7 @@ export class NgbdModalContent {
   }
 
   validateForm() {
-    console.log(this.userForm)
+  
     if (this.userForm.valid) {
       return false;
     } else {
@@ -165,11 +193,12 @@ export class NgbdModalContent {
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
-  styleUrls: ['./user.component.css']
+  styleUrls: ['./user.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 
 export class UserComponent implements OnInit, AfterViewInit {
-  usersDetail: any;
+  // usersDetail: any;
 
   modalReference: any;
   isAdd: boolean = false;
@@ -202,7 +231,6 @@ export class UserComponent implements OnInit, AfterViewInit {
     if (!content) {
       this.isAdd = true
     } else {
-      
       if (type == 'view') {
         this.isView = true
         this.isAdd = false
@@ -227,26 +255,47 @@ export class UserComponent implements OnInit, AfterViewInit {
   getUserList() {
     this.userService.getAllUsers().subscribe((response: any) => {
       // console.log("all data here display")
-      console.log(response)
       this.usersList = response.data;
     });
   }
 
-  deleteUser(id) {
-    this.userService.deleteUser(id).subscribe(
-      data => {
-        this.modalReference.close();
-        this.getUserList();
-        this.toastService.success(data['message']);
-      },
-      error => {
-        this.toastService.error(error['message']);
-      });
+ 
+  delete(id) {
+    console.log(id)
+    swal({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.value) {
+        console.log("result",result.value)
+        this.userService.deleteUser(id).subscribe(
+          data => {
+            console.log(data)
+          this.getUserList();
+            swal(
+              'Deleted!',
+              'Your file has been deleted.',
+              'success'
+            )
+          },
+          error => {
+            swal(
+              'error!',
+              'Your file has been deleted.',
+              'success'
+            )
+          });
+      
+      }
+    })
+  
   }
-
-  delete(content) {
-    this.modalReference = this.modalService.open(content);
-  }
+  
 
   validateForm() {
     if (this.userForm.valid) {

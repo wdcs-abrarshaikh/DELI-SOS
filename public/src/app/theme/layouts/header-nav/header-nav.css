@@ -6,12 +6,39 @@ img.m--img-rounded.m--marginless {
     height:50px !important;
 }
 
-.image{
+.img-circle{
     vertical-align: middle;
     border-style: none;
     float: right;
-    height: 70px;
+    border-radius: 50%;
+    /* height: 80px; */
+    /* background: url("user.jpeg") */
+}
+.name{
+    float:right;
+    font-size:20px;
+    margin-top: 20px;
 }
 h3{
-    color: orange
+    color:white;
+    text-align: center;
+    margin-left: 5px;
+    margin-top:20px;
+    font-size: 30px
+}
+.label{
+    font-style: bold;
+    text-align: right
+}
+.user{
+    color:orangered;
+    font-weight: 500;
+    font :bold;
+    font-size: 25px
+}
+.m1{
+    text-align: right;
+    margin-left: 90%;
+    margin-right: 5px;
+  
 }

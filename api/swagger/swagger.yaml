@@ -16,6 +16,58 @@ tags:
   - name: admin
     description: "admin api"
 paths:
+
+  "/user/signUp":
+      post:
+        tags:
+        - 'user'
+        summary: Registering new user.
+        parameters: 
+          - in: body
+            name: user
+            description: register in body.
+            required: true
+            schema:
+              type: object
+              required:
+                - email
+                - password
+                - name  
+                - deviceId
+                - deviceType
+                - fcmToken
+              properties:
+                name:
+                    type: string
+                email:
+                    type: string
+                password:
+                    type: string
+                    format: One capital letter,small letter,special char and one number is required.Length lies between 6 to 16
+                deviceId:
+                    type: string
+                deviceType:
+                    type: string
+                fcmToken:
+                    type: string
+        responses:
+          "201":
+            description: Sucessfully registered.
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "400":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "500":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "404":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+              
   "/user/login":
       post:
         tags:
@@ -70,57 +122,6 @@ paths:
             description: Erorr message.
             schema:
               $ref: '#/definitions/errorMessage'     
-
-  "/user/signUp":
-      post:
-        tags:
-        - 'user'
-        summary: Registering new user.
-        parameters: 
-          - in: body
-            name: user
-            description: register in body.
-            required: true
-            schema:
-              type: object
-              required:
-                - email
-                - password
-                - name  
-                - deviceId
-                - deviceType
-                - fcmToken
-              properties:
-                name:
-                    type: string
-                email:
-                    type: string
-                password:
-                    type: string
-                    format: One capital letter,small letter,special char and one number is required.Length lies between 6 to 16
-                deviceId:
-                    type: string
-                deviceType:
-                    type: string
-                fcmToken:
-                    type: string
-        responses:
-          "201":
-            description: Sucessfully registered.
-            schema:
-              $ref: '#/definitions/SuccessMessage'
-          "400":
-            description: Erorr message.
-            schema:
-              $ref: '#/definitions/errorMessage'
-          "500":
-            description: Erorr message.
-            schema:
-              $ref: '#/definitions/errorMessage'
-          "404":
-            description: Erorr message.
-            schema:
-              $ref: '#/definitions/errorMessage'
   
   "/user/socialLogin":
       post:
@@ -398,7 +399,9 @@ paths:
                     - DINNER
                     - ALL
                 cuisin:
-                    $ref: '#/definitions/cuisinArray'
+                    type: array
+                    items:
+                      type: string
                 contactNumber:
                     type: number
                 website:
@@ -1219,6 +1222,9 @@ paths:
                 - email
                 - password
                 - name  
+                - deviceId
+                - deviceType
+                - fcmToken
               properties:
                 name:
                     type: string
@@ -1227,6 +1233,12 @@ paths:
                 password:
                     type: string
                     format: One capital letter,small letter,special char and one number is required.Length lies between 6 to 16
+                deviceId:
+                    type: string
+                deviceType:
+                    type: string
+                fcmToken:
+                    type: string
         responses:
           "201":
             description: Sucessfully registered.
@@ -1572,6 +1584,11 @@ paths:
             required: true
             type: string
             
+          - name: authorization
+            in: header
+            description: token for validation.
+            required: true
+            type: string
         responses:
           "200":
             description: ok
@@ -1702,8 +1719,605 @@ paths:
           "500":
             description: Erorr message.
             schema:
-              $ref: '#/definitions/errorMessage'              
+              $ref: '#/definitions/errorMessage'
+              
+  "/admin/restaurantCounts":
+      get:
+        tags:
+        - 'admin'
+        summary: Get number of  restaurants(active,inactive).
+        parameters: 
+          - name: authorization
+            in: header
+            description: token for validation.
+            required: true
+            type: string
+        
+        responses:
+          "200":
+            description: Sucess.
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "500":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'         
+              
+  "/admin/userCounts":
+      get:
+        tags:
+        - 'admin'
+        summary: Get number of  users(active).
+        parameters: 
+          - name: authorization
+            in: header
+            description: token for validation.
+            required: true
+            type: string
+        
+        responses:
+          "200":
+            description: Sucess.
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "500":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'          
+              
+  "/admin/reviewCounts":
+      get:
+        tags:
+        - 'admin'
+        summary: Get number of  Reviews (active).
+        parameters: 
+          - name: authorization
+            in: header
+            description: token for validation.
+            required: true
+            type: string
+        
+        responses:
+          "200":
+            description: Sucess.
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "404":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'          
+              
+  "/admin/addAboutUs":
+      post:
+        tags:
+        - 'admin'
+        summary: Add About Us Content.
+        parameters: 
+          - name: authorization
+            in: header
+            description: token for validation.
+            required: true
+            type: string
+          - in: body
+            name: admin
+            description: About us body.
+            required: true
+            schema:
+              type: object
+              required:
+                - content
+              properties:
+                content:
+                    type: string
+        responses:
+          "200":
+            description: Sucess.
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "404":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'          
+  
+  "/admin/aboutUsList":
+      get:
+        tags:
+        - 'admin'
+        summary: get About Us content.
+        parameters: 
             
+          - name: authorization
+            in: header
+            description: token for validation.
+            required: true
+            type: string   
+        responses:
+          "200":
+            description: ok
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "500":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "404":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'              
+
+  "/admin/deleteAboutUs/{id}":
+      put:
+        tags:
+        - 'admin'
+        summary: Delete a particular content.
+        parameters: 
+            
+          - name: authorization
+            in: header
+            description: token for validation.
+            required: true
+            type: string
+          - name: id
+            in: path
+            description: Id of particular content 
+            required: true
+            type: string
+          
+        responses:
+          "200":
+            description: ok
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "500":
+            description: Internal Server Error
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "404":
+            description: Content Not Found
+            schema:
+              $ref: '#/definitions/errorMessage'
+
+  "/admin/updateAboutUs/{id}":
+      put:
+        tags:
+        - 'admin'
+        summary: update about us details.
+        parameters: 
+          - name: id
+            in: path
+            description: content id for get details.
+            required: true
+            type: string
+            
+          - name: content
+            in: body
+            description: content in body.
+            required: true
+            schema:
+              type: object
+              required:
+                - content
+              properties:
+                content:
+                    type: string
+          - name: authorization
+            in: header
+            description: token for validation.
+            required: true
+            type: string
+              
+        responses:
+          "201":
+            description: About Us Updated
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "500":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "404":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+
+  "/admin/addPrivacyPolicy":
+      post:
+        tags:
+        - 'admin'
+        summary: Add Privacy Policy Content.
+        parameters: 
+          - name: authorization
+            in: header
+            description: token for validation.
+            required: true
+            type: string
+          - in: body
+            name: admin
+            description: Privacy Policy body.
+            required: true
+            schema:
+              type: object
+              required:
+                - content
+              properties:
+                content:
+                    type: string
+        responses:
+          "200":
+            description: Sucess.
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "404":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'          
+  
+  "/admin/privacyPolicyList":
+      get:
+        tags:
+        - 'admin'
+        summary: get Privacy Policy content.
+        
+        parameters: 
+            
+          - name: authorization
+            in: header
+            description: token for validation.
+            required: true
+            type: string
+        responses:
+          "200":
+            description: ok
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "500":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "404":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'              
+  
+  "/admin/updatePrivacyPolicy/{id}":
+      put:
+        tags:
+        - 'admin'
+        summary: update Privacy Policy details.
+        parameters: 
+          - name: id
+            in: path
+            description: content id for get details.
+            required: true
+            type: string
+            
+          - name: content
+            in: body
+            description: content in body.
+            required: true
+            schema:
+              type: object
+              required:
+                - content
+              properties:
+                content:
+                    type: string
+          - name: authorization
+            in: header
+            description: token for validation.
+            required: true
+            type: string
+              
+        responses:
+          "201":
+            description: Privacy Policy Updated
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "500":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "404":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+  
+  "/admin/deletePrivacyPolicy/{id}":
+      put:
+        tags:
+        - 'admin'
+        summary: Delete a particular content.
+        parameters: 
+            
+          - name: authorization
+            in: header
+            description: token for validation.
+            required: true
+            type: string
+          - name: id
+            in: path
+            description: Id of particular content 
+            required: true
+            type: string
+          
+        responses:
+          "200":
+            description: ok
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "500":
+            description: Internal Server Error
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "404":
+            description: Content Not Found
+            schema:
+              $ref: '#/definitions/errorMessage'
+
+  "/admin/getContactRequest":
+      get:
+        tags:
+        - 'admin'
+        summary: get contact Us content.
+        parameters: 
+        
+          - name: authorization
+            in: header
+            description: token for validation.
+            required: true
+            type: string
+            
+            
+              
+        responses:
+          "200":
+            description: ok
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "500":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "404":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'              
+
+
+  "/admin/resolveContactRequest/{id}":
+      put:
+        tags:
+        - 'admin'
+        summary: resolve contact us.
+        parameters: 
+        
+          - name: id
+            in: path
+            description: content id for get details.
+            required: true
+            type: string
+          - name: authorization
+            in: header
+            description: token for validation.
+            required: true
+            type: string
+              
+        responses:
+          "201":
+            description: contact us resolved
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "500":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "404":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+  "/admin/verifyToken":
+      get:
+        tags:
+        - 'admin'
+        summary: verify token.
+        parameters: 
+        
+          - name: authorization
+            in: header
+            description: token to verify.
+            required: true
+            type: string
+            
+            
+              
+        responses:
+          "200":
+            description: ok
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "400":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'              
+
+  "/admin/addCuisin":
+      post:
+        tags:
+        - 'admin'
+        summary: add new cuisin.
+        parameters: 
+          - name: cuisin
+            in: body
+            description: register cuisin in body.
+            required: true
+            schema:
+              type: object
+              required:
+                - name
+                - image
+              properties:
+                name:
+                    type: string
+                image:
+                    type: string
+          - name: authorization
+            in: header
+            description: token for validation.
+            required: true
+            type: string
+              
+        responses:
+          "201":
+            description: add request sent
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "500":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "400":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+       
+  "/admin/searchCuisin/{name}":
+      get:
+        tags:
+        - 'admin'
+        summary: Search cuisin.
+        parameters: 
+          - name: name
+            in: path
+            description: name of cuisin for search
+            required: true
+            type: string
+          
+          - name: authorization
+            in: header
+            description: token for validation.
+            required: true
+            type: string
+        responses:
+          "200":
+            description: ok
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "500":
+            description: Internal Server Error.
+            schema:
+              $ref: '#/definitions/errorMessage'  
+          "404":
+            description: Internal Server Error.
+            schema:
+              $ref: '#/definitions/errorMessage'   
+  
+  "/admin/getCuisinList":
+      get:
+        tags:
+        - 'admin'
+        summary: get cuisin list.
+        
+        parameters: 
+            
+          - name: authorization
+            in: header
+            description: token for validation.
+            required: true
+            type: string
+            
+        responses:
+          "200":
+            description: ok
+            schema:
+              $ref: '#/definitions/cuisinArray'
+          "500":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "404":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'      
+              
+  "/admin/deleteCuisin/{id}":
+      put:
+        tags:
+        - 'admin'
+        summary: Delete a particular cuisin.
+        parameters: 
+            
+          - name: authorization
+            in: header
+            description: token for validation.
+            required: true
+            type: string
+          - name: id
+            in: path
+            description: Id of particular cuisin 
+            required: true
+            type: string
+          
+        responses:
+          "200":
+            description: ok
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "500":
+            description: Internal Server Error
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "404":
+            description: Content Not Found
+            schema:
+              $ref: '#/definitions/errorMessage'
+              
+  
+  "/admin/updateCuisin/{id}":
+      put:
+        tags:
+        - 'admin'
+        summary: update cuisin details.
+        parameters: 
+          - name: id
+            in: path
+            description: user id for get details.
+            required: true
+            type: string
+            
+          - name: cuisin
+            in: body
+            description: register cuisin in body.
+            required: true
+            schema:
+              type: object
+              required:
+                - name
+                - image
+              properties:
+                name:
+                    type: string
+                image:
+                    type: string
+                
+          - name: authorization
+            in: header
+            description: token for validation.
+            required: true
+            type: string
+              
+        responses:
+          "201":
+            description: add request sent
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "500":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "400":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'            
 definitions:
   errorMessage:
     type: "object"
@@ -1724,15 +2338,7 @@ definitions:
   cuisinArray:
     type: array
     items: 
-      type: object
-      required:
-        - name
-        - image
-      properties:
-        name:
-          type: string
-        image:
-          type: string
+      type: string
   
  
     

@@ -1,13 +1,14 @@
 .btn-add{
-    padding: 1.20rem 1.50rem;
-    font-size: 1.25rem;
-    line-height: 1.5;
+    padding: 1rem 1rem;
+    font-size: 1.124rem;
+    line-height: 1;
     color:white;
     background-color: transparent;
-    background: #5867dd;
-    border-color: #5867dd;
-    margin-left: 95%;
+    background: linear-gradient(to right, #fc4a1a, #f7b733);
+    margin-left: 90%;
     margin-top:0%;
+    border-color:#f7b733;
+    margin-right: 5%
 }
 .lbl-err {
     color: red;
@@ -17,28 +18,26 @@
  }
  .header{
     font-size: 3.15rem;
-    margin-left: 25%;
+   
     padding: 1.25rem 4.65rem;
+    text-align: center;
    }
 .btn-edit{
-        color:white;
+        color:gray;
         background-color: transparent;
-        background: #029c16;
-        border-color:  #029c16;
+       
 
     }
 .btn-delete{
-        color:white;
+        color:gray;
         background-color: transparent;
-        background: #a73a08;
-        border-color: #a73a08;
+     
 
     }
     .btn-view{
-        color:white;
+        color:gray;
         background-color: transparent;
-        background: #5867dd;
-        border-color: #5867dd;
+       
     }
 .banner-image {
         /* height: 85px; */
@@ -59,3 +58,18 @@
 .table1{
     margin: 43px;
 }
+table.dataTable thead th.sorting,
+   table.dataTable thead th.sorting_asc,
+   table.dataTable thead th.sorting_desc {
+   background: none;
+   padding: 4px 5px;
+   }
+ 
+   .dataTables_wrapper .pagination .page-item.active>.page-link {
+    background: linear-gradient(45deg, #fc4a1a, #f7b733) !important;
+    color: #fff;
+ }
+ .dataTables_wrapper .pagination .page-item:hover>.page-link {
+    background: linear-gradient(45deg, #fc4a1a, #f7b733) !important;
+    color: #fff;
+ }

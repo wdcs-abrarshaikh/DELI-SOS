@@ -10,6 +10,7 @@ var status = require('../constants').status;
 let schmaName = require('../constants').schemas;
 let adminService = require('../admin/adminServices');
 var mongoose = require('mongoose');
+const mongoQuery = require('../constants/mongoQuery');
 async function createUser(req, res) {
     let data = req.body;
     if (await userModel.findOne({ email: data.email })) {
@@ -81,39 +82,7 @@ function resetPassword(req, res) {
 
 function fetchDetail(req, res) {
     let id = req.params.id
-    userModel.aggregate([
-        {
-            $match: {
-                _id: mongoose.Types.ObjectId(id)
-            }
-        },
-        {
-            $lookup: {
-                foreignField: "_id",
-                localField: "review",
-                from: schmaName.reviews,
-                as: 'reviews_details'
-            }
-        },
-        {
-            $addFields: {
-                "totalRatings": { $size: "$reviews_details" },
-                "totalFollower": { $size: "$follower" },
-                "totalFollowing": { $size: "$following" },
-                "reviews_details.totalLikes": { $size: "$reviews_details.likedBy" }
-            }
-        },
-        {
-            $project: {
-                "_id": 1, "name": 1,
-                "profilePicture": 1,
-                "location": 1, "locationVisible": 1,
-                "reviews_details": 1, "follower": 1,
-                'totalRatings': 1, 'totalFollower': 1,
-                'totalFollowing': 1
-            }
-        }
-    ], (err, response) => {
+    userModel.aggregate(mongoQuery.userProfileWithReview(id), (err, response) => {
         if (err) {
             console.log(err)
             return res.json({ code: code.internalError, message: msg.internalServerError })
@@ -174,15 +143,26 @@ function addRestaurant(req, res) {
 
 function getRestaurantDetail(req, res) {
     let id = req.params.id
-    restModel.findOne({ _id: id, status: status.active }, (err, data) => {
+    restModel.aggregate([
+        {
+            $match: {
+                _id: mongoose.Types.ObjectId(id)
+            }
+        },
+        {
+            $lookup: {
+                foreignField: "_id",
+                localField: "review",
+                from: schmaName.reviews,
+                as: 'reviews_details'
+            }
+        },
+    ], (err, response) => {
         if (err) {
-            return res.json({ code: code.ineternalError, message: msg.internalServerError })
-        }
-        else if (!data) {
-            return res.json({ code: code.notFound, message: msg.restNotFound })
+            res.json({ code: code.ineternalError, message: msg.internalServerError })
         }
         else {
-            return res.json({ code: code.ok, message: msg.ok, data: data })
+            res.json({ code: code.ok, message: msg.ok, data: response })
         }
     })
 }
@@ -412,39 +392,17 @@ function showFavourites(req, res) {
 
 function showProfile(req, res) {
     let obj = util.decodeToken(req.headers['authorization'])
-    userModel.aggregate([
-        {
-            $match: {
-                _id: mongoose.Types.ObjectId(obj.id)
-            }
-        },
-        {
-            $lookup: {
-                foreignField: "_id",
-                localField: "review",
-                from: schmaName.reviews,
-                as: 'reviews_details'
-            }
-        },
-        {
-            $addFields: {
-                "totalRatings": { $size: "$reviews_details" },
-                "totalFollower": { $size: "$follower" },
-                "totalFollowing": { $size: "$following" },
-                "reviews_details.totalLikes": { $size: "$reviews_details.likedBy" }
-            }
-        },
-        {
-            $project: {
-                "_id": 1, "name": 1,
-                "profilePicture": 1,
-                "location": 1, "locationVisible": 1,
-                "reviews_details": 1,'totalRatings': 1, 
-                'totalFollower': 1,'totalFollowing': 1
-            }
-        }
-    ], (err, response) => {
+    let request ;
+    console.log(req.query)
+    if(req.query.reviews == 'true'){
+        request = mongoQuery.userProfileWithReview(obj.id,true)
+    }else{
+        request = mongoQuery.userProfileWithReview(obj.id,false)
+    }
+
+    userModel.aggregate(request, (err, response) => {
         if (err) {
+            console.log(err)
             return res.json({ code: code.internalError, message: msg.internalServerError })
         }
         else {

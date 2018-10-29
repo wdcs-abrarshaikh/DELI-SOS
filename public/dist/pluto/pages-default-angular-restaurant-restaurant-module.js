@@ -7,7 +7,7 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".btn-add{\n    padding: 1.25rem 1.65rem;\n    font-size: 1.25rem;\n    line-height: 1.5;\n    color:white;\n    background-color: transparent;\n    background: #5867dd;\n    border-color: #5867dd;\n    margin-left: 95%;\n    margin-top:2%;\n}\n.lbl-err {\n    color: red;\n }\n.btn-edit{\n        color:white;\n        background-color: transparent;\n        background: #029c16;\n        border-color:  #029c16;\n\n    }\n.btn-approve{\n        color:white;\n        background-color: transparent;\n        background: #029c16;\n        border-color:  #029c16;\n\n    }\n.btn-delete{\n   \n        color:white;\n        background-color: transparent;\n        background: #a73a08;\n        border-color: #a73a08;\n\n    }\n.category-image {\n        /* height: 85px; */\n        width: 130px;\n        margin-left: 122px;\n}\n.btn-del{\n    padding: 1.25rem 1.65rem;\n    font-size: 1.25rem;\n    line-height: 1.5;\n    color:white;\n    margin-right:45px;\n background-color: transparent;\n background: #a73a08;\n    border-color: #a73a08;\n}\n.btn-bs-file btn btn-ls btn-info{\n    text-align: center;\n\n}\n.label {\n    font-weight: 500;\n}\n.table1{\n    margin: 43px;\n}\n.header{\n    font-size: 3.15rem;\n    margin-left: 25%;\n    padding: 1.25rem 4.65rem;\n   }"
+module.exports = ".btn-add{\n    padding: 1.25rem 1.65rem;\n    font-size: 1.25rem;\n    line-height: 1.5;\n    color:white;\n    /* background-color: transparent; */\n    border-color:#f7b733;\n    margin-left: 95%;\n    margin-top:2%;\n    background: linear-gradient(to right, #fc4a1a, #f7b733);\n}\n.lbl-err {\n    color: red;\n }\n.btn-edit{\n        color:white;\n        background-color: transparent;\n        background: #029c16;\n        border-color:  #029c16;\n\n    }\n.btn-approve{\n        color:white;\n        background-color: transparent;\n        background: #029c16;\n        border-color:  #029c16;\n\n    }\n.btn-delete{\n   \n        color:white;\n        background-color: transparent;\n        background: #a73a08;\n        border-color: #a73a08;\n\n    }\n.category-image {\n        /* height: 85px; */\n        width: 130px;\n        margin-left: 122px;\n}\n.btn-del{\n    padding: 1.25rem 1.65rem;\n    font-size: 1.25rem;\n    line-height: 1.5;\n    color:white;\n    margin-right:45px;\n background-color: transparent;\n background: #a73a08;\n    border-color: #a73a08;\n}\n.btn-bs-file btn btn-ls btn-info{\n    text-align: center;\n\n}\n.label {\n    font-weight: 500;\n}\n.table1{\n    margin: 43px;\n}\n.header{\n    font-size: 3.15rem;\n    margin-left: 25%;\n    padding: 1.25rem 4.65rem;\n   }\n/* .rounded mb-3{\n       height: 50;\n       width: 50;\n   } */\n  "
 
 /***/ }),
 
@@ -132,7 +132,6 @@ var NgbdModalContent = /** @class */ (function () {
         this.loading = true;
     };
     NgbdModalContent.prototype.buildRestaurantForm = function () {
-        console.log(this.mealOffers);
         if (this.mealOffers.length > 0) {
             this.arr_value = this.mealOffers;
         }
@@ -150,7 +149,6 @@ var NgbdModalContent = /** @class */ (function () {
             mealOffers: this._formBuilder.array(this.arr_value),
             perPersonCost: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_4__["Validators"].required]
         });
-        console.log(this.RestaurantForm);
     };
     NgbdModalContent.prototype.createItem = function () {
         return {
@@ -159,9 +157,7 @@ var NgbdModalContent = /** @class */ (function () {
         };
     };
     NgbdModalContent.prototype.changeCuisinName = function (index, value) {
-        console.log(value);
         this.cuisinImagesObject[index].name = value;
-        console.log(this.cuisinImagesObject);
     };
     NgbdModalContent.prototype.addCuisin = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -187,13 +183,11 @@ var NgbdModalContent = /** @class */ (function () {
             var result;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0:
-                        console.log(this.cuisinImagesObject);
-                        return [4 /*yield*/, this.cuisinImagesObject.filter(function (res) {
-                                if (!res.name || !res.image) {
-                                    return res;
-                                }
-                            })];
+                    case 0: return [4 /*yield*/, this.cuisinImagesObject.filter(function (res) {
+                            if (!res.name || !res.image) {
+                                return res;
+                            }
+                        })];
                     case 1:
                         result = _a.sent();
                         return [2 /*return*/, (result.length > 0) ? false : true];
@@ -203,8 +197,6 @@ var NgbdModalContent = /** @class */ (function () {
     };
     NgbdModalContent.prototype.selectSelector = function (flag, arr) {
         var _this = this;
-        console.log(flag);
-        console.log('PPPPPPPPP', arr);
         switch (flag) {
             case 'menu':
                 this.menuImages = arr;
@@ -216,15 +208,12 @@ var NgbdModalContent = /** @class */ (function () {
                 var flag_1 = false;
                 this.cuisinImagesObject.map(function (result, idx) { return __awaiter(_this, void 0, void 0, function () {
                     return __generator(this, function (_a) {
-                        console.log(result);
                         if (result.name == arr[0].name) {
-                            console.log('name exist');
                             this.cuisinImagesObject[idx] = arr[0];
                             flag_1 = true;
                         }
                         if (idx == this.cuisinImagesObject.length - 1) {
                             if (!flag_1) {
-                                console.log('no image');
                                 this.cuisinImagesObject.push(arr[0]);
                             }
                         }
@@ -234,7 +223,6 @@ var NgbdModalContent = /** @class */ (function () {
                 break;
         }
         ;
-        console.log(this.menuImages);
     };
     NgbdModalContent.prototype.imageUploading = function (event, flag, section, idx) {
         return __awaiter(this, void 0, void 0, function () {
@@ -253,7 +241,6 @@ var NgbdModalContent = /** @class */ (function () {
                                 counter++;
                             }
                         }
-                        console.log(allFiles);
                         obj = void 0;
                         if (!section) return [3 /*break*/, 2];
                         _a = {
@@ -263,7 +250,6 @@ var NgbdModalContent = /** @class */ (function () {
                     case 1:
                         obj = (_a.image = _b.sent(),
                             _a);
-                        console.log(obj);
                         obj.image = obj.image[0];
                         queryArray.push(obj);
                         return [3 /*break*/, 4];
@@ -273,11 +259,10 @@ var NgbdModalContent = /** @class */ (function () {
                         queryArray = queryArray.concat(obj);
                         _b.label = 4;
                     case 4:
-                        console.log(queryArray);
                         this.selectSelector(flag, queryArray);
                         return [3 /*break*/, 6];
                     case 5:
-                        this.toastService.error("please select only five image");
+                        this.toastService.error("please select only five images");
                         return [2 /*return*/];
                     case 6: return [2 /*return*/];
                 }
@@ -333,12 +318,9 @@ var NgbdModalContent = /** @class */ (function () {
             var isValid, addObj, _a, _b;
             return __generator(this, function (_c) {
                 switch (_c.label) {
-                    case 0:
-                        console.log(this.RestaurantForm);
-                        return [4 /*yield*/, this.checkCuisinValid()];
+                    case 0: return [4 /*yield*/, this.checkCuisinValid()];
                     case 1:
                         isValid = _c.sent();
-                        console.log('is valid==>' + isValid);
                         if (!isValid) {
                             return [2 /*return*/, this.toastService.error("Please fill the All cuisin items.")];
                         }
@@ -368,7 +350,6 @@ var NgbdModalContent = /** @class */ (function () {
                             _a);
                         if (!this.isAdd) return [3 /*break*/, 4];
                         return [4 /*yield*/, this.restaurantService.addRestaurant(addObj).subscribe(function (data) {
-                                console.log(data);
                                 if (data['code'] != 201) {
                                     _this.toastService.error("Please check all the fields and try again.");
                                 }
@@ -384,7 +365,6 @@ var NgbdModalContent = /** @class */ (function () {
                         _c.sent();
                         return [3 /*break*/, 5];
                     case 4:
-                        console.log(addObj);
                         addObj.latitude = JSON.stringify(addObj.latitude);
                         addObj.longitude = JSON.stringify(addObj.longitude);
                         this.restaurantService.editRestaurant(addObj, this.id).subscribe(function (data) {
@@ -496,7 +476,7 @@ var NgbdModalContent = /** @class */ (function () {
     NgbdModalContent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-restaurant',
-            template: "\n \n  <div class=\"modal-header\">\n  <h4 class=\"modal-title\">{{ isAdd ? 'Add' : isView ? 'View' : 'Edit'}} Restaurant</h4>\n  <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"activeModal.dismiss('Cross click')\">\n    <span aria-hidden=\"true\">&times;</span>\n  </button>\n</div>\n<div class=\"modal-body\">\n   <form name=\"RestaurantForm\" [formGroup]=\"RestaurantForm\" >\n      <div class=\"form-group\"> \n      <label> Restaurant Name</label>\n      <input class=\"form-control m-input\" type=\"text\" formControlName=\"name\"  [(ngModel)]=\"name\"> \n      <p *ngIf=\"RestaurantForm.controls.name.errors?.required && (RestaurantForm.controls.name.dirty || RestaurantForm.controls.name.touched)\" class=\"lbl-err\">Name is required.</p>\n      </div><br>\n    \n     \n      <div class=\"form-group\"> \n      <label>Description</label>\n      <input class=\"form-control m-input\" type=\"text\" formControlName=\"description\"  [(ngModel)]=\"description\"> \n      <p *ngIf=\"RestaurantForm.controls.description.errors?.required &&  (RestaurantForm.controls.description.dirty || RestaurantForm.controls.description.touched)\" class=\"lbl-err\">Description is required.</p>\n      </div><br>\n\n\n      <div class=\"form-group\"> \n      <label>Latitude</label>\n      <input class=\"form-control m-input\" type=\"text\" formControlName=\"latitude\"  [(ngModel)]=\"latitude\"> \n      <p *ngIf=\"RestaurantForm.controls.latitude.errors?.required &&  (RestaurantForm.controls.latitude.dirty || RestaurantForm.controls.latitude.touched)\" class=\"lbl-err\">Latitude is required.</p>\n      </div><br>\n\n       <div class=\"form-group\"> \n       <label>Longitude</label>\n       <input class=\"form-control m-input\" type=\"text\" formControlName=\"longitude\"  [(ngModel)]=\"longitude\"> \n       <p *ngIf=\"RestaurantForm.controls.longitude.errors?.required && (RestaurantForm.controls.longitude.dirty || RestaurantForm.controls.longitude.touched) \" class=\"lbl-err\">longitude is required.</p>\n       </div><br>\n       \n\n      <div class=\"form-group\"> \n      <label>openTime</label>\n       <input class=\"form-control m-input\" type=\"time\" formControlName=\"openTime\"  [(ngModel)]=\"openTime\"> \n      <p *ngIf=\"RestaurantForm.controls.openTime.errors?.required && (RestaurantForm.controls.openTime.dirty || RestaurantForm.controls.openTime.touched)\" class=\"lbl-err\">openTime is required.</p>\n      </div><br>\n      \n      <div class=\"form-group\">\n      <label for=\"time\">Close Time</label>\n      <input class=\"form-control m-input\" type=\"time\" formControlName=\"closeTime\"  [(ngModel)]=\"closeTime\"> \n      <p *ngIf=\"RestaurantForm.controls.closeTime.errors?.required && (RestaurantForm.controls.closeTime.dirty || RestaurantForm.controls.closeTime.touched)\" class=\"lbl-err\">closeTime is required.</p>\n      </div><br>\n\n      \n    <div class=\"form-group\">\n    <label>mealOffers</label>\n    <fieldset>     \n    <div *ngFor=\"let category of RestaurantForm.controls['mealOffers'].controls; let i = index\">\n\t\t<input type=\"checkbox\" [formControl]=\"category\">\n    <label>{{ mealOffers_arr[i]}}</label>\n      </div>\n    <br>      \n    </fieldset>      \n    </div>\n     \n    <div class=\"form-group\"> \n    <label>Contact Number</label>\n     <input class=\"form-control m-input\" type=\"tel\" formControlName=\"contactNumber\"  [(ngModel)]=\"contactNumber\"> \n     <p *ngIf=\"RestaurantForm.controls.contactNumber.errors?.pattern && (RestaurantForm.controls.contactNumber.dirty || RestaurantForm.controls.contactNumber.touched)\" class=\"lbl-err\">Contact Number is required.</p>\n     <p *ngIf=\"RestaurantForm.controls.contactNumber.errors?.required && (RestaurantForm.controls.contactNumber.dirty || RestaurantForm.controls.contactNumber.touched)\" class=\"lbl-err\">Contact Number is required.</p>\n    </div>\n\n    <div class=\"form-group\">\n    <label>Website</label>\n    <input class=\"form-control m-input\" type=\"text\" formControlName=\"website\"  [(ngModel)]=\"website\"> \n    <p *ngIf=\"RestaurantForm.controls.website.errors?.required && (RestaurantForm.controls.website.dirty || RestaurantForm.controls.website.touched)\" class=\"lbl-err\">Website is required.</p>\n     <p *ngIf=\"RestaurantForm.controls.website.errors?.pattern && (RestaurantForm.controls.website.dirty || RestaurantForm.controls.website.touched)\" class=\"lbl-err\">Invalid Website.</p>\n     </div>\n  \n\n   <div class=\"form-group\">\n      <label>Upload Menu Images:</label><br/>\n      <div  *ngFor=\"let url of menuImages ;let i=index\"  >\n      <img  [src]=\"url\" class=\"rounded mb-3\" width=\"50\"  height=\"50\">\n    \n      <button class=\"btn btn-danger btn-xs\" *ngIf=\"!isView\"  type=\"button\" style=\"margin-left:10%\"  (click)=\"deleteImage(i,'menu')\" >Delete</button>\n     \n      </div>\n      <label class=\"btn-bs-file btn btn-ls btn-info\" style=\"margin-top:6px\" text-align=\"center\"*ngIf=\"!isView\" >image\n      <input type=\"file\" formControlName=\"menuImages\" accept=\"image/*\" style=\"display: none\" multiple (change)=\"imageUploading($event,'menu')\">\n     </label>     \n    </div>\n\n    <div class=\"form-group\">\n    <label >Per Person Cost</label>\n    <input class=\"form-control m-input\" type=\"Number\" formControlName=\"perPersonCost\"  [(ngModel)]=\"perPersonCost\"> \n    <p *ngIf=\"RestaurantForm.controls.perPersonCost.errors?.required && (RestaurantForm.controls.perPersonCost.dirty || RestaurantForm.controls.perPersonCost.touched)\" class=\"lbl-err\">perPersonCost is required.</p>\n    </div>\n    \n\n  <div class=\"form-group\">\n    <label>Photos:</label><br/>\n    <div  *ngFor=\"let files of restaurantImages;let i=index\"  >\n    <img  [src]=\"files\" class=\"rounded mb-3\" width=\"50\"  height=\"50\">\n   <button class=\"btn btn-danger btn-xs\" *ngIf=\"!isView\" type=\"button\" style=\"margin-left:10%\"  (click)=\"deleteImage(i,'restaurant')\"  >Delete</button>\n    </div>\n    <label class=\"btn-bs-file btn btn-ls btn-info\" *ngIf=\"!isView\" style=\"margin-top:6px\" text-align=\"center\" >image\n    <input type=\"file\" formControlName=\"restaurantImages\" accept=\"image/*\" style=\"display: none\" multiple (change)=\"imageUploading($event,'restaurant')\">\n    </label>\n   </div>\n\n   \n</form>\n<div class=\"box box-solid box-primary\">\n   <div>\n   <label>cuisin</label>\n   <div class=\"row\" >\n    <div >\t\n     <table class=\"table table-bordered\">\t\t\n     <tbody>\n     <tr>\n     <th>Name</th>\n     <th>Image</th>\n     <th>Action</th>\n    </tr>\n    <tr *ngFor=\"let cuisinSubset of cuisinImagesObject; let i=index\" >\n     <td>\n     <div class=\"form-group \">\n     <input  [(ngModel)]='cuisinSubset.name' placeholder=\"name\" (change)='changeCuisinName(i,cuisinSubset.name)' style=\"width:150px\"  required=\"required\"/>\n      <div class=\"help-block\"></div>\n     </div>\n     </td>\n     <td >\n     <div class=\"form-group required\"> \n     <label>Image:</label><br/>\n      <div>\n      <img  [src]=\"cuisinSubset.image\" class=\"rounded mb-3\" width=\"50\" height=\"50\">\n      </div>\n      <label class=\"btn-bs-file btn btn-ls btn-info\"*ngIf=\"!isView\" style=\"margin-top:6px\" text-align=\"center\" >image\n      <input type=\"file\" accept=\"image/*\" style=\"display: none\" (change)=\"imageUploading($event,'cuisin',true,i)\">\n      </label>   \n     <div class=\"help-block\"></div>\n     </div>\n     </td>\n     <td >\n   <button *ngIf='cuisinSubset && !isView' class=\"btn btn-danger btn-xs\" type=\"button\" (click)=\"deleteImage(i,'cuisin')\" style=\"margin-right:10px\" >Delete</button>\n      </td>\n     </tr>\n     </tbody>\n     </table>\n     </div>\n     </div>\n     <div *ngIf=\"!isView\">\n     <button class=\"btn btn-secondary btn-lg1\" type=\"button\"  (click)=\"addCuisin()\" style=\"margin-right:10px\" >Add More</button>\n   </div>\n    </div>\n    </div>\n  \n    \n<div class=\"modal-footer\" *ngIf=\"!isView\">\n<button type=\"submit\" class=\"btn btn-outline-dark\"  (click)=\"addRestaurant()\">Save</button>\n<button type=\"button\" class=\"btn btn-outline-dark\" (click)=\"activeModal.close('Close click')\">Cancel</button>\n\n</div>\n</div>\n\n\n",
+            template: "\n \n  <div class=\"modal-header\">\n  <h4 class=\"modal-title\">{{ isAdd ? 'Add' : isView ? 'View' : 'Edit'}} Restaurant</h4>\n  <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"activeModal.dismiss('Cross click')\">\n    <span aria-hidden=\"true\">&times;</span>\n  </button>\n</div>\n<div class=\"modal-body\">\n   <form name=\"RestaurantForm\" [formGroup]=\"RestaurantForm\" >\n      <div class=\"form-group\"> \n      <label> Restaurant Name</label>\n      <input class=\"form-control m-input\" type=\"text\" formControlName=\"name\"  [(ngModel)]=\"name\"> \n      <p *ngIf=\"RestaurantForm.controls.name.errors?.required && (RestaurantForm.controls.name.dirty || RestaurantForm.controls.name.touched)\" class=\"lbl-err\">Name is required.</p>\n      </div><br>\n    \n     \n      <div class=\"form-group\"> \n      <label>Description</label>\n      <input class=\"form-control m-input\" type=\"text\" formControlName=\"description\"  [(ngModel)]=\"description\"> \n      <p *ngIf=\"RestaurantForm.controls.description.errors?.required &&  (RestaurantForm.controls.description.dirty || RestaurantForm.controls.description.touched)\" class=\"lbl-err\">Description is required.</p>\n      </div><br>\n\n\n      <div class=\"form-group\"> \n      <label>Latitude</label>\n      <input class=\"form-control m-input\" type=\"text\" formControlName=\"latitude\"  [(ngModel)]=\"latitude\"> \n      <p *ngIf=\"RestaurantForm.controls.latitude.errors?.required &&  (RestaurantForm.controls.latitude.dirty || RestaurantForm.controls.latitude.touched)\" class=\"lbl-err\">Latitude is required.</p>\n      </div><br>\n\n       <div class=\"form-group\"> \n       <label>Longitude</label>\n       <input class=\"form-control m-input\" type=\"text\" formControlName=\"longitude\"  [(ngModel)]=\"longitude\"> \n       <p *ngIf=\"RestaurantForm.controls.longitude.errors?.required && (RestaurantForm.controls.longitude.dirty || RestaurantForm.controls.longitude.touched) \" class=\"lbl-err\">longitude is required.</p>\n       </div><br>\n       \n\n      <div class=\"form-group\"> \n      <label>openTime</label>\n       <input class=\"form-control m-input\" type=\"time\" formControlName=\"openTime\"  [(ngModel)]=\"openTime\"> \n      <p *ngIf=\"RestaurantForm.controls.openTime.errors?.required && (RestaurantForm.controls.openTime.dirty || RestaurantForm.controls.openTime.touched)\" class=\"lbl-err\">openTime is required.</p>\n      </div><br>\n      \n      <div class=\"form-group\">\n      <label for=\"time\">Close Time</label>\n      <input class=\"form-control m-input\" type=\"time\" formControlName=\"closeTime\"  [(ngModel)]=\"closeTime\"> \n      <p *ngIf=\"RestaurantForm.controls.closeTime.errors?.required && (RestaurantForm.controls.closeTime.dirty || RestaurantForm.controls.closeTime.touched)\" class=\"lbl-err\">closeTime is required.</p>\n      </div><br>\n\n      \n    <div class=\"form-group\">\n    <label>mealOffers</label>\n    <fieldset>     \n    <div *ngFor=\"let category of RestaurantForm.controls['mealOffers'].controls; let i = index\">\n\t\t<input type=\"checkbox\" [formControl]=\"category\">\n    <label>{{ mealOffers_arr[i]}}</label>\n      </div>\n    <br>      \n    </fieldset>      \n    </div>\n     \n    <div class=\"form-group\"> \n    <label>Contact Number</label>\n     <input class=\"form-control m-input\" type=\"tel\" formControlName=\"contactNumber\"  [(ngModel)]=\"contactNumber\"> \n     <p *ngIf=\"RestaurantForm.controls.contactNumber.errors?.pattern && (RestaurantForm.controls.contactNumber.dirty || RestaurantForm.controls.contactNumber.touched)\" class=\"lbl-err\">Contact Number is required.</p>\n     <p *ngIf=\"RestaurantForm.controls.contactNumber.errors?.required && (RestaurantForm.controls.contactNumber.dirty || RestaurantForm.controls.contactNumber.touched)\" class=\"lbl-err\">Contact Number is required.</p>\n    </div>\n\n    <div class=\"form-group\">\n    <label>Website</label>\n    <input class=\"form-control m-input\" type=\"text\" formControlName=\"website\"  [(ngModel)]=\"website\"> \n    <p *ngIf=\"RestaurantForm.controls.website.errors?.required && (RestaurantForm.controls.website.dirty || RestaurantForm.controls.website.touched)\" class=\"lbl-err\">Website is required.</p>\n     <p *ngIf=\"RestaurantForm.controls.website.errors?.pattern && (RestaurantForm.controls.website.dirty || RestaurantForm.controls.website.touched)\" class=\"lbl-err\">Invalid Website.</p>\n     </div>\n  \n\n   <div class=\"form-group\">\n      <label>Upload Menu Images:</label><br/>\n      <div  *ngFor=\"let url of menuImages ;let i=index\"  >\n      <img  [src]=\"url\" class=\"rounded mb-3\" width=\"50\"  height=\"50\">\n     <button class=\"btn btn-danger btn-xs\" *ngIf=\"!isView\"  type=\"button\" style=\"margin-left:10%\"  (click)=\"deleteImage(i,'menu')\" >Delete</button>\n    </div>\n      <label class=\"btn-bs-file btn btn-ls btn-info\" style=\"margin-top:6px\" text-align=\"center\"*ngIf=\"!isView\" >image\n      <input type=\"file\" formControlName=\"menuImages\" accept=\"image/*\" style=\"display: none\" multiple (change)=\"imageUploading($event,'menu')\">\n     </label>     \n    </div>\n\n    <div class=\"form-group\">\n    <label >Per Person Cost</label>\n    <input class=\"form-control m-input\" type=\"Number\" formControlName=\"perPersonCost\"  [(ngModel)]=\"perPersonCost\"> \n    <p *ngIf=\"RestaurantForm.controls.perPersonCost.errors?.required && (RestaurantForm.controls.perPersonCost.dirty || RestaurantForm.controls.perPersonCost.touched)\" class=\"lbl-err\">perPersonCost is required.</p>\n    </div>\n    \n\n  <div class=\"form-group\">\n    <label>Photos:</label><br/>\n    <div  *ngFor=\"let files of restaurantImages;let i=index\"  >\n    <img  [src]=\"files\" class=\"rounded mb-3\" width=\"50\"  height=\"50\">\n   <button class=\"btn btn-danger btn-xs\" *ngIf=\"!isView\" type=\"button\" style=\"margin-left:10%\"  (click)=\"deleteImage(i,'restaurant')\"  >Delete</button>\n    </div>\n    <label class=\"btn-bs-file btn btn-ls btn-info\" *ngIf=\"!isView\" style=\"margin-top:6px\" text-align=\"center\" >image\n    <input type=\"file\" formControlName=\"restaurantImages\" accept=\"image/*\" style=\"display: none\" multiple (change)=\"imageUploading($event,'restaurant')\">\n    </label>\n   </div>\n\n   \n</form>\n<div class=\"box box-solid box-primary\">\n   <div>\n   <label>cuisin</label>\n   <div class=\"row\" >\n    <div >\t\n     <table class=\"table table-bordered\">\t\t\n     <tbody>\n     <tr>\n     <th>Name</th>\n     <th>Image</th>\n     <th *ngIf=\"!isView\" >Action</th>\n    </tr>\n    <tr *ngFor=\"let cuisinSubset of cuisinImagesObject; let i=index\" >\n     <td>\n     <div class=\"form-group \">\n     <input  [(ngModel)]='cuisinSubset.name' placeholder=\"name\" (change)='changeCuisinName(i,cuisinSubset.name)' style=\"width:150px\"  required=\"required\"/>\n      <div class=\"help-block\"></div>\n     </div>\n     </td>\n     <td >\n     <div class=\"form-group required\"> \n     <label>Image:</label><br/>\n      <div>\n      <img  [src]=\"cuisinSubset.image\" class=\"rounded mb-3\"  width=\"50\"  height=auto>\n      </div>\n      <label class=\"btn-bs-file btn btn-ls btn-info\"*ngIf=\"!isView\" style=\"margin-top:6px\" text-align=\"center\" >image\n      <input type=\"file\" accept=\"image/*\" style=\"display: none\" (change)=\"imageUploading($event,'cuisin',true,i)\">\n      </label>   \n     <div class=\"help-block\"></div>\n     </div>\n     </td>\n     <td >\n   <button *ngIf='cuisinSubset && !isView' class=\"btn btn-danger btn-xs\" type=\"button\" (click)=\"deleteImage(i,'cuisin')\" style=\"margin-right:10px\" >Delete</button>\n      </td>\n     </tr>\n     </tbody>\n     </table>\n     </div>\n     </div>\n     <div *ngIf=\"!isView\">\n     <button class=\"btn btn-secondary btn-lg1\" type=\"button\"  (click)=\"addCuisin()\" style=\"margin-right:10px\" >Add More</button>\n   </div>\n    </div>\n    </div>\n  \n    \n<div class=\"modal-footer\" *ngIf=\"!isView\">\n<button type=\"submit\" class=\"btn btn-outline-dark\"  (click)=\"addRestaurant()\">Save</button>&nbsp;&nbsp;\n<button type=\"button\" class=\"btn btn-outline-dark\" (click)=\"activeModal.close('Close click')\">Cancel</button>\n\n</div>\n</div>\n\n\n",
             styles: [__webpack_require__(/*! ./restaurant.component.css */ "./src/app/theme/pages/default/angular/restaurant/restaurant.component.css")]
         }),
         __metadata("design:paramtypes", [_ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_7__["NgbActiveModal"],
@@ -523,7 +503,6 @@ var RestaurantComponent = /** @class */ (function () {
         this.submitted = false;
         this.mealOffers_arr = ["BREAKFAST", "LUNCH", "DINNER", "ALL"];
         this.restaurantService.getRestaurant().subscribe(function (data) {
-            console.log("re", data);
             _this.RestaurantList = data.RestautantList.data;
         });
     }
@@ -536,10 +515,7 @@ var RestaurantComponent = /** @class */ (function () {
     };
     RestaurantComponent.prototype.getRestaurantList = function () {
         var _this = this;
-        // console.log ("data")
         this.restaurantService.getAllRestaurant().subscribe(function (response) {
-            // console.log("res",response)
-            console.log(response.data);
             _this.RestaurantList = response.data;
         });
     };
@@ -550,18 +526,13 @@ var RestaurantComponent = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        console.log(arr);
                         array_val = [false, false, false, false];
-                        console.log(array_val);
                         return [4 /*yield*/, this.mealOffers_arr.map(function (response, idx) { return __awaiter(_this, void 0, void 0, function () {
                                 var _this = this;
                                 return __generator(this, function (_a) {
                                     arr.map(function (arr_res, idnx) { return __awaiter(_this, void 0, void 0, function () {
                                         return __generator(this, function (_a) {
                                             if (arr_res == response) {
-                                                console.log("111111", arr_res);
-                                                console.log("222", response);
-                                                console.log(idx);
                                                 array_val[idx] = true;
                                             }
                                             return [2 /*return*/];
@@ -572,7 +543,6 @@ var RestaurantComponent = /** @class */ (function () {
                             }); })];
                     case 1:
                         res = _a.sent();
-                        console.log(array_val);
                         return [2 /*return*/, array_val];
                 }
             });
@@ -584,7 +554,6 @@ var RestaurantComponent = /** @class */ (function () {
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
-                        // console.log("content",content.menu[0])
                         if (!content) {
                             this.isAdd = true;
                         }
@@ -615,10 +584,6 @@ var RestaurantComponent = /** @class */ (function () {
                         modalRef.componentInstance.cuisinImagesObject = content ? content.cuisin : [{ name: '', image: '' }];
                         modalRef.componentInstance.isAdd = this.isAdd;
                         modalRef.componentInstance.isView = this.isView;
-                        // if(content && content.mealOffers.length>0){
-                        //   content.mealOffers = await this.checkValue(content.mealOffers)
-                        // }
-                        console.log(content);
                         _a = modalRef.componentInstance;
                         if (!(content)) return [3 /*break*/, 2];
                         return [4 /*yield*/, this.checkValue(content.mealOffers)];
@@ -630,7 +595,6 @@ var RestaurantComponent = /** @class */ (function () {
                         _c.label = 3;
                     case 3:
                         _a.mealOffers = _b;
-                        console.log(modalRef.componentInstance);
                         return [2 /*return*/];
                 }
             });
@@ -705,8 +669,6 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
-//   import {BrowserModule} from '@angular/platform-browser';
-//  import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 var routes = [
     {
         path: "",
@@ -726,10 +688,8 @@ var RestaurantModule = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["NgModule"])({
             imports: [
                 _angular_common__WEBPACK_IMPORTED_MODULE_3__["CommonModule"],
-                // RouterModule.forChild(routes),
                 _restaurant_routing__WEBPACK_IMPORTED_MODULE_1__["RestaurantRoutingModule"],
                 _layouts_layout_module__WEBPACK_IMPORTED_MODULE_7__["LayoutModule"],
-                // ImagesPipe,
                 _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_4__["NgbModule"].forRoot(),
                 _angular_forms__WEBPACK_IMPORTED_MODULE_5__["FormsModule"],
                 _angular_forms__WEBPACK_IMPORTED_MODULE_5__["ReactiveFormsModule"],
@@ -873,7 +833,6 @@ var RestaurantService = /** @class */ (function () {
         this.RestautantList = new rxjs_Subject__WEBPACK_IMPORTED_MODULE_0__["Subject"]();
     }
     RestaurantService.prototype.setRestaurant = function (data) {
-        console.log("set data");
         this.RestautantList.next({ RestautantList: data });
     };
     RestaurantService.prototype.getRestaurant = function () {
@@ -887,12 +846,10 @@ var RestaurantService = /** @class */ (function () {
         return headers;
     };
     RestaurantService.prototype.addRestaurant = function (data) {
-        var admin_id = JSON.parse(localStorage.getItem('_id'));
         return this.http.post(_app_service__WEBPACK_IMPORTED_MODULE_1__["URL"] + 'admin/addRestaurant', data, { headers: this.getHeaderWithToken() })
             .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["map"])(function (res) { return res; }));
     };
     RestaurantService.prototype.getAllRestaurant = function () {
-        console.log("re list here");
         return this.http.get(_app_service__WEBPACK_IMPORTED_MODULE_1__["URL"] + 'admin/getRestaurantList', { headers: this.getHeaderWithToken() })
             .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["map"])(function (res) { return res; }));
     };
@@ -911,18 +868,16 @@ var RestaurantService = /** @class */ (function () {
     // }
     RestaurantService.prototype.uploadPic = function (pic) {
         var _this = this;
-        console.log(pic);
+        console.log("pic", pic);
         var formData = new FormData();
         pic.map(function (res) { return __awaiter(_this, void 0, void 0, function () {
             return __generator(this, function (_a) {
+                console.log("lllllll", res);
                 formData.append('img', res);
                 return [2 /*return*/];
             });
         }); });
-        console.log(formData);
-        //    return new Promise((resolve,reject)=>{
         return this.http.post(_app_service__WEBPACK_IMPORTED_MODULE_1__["URL"] + 'admin/uploadPhoto', formData);
-        //    })
     };
     RestaurantService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["Injectable"])({

@@ -1,5 +1,5 @@
 import { IndexService } from './index.service';
-import { Component, OnInit, ViewEncapsulation, AfterViewInit, Input } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Input,ViewEncapsulation } from '@angular/core';
 import { Helpers } from '../../../../helpers';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, Validators, FormControl, FormGroup, FormArray } from '@angular/forms';
@@ -7,6 +7,7 @@ import { Location } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap'
 import { ScriptLoaderService } from './../../../../_services/script-loader.service';
+
 
 
 @Component({
@@ -23,33 +24,33 @@ import { ScriptLoaderService } from './../../../../_services/script-loader.servi
     <form name="RestaurantForm" [formGroup]="RestaurantForm" >
         <div class="form-group"> 
         <label> Restaurant Name</label>
-        <input class="form-control m-input" type="text" formControlName="name"   [(ngModel)]="name"> 
+        <input class="form-control m-input" type="text" formControlName="name"   [(ngModel)]="name" disabled> 
         </div><br>
       
         <div class="form-group"> 
         <label>Description</label>
-        <input class="form-control m-input" type="text" formControlName="description" [(ngModel)]="description"> 
+        <input class="form-control m-input" type="text" formControlName="description" [(ngModel)]="description" disabled> 
         </div><br>
   
         <div class="form-group"> 
         <label>Latitude</label>
-        <input class="form-control m-input" type="text" formControlName="latitude"  [(ngModel)]="latitude" > 
+        <input class="form-control m-input" type="text" formControlName="latitude"  [(ngModel)]="latitude"disabled > 
          </div><br>
   
          <div class="form-group"> 
          <label>Longitude</label>
-         <input class="form-control m-input" type="text" formControlName="longitude"  [(ngModel)]="longitude" > 
+         <input class="form-control m-input" type="text" formControlName="longitude"  [(ngModel)]="longitude" disabled > 
         </div><br>
          
   
          <div class="form-group"> 
          <label>openTime</label>
-         <input class="form-control m-input" type="text" formControlName="openTime"[(ngModel)]="openTime" > 
+         <input class="form-control m-input" type="text" formControlName="openTime"[(ngModel)]="openTime" disabled> 
          </div><br>
         
         <div class="form-group">
         <label for="time">Close Time</label>
-        <input class="form-control m-input" type="text" formControlName="closeTime" [(ngModel)]="closeTime" > 
+        <input class="form-control m-input" type="text" formControlName="closeTime" [(ngModel)]="closeTime"disabled > 
         </div><br>
   
         <div class="form-group">
@@ -63,12 +64,12 @@ import { ScriptLoaderService } from './../../../../_services/script-loader.servi
        
        <div class="form-group"> 
        <label>Contact Number</label>
-       <input class="form-control m-input" type="tel" formControlName="contactNumber"  [(ngModel)]="contactNumber" > 
+       <input class="form-control m-input" type="tel" formControlName="contactNumber"  [(ngModel)]="contactNumber"  disabled> 
        </div>
   
         <div class="form-group">
         <label>Website</label>
-        <input class="form-control m-input" type="text" formControlName="website" [(ngModel)]="website"> 
+        <input class="form-control m-input" type="text" formControlName="website" [(ngModel)]="website" disabled> 
         </div>
      
         <div class="form-group">
@@ -81,7 +82,7 @@ import { ScriptLoaderService } from './../../../../_services/script-loader.servi
   
       <div class="form-group">
       <label >Per Person Cost</label>
-      <input class="form-control m-input" type="Number" formControlName="perPersonCost" [(ngModel)]="perPersonCost"> 
+      <input class="form-control m-input" type="Number" formControlName="perPersonCost" [(ngModel)]="perPersonCost" disabled> 
       </div>
       
   
@@ -92,8 +93,8 @@ import { ScriptLoaderService } from './../../../../_services/script-loader.servi
       </div>
       <input type="file" formControlName="photos" accept="image/*" style="display: none" >
      </div>
-
      </form>
+     
       <div class="box box-solid box-primary">
       <div>
       <label>cuisin</label>
@@ -108,7 +109,7 @@ import { ScriptLoaderService } from './../../../../_services/script-loader.servi
       <tr *ngFor="let cuisinSubset of cuisinImagesObject; let i=index" >
        <td>
        <div class="form-group ">
-       <input  placeholder="name"  [(ngModel)]='cuisinSubset.name' style="width:150px"  required="required"/>
+       <input  [(ngModel)]='cuisinSubset.name' placeholder="name"  style="width:150px"  required="required"/ disabled>
         <div class="help-block"></div>
        </div>
        </td>
@@ -118,7 +119,6 @@ import { ScriptLoaderService } from './../../../../_services/script-loader.servi
         <div>
         <img  [src]="cuisinSubset.image" class="rounded mb-3" width="50"  height="50">
         </div>
-    
        <div class="help-block"></div>
        </div>
        </td>
@@ -129,25 +129,29 @@ import { ScriptLoaderService } from './../../../../_services/script-loader.servi
        </div>
      </div>
       </div>
-   
+     
   </div>
   
   
   `,
-    styleUrls: ['./index.component.css']
+    styleUrls: ['./index.component.css'],
+    encapsulation: ViewEncapsulation.None
 })
 export class NgbdModalContent {
+   
+    @Input () cuisin;
     RestaurantForm: FormGroup;
     menuImages: Array<any>;
     restaurantImages: Array<any>;
     mealOffers: Array<any> = []
-    cuisinImagesObject: Array<any> = [
+    cuisinImagesObject:Array<any>=[
         {
-            name: '',
-            image: ''
+          cname:'',
+          image:''
         }
-    ];
+      ];
     constructor(
+
         public activeModal: NgbActiveModal,
         private _router: Router,
         private _formBuilder: FormBuilder,
@@ -178,6 +182,7 @@ export class NgbdModalContent {
             photos: [''],
             mealOffers: [''],
             perPersonCost: ['']
+        
         });
     }
 }
@@ -187,10 +192,10 @@ export class NgbdModalContent {
     styleUrls: ['./index.component.css'],
     selector: 'app-index',
     templateUrl: './index.component.html',
-    // encapsulation: ViewEncapsulation.None,
+    encapsulation: ViewEncapsulation.None,
 })
 export class IndexComponent implements OnInit, AfterViewInit {
-    usersList: Array<any>;
+    restList: Array<any>;
     isView: boolean = false;
     constructor(
         private _router: Router,
@@ -199,7 +204,11 @@ export class IndexComponent implements OnInit, AfterViewInit {
         private indexService: IndexService,
         private toastService: ToastrService,
         private modalService: NgbModal,
-        private location: Location) { }
+        private location: Location) {
+           this.indexService.getAllRequest().subscribe((response: any) => {
+            this.restList = response.data
+        }) 
+         }
 
     ngAfterViewInit() {
         this._script.loadScripts('app-index',
@@ -210,19 +219,28 @@ export class IndexComponent implements OnInit, AfterViewInit {
     totalUser;
     ngOnInit() {
         this.getAllRequest()
-        // this.getUserList();
+        this.getUserList()
+        this.getRestaurant()
+      
     }
+    usersList:Array<any>;
     getUserList() {
         this.indexService.getAllUsers().subscribe((response: any) => {
-            console.log(response)
-            this.usersList = response.response.count;
+           this.usersList = response.data;
         });
     }
-    RestList: Array<any> = [];
+   restaurantList:Array<any>;
+   getRestaurant(){
+       this.indexService.getAllRestaurant().subscribe((response:any)=>{
+           this.restaurantList=response.data
+       })
+   }
 
     getAllRequest() {
         this.indexService.getAllRequest().subscribe((response: any) => {
-            this.RestList = response.data
+            this.restList = response.data
+            
+            
         })
     }
     open(content) {
@@ -240,17 +258,17 @@ export class IndexComponent implements OnInit, AfterViewInit {
         modalRef.componentInstance.perPersonCost = content ? content.perPersonCost : "";
         modalRef.componentInstance.menuImages = content ? content.menu : "";
         modalRef.componentInstance.restaurantImages = content ? content.photos : "";
-        modalRef.componentInstance.cuisinImagesObject = content ? content.cuisin : "";
-        modalRef.componentInstance.isView = this.isView;
-        console.log(modalRef)
+        modalRef.componentInstance.cuisinImagesObject = content ? content.cuisin: [{name:'',image:''}];
     }
 
     Approve(id) {
-        console.log("iiii", id)
-        this.indexService.approveRestaurant(id).subscribe((response: any) => {
+       this.indexService.approveRestaurant(id).subscribe((response: any) => {
             this.getAllRequest()
-
-        })
+            this.toastService.success(response['message']);
+        },err=>{
+          this.toastService.error(err['message']);
+        }
+        )
     }
 
 }

@@ -1,114 +1,51 @@
-
 <!-- BEGIN: Subheader -->
-<div class="m-subheader" appunwraptag="">
-	<div class="d-flex align-items-center">
-		<div class="mr-auto">
-			<h3 class="m-subheader__title">My Profile</h3>
-		</div>
-
-	</div>
-</div>
+<app-header-nav></app-header-nav>
+<h2 class="header" >Profile</h2>
+<!-- <div class="m-subheader" appunwraptag="">
+    <div class="d-flex align-items-center">
+        <div class="m-auto">
+           
+        </div>
+    </div>
+</div> -->
 <!-- END: Subheader -->
 <div class="m-content">
-	<div class="row">
-		<div class="col-xl-3 col-lg-4">
-			<div class="m-portlet m-portlet--full-height">
+    <div class="row">
+        <div class="col-xl-3 col-lg-4">
+            <form name="profileForm" [formGroup]="profileForm" (ngSubmit)="onSubmit()" style="padding-left: 500px">
+                <div class="box">
+                    <div class="image-container">
+                        <div class="image-box">
+                            <div *ngIf="display">
+                                <app-atom-spinner [animationDuration]="1000" [size]="60" [color]="'#ff1d5e'">
+                                </app-atom-spinner>
 
-					<form  name="profileForm" [formGroup]="profileForm">
-			
-				<div class="m-portlet__body">
-					<div class="m-card-profile">
-						<div class="m-card-profile__title m--hide"> Your Profile </div>
-						<div class="m-card-profile__pic">
-							<div class="m-card-profile__pic-wrapper">
-							<img [src]="profilesList" [alt]="profilesList" /> 
-							</div>
-						</div>
-						<div class="m-card-profile__details">
-							<span class="m-card-profile__name">{{userName}}</span>
-              <a href="" class="m-card-profile__email m-link">{{userEmail}}</a>
-             
-            </div>
-          <br> <br><br><input type="file" formControlName="imageUrl"  [(ngModel)]="imageUrl" (change)="handleInputChange($event)" >
-					</div>
-					<ul class="m-nav m-nav--hover-bg m-portlet-fit--sides">
-						<li class="m-nav__separator m-nav__separator--fit"></li>
-						<li class="m-nav__section m--hide">
-							<span class="m-nav__section-text">Section</span>
-						</li>
-					
-						
-					</ul>
-				
-					
-				</div>
+                            </div>
+                            <div *ngIf="!display">
+                                <img [src]="profilesList" [alt]="profilesList" class="image" id="files" style="cursor: pointer" />
+                                <label class="change-image" data-toggle="m-tooltip" title="upload Image">
+                                    <input type="file" id="files" style="display: none" (change)="uploadImage($event)">
+                                </label>
+                            </div>
 
-			
-			</form>
-			</div>
-		</div>
-		<div class="col-xl-9 col-lg-8">
-			<div class="m-portlet m-portlet--full-height m-portlet--tabs">
-				<div class="m-portlet__head">
-					<div class="m-portlet__head-tools">
-						<ul class="nav nav-tabs m-tabs m-tabs-line   m-tabs-line--left m-tabs-line--primary" role="tablist">
-							<li class="nav-item m-tabs__item">
-								<a class="nav-link m-tabs__link active" data-toggle="tab" href="#m_user_profile_tab_1" role="tab">
-									<i class="flaticon-share m--hide"></i> Update Profile </a>
-							</li>
-						
-						</ul>
-					</div>
-					<div class="m-portlet__head-tools">
-						<ul class="m-portlet__nav">
-							<li class="m-portlet__nav-item m-portlet__nav-item--last">
-								
-							</li>
-						</ul>
-					</div>
-				</div>
-				<div class="tab-content">
-					<div class="tab-pane active" id="m_user_profile_tab_1">
-						<form class="m-form m-form--fit m-form--label-align-right">
-							<div class="m-portlet__body">
-								<div class="form-group m-form__group m--margin-top-10 m--hide">
-									<div class="alert m-alert m-alert--default" role="alert"> The example form below demonstrates common HTML form elements that receive updated styles from Bootstrap with additional
-										classes. </div>
-								</div>
-								<div class="form-group m-form__group row">
-									<div class="col-10 ml-auto">
-										<h3 class="m-form__section"> Personal Details</h3>
-									</div>
-								</div>
-								<form  name="profileForm" [formGroup]="profileForm">
-								<div class="form-group m-form__group row">
-									<label for="example-text-input" class="col-2 col-form-label">Full Name</label>
-									<div class="col-7">
-										<input class="form-control m-input" type="text" formControlName="fullName"  [(ngModel)]="fullName" value={{userName}}> </div>
-								</div>
-								<div class="form-group m-form__group row">
-									<label for="example-text-input" class="col-2 col-form-label">Email</label>
-									<div class="col-7">
-										<input class="form-control m-input" type="text" formControlName="emailId" [(ngModel)]="emailId" value={{userEmail}}> </div>
-								</div>
-								</form>
-		
-							</div>
-							<div class="m-portlet__foot m-portlet__foot--fit">
-								<div class="m-form__actions">
-									<div class="row">
-										<div class="col-2"> </div>
-										<div class="col-7">
-											<button type="reset" class="btn btn-accent m-btn m-btn--air m-btn--custom"(click)="editProfile()">Save changes</button>&nbsp;&nbsp;
-											<button type="reset" class="btn btn-secondary m-btn m-btn--air m-btn--custom">Cancel</button>
-										</div>
-									</div>
-								</div>
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+                        </div>
+                    </div>
+
+                    <div class="description-container">
+                        <div class="form-group m-form__group row m-auto">
+                            <label for="example-text-input" class="col-3 col-form-label pr_l">Name</label>
+                            <div class="col-9">
+                                <input class="form-control m-input cus_inp" type="text" formControlName="name"
+                                    [(ngModel)]="name">
+                                    <p *ngIf="profileForm.controls.name.errors?.required && (profileForm.controls.name.dirty || profileForm.controls.name.touched)" class="lbl-err">Name is required.</p>
+                                <button type="button" class="btn m-btn--custom mrgLeft10000 yellow_btn" (click)="editProfile()">Save Changes
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
 </div>

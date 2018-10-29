@@ -13,8 +13,6 @@ import {LayoutModule} from '../../../../layouts/layout.module';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { DataTablesModule } from 'angular-datatables';
 
-//   import {BrowserModule} from '@angular/platform-browser';
-//  import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
  
 
 
@@ -34,10 +32,8 @@ const routes: Routes = [
 @NgModule({
 	imports: [
 		CommonModule, 
-		// RouterModule.forChild(routes),
 		RestaurantRoutingModule,
 		LayoutModule,
-		// ImagesPipe,
 		NgbModule.forRoot(),
 		FormsModule,
 		ReactiveFormsModule,

@@ -13,7 +13,7 @@ messages = {
     registered: 'Successfully registered',
     invalidEmailPass: 'Invalid email or password, Email_format:standard email format. Password_format eg.: Superm@n123',
     adminNotFound: 'No such admin is registered',
-    loggedIn: 'Logged in',
+    loggedIn: 'Successfully logged in',
     invalidPassword: 'Invalid password',
     emailNotFound: 'No such email is registered',
     mailNotSent: 'Something went wrong while sending mail',
@@ -40,9 +40,19 @@ messages = {
     passwordChanged: "Password changed successfully",
     invalidLatLong:"Please check your lat long and try again.",
     idMissing:"Please provide user id.",
+    noPendingRestaurant:"There Is No Pending Restaurant",
+    reviewsNotFound:"No Reviews Found",
     followed:"Followed user successfully",
     unfollowed:"Unfollwed user successfully",
-    locationChanged:"Location successfully changed"
+    locationChanged:"Location successfully changed",
+    contentSaved:"Content Saved Successfully",
+    contentNotFound:"Content Not Found",
+    contentDel:"Content Deleted Successfully",
+    resolved:"Resolved Successfully",
+    noMatchFound:"No match found",
+    cuisinDeleted:"Cuisin deleted successfully",
+    cuisinAdded:"Cuisin added successfully"
+
 }
 
 roles = {
@@ -54,13 +64,15 @@ schemas = {
     users: 'users',
     restaurants: 'restaurants',
     reviews: 'reviews',
-    notifications: 'notifications'
+    notifications: 'notifications',
+    about:'about_Privacy'
 }
 
 status = {
     active: "ACTIVE",
     inactive: "INACTIVE",
-    pending: "PENDING"
+    pending: "PENDING",
+    resolved:"RESOLVED"
 }
 
 criteria = {
@@ -78,6 +90,12 @@ mealTypes = {
     all : 'ALL'
 }
 
+Type = {
+    about:'About_Us',
+    privacy:'Privacy_Policy',
+    contact:'Contact_Us'
+}
+
 module.exports = {
     http_codes,
     messages,
@@ -85,5 +103,6 @@ module.exports = {
     schemas,
     status,
     criteria,
-    mealTypes
+    mealTypes,
+    Type
 }

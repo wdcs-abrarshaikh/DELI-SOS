@@ -8,19 +8,42 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
+	"./pages/default/angular/about-us/about-us.module": [
+		"./src/app/theme/pages/default/angular/about-us/about-us.module.ts",
+		"pages-default-angular-about-us-about-us-module~pages-default-angular-privacy-policy-privacy-policy-m~e452e2cd",
+		"pages-default-angular-about-us-about-us-module~pages-default-angular-privacy-policy-privacy-policy-m~16124936",
+		"common",
+		"pages-default-angular-about-us-about-us-module"
+	],
+	"./pages/default/angular/privacy-policy/privacy-policy.module": [
+		"./src/app/theme/pages/default/angular/privacy-policy/privacy-policy.module.ts",
+		"pages-default-angular-about-us-about-us-module~pages-default-angular-privacy-policy-privacy-policy-m~e452e2cd",
+		"pages-default-angular-about-us-about-us-module~pages-default-angular-privacy-policy-privacy-policy-m~16124936",
+		"common",
+		"pages-default-angular-privacy-policy-privacy-policy-module"
+	],
+	"./pages/default/angular/profile/profile.module": [
+		"./src/app/theme/pages/default/angular/profile/profile.module.ts",
+		"pages-default-angular-about-us-about-us-module~pages-default-angular-privacy-policy-privacy-policy-m~e452e2cd",
+		"common",
+		"pages-default-angular-profile-profile-module"
+	],
 	"./pages/default/angular/restaurant/restaurant.module": [
 		"./src/app/theme/pages/default/angular/restaurant/restaurant.module.ts",
-		"pages-default-angular-restaurant-restaurant-module~pages-default-angular-user-user-module~pages-defa~3a97a266",
+		"pages-default-angular-about-us-about-us-module~pages-default-angular-privacy-policy-privacy-policy-m~e452e2cd",
+		"common",
 		"pages-default-angular-restaurant-restaurant-module"
 	],
 	"./pages/default/angular/user/user.module": [
 		"./src/app/theme/pages/default/angular/user/user.module.ts",
-		"pages-default-angular-restaurant-restaurant-module~pages-default-angular-user-user-module~pages-defa~3a97a266",
+		"pages-default-angular-about-us-about-us-module~pages-default-angular-privacy-policy-privacy-policy-m~e452e2cd",
+		"common",
 		"pages-default-angular-user-user-module"
 	],
 	"./pages/default/index/index.module": [
 		"./src/app/theme/pages/default/index/index.module.ts",
-		"pages-default-angular-restaurant-restaurant-module~pages-default-angular-user-user-module~pages-defa~3a97a266",
+		"pages-default-angular-about-us-about-us-module~pages-default-angular-privacy-policy-privacy-policy-m~e452e2cd",
+		"common",
 		"pages-default-index-index-module"
 	]
 };
@@ -219,7 +242,7 @@ var AppRoutingModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!-- begin::Page loader -->\n<div class=\"m-page-loader m-page-loader--base m-page-loader--non-block\" style=\"margin-left: -80px; margin-top: -20px;\">\n   \n \n \n  <div class=\"m-blockui\">\n    <span>Please wait...</span>\n    <span>\n      <div class=\"m-loader m-loader--brand\"></div>\n    </span>\n  </div>\n</div>\n<!-- end::Page loader -->\n<!-- begin:: Page -->\n<router-outlet></router-outlet>\n\n<!-- end:: Page -->\n<!-- <app-quick-sidebar></app-quick-sidebar> -->\n<!-- <app-scroll-top></app-scroll-top> -->\n<!-- <app-tooltips></app-tooltips> -->\n<!--begin::Base Scripts -->\n<!--end::Base Scripts -->\n<!--begin::Page Vendors -->\n<!--end::Page Vendors -->\n<!--begin::Page Snippets -->\n<!--end::Page Snippets -->"
+module.exports = "<!-- begin::Page loader -->\n<div class=\"m-page-loader m-page-loader--base m-page-loader--non-block\" style=\"margin-left: -80px; margin-top: -20px;  background:rgb(255, 248, 224)\">\n   \n \n \n  <div class=\"m-blockui\">\n    <span>Please wait...</span>\n    <span>\n      <div class=\"m-loader m-loader--brand\"></div>\n    </span>\n  </div>\n</div>\n<!-- end::Page loader -->\n<!-- begin:: Page -->\n<router-outlet></router-outlet>\n\n<!-- end:: Page -->\n<!-- <app-quick-sidebar></app-quick-sidebar> -->\n<!-- <app-scroll-top></app-scroll-top> -->\n<!-- <app-tooltips></app-tooltips> -->\n<!--begin::Base Scripts -->\n<!--end::Base Scripts -->\n<!--begin::Page Vendors -->\n<!--end::Page Vendors -->\n<!--begin::Page Snippets -->\n<!--end::Page Snippets -->"
 
 /***/ }),
 
@@ -235,6 +258,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AppComponent", function() { return AppComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _helpers__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./helpers */ "./src/app/helpers.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -246,7 +270,7 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 };
 
 
-// import {Helpers} from "./helpers";
+
 var AppComponent = /** @class */ (function () {
     function AppComponent(_router) {
         this._router = _router;
@@ -254,6 +278,16 @@ var AppComponent = /** @class */ (function () {
         this.globalBodyClass = 'm-page--loading-non-block m-page--fluid m--skin- m-content--skin-light2 m-header--fixed m-header--fixed-mobile m-aside-left--enabled m-aside-left--skin-dark m-aside-left--fixed m-aside-left--offcanvas m-footer--push m-aside--offcanvas-default';
     }
     AppComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this._router.events.subscribe(function (route) {
+            if (route instanceof _angular_router__WEBPACK_IMPORTED_MODULE_1__["NavigationStart"]) {
+                _helpers__WEBPACK_IMPORTED_MODULE_2__["Helpers"].setLoading(true);
+                _helpers__WEBPACK_IMPORTED_MODULE_2__["Helpers"].bodyClass(_this.globalBodyClass);
+            }
+            if (route instanceof _angular_router__WEBPACK_IMPORTED_MODULE_1__["NavigationEnd"]) {
+                _helpers__WEBPACK_IMPORTED_MODULE_2__["Helpers"].setLoading(false);
+            }
+        });
     };
     AppComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -377,8 +411,8 @@ var AppModule = /** @class */ (function () {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "URL", function() { return URL; });
-// export const URL:string="http://66.70.179.133:8080/";
-var URL = "http://192.168.0.136:8080/";
+var URL = "http://66.70.179.133:8080/";
+// export const URL:string = "http://192.168.0.136:8080/";
 
 
 /***/ }),
@@ -472,21 +506,33 @@ var AuthGuard = /** @class */ (function () {
         this._userService = _userService;
     }
     AuthGuard.prototype.canActivate = function (route, state) {
-        var _this = this;
-        var currentUser = JSON.parse(localStorage.getItem('currentuser'));
-        return this._userService.verify().map(function (data) {
-            if (data !== null) {
-                // logged in so return true
-                return true;
-            }
-            // error when verify so redirect to login page with the return url
-            _this._router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
+        // this._userService.token().map(
+        // 	data => {
+        // 		console.log("hhhhhhhhhhhhh",data)
+        // 		if (data !== null) {
+        // 			// logged in so return true
+        // 			return true;
+        // 		}
+        // 		// error when verify so redirect to login page with the return url
+        // 		this._router.navigate(['/login'], {queryParams: {returnUrl: state.url}});
+        // 		return false;
+        // 	},
+        // 	error => {
+        // 		// error when verify so redirect to login page with the return url
+        // 		this._router.navigate(['/login'], {queryParams: {returnUrl: state.url}});
+        // 		return false;
+        // 	});
+        var currentUser = JSON.parse(localStorage.getItem('_token'));
+        if (currentUser) {
+            //    if(Response['message'] == "Invalid token"){
+            //         this._router.navigate[('/login')]
+            //    }
+            return true;
+        }
+        else {
+            this._router.navigate(['/login']);
             return false;
-        }, function (error) {
-            // error when verify so redirect to login page with the return url
-            _this._router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
-            return false;
-        });
+        }
     };
     AuthGuard = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])(),
@@ -824,7 +870,7 @@ var AuthenticationService = /** @class */ (function () {
         return headers;
     };
     AuthenticationService.prototype.login = function () {
-        return this.http.post(_app_service__WEBPACK_IMPORTED_MODULE_0__["URL"] + 'user/login', { headers: this.getHeaderWithToken() })
+        return this.http.post(_app_service__WEBPACK_IMPORTED_MODULE_0__["URL"] + 'login', { headers: this.getHeaderWithToken() })
             .map(function (response) {
             console.log('responsesss', response);
             // login successful if there's a jwt token in the response
@@ -903,7 +949,8 @@ var UserService = /** @class */ (function () {
         this.http = http;
     }
     UserService.prototype.verify = function () {
-        return this.http.get('/api/verify', this.jwt()).map(function (response) { return response.json(); });
+        console.log("sdhgf");
+        return this.http.get('/login', this.jwt()).map(function (response) { return response.json(); });
     };
     UserService.prototype.forgotPassword = function (email) {
         return this.http.post('/api/user/forgotPassword', JSON.stringify({ email: email }), this.jwt()).map(function (response) { return response.json(); });
@@ -926,9 +973,10 @@ var UserService = /** @class */ (function () {
     // private helper methods
     UserService.prototype.jwt = function () {
         // create authorization header with jwt token
-        var currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        var currentUser = JSON.parse(localStorage.getItem('_token'));
         if (currentUser && currentUser.token) {
-            var headers = new _angular_http__WEBPACK_IMPORTED_MODULE_1__["Headers"]({ 'Authorization': JSON.parse(localStorage.getItem('jwt')) });
+            console.log(currentUser);
+            var headers = new _angular_http__WEBPACK_IMPORTED_MODULE_1__["Headers"]({ 'Authorization': JSON.parse(localStorage.getItem('_token')) });
             return new _angular_http__WEBPACK_IMPORTED_MODULE_1__["RequestOptions"]({ headers: headers });
         }
     };
@@ -1378,7 +1426,7 @@ var LogoutComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\nbody{\n\tmargin:0;\n\t\n}\n.lbl-err {\n    color: red; \n\t}\n.size{\n       text-align: center;\n       width:100%;\n\t   display: flex;\n\t   justify-content: center;\n\t   align-items: center;\n\t   height: auto;\n\t   flex-direction: column;\n\t   -webkit-user-select: none;\n\t      -moz-user-select: none;\n\t       -ms-user-select: none;\n\t           user-select: none;\n\t   padding-top: 2rem;\n    }\n.btn-login{\n        color: white;\n        background-color: orange;\n        padding: .85rem 2rem;\n\t\tfont-size: 1rem;\n\t\tfont-weight: 400;\n\t\tfont-family: monospace;\n\t\t/* border-radius: 60px; */\n\t\tborder-color: orange;\n\t\twidth: 50%;\n\t\ttext-align: center;\n\t\tfloat: center;\n\t\tcursor: pointer;\n\t\tborder: none;\n\t\toutline: none;\n\t\tbox-shadow: 0 2px 2px 0 rgba(0,0,0,0.15);\n\t\ttransition: box-shadow 0.15s ease;\n    }\n.btn-login:hover{\n\t\tbox-shadow: 0 8px 16px 0 rgba(0,0,0,0.15);\n\t}\n.checkbox{\n        border-color: white;\n        color:#575962;\n    }\n.cen{\n        -ms-grid-row-align: center;\n            align-self: center;\n    }\n.app-logo{\n\t\theight:250px;\n\t\twidth:250px;\n\t\tbackground-position: center;\n\t\tbackground-repeat: no-repeat;\n\t\tbackground-size: contain;\n\t\tbackground-image: url(\"deli_sos_app_mark.png\");\n\t\t-webkit-transform-origin: bottom;\n\t\t        transform-origin: bottom;\n\t\t-webkit-animation: app-logo-intro-anim 0.35s ease;\n\t\t        animation: app-logo-intro-anim 0.35s ease;\n\t}\n@-webkit-keyframes app-logo-intro-anim{\n\t\t0%{\n\t\t\t-webkit-transform: scale(0,0);\n\t\t\t        transform: scale(0,0);\n\t\t}\n\t\t100%{\n\t\t\t-webkit-transform: scale(1,1);\n\t\t\t        transform: scale(1,1);\n\t\t}\n\t}\n@keyframes app-logo-intro-anim{\n\t\t0%{\n\t\t\t-webkit-transform: scale(0,0);\n\t\t\t        transform: scale(0,0);\n\t\t}\n\t\t100%{\n\t\t\t-webkit-transform: scale(1,1);\n\t\t\t        transform: scale(1,1);\n\t\t}\n\t}\n.size h1{\n\t\tfont-family: 'Changa One', cursive;\n\t\tfont-size: 24pt;\n\t\tfont-weight: 400;\n\t\tcolor: #212121;\n    }\n.top{\n        background-image: url(\"bg-3.jpg\");\n         background-size: cover;\n         height:100vh;\n         width:100%;\n         background-position: center;\n         background-repeat: no-repeat;\n     }\n    "
+module.exports = "\nbody{\n\tmargin:0;\n\t\n}\n.lbl-err {\n    color: red; \n\t}\n.size{\n       text-align: center;\n       width:100%;\n\t   display: flex;\n\t   justify-content: center;\n\t   align-items: center;\n\t   height: auto;\n\t   flex-direction: column;\n\t   -webkit-user-select: none;\n\t      -moz-user-select: none;\n\t       -ms-user-select: none;\n\t           user-select: none;\n\t   padding-top: 2rem;\n    }\n.btn-login{\n        color: white;\n\t\tbackground-color: #e97121;\t\n        padding: .85rem 2rem;\n\t\tfont-size: 1rem;\n\t\tfont-weight: 400;\n\t\tfont-family: monospace;\n\t\t/* border-radius: 60px; */\n\t\tborder-color: #e97121;\n\t\twidth: 50%;\n\t\ttext-align: center;\n\t\tfloat: center;\n\t\tcursor: pointer;\n\t\tborder: none;\n\t\toutline: none;\n\t\tbox-shadow: 0 2px 2px 0 rgba(0,0,0,0.15);\n\t\ttransition: box-shadow 0.15s ease;\n    }\n.btn-login:hover{\n\t\tbox-shadow: 0 8px 16px 0 rgba(0,0,0,0.15);\n\t}\n.checkbox{\n        border-color: white;\n        color:#575962;\n    }\n.cen{\n        -ms-grid-row-align: center;\n            align-self: center;\n    }\n.app-logo{\n\t\theight:250px;\n\t\twidth:250px;\n\t\tbackground-position: center;\n\t\tbackground-repeat: no-repeat;\n\t\tbackground-size: contain;\n\t\tbackground-image: url(\"deli_sos_app_mark.png\");\n\t\t-webkit-transform-origin: bottom;\n\t\t        transform-origin: bottom;\n\t\t-webkit-animation: app-logo-intro-anim 0.35s ease;\n\t\t        animation: app-logo-intro-anim 0.35s ease;\n\t}\n@-webkit-keyframes app-logo-intro-anim{\n\t\t0%{\n\t\t\t-webkit-transform: scale(0,0);\n\t\t\t        transform: scale(0,0);\n\t\t}\n\t\t100%{\n\t\t\t-webkit-transform: scale(1,1);\n\t\t\t        transform: scale(1,1);\n\t\t}\n\t}\n@keyframes app-logo-intro-anim{\n\t\t0%{\n\t\t\t-webkit-transform: scale(0,0);\n\t\t\t        transform: scale(0,0);\n\t\t}\n\t\t100%{\n\t\t\t-webkit-transform: scale(1,1);\n\t\t\t        transform: scale(1,1);\n\t\t}\n\t}\n.size h1{\n\t\tfont-family: 'Changa One', cursive;\n\t\tfont-size: 24pt;\n\t\tfont-weight: 400;\n\t\tcolor: #212121;\n    }\n.top{\n        background-image: url(\"bg-3.jpg\");\n         background-size: cover;\n         height:100vh;\n         width:100%;\n         background-position: center;\n         background-repeat: no-repeat;\n     }\n    "
 
 /***/ }),
 
@@ -1389,7 +1437,7 @@ module.exports = "\nbody{\n\tmargin:0;\n\t\n}\n.lbl-err {\n    color: red; \n\t}
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"top\">\n    <div class=\"m-grid__item m-grid__item--fluid m-grid m-grid--hor m-login m-login--signin m-login--2 m-login-2--skin-2\"\n        id=\"m_login\">\n        <div class=\"m-grid__item m-grid__item--fluid    m-login__wrapper\">\n            <div class=\"m-login__container\">\n                <div class=\"size\">\n                    <div class=\"app-logo\"></div><br>\n                    <h1>Check your inbox!</h1>\n                </div><br>\n                <div class=\"m-login__signin\">\n                    <div class=\"m-login__head\">\n                        <div class=\"m-login center\">\n                            <h3 class=\"m-login__title\">We've sent you an email with<br> a link to forgot Password</h3>\n                        </div>\n                    </div>\n                    <br><br>\n                    <div class=\"form-group\">\n                        <div class=\"m--align-center\">\n                            <button [disabled]=\"loading\" class=\"btn-login\" [routerLink]=\"['/login']\"> Continue ></button>\n                        </div>\n                    </div>\n                    <br>\n                    <div class=\"col m--align-center\">\n                        <p>Didn't recieve an email ? &nbsp;<a routerLink=\"/forgotpassword\">Try Again!!</a> </p>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n    <div>"
+module.exports = "<div class=\"top\">\n    <div class=\"m-grid__item m-grid__item--fluid m-grid m-grid--hor m-login m-login--signin m-login--2 m-login-2--skin-2\"\n        id=\"m_login\">\n        <div class=\"m-grid__item m-grid__item--fluid    m-login__wrapper\">\n            <div class=\"m-login__container\">\n                <div class=\"size\">\n                    <div class=\"app-logo\"></div><br>\n                    <h1>Check your inbox!</h1>\n                </div><br>\n                <div class=\"m-login__signin\">\n                    <div class=\"m-login__head\">\n                        <div class=\"m-login center\">\n                            <h3 class=\"m-login__title\">We've sent you an email with<br> a link to forgot Password</h3>\n                        </div>\n                    </div>\n                    <br><br>\n                    <div class=\"form-group\">\n                        <div class=\"m--align-center\">\n                            <button  class=\"btn-login\" [routerLink]=\"['/login']\"> Continue ></button>\n                        </div>\n                    </div>\n                    <br>\n                    <div class=\"col m--align-center\">\n                        <p>Didn't recieve an email ? &nbsp;<a routerLink=\"/forgotpassword\">Try Again!!</a> </p>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n    <div>"
 
 /***/ }),
 
@@ -1441,7 +1489,7 @@ var ForgotEmailComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\nbody{\n\tmargin:0;\n\t\n}\n.lbl-err {\n    color: red; \n\t}\n.size{\n       text-align: center;\n       width:100%;\n\t   display: flex;\n\t   justify-content: center;\n\t   align-items: center;\n\t   height: auto;\n\t   flex-direction: column;\n\t   -webkit-user-select: none;\n\t      -moz-user-select: none;\n\t       -ms-user-select: none;\n\t           user-select: none;\n\t   padding-top: 2rem;\n    }\n.btn-forgot{\n        color: white;\n        background-color: orange;\n        padding: .85rem 2rem;\n\t\tfont-size: 1rem;\n\t\tfont-weight: 100;\n\t\tfont-family: monospace;\n\t\t/* border-radius: 60px; */\n\t\tborder-color: orange;\n\t\twidth: 50%;\n\t\ttext-align: center;\n\t\tfloat: center;\n\t\tcursor: pointer;\n\t\tborder: none;\n\t\toutline: none;\n\t\tbox-shadow: 0 2px 2px 0 rgba(0,0,0,0.15);\n\t\ttransition: box-shadow 0.15s ease;\n    }\n.btn-login:hover{\n\t\tbox-shadow: 0 8px 16px 0 rgba(0,0,0,0.15);\n\t}\n.checkbox{\n        border-color: white;\n        color:#575962;\n    }\n.cen{\n        -ms-grid-row-align: center;\n            align-self: center;\n    }\n.app-logo{\n\t\theight:250px;\n\t\twidth:250px;\n\t\tbackground-position: center;\n\t\tbackground-repeat: no-repeat;\n\t\tbackground-size: contain;\n\t\tbackground-image: url(\"deli_sos_app_mark.png\");\n\t\t-webkit-transform-origin: bottom;\n\t\t        transform-origin: bottom;\n\t\t-webkit-animation: app-logo-intro-anim 0.35s ease;\n\t\t        animation: app-logo-intro-anim 0.35s ease;\n\t}\n@-webkit-keyframes app-logo-intro-anim{\n\t\t0%{\n\t\t\t-webkit-transform: scale(0,0);\n\t\t\t        transform: scale(0,0);\n\t\t}\n\t\t100%{\n\t\t\t-webkit-transform: scale(1,1);\n\t\t\t        transform: scale(1,1);\n\t\t}\n\t}\n@keyframes app-logo-intro-anim{\n\t\t0%{\n\t\t\t-webkit-transform: scale(0,0);\n\t\t\t        transform: scale(0,0);\n\t\t}\n\t\t100%{\n\t\t\t-webkit-transform: scale(1,1);\n\t\t\t        transform: scale(1,1);\n\t\t}\n\t}\n.size h1{\n\t\tfont-family: 'Changa One', cursive;\n\t\tfont-size: 24pt;\n\t\tfont-weight: 400;\n\t\tcolor: #212121;\n    }\n.top{\n        background-image: url(\"bg-3.jpg\");\n         background-size: cover;\n         height:100vh;\n         width:100%;\n         background-position: center;\n         background-repeat: no-repeat;\n     }\n    "
+module.exports = "\nbody{\n\tmargin:0;\n\t\n}\n.lbl-err {\n    color: red; \n\t}\n.size{\n       text-align: center;\n       width:100%;\n\t   display: flex;\n\t   justify-content: center;\n\t   align-items: center;\n\t   height: auto;\n\t   flex-direction: column;\n\t   -webkit-user-select: none;\n\t      -moz-user-select: none;\n\t       -ms-user-select: none;\n\t           user-select: none;\n\t   padding-top: 2rem;\n    }\n.btn-forgot{\n        color: white;\n        background-color: #e97121;\n        padding: .85rem 2rem;\n\t\tfont-size: 1rem;\n\t\tfont-weight: 100;\n\t\tfont-family: monospace;\n\t\t/* border-radius: 60px; */\n\t\tborder-color: #e97121;\n\t\twidth: 50%;\n\t\ttext-align: center;\n\t\tfloat: center;\n\t\tcursor: pointer;\n\t\tborder: none;\n\t\toutline: none;\n\t\tbox-shadow: 0 2px 2px 0 rgba(0,0,0,0.15);\n\t\ttransition: box-shadow 0.15s ease;\n    }\n.btn-login:hover{\n\t\tbox-shadow: 0 8px 16px 0 rgba(0,0,0,0.15);\n\t}\n.checkbox{\n        border-color: white;\n        color:#575962;\n    }\n.cen{\n        -ms-grid-row-align: center;\n            align-self: center;\n    }\n.app-logo{\n\t\theight:250px;\n\t\twidth:250px;\n\t\tbackground-position: center;\n\t\tbackground-repeat: no-repeat;\n\t\tbackground-size: contain;\n\t\tbackground-image: url(\"deli_sos_app_mark.png\");\n\t\t-webkit-transform-origin: bottom;\n\t\t        transform-origin: bottom;\n\t\t-webkit-animation: app-logo-intro-anim 0.35s ease;\n\t\t        animation: app-logo-intro-anim 0.35s ease;\n\t}\n@-webkit-keyframes app-logo-intro-anim{\n\t\t0%{\n\t\t\t-webkit-transform: scale(0,0);\n\t\t\t        transform: scale(0,0);\n\t\t}\n\t\t100%{\n\t\t\t-webkit-transform: scale(1,1);\n\t\t\t        transform: scale(1,1);\n\t\t}\n\t}\n@keyframes app-logo-intro-anim{\n\t\t0%{\n\t\t\t-webkit-transform: scale(0,0);\n\t\t\t        transform: scale(0,0);\n\t\t}\n\t\t100%{\n\t\t\t-webkit-transform: scale(1,1);\n\t\t\t        transform: scale(1,1);\n\t\t}\n\t}\n.size h1{\n\t\tfont-family: 'Changa One', cursive;\n\t\tfont-size: 24pt;\n\t\tfont-weight: 400;\n\t\tcolor: #212121;\n    }\n.top{\n        background-image: url(\"bg-3.jpg\");\n         background-size: cover;\n         height:100vh;\n         width:100%;\n         background-position: center;\n         background-repeat: no-repeat;\n     }\n    "
 
 /***/ }),
 
@@ -1515,6 +1563,7 @@ var ForgotPasswordComponent = /** @class */ (function () {
         this.forgotPasswordService.post(this.forgotPasswordForm.value).subscribe(function (response) {
             if (response.code == 200) {
                 _this.router.navigate(['/forgotemail']);
+                _this.loading = false;
             }
         }, function (error) {
             console.log('error', JSON.stringify(error));
@@ -1674,7 +1723,7 @@ var Helpers = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\nbody{\n\tmargin:0;\n\t\n}\n.lbl-err {\n    color: red; \n\t}\n.size{\n       text-align: center;\n       width:100%;\n\t   display: flex;\n\t   justify-content: center;\n\t   align-items: center;\n\t   height: auto;\n\t   flex-direction: column;\n\t   -webkit-user-select: none;\n\t      -moz-user-select: none;\n\t       -ms-user-select: none;\n\t           user-select: none;\n\t   padding-top: 2rem;\n    }\n.btn-login{\n        color: white;\n        background-color: orange;\n        padding: .85rem 2rem;\n\t\tfont-size: 1rem;\n\t\tfont-weight: 400;\n\t\tfont-family: monospace;\n\t\t/* border-radius: 60px; */\n\t\tborder-color: rgb(240, 161, 14);\n\t\twidth: 50%;\n\t\ttext-align: center;\n\t\tfloat: center;\n\t\tcursor: pointer;\n\t\tborder: none;\n\t\toutline: none;\n\t\tbox-shadow: 0 2px 2px 0 rgba(0,0,0,0.15);\n\t\ttransition: box-shadow 0.15s ease;\n    }\n.btn-login:hover{\n\t\tbox-shadow: 0 8px 16px 0 rgba(0,0,0,0.15);\n\t}\n.checkbox{\n        border-color: white;\n        color:#575962;\n    }\n.cen{\n        -ms-grid-row-align: center;\n            align-self: center;\n    }\n.app-logo{\n\t\theight:250px;\n\t\twidth:250px;\n\t\tbackground-position: center;\n\t\tbackground-repeat: no-repeat;\n\t\tbackground-size: contain;\n\t\tbackground-image: url(\"deli_sos_app_mark.png\");\n\t\t-webkit-transform-origin: bottom;\n\t\t        transform-origin: bottom;\n\t\t-webkit-animation: app-logo-intro-anim 0.35s ease;\n\t\t        animation: app-logo-intro-anim 0.35s ease;\n\t}\n@-webkit-keyframes app-logo-intro-anim{\n\t\t0%{\n\t\t\t-webkit-transform: scale(0,0);\n\t\t\t        transform: scale(0,0);\n\t\t}\n\t\t100%{\n\t\t\t-webkit-transform: scale(1,1);\n\t\t\t        transform: scale(1,1);\n\t\t}\n\t}\n@keyframes app-logo-intro-anim{\n\t\t0%{\n\t\t\t-webkit-transform: scale(0,0);\n\t\t\t        transform: scale(0,0);\n\t\t}\n\t\t100%{\n\t\t\t-webkit-transform: scale(1,1);\n\t\t\t        transform: scale(1,1);\n\t\t}\n\t}\n.size h1{\n\t\tfont-family: 'Changa One', cursive;\n\t\tfont-size: 24pt;\n\t\tfont-weight: 400;\n\t\tcolor: #212121;\n    }\n.style{\n        background-size: cover;\n        height:100vh;\n        width:100%;\n        background-position: center;\n        background-repeat: no-repeat;\n    }\n.top{\n        background-image: url(\"bg-3.jpg\");\n         background-size: cover;\n         height:100vh;\n         width:100%;\n         background-position: center;\n         background-repeat: no-repeat;\n     }\n"
+module.exports = "\nbody{\n\tmargin:0;\n\t\n}\n.lbl-err {\n    color: red; \n\t}\n.size{\n       text-align: center;\n       width:100%;\n\t   display: flex;\n\t   justify-content: center;\n\t   align-items: center;\n\t   height: auto;\n\t   flex-direction: column;\n\t   -webkit-user-select: none;\n\t      -moz-user-select: none;\n\t       -ms-user-select: none;\n\t           user-select: none;\n\t   padding-top: 2rem;\n    }\n.btn-login{\n        color: white; background-color: #e97121;\t\n        padding: .85rem 2rem;\n\t\tfont-size: 1rem;\n\t\tfont-weight: 400;\n\t\tfont-family: monospace;\n\t\t/* border-radius: 60px; */\n\t\tborder-color: #e97121;\n\t\twidth: 50%;\n\t\ttext-align: center;\n\t\tfloat: center;\n\t\tcursor: pointer;\n\t\tborder: none;\n\t\toutline: none;\n\t\tbox-shadow: 0 2px 2px 0 rgba(0,0,0,0.15);\n\t\ttransition: box-shadow 0.15s ease;\n    }\n.btn-login:hover{\n\t\tbox-shadow: 0 8px 16px 0 rgba(0,0,0,0.15);\n\t}\n.checkbox{\n        border-color: white;\n        color:#575962;\n    }\n.cen{\n        -ms-grid-row-align: center;\n            align-self: center;\n    }\n.app-logo{\n\t\theight:250px;\n\t\twidth:250px;\n\t\tbackground-position: center;\n\t\tbackground-repeat: no-repeat;\n\t\tbackground-size: contain;\n\t\tbackground-image: url(\"deli_sos_app_mark.png\");\n\t\t-webkit-transform-origin: bottom;\n\t\t        transform-origin: bottom;\n\t\t-webkit-animation: app-logo-intro-anim 0.35s ease;\n\t\t        animation: app-logo-intro-anim 0.35s ease;\n\t}\n@-webkit-keyframes app-logo-intro-anim{\n\t\t0%{\n\t\t\t-webkit-transform: scale(0,0);\n\t\t\t        transform: scale(0,0);\n\t\t}\n\t\t100%{\n\t\t\t-webkit-transform: scale(1,1);\n\t\t\t        transform: scale(1,1);\n\t\t}\n\t}\n@keyframes app-logo-intro-anim{\n\t\t0%{\n\t\t\t-webkit-transform: scale(0,0);\n\t\t\t        transform: scale(0,0);\n\t\t}\n\t\t100%{\n\t\t\t-webkit-transform: scale(1,1);\n\t\t\t        transform: scale(1,1);\n\t\t}\n\t}\n.size h1{\n\t\tfont-family: 'Changa One', cursive;\n\t\tfont-size: 24pt;\n\t\tfont-weight: 400;\n\t\tcolor: #212121;\n    }\n.style{\n        background-size: cover;\n        height:100vh;\n        width:100%;\n        background-position: center;\n        background-repeat: no-repeat;\n    }\n.top{\n        background-image: url(\"bg-3.jpg\");\n         background-size: cover;\n         height:100vh;\n         width:100%;\n         background-position: center;\n         background-repeat: no-repeat;\n     }\n"
 
 /***/ }),
 
@@ -1685,7 +1734,7 @@ module.exports = "\nbody{\n\tmargin:0;\n\t\n}\n.lbl-err {\n    color: red; \n\t}
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!-- <link rel=\"stylesheet\" type=\"text/css\" href=\"login.component.css\"> -->\n\n<div class=\"top\">\n    <div class=\"m-grid__item m-grid__item--fluid m-grid m-grid--hor m-login m-login--signin m-login--2 m-login-2--skin-2\"\n        id=\"m_login\">\n        <div class=\"m-grid__item m-grid__item--fluid    m-login__wrapper\">\n            <div class=\"m-login__container\">\n                <div class=\"size\">\n                    <div class=\"app-logo\"></div><br>\n                    <h1>Good food is<br>waiting for you!</h1>\n                </div>\n                <div class=\"m-login__signin\">\n                    <div class=\"m-login__head\"><br><br>\n                        <h3 class=\"m-login__title\">Sign In To Admin</h3>\n                    </div>\n                    <br>\n                    <form name=\"loginForm\" [formGroup]=\"loginForm\" (ngSubmit)=\"onSubmit()\">\n                        <div class=\"form-group\"> \n                            <input type=\"text\" class=\"form-control\" placeholder=\"Email\"\n                                formControlName=\"email\" [ngClass]=\"{ 'is-invalid': submitted && f.email.errors }\">\n                            <div *ngIf=\"submitted && f.email.errors\" class=\"lbl-err \">\n                                <div *ngIf=\"f.email.errors.required\">Email is required</div>\n                                <div *ngIf=\"f.email.errors.pattern\">Enter Valid EmailId</div>\n                            </div>\n                        </div>\n                        <div class=\"form-group\">\n                            <input type=\"password\"   class=\"form-control\" placeholder=\"Password\" formControlName=\"password\"\n                                [ngClass]=\"{ 'is-invalid': submitted && f.password.errors }\">\n                            <div *ngIf=\"submitted && f.password.errors\" class=\"lbl-err \">\n                                <div *ngIf=\"f.password.errors.required\">Password is required</div>\n                                <!-- <div *ngIf=\"f.password.errors.pattern\">Enter Password must be Minimum Six characters, at least one Capital letter, one number and one special character:</div> -->\n                            </div>\n                            <br>\n\n                            <div class=\"col m--align-center\">\n                                <!-- <p>Don't have an account? &nbsp;<a routerLink=\"/sign-up\">register</a> </p> -->\n                            </div>\n                        </div>\n                        <div class=\"row m-login__form-sub\">\n                            <div class=\"col m--align-left\"> <label class=\"checkbox\"> <input type=\"checkbox\" name=\"remember\"\n                                        style=\"color:blue\"> Remember me <span></span> </label>\n                            </div>\n                            <div class=\"col m--align-right\"> <a routerLink=\"/forgotpassword\" class=\"checkbox\">Forgot\n                                    Password?</a> </div>\n                        </div>\n                        <div class=\"form-group\">\n                            <div class=\"m--align-center\">\n                                <button [disabled]=\"loading\" class=\"btn-login\" (click)=\"signIn()\">Log In</button>\n                            </div>\n                        </div>\n\n                    </form>\n                </div>\n\n\n                <!-- <div class=\"m-login__account\">\n                <span class=\"m-login__account-msg\">\n                Don't have an account yet ?\n                </span>&nbsp;&nbsp;\n                <a href=\"javascript:;\" id=\"m_login_signup\" class=\"m-link m-link--light m-login__account-link\" routerLink=\"/sign-up\">Sign Up</a>\n            </div>\n            <div class=\"m-login__account\">\n                <span class=\"m-login__account-msg\">\n               Continue with facebook?\n               <a href=\"javascript:;\" id=\"m_login_signup\" class=\"m-link m-link--light m-login__account-link\" routerLink=\"/sign-up\">Sign Up</a>\n\n               </span>\n               \n            </div> -->\n            </div>\n        </div>\n\n        <!-- <app-footer></app-footer> -->\n    </div>\n    <div>"
+module.exports = "<!-- <link rel=\"stylesheet\" type=\"text/css\" href=\"login.component.css\"> -->\n\n<div class=\"top\">\n    <div class=\"m-grid__item m-grid__item--fluid m-grid m-grid--hor m-login m-login--signin m-login--2 m-login-2--skin-2\"\n        id=\"m_login\">\n        <div class=\"m-grid__item m-grid__item--fluid    m-login__wrapper\">\n            <div class=\"m-login__container\">\n                <div class=\"size\">\n                    <div class=\"app-logo\"></div><br>\n                    <h1>Good food is<br>waiting for you!</h1>\n                </div>\n                <div class=\"m-login__signin\">\n                    <div class=\"m-login__head\"><br><br>\n                        <h3 class=\"m-login__title\">Sign In To Admin</h3>\n                    </div>\n                    <br>\n                    <form name=\"loginForm\" [formGroup]=\"loginForm\" (ngSubmit)=\"onSubmit()\">\n                        <div class=\"form-group\"> \n                          <input type=\"text\" class=\"form-control\" placeholder=\"Email\"\n                                formControlName=\"email\" [ngClass]=\"{ 'is-invalid': submitted && f.email.errors }\">\n                            <div *ngIf=\"submitted && f.email.errors\" class=\"lbl-err \">\n                                <div *ngIf=\"f.email.errors.required\">Email is required</div>\n                                <div *ngIf=\"f.email.errors.pattern\">Enter Valid EmailId</div>\n                            </div>\n                        </div>\n                        <div class=\"form-group\">\n                            <input type=\"password\"   class=\"form-control\" placeholder=\"Password\" formControlName=\"password\"\n                                [ngClass]=\"{ 'is-invalid': submitted && f.password.errors }\">\n                            <div *ngIf=\"submitted && f.password.errors\" class=\"lbl-err \">\n                                <div *ngIf=\"f.password.errors.required\">Password is required</div>\n                                <!-- <div *ngIf=\"f.password.errors.pattern\">Enter Password must be Minimum Six characters, at least one Capital letter, one number and one special character:</div> -->\n                            </div>\n                            <br>\n\n                            <div class=\"col m--align-center\">\n                                <!-- <p>Don't have an account? &nbsp;<a routerLink=\"/sign-up\">register</a> </p> -->\n                            </div>\n                        </div>\n                        <div class=\"row m-login__form-sub\">\n                            <div class=\"col m--align-left\"> <label class=\"checkbox\"> <input type=\"checkbox\" name=\"remember\"\n                                        style=\"color:blue\"> Remember me <span></span> </label>\n                            </div>\n                            <div class=\"col m--align-right\"> <a routerLink=\"/forgotpassword\" class=\"checkbox\">Forgot\n                                    Password?</a> </div>\n                        </div>\n                        <div class=\"form-group\">\n                            <div class=\"m--align-center\">\n                                <button [disabled]=\"loading\" class=\"btn-login\" (click)=\"signIn()\">Log In</button>\n                            </div>\n                        </div>\n\n                    </form>\n                </div>\n\n\n                <!-- <div class=\"m-login__account\">\n                <span class=\"m-login__account-msg\">\n                Don't have an account yet ?\n                </span>&nbsp;&nbsp;\n                <a href=\"javascript:;\" id=\"m_login_signup\" class=\"m-link m-link--light m-login__account-link\" routerLink=\"/sign-up\">Sign Up</a>\n            </div>\n            <div class=\"m-login__account\">\n                <span class=\"m-login__account-msg\">\n               Continue with facebook?\n               <a href=\"javascript:;\" id=\"m_login_signup\" class=\"m-link m-link--light m-login__account-link\" routerLink=\"/sign-up\">Sign Up</a>\n\n               </span>\n               \n            </div> -->\n            </div>\n        </div>\n\n        <!-- <app-footer></app-footer> -->\n    </div>\n    <div>"
 
 /***/ }),
 
@@ -1739,7 +1788,6 @@ var LoginComponent = /** @class */ (function () {
         this.submitted = true;
         // stop here if form is invalid
         if (this.loginForm.invalid) {
-            console.log("invalid feedback");
             return;
         }
         this.loading = true;
@@ -1753,10 +1801,13 @@ var LoginComponent = /** @class */ (function () {
                 localStorage.setItem('_id', JSON.stringify(response.data._id));
                 _this._router.navigate(['/index']);
             }
-            else
+            else {
                 _this.toastService.error(response.message);
+                _this.loading = false;
+            }
         }, function (error) {
-            console.log('error' + error);
+            _this.loading = false;
+            console.log(error);
         });
     };
     LoginComponent.prototype.buildLoginForm = function () {
@@ -1824,10 +1875,6 @@ var LoginService = /** @class */ (function () {
             return res;
         });
     };
-    LoginService.prototype.get = function (obj) {
-        return this.http.get(_app_service__WEBPACK_IMPORTED_MODULE_0__["URL"] + 'user/login', obj)
-            .map(function (res) { return res; });
-    };
     LoginService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
             providedIn: 'root'
@@ -1848,7 +1895,7 @@ var LoginService = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!-- BEGIN: Left Aside -->\n<app-header-nav></app-header-nav>\n<button class=\"m-aside-left-close  m-aside-left-close--skin-dark\" id=\"m_aside_left_close_btn\" appunwraptag=\"\"><i class=\"la la-close\"></i></button>\n<div id=\"m_aside_left\" class=\"m-grid__item\tm-aside-left  m-aside-left--skin-dark\">\n\t<!-- BEGIN: Aside Menu -->\n\t<div id=\"m_ver_menu\" class=\"m-aside-menu  m-aside-menu--skin-dark m-aside-menu--submenu-skin-dark\" m-menu-vertical=\"1\"\n\t m-menu-scrollable=\"1\" m-menu-dropdown-timeout=\"500\" style=\"position: relative;\">\n\t\t<ul class=\"m-menu__nav  m-menu__nav--dropdown-submenu-arrow\">\n\t\t\t<li class=\"m-menu__item  \" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\"\n\t\t\t aria-haspopup=\"true\"><a routerLink=\"/index\" class=\"m-menu__link\"><i class=\"m-menu__link-icon flaticon-line-graph\"></i><span\n\t\t\t\t\t class=\"m-menu__link-title\">\n\t\t\t\t\t\t<span class=\"m-menu__link-wrap\"> <span class=\"m-menu__link-text\">Dashboard</span>  </span></span></a></li>\n\t\t\t<li class=\"m-menu__section\">\n\t\t\t\t<h4 class=\"m-menu__section-text\">Masters</h4> <i class=\"m-menu__section-icon flaticon-more-v3\"></i>\n\t\t\t</li>\n\t\t\t<!-- <li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\"\n\t\t\t routerLinkActiveOptions=\"{ exact: true }\" aria-haspopup=\"true\"><a routerLink=\"/angular/ng-bootstrap\" class=\"m-menu__link\"><i class=\"m-menu__link-icon flaticon-settings\"></i><span class=\"m-menu__link-text\">Ng-Bootstrap</span></a></li> -->\n\n\t\t\t<!-- <li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\" aria-haspopup=\"true\"><a\n\t\t\t\t routerLink=\"/admin/banner\" class=\"m-menu__link\"><i class=\"far fa-images\"></i>&nbsp;&nbsp;&nbsp;Banner</a>\n\t\t\t</li> -->\n\t\t\t<li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\" aria-haspopup=\"true\"><a\n\t\t\t\trouterLink=\"/admin/restaurant\" class=\"m-menu__link\"><i class=\"fas fa-bars\"></i>&nbsp;&nbsp;&nbsp;Restaurant\n\t\t\t\t\t </a>\n\t\t   </li>\n\t\t\t<!-- <li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\" aria-haspopup=\"true\"><a\n\t\t\t\t routerLink=\"/admin/menu\" class=\"m-menu__link\"><i class=\"fas fa-bars\"></i>&nbsp;&nbsp;&nbsp;menu</a>\n\t\t\t</li>\n\t\t\n\t\t\t\n\t\t\t\n\t\t\t<li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\" aria-haspopup=\"true\"><a\n\t\t\t\t routerLink=\"/admin/email-templates\" class=\"m-menu__link\"><i class=\"fas fa-envelope-open\"></i>&nbsp;&nbsp;&nbsp; Email\n\t\t\t\t\t\tTemplate</a>\n\t\t\t</li>-->\n\t\t\t<li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\" aria-haspopup=\"true\"><a\n\t\t\t\trouterLink=\"/admin/getUserList\" class=\"m-menu__link\"><i class=\"fas fa-users\"></i>&nbsp;&nbsp;&nbsp;User\n\t\t\t\t\t  </a>\n\t\t   </li>\n\t\t  <!----   <li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\" aria-haspopup=\"true\"><a\n\t\t\trouterLink=\"/admin/approveR\" class=\"m-menu__link\"><i class=\"far fa-building\"></i>&nbsp;&nbsp;&nbsp;About us\n\t\t\t\t   </a>\n\t   </li>\n\t  \n   \n\t <li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\"\n\t   aria-haspopup=\"true\"><a routerLink=\"/admin/privacy-policy\" class=\"m-menu__link\"><i class=\"m-menu__link-icon flaticon-settings\"></i><span\n\t\t\t   class=\"m-menu__link-text\">Privacy policy\n\t\t\t  </span></a>\n\t  </li>\n\n\n\t  <li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\"\n\t   aria-haspopup=\"true\"><a routerLink=\"/admin/terms-conditions\" class=\"m-menu__link\"><i class=\"m-menu__link-icon flaticon-settings\"></i><span\n\t\t\t   class=\"m-menu__link-text\">Terms & Conditions\n\t\t\t  </span></a>\n\t  </li>\n\n\n\t  <li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\"\n\t  aria-haspopup=\"true\"><a routerLink=\"/admin/notifications\" class=\"m-menu__link\"><i class=\"m-menu__link-icon flaticon-settings\"></i><span\n\t\t\t  class=\"m-menu__link-text\">Notifications\n\t\t\t </span></a>\n\t </li>\n\n\t\t\t -->\n\t\t\t\n\t\t\t\t\t</ul>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\n"
+module.exports = "<!-- BEGIN: Left Aside -->\n<div class=\"t1\">\n<app-header-nav></app-header-nav>\n<button class=\"m-aside-left-close  m-aside-left-close--skin-dark\" id=\"m_aside_left_close_btn\" appunwraptag=\"\"><i class=\"la la-close\"></i></button>\n<div id=\"m_aside_left\" class=\"m-grid__item\tm-aside-left  m-aside-left--skin-dark\">\n\t<!-- BEGIN: Aside Menu -->\n\t<div id=\"m_ver_menu\" class=\"m-aside-menu  m-aside-menu--skin-dark m-aside-menu--submenu-skin-dark\" m-menu-vertical=\"1\"\n\t m-menu-scrollable=\"1\" m-menu-dropdown-timeout=\"500\" style=\"background: rgb(236, 151, 39);  /* fallback for old browsers */\n\t background: -webkit-linear-gradient(to right, #e97121, rgb(236, 151, 39));  /* Chrome 10-25, Safari 5.1-6 */\n\t background: linear-gradient(to right, #e97121, rgb(236, 151, 39)); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */\n\t \n\t \">\n\t\t<ul class=\"m-menu__nav  m-menu__nav--dropdown-submenu-arrow\">\n\t\t\t<li class=\"m-menu__item  \" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\"\n\t\t\t aria-haspopup=\"true\"><a routerLink=\"/index\" class=\"m-menu__link\"><i class=\"m-menu__link-icon flaticon-line-graph\" style=\"color:white; font-weight: 400\"> </i><span\n\t\t\t\t\t class=\"m-menu__link-title\">\n\t\t\t\t\t\t<span class=\"m-menu__link-wrap\"> <span class=\"m-menu__link-text\" style=\"color:white; font-weight: 400\">Dashboard</span>  </span></span></a></li>\n\t\t\t<li class=\"m-menu__section\">\n\t\t\t\t<h4 class=\"m-menu__section-text\">Masters</h4> <i class=\"m-menu__section-icon flaticon-more-v3\"></i>\n\t\t\t</li>\n\t\t\t<!-- <li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\"\n\t\t\t routerLinkActiveOptions=\"{ exact: true }\" aria-haspopup=\"true\"><a routerLink=\"/angular/ng-bootstrap\" class=\"m-menu__link\"><i class=\"m-menu__link-icon flaticon-settings\"></i><span class=\"m-menu__link-text\">Ng-Bootstrap</span></a></li> -->\n\n\t\t\t<!-- <li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\" aria-haspopup=\"true\"><a\n\t\t\t\t routerLink=\"/admin/banner\" class=\"m-menu__link\"><i class=\"far fa-images\"></i>&nbsp;&nbsp;&nbsp;Banner</a>\n\t\t\t</li> -->\n\t\t\t<li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\" aria-haspopup=\"true\"><a\n\t\t\t\trouterLink=\"/admin/restaurant\" class=\"m-menu__link\" style=\"color:white; font-weight: 400\"><i class=\"fas fa-bars\" style=\"color:white; font-weight: 400\"></i>&nbsp;&nbsp;&nbsp;Restaurants\n\t\t\t\t\t </a>\n\t\t   </li>\n\t\t\t<!-- <li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\" aria-haspopup=\"true\"><a\n\t\t\t\t routerLink=\"/admin/menu\" class=\"m-menu__link\"><i class=\"fas fa-bars\"></i>&nbsp;&nbsp;&nbsp;menu</a>\n\t\t\t</li>\n\t\t\n\t\t\t\n\t\t\t\n\t\t\t<li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\" aria-haspopup=\"true\"><a\n\t\t\t\t routerLink=\"/admin/email-templates\" class=\"m-menu__link\"><i class=\"fas fa-envelope-open\"></i>&nbsp;&nbsp;&nbsp; Email\n\t\t\t\t\t\tTemplate</a>\n\t\t\t</li>-->\n\t\t\t<li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\" aria-haspopup=\"true\"><a\n\t\t\t\trouterLink=\"/admin/getUserList\" class=\"m-menu__link\" style=\"color:white; font-weight: 400\"><i class=\"fas fa-user\" style=\"color:white; font-weight: 400\"></i>&nbsp;&nbsp;&nbsp;Users\n\n\t\t\t\t\n\t\t\t\t\t  </a>\n\t\t   </li>\n\t\t   <li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\" aria-haspopup=\"true\"><a\n\t\t\trouterLink=\"/admin/about-us\" class=\"m-menu__link\" style=\"color:white; font-weight: 400\"><i class=\"far fa-building\"></i>&nbsp;&nbsp;&nbsp;About us\n\t\t\t\t   </a>\n\t     </li>\n   \n\t\t\t<li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\"aria-haspopup=\"true\">\n\t\t\t<a routerLink=\"/admin/privacy-policy\" class=\"m-menu__link\" style=\"color:white; font-weight: 400\"><i class=\"far flaticon-settings\" style=\"color:white; font-weight: 400\"></i>&nbsp;&nbsp;&nbsp;Privacy policy\n\t\t\t\t</a>\n\t\t\t</li>\n\n\n\t<!----  <li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\"\n\t   aria-haspopup=\"true\"><a routerLink=\"/admin/terms-conditions\" class=\"m-menu__link\"><i class=\"m-menu__link-icon flaticon-settings\"></i><span\n\t\t\t   class=\"m-menu__link-text\">Terms & Conditions\n\t\t\t  </span></a>\n\t  </li>\n\n\n\t  <li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\"\n\t  aria-haspopup=\"true\"><a routerLink=\"/admin/notifications\" class=\"m-menu__link\"><i class=\"m-menu__link-icon flaticon-settings\"></i><span\n\t\t\t  class=\"m-menu__link-text\">Notifications\n\t\t\t </span></a>\n\t </li>\n\n\t -->\n\t\t\t\n\t\t\t\t\t</ul>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t\n"
 
 /***/ }),
 
@@ -1903,7 +1950,7 @@ var AsideNavComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!-- begin::Footer -->\n<footer class=\"m-grid__item\t\tm-footer\" appunwraptag=\"\">\n\t<div class=\"m-container m-container--fluid m-container--full-height m-page__container\">\n\t\t<div class=\"m-stack m-stack--flex-tablet-and-mobile m-stack--ver m-stack--desktop\">\n\t\t\t<div class=\"m-stack__item m-stack__item--left m-stack__item--middle m-stack__item--last\"> <span class=\"m-footer__copyright\"> 2018 &copy; SoLow theme by <a href=\"https://solow.com\" class=\"m-link\">Solowthemes</a>\n\t\t\t\t\t</span> </div>\n\t\t\t<div class=\"m-stack__item m-stack__item--right m-stack__item--middle m-stack__item--first\">\n\t\t\t\t<ul class=\"m-footer__nav m-nav m-nav--inline m--pull-right\">\n\t\t\t\t\t<li class=\"m-nav__item\"> <a href=\"#\" class=\"m-nav__link\"> <span class=\"m-nav__link-text\">About</span> </a> </li>\n\t\t\t\t\t<li class=\"m-nav__item\"> <a href=\"#\" class=\"m-nav__link\"> <span class=\"m-nav__link-text\">Privacy</span> </a> </li>\n\t\t\t\t\t\n\t\t\t\t\t<li class=\"m-nav__item m-nav__item\">\n\t\t\t\t\t<a href=\"#\" class=\"m-nav__link\" data-toggle=\"m-tooltip\" title=\"Support Center\" data-placement=\"left\"> <i class=\"m-nav__link-icon flaticon-info m--icon-font-size-lg3\"></i>\n\t\t\t\t\t\t\t</a> </li>\n\t\t\t\t</ul>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</footer> <!-- end::Footer -->"
+module.exports = "<!-- begin::Footer -->\n\n<!-- <footer class=\"m-grid__item\t\tm-footer\" appunwraptag=\"\" >\n\t<div class=\"m-container m-container--fluid m-container--full-height m-page__container\" style=\"background: white\">\n\t\t<div class=\"m-stack m-stack--flex-tablet-and-mobile m-stack--ver m-stack--desktop\" style=\"background: white\">\n\t\t\t<div class=\"m-stack__item m-stack__item--left m-stack__item--middle m-stack__item--last\"> <span class=\"m-footer__copyright\"> 2018 &copy; SoLow theme by <a href=\"https://solow.com\" class=\"m-link\">Solowthemes</a>\n\t\t\t\t\t</span> </div>\n\t\t\t<div class=\"m-stack__item m-stack__item--right m-stack__item--middle m-stack__item--first\" style=\"background: white\">\n\t\t\t\t<ul class=\"m-footer__nav m-nav m-nav--inline m--pull-right\">\n\t\t\t\t\t<li class=\"m-nav__item\"> <a href=\"#\" class=\"m-nav__link\"> <span class=\"m-nav__link-text\">About</span> </a> </li>\n\t\t\t\t\t<li class=\"m-nav__item\"> <a href=\"#\" class=\"m-nav__link\"> <span class=\"m-nav__link-text\">Privacy</span> </a> </li>\n\t\t\t\t\t\n\t\t\t\t\t<li class=\"m-nav__item m-nav__item\">\n\t\t\t\t\t<a href=\"#\" class=\"m-nav__link\" data-toggle=\"m-tooltip\" title=\"Support Center\" data-placement=\"left\"> <i class=\"m-nav__link-icon flaticon-info m--icon-font-size-lg3\"></i>\n\t\t\t\t\t\t\t</a> </li>\n\t\t\t\t</ul>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</footer> -->\n <!-- end::Footer -->"
 
 /***/ }),
 
@@ -1955,7 +2002,7 @@ var FooterComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!-- BEGIN: Header -->\n<header id=\"m_header\" class=\"m-grid__item    m-header\" m-minimize-offset=\"200\" m-minimize-mobile-offset=\"200\" appunwraptag=\"\">\n\t<div class=\"m-container m-container--fluid m-container--full-height\">\n\t\t<div class=\"m-stack m-stack--ver m-stack--desktop\">\n\t\t\t<!-- BEGIN: Brand -->\n\t\t\t<div class=\"m-stack__item m-brand  m-brand--skin-dark\">\n\t\t\t\t<div class=\"m-stack m-stack--ver m-stack--general\">\n\t\t\t\t\t<div class=\"m-stack__item m-stack__item--middle m-brand__logo\"> <img alt=\"\" src=\"./assets/demo/default/media/img/logo/logo1.png\" height=\"45px\" margin-top=\"50px\"/> <a routerLink=\"/index\" class=\"m-brand__logo-wrapper\">\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t<h3>DeliSos</h3>\n\t\t\t\t\t\t\n\t\t\t\t\t</a> </div>\n\n\t\t\t\t\t<div class=\"m-stack__item m-stack__item--middle m-brand__tools\">\n\t\t\t\t\t\t<!-- BEGIN: Left Aside Minimize Toggle --><a id=\"m_aside_left_minimize_toggle\" class=\"m-brand__icon m-brand__toggler m-brand__toggler--left m--visible-desktop-inline-block\">\n\t\t\t\t\t\t\t<span></span> </a> <!-- END -->\n\t\t\t\t\t\t<!-- BEGIN: Responsive Aside Left Menu Toggler --><a id=\"m_aside_left_offcanvas_toggle\" class=\"m-brand__icon m-brand__toggler m-brand__toggler--left m--visible-tablet-and-mobile-inline-block\">\n\t\t\t\t\t\t\t<span></span> </a> <!-- END -->\n\t\t\t\t\t\t<!-- BEGIN: Responsive Header Menu Toggler --><a id=\"m_aside_header_menu_mobile_toggle\" href=\"javascript:;\" class=\"m-brand__icon m-brand__toggler m--visible-tablet-and-mobile-inline-block\">\n\t\t\t\t\t\t\t<span></span> </a> <!-- END -->\n\t\t\t\t\t\t<!-- BEGIN: Topbar Toggler --><a id=\"m_aside_header_topbar_mobile_toggle\"  class=\"m-brand__icon m--visible-tablet-and-mobile-inline-block\">\n\t\t\t\t\t\t\t<i class=\"flaticon-more\"></i> </a> <!-- BEGIN: Topbar Toggler -->\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t\n\t\t\t</div> <!-- END: Brand -->\n\t\t\t<div class=\"m-stack__item m-stack__item--fluid m-header-head\" id=\"m_header_nav\">\n\t\t\t\t<!-- BEGIN: Horizontal Menu --><button class=\"m-aside-header-menu-mobile-close  m-aside-header-menu-mobile-close--skin-dark\" id=\"m_aside_header_menu_mobile_close_btn\"><i\n\t\t\t\t\t class=\"la la-close\"></i></button> \n\t\t\t\t\t <div id=\"m_header_menu\" class=\"m-header-menu m-aside-header-menu-mobile m-aside-header-menu-mobile--offcanvas  m-header-menu--skin-light m-header-menu--submenu-skin-light m-aside-header-menu-mobile--skin-dark m-aside-header-menu-mobile--submenu-skin-dark\">\n\t\t\t\t\t\n\t\t\t\t</div> <!-- END: Horizontal Menu -->\n\t\t\t\t\n\t\t\t\t<div class=\"m-nav__item m-topbar__user-profile m-topbar__user-profile--img  m-dropdown m-dropdown--medium m-dropdown--arrow m-dropdown--header-bg-fill m-dropdown--align-right m-dropdown--mobile-full-width m-dropdown--skin-light\"\n\t\t\t\t\t\t\t m-dropdown-toggle=\"click\"> \n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t<div class=\"m-nav__link m-dropdown__toggle\"> <span class=\"m-topbar__userpic\">\n\t\t\t\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t\t\t<img [src]=\"profilesList\" class=\"image\" [alt]=\"profilesList\" /> \n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</span> <span\n\t\t\t\t\t\t\t\t\t class=\"m-topbar__username m--hide\">Nick</span>\n\t\t\t\t\t\t\t\t\t </div>\n\t\t\t\t\t\t\t\t\t \n\t\t\t\t\t\t\t\t\t <div class=\"m-card-profile__pic\">\n\t\t\t\t\t\t\t\t<!-- </a>  -->\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t<div class=\"m-dropdown__wrapper\"> <span class=\"m-dropdown__arrow m-dropdown__arrow--right m-dropdown__arrow--adjust\"></span>\n\t\t\t\t\t\t\t\t\t<div class=\"m-dropdown__inner\">\n\t\t\t\t\t\t\t\t\t\t<div class=\"m-dropdown__header m--align-center\" style=\"background: url(./assets/app/media/img/misc/user_profile_bg.jpg); background-size: cover;\">\n\t\t\t\t\t\t\t\t\t\t\t<div class=\"m-card-user m-card-user--skin-dark\">\n\t\t\t\t\t\t\t\t\t\t\t\t<!-- <div class=\"m-card-user__pic\"> <img src=\"./assets/app/media/img/users/user4.jpg\" class=\"m--img-rounded m--marginless\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t alt=\"\" /> -->\n\t\t\t\t\t\t\t\t\t\t\t\t\t<!-- \t\t\t\t\t\t<span class=\"m-type m-type--lg m--bg-danger\"><span class=\"m--font-light\">S<span><span> \t\t\t\t\t\t-->\n\t\t\t\t\t\t\t\t\t\t\t\t<!-- </div> -->\n\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"m-card-user__details\"> <span class=\"m-card-user__name m--font-weight-500\"(click)=\"getName()\">{{name}}</span> <a href=\"\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t class=\"m-card-user__email m--font-weight-300 m-link\">{{email}}</a>\n\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t<div class=\"m-dropdown__body\">\n\t\t\t\t\t\t\t\t\t\t\t<div class=\"m-dropdown__content\">\n\t\t\t\t\t\t\t\t\t\t\t\t<ul class=\"m-nav m-nav--skin-light\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t<li class=\"m-nav__section m--hide\"> <span class=\"m-nav__section-text\">Section</span> </li>\n\t\t\t\t\t\t\t\t\t\t\t\t\t<li class=\"m-nav__item\"> <a routerLink=\"/admin/profile\" class=\"m-nav__link\"> <i class=\"m-nav__link-icon flaticon-profile-1\"></i>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<span class=\"m-nav__link-title\"> <span class=\"m-nav__link-wrap\"> <span class=\"m-nav__link-text\">My Profile</span>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<span class=\"m-nav__link-badge\"></span> </span> </span> </a>\n\t\t\t\t\t\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t\t\t<li class=\"m-nav__item\"> <a routerLink=\"/snippets/pages/user/login-1\" class=\"btn m-btn--pill    btn-secondary m-btn m-btn--custom m-btn--label-brand m-btn--bolder\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t (click)=\"logout()\">Logout</a> </li>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t \n\t\t\t\t\t\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t\n</header> <!-- END: Header -->"
+module.exports = "<!-- BEGIN: Header -->\n<header id=\"m_header\" class=\"m-grid__item    m-header\" m-minimize-offset=\"200\" m-minimize-mobile-offset=\"200\"\n appunwraptag=\"\">\n\t<div class=\"m-container m-container--fluid m-container--full-height\" style=\"background: white \">\n\t\t<div class=\"m-stack m-stack--ver m-stack--desktop\" style=\"background: white \">\n\t\t\t<!-- BEGIN: Brand -->\n\t\t\t<div class=\"m-stack__item m-brand  m-brand--skin-dark\" style=\"background:  rgb(236, 151, 39);  /* fallback for old browsers */\n\t\t\tbackground: -webkit-linear-gradient(to right, rgb(236, 151, 39)), #e97121;  /* Chrome 10-25, Safari 5.1-6 */\n\t\t\tbackground: linear-gradient(to right, rgb(236, 151, 39), #e97121); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */\n\t\t\t\n\t\t\t\">\n\t\t\t\t<div class=\"m-stack m-stack--ver m-stack--general\">\n\t\t\t\t\t<div class=\"m-stack__item m-stack__item--middle m-brand__logo\"> <img alt=\"\" src=\"./assets/demo/default/media/img/logo/logo1.png\"\n\t\t\t\t\t\t height=\"45px\" margin-top=\"50px\" /> <a routerLink=\"/index\" class=\"m-brand__logo-wrapper\">\n\n\t\t\t\t\t\t\t<h3>DeliSos</h3>\n\n\t\t\t\t\t\t</a> </div>\n\n\t\t\t\t\t<div class=\"m-stack__item m-stack__item--middle m-brand__tools\">\n\t\t\t\t\t\t<!-- BEGIN: Left Aside Minimize Toggle --><a id=\"m_aside_left_minimize_toggle\" class=\"m-brand__icon m-brand__toggler m-brand__toggler--left m--visible-desktop-inline-block\">\n\t\t\t\t\t\t\t<span></span> </a> <!-- END -->\n\t\t\t\t\t\t<!-- BEGIN: Responsive Aside Left Menu Toggler --><a id=\"m_aside_left_offcanvas_toggle\" class=\"m-brand__icon m-brand__toggler m-brand__toggler--left m--visible-tablet-and-mobile-inline-block\">\n\t\t\t\t\t\t\t<span></span> </a> <!-- END -->\n\t\t\t\t\t\t<!-- BEGIN: Responsive Header Menu Toggler --><a id=\"m_aside_header_menu_mobile_toggle\" href=\"javascript:;\" class=\"m-brand__icon m-brand__toggler m--visible-tablet-and-mobile-inline-block\">\n\t\t\t\t\t\t\t<span></span> </a> <!-- END -->\n\t\t\t\t\t\t<!-- BEGIN: Topbar Toggler --><a id=\"m_aside_header_topbar_mobile_toggle\" class=\"m-brand__icon m--visible-tablet-and-mobile-inline-block\">\n\t\t\t\t\t\t\t<i class=\"flaticon-more\"></i> </a> <!-- BEGIN: Topbar Toggler -->\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\n\t\t\t</div> <!-- END: Brand -->\n\t\t\t<div class=\"m-stack__item m-stack__item--fluid m-header-head\" id=\"m_header_nav\">\n\t\t\t\t<!-- BEGIN: Horizontal Menu --><button class=\"m-aside-header-menu-mobile-close  m-aside-header-menu-mobile-close--skin-dark\"\n\t\t\t\t id=\"m_aside_header_menu_mobile_close_btn\" style=\"background-color:rgb(236, 159, 87)\"><i class=\"la la-close\"></i></button>\n\t\t\t\t<div id=\"m_header_menu\" class=\"m-header-menu m-aside-header-menu-mobile m-aside-header-menu-mobile--offcanvas  m-header-menu--skin-light m-header-menu--submenu-skin-light m-aside-header-menu-mobile--skin-dark m-aside-header-menu-mobile--submenu-skin-dark\">\n\n\t\t\t\t</div> <!-- END: Horizontal Menu -->\n\n\t\t\t\t<div class=\"m-nav__item m-topbar__user-profile m-topbar__user-profile--img  m-dropdown m-dropdown--medium m-dropdown--arrow m-dropdown--header-bg-fill m-dropdown--align-right m-dropdown--mobile-full-width m-dropdown--skin-light\"\n\t\t\t\t m-dropdown-toggle=\"click\">\n\n\t\t\t\t\t<div class=\"m-nav__link m-dropdown__toggle\"> <span class=\"m-topbar__userpic\">\n\t\t\t\t\t\t\t<div *ngIf=\"!profilesList\">\n\t\t\t\t\t\t\t\t<img src=\"dummy.jpg\" class=\"img-circle\" alt=\"Cinque Terre\" width=\"80\" height=\"80\">\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div *ngIf=\"profilesList\">\n\t\t\t\t\t\t\t\t<img [src]=\"profilesList\" class=\"img-circle\" alt=\"profilesList\" width=\"80\" height=\"80\">\n\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</span> <span class=\"m-topbar__username m--hide\">Nick</span>\n\t\t\t\t\t</div>\n\n\t\t\t\t\t<div class=\"m-card-profile__pic\">\n\t\t\t\t\t\t<!-- </a>  -->\n\n\t\t\t\t\t</div>\n\n\t\t\t\t\t<div class=\"m-dropdown__wrapper\"> <span class=\"m-dropdown__arrow m-dropdown__arrow--right m-dropdown__arrow--adjust\"></span>\n\t\t\t\t\t\t<div class=\"m-dropdown__inner\">\n\t\t\t\t\t\t\t<div class=\"m-dropdown__header m--align-center\" style=\"background-size: cover;\">\n\t\t\t\t\t\t\t\t<div class=\"m-card-user m-card-user--skin-dark\">\n\t\t\t\t\t\t\t\t\t<!-- <div *ngIf=\"profilesList\">\n\t\t\t\t\t\t\t\t\t\t<img [src]=\"profilesList\" class=\"img-circle\" alt=\"profilesList\" width=\"80\" height=auto>\n\t\t\t\t\t\t\t\t\t</div> -->\n\t\t\t\t\t\t\t\t\t<div class=\"m-card-user__pic\"> <img [src]=\"profilesList\" class=\"m--img-circle\" height=\"70\" width=\"80\" alt=\"\" />\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class=\"m-card-user__details\"> <span class=\"user\">{{name}}</span> </div>\n\t\t\t\t\t\t\t\t</div>\n\n\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"m-dropdown__body\">\n\t\t\t\t\t\t\t\t<div class=\"m-dropdown__content\">\n\t\t\t\t\t\t\t\t\t<ul class=\"m-nav m-nav--skin-light\">\n\t\t\t\t\t\t\t\t\t\t<li class=\"m-nav__section m--hide\"> <span class=\"m-nav__section-text\">Section</span> </li>\n\t\t\t\t\t\t\t\t\t\t<li class=\"m-nav__item\"> <a routerLink=\"/admin/profile\" class=\"m-nav__link\" style=\"color: orangered\"> <i\n\t\t\t\t\t\t\t\t\t\t\t\t class=\"m-nav__link-icon flaticon-profile-1\"></i>\n\t\t\t\t\t\t\t\t\t\t\t\t<span class=\"m-nav__link-title\"> <span class=\"m-nav__link-wrap\"> <span class=\"m-nav__link-text\">My Profile</span>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<span class=\"m-nav__link-badge\"></span> </span> </span> </a>\n\t\t\t\t\t\t\t\t\t\t</li>\n\n\t\t\t\t\t\t\t\t\t\t<li class=\"m-nav__item\"> <a routerLink=\"/snippets/pages/user/login-1\" style=\"color: orangered\" class=\"btn m-btn--pill   btn-secondary m-btn m-btn--custom m-btn--label-brand m-btn--bolder\"\n\t\t\t\t\t\t\t\t\t\t\t (click)=\"logout()\">Logout</a> </li>\n\n\t\t\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n\n</header> <!-- END: Header -->"
 
 /***/ }),
 
@@ -1989,27 +2036,30 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 // declare let mLayout: any;
 var HeaderNavComponent = /** @class */ (function () {
     function HeaderNavComponent(loginService, router, profileService) {
-        // this.profileService.getProfile().subscribe((data: any) => {
+        //   this.profileService.getProfile().subscribe((data: any) => {
+        //      this.profilesList=data.data.profilePicture
+        //      this.name=data.data.name
+        // });
         this.loginService = loginService;
         this.router = router;
         this.profileService = profileService;
-        //   this.profilesList=data.response.data.imageUrl
-        // });
     }
     HeaderNavComponent.prototype.ngOnInit = function () {
-        this.name = JSON.parse(localStorage.getItem('userName'));
-        this.email = JSON.parse(localStorage.getItem('emailId'));
-    };
-    HeaderNavComponent.prototype.getName = function () {
-        var name = JSON.parse(localStorage.getItem('userName'));
-        this.loginService.get(this.loginForm.value).subscribe(function (response) {
-        }, function (error) {
-            console.log('error' + error);
+        var _this = this;
+        this.profileService.currentImage.subscribe(function (image) {
+            _this.profilesList = image;
+        });
+        this.profileService.currentName.subscribe(function (name) {
+            _this.name = name;
+        });
+        this.profileService.getProfile().subscribe(function (data) {
+            _this.profilesList = data.data.profilePicture;
+            _this.name = data.data.name;
         });
     };
     HeaderNavComponent.prototype.logout = function () {
-        localStorage.removeItem('userName');
-        localStorage.removeItem('emailId');
+        localStorage.removeItem('_token');
+        localStorage.removeItem('_id');
         this.router.navigate(['/login']);
     };
     HeaderNavComponent.prototype.ngAfterViewInit = function () {
@@ -2039,7 +2089,7 @@ var HeaderNavComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "img.m--img-rounded.m--marginless {\n    margin-left: 95%!important;\n    margin-top: -6%!important;\n    cursor: pointer !important;\n    width:50px !important;\n    height:50px !important;\n}\n\n.image{\n    vertical-align: middle;\n    border-style: none;\n    float: right;\n    height: 70px;\n}\n\nh3{\n    color: orange\n}\n"
+module.exports = "img.m--img-rounded.m--marginless {\n    margin-left: 95%!important;\n    margin-top: -6%!important;\n    cursor: pointer !important;\n    width:50px !important;\n    height:50px !important;\n}\n\n.img-circle{\n    vertical-align: middle;\n    border-style: none;\n    float: right;\n    border-radius: 50%;\n    /* height: 80px; */\n    /* background: url(\"user.jpeg\") */\n}\n\nh3{\n    color:white\n}\n\n.label{\n    font-style: bold;\n    text-align: right\n}\n\n.user{\n    color:orangered;\n    font-weight: 500;\n    font :bold;\n    font-size: 25px\n}"
 
 /***/ }),
 
@@ -2115,6 +2165,17 @@ var LayoutModule = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/theme/layouts/layout/layout.component.css":
+/*!***********************************************************!*\
+  !*** ./src/app/theme/layouts/layout/layout.component.css ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ".m-grid.m-grid--hor.m-grid--root.m-page{\n    background: white;\n} "
+
+/***/ }),
+
 /***/ "./src/app/theme/layouts/layout/layout.component.html":
 /*!************************************************************!*\
   !*** ./src/app/theme/layouts/layout/layout.component.html ***!
@@ -2154,9 +2215,10 @@ var LayoutComponent = /** @class */ (function () {
     };
     LayoutComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
-            selector: ".m-grid.m-grid--hor.m-grid--root.m-page",
+            selector: ".m-grid.m-grid--hor.m-grid--root.m-page ",
             template: __webpack_require__(/*! ./layout.component.html */ "./src/app/theme/layouts/layout/layout.component.html"),
             encapsulation: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewEncapsulation"].None,
+            styles: [__webpack_require__(/*! ./layout.component.css */ "./src/app/theme/layouts/layout/layout.component.css")]
         }),
         __metadata("design:paramtypes", [])
     ], LayoutComponent);
@@ -2281,8 +2343,12 @@ var TooltipsComponent = /** @class */ (function () {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ProfileService", function() { return ProfileService; });
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var rxjs_Subject__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! rxjs/Subject */ "./node_modules/rxjs-compat/_esm5/Subject.js");
+/* harmony import */ var _app_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../../../../../app.service */ "./src/app/app.service.ts");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm5/index.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2292,22 +2358,54 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-// import { URL } from './../../../../../app.service';
 
 
-// const URL: string = "http://66.70.179.133:4009/solow/v2/api/admin/";
-// const URLS: string = "http://66.70.179.133:4009/solow/v2/api/";
-var URLS = "http://192.168.0.136:8080/";
+
+
+
+
 var ProfileService = /** @class */ (function () {
-    // private categoriesList = new Subject<any>()
     function ProfileService(http) {
         this.http = http;
+        this.profilesList = new rxjs_Subject__WEBPACK_IMPORTED_MODULE_0__["Subject"]();
+        this.name = new rxjs_Subject__WEBPACK_IMPORTED_MODULE_0__["Subject"]();
+        this.imageSource = new rxjs__WEBPACK_IMPORTED_MODULE_5__["BehaviorSubject"]('');
+        this.nameSource = new rxjs__WEBPACK_IMPORTED_MODULE_5__["BehaviorSubject"]('');
+        this.currentImage = this.imageSource.asObservable();
+        this.currentName = this.nameSource.asObservable();
     }
+    ProfileService.prototype.changeImage = function (image) {
+        this.imageSource.next(image);
+    };
+    ProfileService.prototype.changeName = function (name) {
+        this.nameSource.next(name);
+    };
+    ProfileService.prototype.getHeaderWithToken = function () {
+        var headers = new _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpHeaders"]();
+        var token = JSON.parse(localStorage.getItem('_token'));
+        headers = headers.set('Authorization', token);
+        headers = headers.set('Content-Type', 'application/json');
+        return headers;
+    };
+    ProfileService.prototype.getProfile = function () {
+        var admin_id = JSON.parse(localStorage.getItem('_id'));
+        return this.http.get(_app_service__WEBPACK_IMPORTED_MODULE_1__["URL"] + 'admin/getUserDetail/' + admin_id, { headers: this.getHeaderWithToken() })
+            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["map"])(function (res) { return res; }));
+    };
+    ProfileService.prototype.editProfile = function (profile) {
+        var admin_id = JSON.parse(localStorage.getItem('_id'));
+        return this.http.put(_app_service__WEBPACK_IMPORTED_MODULE_1__["URL"] + 'admin/updateUser/' + admin_id, profile, { headers: this.getHeaderWithToken() }).map(function (res) { return res; });
+    };
+    ProfileService.prototype.uploadPic = function (pic) {
+        var formData = new FormData();
+        formData.append('img', pic[0]);
+        return this.http.post(_app_service__WEBPACK_IMPORTED_MODULE_1__["URL"] + 'admin/uploadPhoto', formData);
+    };
     ProfileService = __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["Injectable"])({
             providedIn: 'root'
         }),
-        __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"]])
+        __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpClient"]])
     ], ProfileService);
     return ProfileService;
 }());
@@ -2323,7 +2421,7 @@ var ProfileService = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<app-aside-nav></app-aside-nav>\n<div class=\"m-grid__item m-grid__item--fluid m-wrapper\">\n\t<router-outlet></router-outlet>\n</div>"
+module.exports = "<app-aside-nav></app-aside-nav>\n<div class=\"m-grid__item m-grid__item--fluid m-wrapper\" style=\"background: white; \nbackground: -webkit-linear-gradient(to right, white, white);\nbackground: linear-gradient(to right, white, white); \n\">\n<!-- <div class=\"m-grid__item.m-grid__item--fluid.m-grid.m-grid--ver-desktop.m-grid--desktop.m-body\" style=\" background-color: white;\"></div> -->\n<router-outlet></router-outlet>\n</div>\n<div class=\"m-grid__item.m-grid__item--fluid.m-grid.m-grid--ver-desktop.m-grid--desktop.m-body\" style=\" background-color: white;\"></div>\n<!-- <div class=\"m-grid__item m-grid__item--fluid m-grid m-grid--ver-desktop m-grid--desktop m-body\"></div> -->"
 
 /***/ }),
 
@@ -2381,6 +2479,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _theme_component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./theme.component */ "./src/app/theme/theme.component.ts");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _auth_guards_auth_guard__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../auth/_guards/auth.guard */ "./src/app/auth/_guards/auth.guard.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2390,12 +2489,12 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
-// import {AuthGuard} from "../auth/_guards/auth.guard";
+
 var routes = [
     {
         "path": "",
         "component": _theme_component__WEBPACK_IMPORTED_MODULE_1__["ThemeComponent"],
-        // "canActivate": [AuthGuard],
+        "canActivate": [_auth_guards_auth_guard__WEBPACK_IMPORTED_MODULE_3__["AuthGuard"]],
         "children": [
             {
                 "path": "index",
@@ -2408,6 +2507,18 @@ var routes = [
             {
                 "path": "admin/restaurant",
                 "loadChildren": "./pages/default/angular/restaurant/restaurant.module#RestaurantModule"
+            },
+            {
+                "path": "admin/profile",
+                "loadChildren": "./pages/default/angular/profile/profile.module#ProfileModule"
+            },
+            {
+                "path": "admin/about-us",
+                "loadChildren": "./pages/default/angular/about-us/about-us.module#AboutUsModule"
+            },
+            {
+                "path": "admin/privacy-policy",
+                "loadChildren": "./pages/default/angular/privacy-policy/privacy-policy.module#PrivacyPolicyModule"
             },
         ]
     },
@@ -2435,7 +2546,7 @@ var ThemeRoutingModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!-- <app-header-nav></app-header-nav>  -->\n<router-outlet></router-outlet> <!-- end:: Body -->\n<app-footer></app-footer>"
+module.exports = "\n\n<app-header-nav></app-header-nav> \n\n<router-outlet></router-outlet> <!-- end:: Body -->\n"
 
 /***/ }),
 
@@ -2504,7 +2615,6 @@ var ThemeComponent = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: ".m-grid.m-grid--hor.m-grid--root.m-page",
             template: __webpack_require__(/*! ./theme.component.html */ "./src/app/theme/theme.component.html"),
-            encapsulation: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewEncapsulation"].None,
         }),
         __metadata("design:paramtypes", [_services_script_loader_service__WEBPACK_IMPORTED_MODULE_3__["ScriptLoaderService"], _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"]])
     ], ThemeComponent);

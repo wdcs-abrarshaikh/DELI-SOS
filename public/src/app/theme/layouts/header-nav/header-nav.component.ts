@@ -4,6 +4,9 @@ import { LoginService } from './../../../login/login.service';
 import { Helpers } from './../../../helpers';
 import { FormBuilder, Validators, FormControl, FormGroup, FormArray } from '@angular/forms';
 import { Component, OnInit, ViewEncapsulation, AfterViewInit } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 
 // declare let mLayout: any;
@@ -20,45 +23,38 @@ export class HeaderNavComponent implements OnInit, AfterViewInit {
     name:string;
     email:string;
     profilesList:any;
+    
+  
+
+   
 
 constructor(private loginService:LoginService,
           private router:Router,
           private profileService:ProfileService)  {
-           
+          
             // this.profileService.getProfile().subscribe((data: any) => {
-        
-              
-            //   this.profilesList=data.response.data.imageUrl
-              
-              
-        
-        
-            // });
+            //    this.profilesList=data.data.profilePicture
+            //    this.name=data.data.name
+          // });
 
 }
 ngOnInit()  {
-  this.name = JSON.parse(localStorage.getItem('userName'));
-  this.email = JSON.parse(localStorage.getItem('emailId'));
-
+  this.profileService.currentImage.subscribe(image => {
+   this.profilesList = image;
+  })
+  this.profileService.currentName.subscribe(name=>{
+    this.name=name;
+  })
+  this.profileService.getProfile().subscribe((data: any) => {
+    this.profilesList=data.data.profilePicture
+    this.name=data.data.name
+});
 }
-getName() {
-    let name = JSON.parse(localStorage.getItem('userName'));
-    this.loginService.get(this.loginForm.value).subscribe((response: any) => {
 
-   
-
-     
-    }, error => {
-      console.log('error' + error);
-      
-    });
-    
-        
-  }
   logout(){
-    localStorage.removeItem('userName');
-  localStorage.removeItem('emailId');
-  this.router.navigate(['/login']);
+    localStorage.removeItem('_token');
+    localStorage.removeItem('_id');
+    this.router.navigate(['/login']);
 
 
   }

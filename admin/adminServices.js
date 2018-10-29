@@ -1,5 +1,6 @@
 var userModel = require('../schema/user');
 var restModel = require('../schema/restaurant');
+var aboutModel = require('../schema/about_Privacy')
 var bcrypt = require('bcrypt');
 var util = require('../app util/util');
 var code = require('../constants').http_codes;
@@ -15,7 +16,11 @@ cloudinary.config({
 });
 
 
-
+var reviews = require('../schema/review');
+var jwt = require('jsonwebtoken')
+var Type = require('../constants').Type;
+var mongoose = require('mongoose')
+// var object=mongoose.Schema.Type.ObjectId;
 //admin signup function which register admin filtering from email and password validation nd also check email already exist or not
 async function createAdmin(req, res) {
     let data = req.body;
@@ -112,7 +117,7 @@ async function resetPassword(req, res) {
 }
 
 async function getUsers(req, res) {
-    userModel.find({ role: role.USER, status: status.active }, (err, result) => {
+    userModel.find({ role: role.USER,status:status.active }, (err, result) => {
         return (err) ? res.json({ code: code.internalError, message: internalServerError })
             : res.json({ code: code.ok, message: msg.ok, data: result })
     })
@@ -134,7 +139,7 @@ async function getUserDetail(req, res) {
 }
 
 async function createUser(req, res) {
-    console.log(req.body)
+    console.log("in  create user api", req.body)
     let data = req.body;
     if (await userModel.findOne({ email: data.email })) {
         return res.json({ code: code.badRequest, message: msg.emailAlreadyRegistered });
@@ -148,7 +153,7 @@ async function createUser(req, res) {
             user.save((err, data) => {
                 console.log(err);
                 return (err) ?
-                    res.json({ code: code.internalError, message: msg.internalServerError }) :
+                    res.json({ code: code.internalError, message: err }) :
                     res.json({ code: code.created, message: msg.registered, data: data })
             });
         }
@@ -206,9 +211,14 @@ async function getRestaurantDetails(req, res) {
 }
 
 async function getRestaurantList(req, res) {
-    restModel.find((err, result) => {
-        return (err) ? res.json({ code: code.internalError, message: internalServerError })
-            : res.json({ code: code.ok, message: msg.ok, data: result })
+    restModel.find(({ $or: [{ status: status.inactive }, { status: status.active }] }), (err, result) => {
+        if (err) {
+            console.log("error", err)
+            res.json({ code: code.internalError, message: msg.internalServerError })
+        }
+        else {
+            res.json({ code: code.ok, message: msg.ok, data: result })
+        }
     })
 }
 
@@ -295,8 +305,8 @@ function uploadPhoto(req, res) {
                 .then((result) => result)
                 .catch((error) => error)
 
-            let upload = await multipleUpload;
-            return res.json({ code: code.created, message: msg.ok, data: upload })
+              let upload = await multipleUpload; 
+              return res.json({code:code.created,message:msg.ok,data:upload})
         }
     });
 }
@@ -390,13 +400,14 @@ async function getCuisin(req, res) {
 
         {
             $group: {
-                name: '$cuisin.name',
+                _id: '$cuisin.name',
                 image: { $first: '$cuisin.image' }
 
             }
         }
     ]).exec((err, data) => {
         if (err) {
+            // console.log("jiiiiiiiiii", err)
             return res.json({ code: code.internalError, message: msg.internalServerError })
         }
         else if (!data) {
@@ -440,12 +451,343 @@ async function approveRestaurantProposal(rest_id, res) {
 }
 
 
-function getAllPendingRestaurant(res) {
+function getAllPendingRestaurant(req,res) {
     restModel.find({ status: status.pending }, (err, data) => {
 
         return (err) ? res.json({ code: code.internalError, message: msg.internalServerError }) :
             res.json({ code: code.ok, data: data })
     })
+}
+
+function restaurantCounts(req, res) {
+    restModel.find({ status: status.active }, (err, results) => {
+        if (err) {
+            return res.json({ code: code.internalError, message: msg.internalServerError })
+        }
+        else {
+            var count = results.length
+            // console.log("no. of restaurant", count)
+            // return res.json({count:count});
+            return res.json({ code: code.ok, message: msg.ok, data: count })
+        }
+    });
+
+}
+
+function userCounts(req, res) {
+    console.log("in noofuser")
+    userModel.find({ $and: [{ status: status.active }, { role: role.USER }] }, (err, results) => {
+        if (err) {
+            return res.json({ code: code.internalError, message: msg.internalServerError })
+        }
+        else {
+            var count = results.length
+            console.log("no. of users", count)
+            return res.json({ code: code.ok, message: msg.ok, data: count })
+        }
+    });
+
+}
+function reviewCounts(req, res) {
+    reviews.find({ status: status.active }, (err, results) => {
+        if (err) {
+            // console.log("error in noofreviews", err)
+            return res.json({ code: code.internalError, message: msg.internalServerError })
+        }
+        else if (results.length == 0) {
+            return res.json({ code: code.notFound, message: msg.reviewsNotFound })
+        }
+        else {
+            // console.log("data cuisin name",data)
+            // console.log("reviews", results.length)
+            return res.json({ code: code.ok, data: results })
+
+
+        }
+    });
+
+}
+
+async function verifyToken(req, res) {
+    let token = req.headers['authorization']
+
+    await jwt.verify(token, process.env.admin_secret, (err) => {
+        if (err) {
+            return res.json({ code: code.badRequest, message: msg.invalidToken })
+        }
+        else {
+            return res.json({ code: code.ok, message: msg.ok })
+        }
+    })
+
+}
+
+async function addAboutUs(req, res) {
+    aboutModel.find({ $and: [{ status: status.active }, { type: Type.about }] }, (err, data) => {
+        // if (err) { console.log("error in finding") }
+        // else { console.log("records", data.length) }
+        // console.log("records", data.length)
+        if (data.length == 0) {
+            let about = new aboutModel(req.body)
+            about.type = "About_Us"
+            about.save((err, data) => {
+                if (err) {
+                    console.log("error", err)
+                    return res.json({ code: code.internalError, message: msg.internalServerError })
+                }
+                else if (data.length == 0) {
+                    return res.json({ code: code.notFound, message: msg.restNotFound })
+                }
+                else {
+                    res.json({ code: code.created, message: msg.contentSaved, data: data })
+
+
+                }
+            })
+        } else { res.json({ code: code.badRequest, message: "About us already added" }) }
+    })
+}
+
+async function aboutUsList(req, res) {
+    await aboutModel.findOne({ $and: [{ status: status.active }, { type: Type.about }] }, (err, data) => {
+        if (err) {
+            return res.json({ code: code.internalError, message: msg.internalServerError })
+        }
+        else if (!data) {
+            return res.json({ code: code.notFound, message: msg.restNotFound })
+        }
+        else {
+            return res.json({ code: code.ok, message: msg.ok, data: data })
+        }
+    })
+}
+
+async function deleteAboutUs(req, res) {
+
+    await aboutModel.findByIdAndUpdate({ _id: req.params.id }, { $set: { status: status.inactive } }, (err, data) => {
+        if (err) {
+            return res.json({ code: code.internalError, message: msg.internalError })
+        }
+        else if (!data) {
+            return res.json({ code: code.notFound, message: msg.contentNotFound })
+        }
+        else {
+            return res.json({ code: code.ok, message: msg.contentDel })
+        }
+    })
+}
+
+async function updateAboutUs(req, res) {
+    let id = req.params.id;
+    await aboutModel.findByIdAndUpdate({ _id: id }, { $set: req.body }, { new: true }, (err, data) => {
+        if (err) {
+            res.json({ code: code.internalError, message: msg.internalServerError })
+        }
+        else if (!data) {
+            res.json({ code: code.notFound, message: msg.contentNotFound })
+        }
+        else {
+            res.json({ code: code.ok, message: msg.contentSaved, data: data })
+        }
+    })
+}
+
+async function addPrivacyPolicy(req, res) {
+    aboutModel.find({ $and: [{ status: status.active }, { type: Type.privacy }] }, (err, data) => {
+        // if (err) { console.log("error in finding") }
+        // else { console.log("records", data.length) }
+    
+    if(data.length==0){
+        let about = new aboutModel(req.body)
+        about.type = "Privacy_Policy"
+         about.save((err, data) => {
+
+            return (err) ? res.json({ code: code.internalError, message: msg.internalServerError }) :
+                res.json({ code: code.created, message: msg.contentSaved, data: data })
+        })
+    }
+    else { res.json({ code: code.badRequest, message: "Privacy Policy already added" }) }
+})
+}
+
+async function privacyPolicyList(req, res) {
+     aboutModel.findOne({ $and: [{ status: status.active }, { type: Type.privacy }] }, (err, data) => {
+        if (err) {
+            return res.json({ code: code.internalError, message: msg.internalServerError })
+        }
+        else {
+            return res.json({ code: code.ok, message: msg.ok, data: data })
+        }
+    })
+}
+
+async function updatePrivacyPolicy(req, res) {
+    let id = req.params.id;
+     aboutModel.findByIdAndUpdate({ _id: id }, { $set: req.body }, { new: true }, (err, data) => {
+        if (err) {
+            res.json({ code: code.internalError, message: msg.internalServerError })
+        }
+        else if (!data) {
+            res.json({ code: code.notFound, message: msg.contentNotFound })
+        }
+        else {
+            res.json({ code: code.ok, message: msg.contentSaved, data: data })
+        }
+    })
+}
+
+async function deletePrivacyPolicy(req, res) {
+     aboutModel.findByIdAndUpdate({ _id: req.params.id }, { $set: { status: status.inactive } }, (err, data) => {
+        if (err) {
+            return res.json({ code: code.internalError, message: msg.internalError })
+        }
+        else if (!data) {
+            return res.json({ code: code.notFound, message: msg.contentNotFound })
+        }
+        else {
+            return res.json({ code: code.ok, message: msg.contentDel })
+        }
+    })
+}
+
+async function getContactRequest(req, res) {
+     aboutModel.find({ $and: [{ status: status.active }, { type: Type.contact }] }, (err, data) => {
+        if (err) {
+            return res.json({ code: code.internalError, message: msg.internalServerError })
+        }
+        else {
+            return res.json({ code: code.ok, message: msg.ok, data: data })
+        }
+    })
+}
+
+// async function resolveContactRequest(req, res) {
+//     let id = req.params.id;
+//     await aboutModel.findByIdAndUpdate({ _id: id }, { $set: { status: status.resolved } }, { new: true }, (err, data) => {
+//         if (err) {
+//             res.json({ code: code.internalError, message: msg.internalServerError })
+//         }
+//         else if (!data) {
+//             res.json({ code: code.notFound, message: msg.contentNotFound })
+//         }
+//         else {
+//             res.json({ code: code.ok, message: msg.resolved })
+//         }
+//     })
+// }
+
+async function addCuisin(req, res) {
+    let cuisin = req.body;
+    userModel.findOneAndUpdate({ role: "ADMIN" }, { $push: { cuisin: req.body.cuisin } },
+        { new: true },
+        (err, data) => {
+            if (err) {
+                return res.json({ code: code.internalError, message: msg.internalServerError })
+                // console.log("err in array updation ")
+            } else { return res.json({code:code.ok,msg:msg.cuisinAdded }) }
+        });
+
+
+}
+
+async function searchCuisin(req, res) {
+     userModel.aggregate([
+        {
+            $project: { 'cuisin': 1 }
+        },
+        {
+            $unwind: '$cuisin'
+        },
+        {
+
+            $match: {
+                'cuisin.status': 'ACTIVE',
+                'cuisin.name': new RegExp('^' + req.params.name, "i")
+            }
+
+        },
+        {
+            $group: {
+                _id: '$cuisin._id',
+                name: { $first: '$cuisin.name' },
+                image: { $first: '$cuisin.image' },
+                status: { $first: '$cuisin.status' }
+            }
+        }
+    ]).exec((err, data) => {
+        if (err) {
+            return res.json({ code: code.internalError, message: msg.internalServerError })
+        }
+        else if (data.length == 0) {
+            return res.json({ code: code.notFound, message: msg.noMatchFound })
+        }
+        else {
+            return res.json({ code: code.ok,message:msg.ok, data: data })
+
+
+        }
+    })
+
+}
+
+async function getCuisinList(req, res) {
+     userModel.aggregate([
+        {
+            $project: { 'cuisin': 1 }
+        },
+        {
+            $unwind: '$cuisin'
+        },
+        {
+
+            $match: {
+                'cuisin.status': 'ACTIVE'
+            }
+
+        },
+        {
+            $group: {
+                _id: '$cuisin._id',
+                name: { $first: '$cuisin.name' },
+                image: { $first: '$cuisin.image' },
+                status: { $first: '$cuisin.status' }
+            }
+        }
+    ]).exec((err, data) => {
+        if (err) {
+            console.log("error", err)
+            return res.json({ code: code.internalError, message: msg.internalServerError })
+        }
+        else {
+            return res.json({ code: code.ok,message:msg.ok, data: data })
+        }
+    })
+
+}
+
+async function deleteCuisin(req, res) {
+    console.log(req.headers['authorization'])
+     let obj = util.decodeToken(req.headers['authorization'])
+     userModel.updateOne({ _id:obj.id, cuisin: { $elemMatch: { _id: req.params.id } } },
+        { $set: { 'cuisin.$.status': 'INACTIVE' } }).exec((err, data) => {
+            if (err) {
+                return res.json({ code: code.internalError, message: msg.internalServerError })
+            } else {
+                return res.json({ code:code.ok,message: msg.cuisinDeleted })
+            }
+        })
+}
+
+async function updateCuisin(req, res) {
+    
+     userModel.updateOne({ role:role.ADMIN, cuisin: { $elemMatch: { _id: req.params.id } } },
+        { $set: { 'cuisin.$': req.body } }).exec((err, data) => {
+            if (err) {
+                return res.json({ code: code.internalError, message: msg.internalServerError })
+            } else {
+                return res.json({code:code.ok,message:msg.ok,data: data })
+            }
+        })
 }
 module.exports = {
     createAdmin,
@@ -463,10 +805,29 @@ module.exports = {
     deleteRestaurant,
     uploadPhoto,
     deleteRestaurantPhoto,
-    deleteUser, //Cb:nami
-    // whatuLike, //Cb:nami
-    getCuisin, //Cb:nami
+    deleteUser,
+    // whatuLike,
+    getCuisin,
     searchRestaurant,
     approveRestaurantProposal,
-    getAllPendingRestaurant
+    getAllPendingRestaurant,
+    restaurantCounts,
+    userCounts,
+    reviewCounts,
+    verifyToken,
+    addAboutUs,
+    aboutUsList,
+    deleteAboutUs,
+    updateAboutUs,
+    addPrivacyPolicy,
+    privacyPolicyList,
+    updatePrivacyPolicy,
+    deletePrivacyPolicy,
+    getContactRequest,
+    // resolveContactRequest,
+    addCuisin,
+    searchCuisin,
+    getCuisinList,
+    deleteCuisin,
+    updateCuisin
 }

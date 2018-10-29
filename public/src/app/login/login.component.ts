@@ -31,8 +31,7 @@ export class LoginComponent implements OnInit {
 
     // stop here if form is invalid
     if (this.loginForm.invalid) {
-      console.log("invalid feedback")
-      return;
+          return;
     }
 
     this.loading = true;
@@ -41,15 +40,18 @@ export class LoginComponent implements OnInit {
   signIn() {
     this._loginService.post(this.loginForm.value).subscribe((response: any) => {
       if (response['code'] == 200) {
-        this.toastService.success(response.message);
-        localStorage.setItem('_token', JSON.stringify(response.token))
+       this.toastService.success(response.message);
+       localStorage.setItem('_token', JSON.stringify(response.token))
         localStorage.setItem('_id', JSON.stringify(response.data._id));
         this._router.navigate(['/index']);
       }
-      else
+      else{
         this.toastService.error(response.message);
+        this.loading = false;
+      }
     }, error => {
-      console.log('error' + error);
+      this.loading = false
+      console.log(error);
     });
 
   }

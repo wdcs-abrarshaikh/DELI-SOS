@@ -1,12 +1,13 @@
 <!-- BEGIN: Subheader -->
-<div class="m-subheader" appunwraptag="">
+<h2 class="header">Dashboard</h2>
+<!-- <div class="m-subheader" appunwraptag="">
 	<div class="d-flex align-items-center">
 		<div class="mr-auto">
-			<h3 class="m-subheader__title">Dashboard</h3>
+			
 		</div>
 	
 	</div>
-</div> <!-- END: Subheader -->
+</div>  -->
 <div class="m-content">
 	<!--Begin::Section-->
 	<div class="row">
@@ -20,40 +21,41 @@
 						
 						</div>
 					</div>
-					<h3 class="m-portlet__head-caption">5</h3>
+					<h3 class="m-portlet__head-caption"  style="color:black">{{usersList}}</h3>
 				</div>
 				
 			</div>
 			<!--end:: Widgets/Top Products-->
 		</div>
-		</div>
-		<!-- <div class="col-xl-4"> -->
-			<!-- <div class="m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force">
+		
+		<div class="col-xl-4"> 
+			  <div class="m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force">
 				<div class="m-portlet__head">
 					<div class="m-portlet__head-caption">
 						<div class="m-portlet__head-title">
-							<h3 class="m-portlet__head-text"> Watchers </h3>
+							<h3 class="m-portlet__head-text"> Restaurants </h3>
 						</div>
 					</div>
-				
+					<h3 class="m-portlet__head-caption" style="color:black">{{restaurantList}}</h3>
 				</div>
 			
 			</div>
-		</div> -->
-
+		</div> 
+	</div>
+	</div>
 		<div class="table1">
-			<table  *ngIf="RestList" datatable class="table-bordered table-hover">
+			<table  datatable class="table-bordered table-hover"  *ngIf="restList">
 			 <thead>
 				<tr>
 				  <th>Sr.</th>
 				  <th>Restaurant Name</th>
 				  <th>Status</th>
-				  <th>Action</th>
+				  <th class="sorting">Action</th>
 				</tr>
 			 </thead>
 				
 			  <tbody>
-		    	<tr *ngFor="let Rest of RestList ; let i=index">
+		    	<tr *ngFor="let Rest of restList ; let i=index">
 				  <td>{{i+1}}</td>
 				  <td>{{Rest.name}}</td>
 				  <td>{{Rest.status}}</td>
@@ -62,14 +64,14 @@
 					  <i class="fas fa-eye" (click)="open(Rest)"></i> 
 					</button>
 					 &nbsp;&nbsp;
-         	<button type="button" class="btn btn-success" (click)="Approve(Rest._id)" >Approve	</button> 
+         	<button type="button" class="btn btn1" (click)="Approve(Rest._id)" >Approve</button> 
 			   </td>
 				 </tr>
 				</tbody> 
 			 
 			</table>
 	</div>
-	</div>
+	
 	
 	
 		

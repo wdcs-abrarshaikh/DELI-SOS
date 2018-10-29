@@ -33,22 +33,27 @@ export class IndexService {
     }
    
     getAllUsers() {
-        return this.http.get(URL + 'getUsers', { headers: this.getHeaderWithToken() })
+        return this.http.get(URL + 'admin/userCounts', { headers: this.getHeaderWithToken() })
         .pipe(
             map((res:Response)=>{ return res})
         );
     }
 
+    getAllRestaurant(){
+        return this.http.get(URL+'admin/restaurantCounts', { headers: this.getHeaderWithToken() })
+        .pipe(
+            map((res:Response)=>{ return res })
+        );
+    }
+
     getAllRequest(){
-        console.log("hhhhhhhhhh")
         return this.http.get(URL+ 'admin/getAllPendingRestaurant',{ headers: this.getHeaderWithToken() })
         .pipe(
             map((res:Response)=>{ return res})
         )
     }
     approveRestaurant(R_id){
-        console.log(R_id)
-        return this.http.get(URL+'admin/approveRestaurantProposal/'+ R_id ,{ headers: this.getHeaderWithToken() })
+       return this.http.get(URL+'admin/approveRestaurantProposal/'+ R_id ,{ headers: this.getHeaderWithToken() })
         .pipe(
             map((res:Response)=>{
                 return res
