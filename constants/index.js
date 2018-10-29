@@ -44,6 +44,7 @@ messages = {
     reviewsNotFound:"No Reviews Found",
     followed:"Followed user successfully",
     unfollowed:"Unfollwed user successfully",
+    locationChanged:"Location successfully changed",
     contentSaved:"Content Saved Successfully",
     contentNotFound:"Content Not Found",
     contentDel:"Content Deleted Successfully",
@@ -51,6 +52,7 @@ messages = {
     noMatchFound:"No match found",
     cuisinDeleted:"Cuisin deleted successfully",
     cuisinAdded:"Cuisin added successfully"
+
 }
 
 roles = {
@@ -60,7 +62,7 @@ roles = {
 
 schemas = {
     users: 'users',
-    restaurants: 'restaurant',
+    restaurants: 'restaurants',
     reviews: 'reviews',
     notifications: 'notifications',
     about:'about_Privacy'

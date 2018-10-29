@@ -549,7 +549,7 @@ async function addAboutUs(req, res) {
 }
 
 async function aboutUsList(req, res) {
-    await aboutModel.find({ $and: [{ status: status.active }, { type: Type.about }] }, (err, data) => {
+    await aboutModel.findOne({ $and: [{ status: status.active }, { type: Type.about }] }, (err, data) => {
         if (err) {
             return res.json({ code: code.internalError, message: msg.internalServerError })
         }
@@ -677,7 +677,7 @@ async function getContactRequest(req, res) {
 // }
 
 async function addCuisin(req, res) {
-    let cuisin=req.body;
+    let cuisin = req.body;
     userModel.findOneAndUpdate({ role: "ADMIN" }, { $push: { cuisin: req.body.cuisin } },
         { new: true },
         (err, data) => {
@@ -722,7 +722,7 @@ async function searchCuisin(req, res) {
             return res.json({ code: code.notFound, message: msg.noMatchFound })
         }
         else {
-            return res.json({ code: code.ok, data: data })
+            return res.json({ code: code.ok,message:msg.ok, data: data })
 
 
         }
@@ -758,26 +758,22 @@ async function getCuisinList(req, res) {
             console.log("error", err)
             return res.json({ code: code.internalError, message: msg.internalServerError })
         }
-        else if (!data) {
-            return res.json({ code: code.notFound, message: msg.restNotFound })
-        }
         else {
-            return res.json({ code: code.ok, data: data })
-
-
+            return res.json({ code: code.ok,message:msg.ok, data: data })
         }
     })
 
 }
 
 async function deleteCuisin(req, res) {
+    console.log(req.headers['authorization'])
      let obj = util.decodeToken(req.headers['authorization'])
      userModel.updateOne({ _id:obj.id, cuisin: { $elemMatch: { _id: req.params.id } } },
         { $set: { 'cuisin.$.status': 'INACTIVE' } }).exec((err, data) => {
             if (err) {
                 return res.json({ code: code.internalError, message: msg.internalServerError })
             } else {
-                return res.json({ code:code.ok,data: msg.cuisinDeleted })
+                return res.json({ code:code.ok,message: msg.cuisinDeleted })
             }
         })
 }
@@ -789,7 +785,7 @@ async function updateCuisin(req, res) {
             if (err) {
                 return res.json({ code: code.internalError, message: msg.internalServerError })
             } else {
-                return res.json({code:code.ok,data: data })
+                return res.json({code:code.ok,message:msg.ok,data: data })
             }
         })
 }

@@ -39,7 +39,6 @@ function validateLogin(req, res, next) {
             deviceId = req.body.deviceId.trim(),
             deviceType = req.body.deviceType.trim(),
             fcmToken = req.body.fcmToken.trim()
-        console.log(req.body)
         if (!validateLatLong(parseFloat(req.body.longitude), parseFloat(req.body.latitude))) {
             return res.json({ code: code.badRequest, message: msg.invalidLatLong })
         }
@@ -147,7 +146,7 @@ function validateRestaurant(req, res, next) {
         let name = rest.name.trim(),
             description = rest.description.trim(),
             openTime = rest.openTime.trim(),
-            closeTime = rest.closeTime.trim()
+            closeTime = rest.closeTime.trim(),
             cusinlen = rest.cuisin.length,
             longitude = rest.longitude,
             latitude = rest.latitude;
@@ -242,6 +241,23 @@ function validateUserId(req, res, next) {
     }
 }
 
+function validateChangeLocation(req,res,next){
+    if(req.body.latitude && req.body.longitude){
+        if (!validateLatLong(parseFloat(req.body.longitude), parseFloat(req.body.latitude))) {
+            return res.json({ code: code.badRequest, message: msg.invalidLatLong })
+        }
+        else{
+            req.body.location = {
+                type: 'Point',
+                coordinates: [parseFloat(req.body.longitude), parseFloat(req.body.latitude)]
+            }
+            next();
+        }
+    }
+    else{
+        return res.json({ code: code.badRequest, message: msg.invalidLatLong })
+    }
+}
 
 module.exports = {
     validateSignUp,
@@ -253,5 +269,6 @@ module.exports = {
     validateReview,
     validateProfile,
     validateChangePassword,
-    validateUserId
+    validateUserId,
+    validateChangeLocation
 }

@@ -14,4 +14,4 @@ var aboutSchema = new schema({
    status:{type:String,enum:[Status.active,Status.inactive],default:Status.active}
 });
 
-User = module.exports = mongoose.model(schmaName.about, aboutSchema)
+module.exports = mongoose.model(schmaName.about, aboutSchema)

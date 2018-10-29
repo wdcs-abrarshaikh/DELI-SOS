@@ -16,6 +16,58 @@ tags:
   - name: admin
     description: "admin api"
 paths:
+
+  "/user/signUp":
+      post:
+        tags:
+        - 'user'
+        summary: Registering new user.
+        parameters: 
+          - in: body
+            name: user
+            description: register in body.
+            required: true
+            schema:
+              type: object
+              required:
+                - email
+                - password
+                - name  
+                - deviceId
+                - deviceType
+                - fcmToken
+              properties:
+                name:
+                    type: string
+                email:
+                    type: string
+                password:
+                    type: string
+                    format: One capital letter,small letter,special char and one number is required.Length lies between 6 to 16
+                deviceId:
+                    type: string
+                deviceType:
+                    type: string
+                fcmToken:
+                    type: string
+        responses:
+          "201":
+            description: Sucessfully registered.
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "400":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "500":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "404":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+              
   "/user/login":
       post:
         tags:
@@ -70,57 +122,6 @@ paths:
             description: Erorr message.
             schema:
               $ref: '#/definitions/errorMessage'     
-
-  "/user/signUp":
-      post:
-        tags:
-        - 'user'
-        summary: Registering new user.
-        parameters: 
-          - in: body
-            name: user
-            description: register in body.
-            required: true
-            schema:
-              type: object
-              required:
-                - email
-                - password
-                - name  
-                - deviceId
-                - deviceType
-                - fcmToken
-              properties:
-                name:
-                    type: string
-                email:
-                    type: string
-                password:
-                    type: string
-                    format: One capital letter,small letter,special char and one number is required.Length lies between 6 to 16
-                deviceId:
-                    type: string
-                deviceType:
-                    type: string
-                fcmToken:
-                    type: string
-        responses:
-          "201":
-            description: Sucessfully registered.
-            schema:
-              $ref: '#/definitions/SuccessMessage'
-          "400":
-            description: Erorr message.
-            schema:
-              $ref: '#/definitions/errorMessage'
-          "500":
-            description: Erorr message.
-            schema:
-              $ref: '#/definitions/errorMessage'
-          "404":
-            description: Erorr message.
-            schema:
-              $ref: '#/definitions/errorMessage'
   
   "/user/socialLogin":
       post:
@@ -398,7 +399,9 @@ paths:
                     - DINNER
                     - ALL
                 cuisin:
-                    $ref: '#/definitions/cuisinArray'
+                    type: array
+                    items:
+                      type: string
                 contactNumber:
                     type: number
                 website:
@@ -2335,15 +2338,7 @@ definitions:
   cuisinArray:
     type: array
     items: 
-      type: object
-      required:
-        - name
-        - image
-      properties:
-        name:
-          type: string
-        image:
-          type: string
+      type: string
   
  
     

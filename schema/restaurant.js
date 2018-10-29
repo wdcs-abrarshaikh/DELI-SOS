@@ -17,7 +17,7 @@ var restaurantSchema = new schema({
     // latitude: { type: String, required: true },
     // longitude: { type: String, required: true },
     location: {
-        type: {type:String},
+        type: { type: String },
         coordinates: [Number]
     },
     mealOffers: { type: [{ type: String, enum: [meal.breakfast, meal.lunch, meal.dinner, meal.all] }], default: meal.all },
@@ -27,9 +27,9 @@ var restaurantSchema = new schema({
     closeTime: { type: String, required: true },
     contactNumber: { type: Number },
     website: { type: String },
-    menu: [{ type: String,required:true }],
+    menu: [{ type: String, required: true }],
     photoByUser: [{
-        userId: { type: String },
+        userId: { type: mongoose.Schema.Types.ObjectId, ref: cnst.users },
         url: { type: String },
         postedAt: { type: Date }
     }],
@@ -39,9 +39,9 @@ var restaurantSchema = new schema({
     status: { type: String, enum: [status.active, status.inactive, status.pending], default: status.pending },
     createdBy: { type: mongoose.Schema.Types.ObjectId, ref: cnst.users },
     editedBy: { type: mongoose.Schema.Types.ObjectId, ref: cnst.users }
-    
-},{
-    versionKey:false
-})
+
+}, {
+        versionKey: false
+    })
 
 module.exports = mongoose.model(cnst.restaurants, restaurantSchema)
