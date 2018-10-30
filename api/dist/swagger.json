@@ -1864,7 +1864,7 @@
                                 "longitude",
                                 "openTime",
                                 "closeTime",
-                                "cuisin",
+                                "cuisinOffered",
                                 "menu",
                                 "perPersonCost"
                             ],
@@ -1902,8 +1902,11 @@
                                         "ALL"
                                     ]
                                 },
-                                "cuisin": {
-                                    "$ref": "#/definitions/cuisinArray"
+                                "cuisinOffered": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
                                 },
                                 "contactNumber": {
                                     "type": "string"
@@ -2108,7 +2111,10 @@
                                     ]
                                 },
                                 "cuisin": {
-                                    "$ref": "#/definitions/cuisinArray"
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
                                 },
                                 "contactNumber": {
                                     "type": "string"
@@ -3251,6 +3257,44 @@
                     },
                     "500": {
                         "description": "Erorr message.",
+                        "schema": {
+                            "$ref": "#/definitions/errorMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/deleteRestaurantReq/{id}": {
+            "put": {
+                "tags": [
+                    "admin"
+                ],
+                "summary": "Delete a particular restaurant request.",
+                "parameters": [
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "description": "token for validation.",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of particular cuisin",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
                         "schema": {
                             "$ref": "#/definitions/errorMessage"
                         }

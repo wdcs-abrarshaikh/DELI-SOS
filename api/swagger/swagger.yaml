@@ -1323,7 +1323,7 @@ paths:
                 - longitude
                 - openTime
                 - closeTime
-                - cuisin
+                - cuisinOffered
                 - menu
                 - perPersonCost
               properties:
@@ -1350,8 +1350,10 @@ paths:
                     - LUNCH
                     - DINNER
                     - ALL
-                cuisin:
-                    $ref: '#/definitions/cuisinArray'
+                cuisinOffered:
+                    type: array
+                    items:
+                      type: string
                 contactNumber:
                     type: string
                 website:
@@ -1504,7 +1506,9 @@ paths:
                     - DINNER
                     - ALL
                 cuisin:
-                    $ref: '#/definitions/cuisinArray'
+                    type: array
+                    items:
+                      type: string
                 contactNumber:
                     type: string
                 website:
@@ -2318,6 +2322,35 @@ paths:
             description: Erorr message.
             schema:
               $ref: '#/definitions/errorMessage'            
+              
+  "/admin/deleteRestaurantReq/{id}":
+      put:
+        tags:
+        - 'admin'
+        summary: Delete a particular restaurant request.
+        parameters: 
+            
+          - name: authorization
+            in: header
+            description: token for validation.
+            required: true
+            type: string
+          - name: id
+            in: path
+            description: Id of particular cuisin 
+            required: true
+            type: string
+          
+        responses:
+          "200":
+            description: ok
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "500":
+            description: Internal Server Error
+            schema:
+              $ref: '#/definitions/errorMessage'
+              
 definitions:
   errorMessage:
     type: "object"
@@ -2334,6 +2367,7 @@ definitions:
         type: "integer"
       messgae:
         type: "string"  
+    
     
   cuisinArray:
     type: array

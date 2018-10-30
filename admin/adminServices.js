@@ -184,6 +184,7 @@ async function addRestaurant(req, res) {
         type: "Point",
         coordinates: [req.body.longitude, req.body.latitude]
     }
+    console.log("body", req.body)
     let rest = new restModel(req.body)
     let obj = util.decodeToken(req.headers['authorization'])
     rest.createdBy = obj.id;
@@ -211,7 +212,7 @@ async function getRestaurantDetails(req, res) {
 }
 
 async function getRestaurantList(req, res) {
-    restModel.find(({ $or: [{ status: status.inactive }, { status: status.active }] }), (err, result) => {
+    restModel.find({ status: status.active }, (err, result) => {
         if (err) {
             console.log("error", err)
             res.json({ code: code.internalError, message: msg.internalServerError })
@@ -254,7 +255,7 @@ async function deleteRestaurant(req, res) {
                 return res.json({ code: code.notFound, message: msg.restNotFound })
             }
             else {
-                return res.json({ code: code.ok, message: msg.ok, data: data })
+                return res.json({ code: code.ok, message: msg.restDel })
             }
         })
 }
@@ -427,6 +428,9 @@ async function searchRestaurant(req, res) {
         if (err) {
             return res.json({ code: code.internalError, message: msg.internalServerError })
         }
+        else if (data.length==0) {
+            return res.json({ code: code.notFound, message: msg.restNotFound })
+        }
         else {
             return res.json({ code: code.ok, data: data })
         }
@@ -524,9 +528,6 @@ async function verifyToken(req, res) {
 
 async function addAboutUs(req, res) {
     aboutModel.find({ $and: [{ status: status.active }, { type: Type.about }] }, (err, data) => {
-        // if (err) { console.log("error in finding") }
-        // else { console.log("records", data.length) }
-        // console.log("records", data.length)
         if (data.length == 0) {
             let about = new aboutModel(req.body)
             about.type = "About_Us"
@@ -544,7 +545,7 @@ async function addAboutUs(req, res) {
 
                 }
             })
-        } else { res.json({ code: code.badRequest, message: "About us already added" }) }
+        } else { res.json({ code: code.badRequest, message: msg.aboutUsAdded }) }
     })
 }
 
@@ -552,9 +553,6 @@ async function aboutUsList(req, res) {
     await aboutModel.findOne({ $and: [{ status: status.active }, { type: Type.about }] }, (err, data) => {
         if (err) {
             return res.json({ code: code.internalError, message: msg.internalServerError })
-        }
-        else if (!data) {
-            return res.json({ code: code.notFound, message: msg.restNotFound })
         }
         else {
             return res.json({ code: code.ok, message: msg.ok, data: data })
@@ -587,31 +585,29 @@ async function updateAboutUs(req, res) {
             res.json({ code: code.notFound, message: msg.contentNotFound })
         }
         else {
-            res.json({ code: code.ok, message: msg.contentSaved, data: data })
+            res.json({ code: code.ok, message: msg.aboutUsUpdated, data: data })
         }
     })
 }
 
 async function addPrivacyPolicy(req, res) {
     aboutModel.find({ $and: [{ status: status.active }, { type: Type.privacy }] }, (err, data) => {
-        // if (err) { console.log("error in finding") }
-        // else { console.log("records", data.length) }
-    
-    if(data.length==0){
-        let about = new aboutModel(req.body)
-        about.type = "Privacy_Policy"
-         about.save((err, data) => {
 
-            return (err) ? res.json({ code: code.internalError, message: msg.internalServerError }) :
-                res.json({ code: code.created, message: msg.contentSaved, data: data })
-        })
-    }
-    else { res.json({ code: code.badRequest, message: "Privacy Policy already added" }) }
-})
+        if (data.length == 0) {
+            let about = new aboutModel(req.body)
+            about.type = "Privacy_Policy"
+            about.save((err, data) => {
+
+                return (err) ? res.json({ code: code.internalError, message: msg.internalServerError }) :
+                    res.json({ code: code.created, message: msg.contentSaved, data: data })
+            })
+        }
+        else { res.json({ code: code.badRequest, message: msg.privacyPolicyAdded }) }
+    })
 }
 
 async function privacyPolicyList(req, res) {
-     aboutModel.findOne({ $and: [{ status: status.active }, { type: Type.privacy }] }, (err, data) => {
+    aboutModel.findOne({ $and: [{ status: status.active }, { type: Type.privacy }] }, (err, data) => {
         if (err) {
             return res.json({ code: code.internalError, message: msg.internalServerError })
         }
@@ -623,7 +619,7 @@ async function privacyPolicyList(req, res) {
 
 async function updatePrivacyPolicy(req, res) {
     let id = req.params.id;
-     aboutModel.findByIdAndUpdate({ _id: id }, { $set: req.body }, { new: true }, (err, data) => {
+    aboutModel.findByIdAndUpdate({ _id: id }, { $set: req.body }, { new: true }, (err, data) => {
         if (err) {
             res.json({ code: code.internalError, message: msg.internalServerError })
         }
@@ -631,13 +627,13 @@ async function updatePrivacyPolicy(req, res) {
             res.json({ code: code.notFound, message: msg.contentNotFound })
         }
         else {
-            res.json({ code: code.ok, message: msg.contentSaved, data: data })
+            res.json({ code: code.ok, message: msg.privacyPolicyUpdated, data: data })
         }
     })
 }
 
 async function deletePrivacyPolicy(req, res) {
-     aboutModel.findByIdAndUpdate({ _id: req.params.id }, { $set: { status: status.inactive } }, (err, data) => {
+    aboutModel.findByIdAndUpdate({ _id: req.params.id }, { $set: { status: status.inactive } }, (err, data) => {
         if (err) {
             return res.json({ code: code.internalError, message: msg.internalError })
         }
@@ -651,7 +647,7 @@ async function deletePrivacyPolicy(req, res) {
 }
 
 async function getContactRequest(req, res) {
-     aboutModel.find({ $and: [{ status: status.active }, { type: Type.contact }] }, (err, data) => {
+    aboutModel.findOne({ $and: [{ status: status.active }, { type: Type.contact }] }, (err, data) => {
         if (err) {
             return res.json({ code: code.internalError, message: msg.internalServerError })
         }
@@ -684,14 +680,14 @@ async function addCuisin(req, res) {
             if (err) {
                 return res.json({ code: code.internalError, message: msg.internalServerError })
                 // console.log("err in array updation ")
-            } else { return res.json({code:code.ok,msg:msg.cuisinAdded }) }
+            } else { return res.json({ code: code.ok, msg: msg.cuisinAdded }) }
         });
 
 
 }
 
 async function searchCuisin(req, res) {
-     userModel.aggregate([
+    userModel.aggregate([
         {
             $project: { 'cuisin': 1 }
         },
@@ -716,10 +712,10 @@ async function searchCuisin(req, res) {
         }
     ]).exec((err, data) => {
         if (err) {
-            return res.json({ code: code.internalError, message: msg.internalServerError })
+            return res.json({ code: code.internalError, msg: msg.internalServerError })
         }
         else if (data.length == 0) {
-            return res.json({ code: code.notFound, message: msg.noMatchFound })
+            return res.json({ code: code.notFound, msg: msg.noMatchFound })
         }
         else {
             return res.json({ code: code.ok,message:msg.ok, data: data })
@@ -731,7 +727,7 @@ async function searchCuisin(req, res) {
 }
 
 async function getCuisinList(req, res) {
-     userModel.aggregate([
+    userModel.aggregate([
         {
             $project: { 'cuisin': 1 }
         },
@@ -766,29 +762,40 @@ async function getCuisinList(req, res) {
 }
 
 async function deleteCuisin(req, res) {
-    console.log(req.headers['authorization'])
-     let obj = util.decodeToken(req.headers['authorization'])
-     userModel.updateOne({ _id:obj.id, cuisin: { $elemMatch: { _id: req.params.id } } },
+    let obj = util.decodeToken(req.headers['authorization'])
+    userModel.updateOne({ _id: obj.id, cuisin: { $elemMatch: { _id: req.params.id } } },
         { $set: { 'cuisin.$.status': 'INACTIVE' } }).exec((err, data) => {
             if (err) {
                 return res.json({ code: code.internalError, message: msg.internalServerError })
             } else {
-                return res.json({ code:code.ok,message: msg.cuisinDeleted })
+                return res.json({ code: code.ok, data: msg.cuisinDeleted })
             }
         })
 }
 
 async function updateCuisin(req, res) {
-    
-     userModel.updateOne({ role:role.ADMIN, cuisin: { $elemMatch: { _id: req.params.id } } },
+
+    userModel.updateOne({ role: role.ADMIN, cuisin: { $elemMatch: { _id: req.params.id } } },
         { $set: { 'cuisin.$': req.body } }).exec((err, data) => {
             if (err) {
                 return res.json({ code: code.internalError, message: msg.internalServerError })
             } else {
-                return res.json({code:code.ok,message:msg.ok,data: data })
+                return res.json({ code: code.ok, msg: msg.cuisinUpdated, data: data })
             }
         })
 }
+
+async function deleteRestaurantReq(req, res) {
+    restModel.remove({ _id: req.params.id }, (err, data) => {
+        if (err) {
+            return res.json({ code: code.internalError, message: msg.internalServerError })
+        } else { return res.json({ code: code.ok, msg: msg.restReqDeclined }) }
+    });
+
+
+}
+
+
 module.exports = {
     createAdmin,
     authenticateAdmin,
@@ -829,5 +836,6 @@ module.exports = {
     searchCuisin,
     getCuisinList,
     deleteCuisin,
-    updateCuisin
+    updateCuisin,
+    deleteRestaurantReq
 }
