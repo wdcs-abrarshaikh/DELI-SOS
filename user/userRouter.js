@@ -68,7 +68,7 @@ userRouter.route('/getAllReviews/:restId')
     })
 
 userRouter.route('/addPhotoByUser')
-    .post([validate.validateBody, validate.verifyUserToken], (req, res) => {
+    .post([validate.validateUpload, validate.verifyUserToken], (req, res) => {
         actions.addPhotoByUser(req, res)
     })
 

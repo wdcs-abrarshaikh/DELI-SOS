@@ -128,63 +128,35 @@ async function validateBody(req, res, next) {
         next();
     }
 }
-function isEmpty(arr) {
-    for (var key in arr) {
-        if (arr.hasOwnProperty(key)) {
-            return false;
-        }
-    }
-    return true;
-}
 function validateRestaurant(req, res, next) {
-    let rest = req.body;
-
+    let rest = req.body
     if (rest.name && rest.description && rest.latitude &&
-        rest.longitude && rest.cuisin && rest.openTime &&
-        rest.closeTime && rest.menu  ) {
-
+        rest.longitude && rest.cuisinOffered && rest.openTime &&
+        rest.closeTime && rest.menu) {
+ 
         let name = rest.name.trim(),
             description = rest.description.trim(),
+            latitude = rest.latitude.trim(),
+            longitude = rest.latitude.trim(),
             openTime = rest.openTime.trim(),
-            closeTime = rest.closeTime.trim(),
-            cusinlen = rest.cuisin.length,
-            longitude = rest.longitude,
-            latitude = rest.latitude;
+            closeTime = rest.closeTime.trim();
+            
+            let len = rest.cuisinOffered;
+            let cusinlen = len.length;
         if (cusinlen == 0) {
             return res.json({ code: code.badRequest, message: msg.invalidBody })
         }
-        if(!validateLatLong(parseFloat(longitude),parseFloat(latitude))){
-            return res.json({ code: code.badRequest, message: msg.invalidLatLong })
-        }
-
-        cuisin = (!isEmpty(rest.cuisin))
-        let i = 0
-        do {
-            if (cuisin) {
-                let cname = rest.cuisin[i].name.trim(),
-                    image = rest.cuisin[i].image.trim()
-                i++;
-                if (cname && image) {
-                    cuisin = true;
-                }
-                else {
-                    cuisin = false;
-                    break;
-                }
-
-            }
-        } while (i < cusinlen)
-
-        if (name && description && openTime && closeTime && cuisin) {
+        if (name && description && latitude && longitude && openTime && closeTime) {
             next();
         }
         else {
             return res.json({ code: code.badRequest, message: msg.invalidBody })
         }
+ 
+ 
     }
     else { return res.json({ code: code.badRequest, message: msg.invalidBody }) }
-
-}
+ }
 function validateReview(req, res, next) {
     let data = req.body
     if (data.restId && data.userId && data.content && data.likePlace && data.rating && data.improvementArea) {
@@ -259,6 +231,15 @@ function validateChangeLocation(req,res,next){
     }
 }
 
+function validateUpload(req,res,next){
+    if(req.body.restId && req.body.userId && req.body.url.length > 0)
+    {
+        next()
+    }
+    else{
+        return res.json({ code: code.badRequest, message: msg.invalidBody })
+    }
+}
 module.exports = {
     validateSignUp,
     validateLogin,
@@ -270,5 +251,6 @@ module.exports = {
     validateProfile,
     validateChangePassword,
     validateUserId,
-    validateChangeLocation
+    validateChangeLocation,
+    validateUpload
 }

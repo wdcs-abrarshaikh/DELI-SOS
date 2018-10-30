@@ -4,7 +4,8 @@ http_codes = {
     created: 201,
     notFound: 404,
     ok: 200,
-    notImplemented: 501
+    notImplemented: 501,
+    forbidden:403
 }
 
 messages = {
@@ -51,7 +52,8 @@ messages = {
     resolved:"Resolved Successfully",
     noMatchFound:"No match found",
     cuisinDeleted:"Cuisin deleted successfully",
-    cuisinAdded:"Cuisin added successfully"
+    cuisinAdded:"Cuisin added successfully",
+    alreadyUploadPhotos:"Sorry, you already post photos for this restaurant"
 
 }
 

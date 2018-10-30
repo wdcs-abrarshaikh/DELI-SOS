@@ -553,9 +553,6 @@ async function aboutUsList(req, res) {
         if (err) {
             return res.json({ code: code.internalError, message: msg.internalServerError })
         }
-        else if (!data) {
-            return res.json({ code: code.notFound, message: msg.restNotFound })
-        }
         else {
             return res.json({ code: code.ok, message: msg.ok, data: data })
         }
