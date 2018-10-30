@@ -48,7 +48,15 @@ messages = {
     resolved:"Contact request resolved successfully",
     noMatchFound:"No match found",
     cuisinDeleted:"Cuisin deleted successfully",
-    cuisinAdded:"Cuisin added successfully"
+    cuisinAdded:"Cuisin added successfully",
+    restDel:"Restaurant deleted successfully",
+    aboutUsAdded:"About us already added" ,
+    aboutUsNotFound:"About us not found",
+   privacyPolicyAdded: "Privacy Policy already added",
+   cuisinUpdated:"Cuisin updated successfully",
+   privacyPolicyUpdated:"Privacy policy updated successfully",
+   aboutUsUpdated:"About us updated successfully",
+   restReqDeclined:"Restaurant approval rejected succssfully"
 }
 
 roles = {

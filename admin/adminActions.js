@@ -155,6 +155,10 @@ function updateCuisin(req, res) {
     service.updateCuisin(req, res)
 }
 
+function deleteRestaurantReq(req, res) {
+    service.deleteRestaurantReq(req, res)
+}
+
 module.exports = {
     signup,
     login,
@@ -195,5 +199,6 @@ module.exports = {
     searchCuisin,
     getCuisinList,
     deleteCuisin,
-    updateCuisin
+    updateCuisin,
+    deleteRestaurantReq
 }
