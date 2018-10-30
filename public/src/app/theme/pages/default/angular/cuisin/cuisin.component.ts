@@ -24,22 +24,26 @@ import swal from 'sweetalert2'
 <form [formGroup]="cuisinForm" (ngSubmit)="addCuisins()">
             <div class="form-group">
                 <label for="name">Cuisin Name</label>
-                <input type="text" formControlName="name" [(ngModel)]="name" class="form-control"/>
-                <p *ngIf="cuisinForm.controls.name.errors?.required && (cuisinForm.controls.name.dirty || cuisinForm.controls.name.touched)" class="lbl-err">Name is required.</p>
+                <input type="text" formControlName="name"  class="form-control" [(ngModel)]="name" [ngClass]="{'is-invalid':submitted && f.name.errors}"/>
+               <div *ngIf="submitted && f.name.errors" class="lbl-err">
+               <div *ngIf="f.name.errors.required">Name is required</div>
+               </div>
              </div>
 
              <div class="form-group">
              <label>Cuisin Images:</label><br>
              <img  [src]="image" class="rounded mb-3" width="50%" height=auto/> &nbsp;&nbsp;<br>
              <label class="btn-bs-file btn btn-ls btn-info" style="margin-top:6px" text-align="center" *ngIf="!isView" >image
-             <input type="file" formControlName="image" accept="image/*" style="display: none" (change)="uploadImage($event)">
-             <p *ngIf="cuisinForm.controls.image.errors?.required && (cuisinForm.controls.image.dirty || cuisinForm.controls.image.touched)" class="lbl-err">image is required.</p>
-            </label>     
+             <input type="file" formControlName="image" style="display: none" (change)="uploadImage($event)" [ngClass]="{'is-invalid':submitted && f.image.errors}"/> </label>     
+             <div *ngIf="submitted && f.image.errors" class="lbl-err">
+                <div *ngIf="f.image.errors.required">image is required</div>
+               </div>
+           
            </div>
            
         <div class="modal-footer">
             <div class="form-group" *ngIf="!isView">
-           <button type="submit"  class="btn btn-outline-dark" [disabled]="validateForm()">Save</button>&nbsp;&nbsp;
+           <button type="submit"  class="btn btn-outline-dark" >Save</button>&nbsp;&nbsp;
            <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Cancel</button>
             </div>
          </div>
@@ -53,7 +57,7 @@ export class NgbdModalContent {
 
   cuisinsList: Array<any>;
   cuisinForm: FormGroup;
-
+  
   @Input() id;
   @Input() name;
   @Input() image;
@@ -78,10 +82,19 @@ export class NgbdModalContent {
   }
 
   buildCuisinForm() {
-    this.cuisinForm = this._formBuilder.group({
-      name: ['', [Validators.required]],
-      image:['',[Validators.required]]
-    });
+
+    if(this.isAdd){
+      this.cuisinForm = this._formBuilder.group({
+        name: ['', [Validators.required]],
+        image:['',[Validators.required]]
+      });
+    }else{
+      this.cuisinForm = this._formBuilder.group({
+        name: ['', [Validators.required]],
+        image:['']
+      });
+    }
+ 
   }
 
   async uploadImage(images) {
@@ -97,9 +110,13 @@ export class NgbdModalContent {
 
 
   addCuisins() {
+    this.submitted=true;
+    if(this.cuisinForm.invalid){
+    return;
+     }
     var addObj = {
       "name": this.cuisinForm.controls['name'].value,
-      "image":this.image
+     "image":this.image
      
     }
     if (this.isAdd) {
@@ -127,6 +144,7 @@ export class NgbdModalContent {
        });
     }
    else {
+   
      this.cuisinService.editCuisin(addObj, this.id).subscribe(
         data => {
           this.getAllCuisin();
@@ -159,14 +177,7 @@ export class NgbdModalContent {
     })
   }
 
-  validateForm() {
-   if (this.cuisinForm.valid) {
-      return false;
-    } else {
-      return true;
-    }
-  }
-
+ 
 
 
 }
@@ -182,6 +193,7 @@ export class CuisinComponent implements OnInit {
   cuisinsList: Array<any>;
   cuisinForm: FormGroup;
   loading = false;
+  image:Array<any>;
   submitted = false;
   isView: boolean = false;
   constructor(private modalService: NgbModal,
@@ -220,7 +232,7 @@ export class CuisinComponent implements OnInit {
     const modalRef = this.modalService.open(NgbdModalContent);
     modalRef.componentInstance.id = content ? content._id : "";
     modalRef.componentInstance.name = content ? content.name : "";
-    modalRef.componentInstance.image=content? content.image:"";
+    modalRef.componentInstance.image=content ? content.image:"";
     modalRef.componentInstance.isAdd = this.isAdd;
     modalRef.componentInstance.isView = this.isView;
   }

@@ -12,15 +12,15 @@ import { URL } from './../../../../../app.service';
 })
 
 export class PrivacyPolicyService {
-  private privacyPolicyList = new Subject<any>()
+  private privacyPolicyLists = new Subject<any>()
   constructor(private http: HttpClient) { }
 
   setPrivacyPolicy(data: any) {
-    this.privacyPolicyList.next({ privacyPolicyList: data });
+  this.privacyPolicyLists.next({ privacyPolicyLists: data });
   }
 
   getPrivacyPolicy(): Observable<any> {
-    return this.privacyPolicyList.asObservable(); 
+   return this.privacyPolicyLists.asObservable(); 
   }
 
   getHeaderWithToken() {
@@ -31,31 +31,28 @@ export class PrivacyPolicyService {
   }
 
   addPrivacyPolicy(about: any) {
-    console.log("in service",about)
-    return this.http.post<any>(URL + 'admin/addPrivacyPolicy', about, { headers: this.getHeaderWithToken() })
+   return this.http.post<any>(URL + 'admin/addPrivacyPolicy', about, { headers: this.getHeaderWithToken() })
       .pipe(
         map((res: Response) => { return res }),
       );
   }
 
   getAllPrivacyPolicy() {
-    return this.http.get(URL + 'admin/privacyPolicyList')
+    return this.http.get(URL + 'admin/privacyPolicyList',{ headers: this.getHeaderWithToken() })
       .pipe(
         map((res: Response) => { return res })
       );
   }
 
   editPrivacyPolicy(about: any, id: any) {
-    var user_id = JSON.parse(localStorage.getItem('currentUser'));
-    return this.http.put<any>(URL + 'editPrivacyPolicy/' + id + '/' + user_id, about, { headers: this.getHeaderWithToken() })
+    return this.http.put<any>(URL + 'admin/updatePrivacyPolicy/' + id , about, { headers: this.getHeaderWithToken() })
       .pipe(
         map((res: Response) => { return res }),
       );
   }
 
   deletePrivacyPolicy(id: any) {
-    var user_id = JSON.parse(localStorage.getItem('currentUser'));
-    return this.http.put<any>(URL + 'deletePrivacyPolicy/' + id + '/' + user_id, {}, { headers: this.getHeaderWithToken() })
+    return this.http.put<any>(URL + 'admin/deletePrivacyPolicy/' + id , {}, { headers: this.getHeaderWithToken() })
       .map((res: Response) => {
         return res
       });

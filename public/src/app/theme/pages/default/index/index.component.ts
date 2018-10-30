@@ -1,3 +1,4 @@
+import  swal  from 'sweetalert2';
 import { IndexService } from './index.service';
 import { Component, OnInit, AfterViewInit, Input,ViewEncapsulation } from '@angular/core';
 import { Helpers } from '../../../../helpers';
@@ -264,11 +265,44 @@ export class IndexComponent implements OnInit, AfterViewInit {
     Approve(id) {
        this.indexService.approveRestaurant(id).subscribe((response: any) => {
             this.getAllRequest()
-            this.toastService.success(response['message']);
+            if (response['code'] ==200 ) {
+                swal({
+                  position: 'center',
+                  type: 'success',
+                  title: response['message'],
+                  showConfirmButton: false,
+                  timer: 1500
+                })
+                
+              } else {
+                swal({
+                  type: 'error',
+                  text: response['message']
+                })
+               }
         },err=>{
           this.toastService.error(err['message']);
         }
         )
     }
-
+   
+    Reject(id){
+        this.indexService.rejectRestaurant(id).subscribe((response:any)=>{
+            this.getAllRequest()
+            if (response['code'] ==200 ) {
+                swal({
+                  position: 'center',
+                  type: 'success',
+                  title: response['message'],
+                  showConfirmButton: false,
+                  timer: 1500
+                })
+              } else {
+                swal({
+                  type: 'error',
+                  text: response['message']
+                })
+               }
+        })
+    }
 }

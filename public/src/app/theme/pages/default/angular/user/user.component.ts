@@ -69,11 +69,13 @@ import swal from 'sweetalert2'
          </div>
         </form>`,
   styleUrls: ['./user.component.css'],
-  encapsulation: ViewEncapsulation.None
+ 
 })
 
 export class NgbdModalContent {
   usersList: Array<any>;
+ 
+ 
   userForm: FormGroup;
 
   @Input() id;
@@ -111,6 +113,7 @@ export class NgbdModalContent {
       deviceType: ['', Validators.required],
       fcmToken: ['', Validators.required]
     });
+    console.log(this.userForm)
   }
 
   addUsers() {
@@ -126,7 +129,7 @@ export class NgbdModalContent {
        this.userService.addUser(addObj).subscribe(
         data => {
           this.getAllUser();
-         if (data['code'] ==200 ) {
+         if (data['code'] ==201 ) {
              swal({
                position: 'center',
                type: 'success',
@@ -146,7 +149,7 @@ export class NgbdModalContent {
           this.toastService.error(error['message']);
         });
     } else {
-    
+    console.log(addObj)
       this.userService.editUser(addObj, this.id).subscribe(
         data => {
           this.getAllUser();
@@ -180,7 +183,7 @@ export class NgbdModalContent {
   }
 
   validateForm() {
-  
+       
     if (this.userForm.valid) {
       return false;
     } else {
@@ -272,6 +275,9 @@ export class UserComponent implements OnInit, AfterViewInit {
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.value) {
+
+
+
         console.log("result",result.value)
         this.userService.deleteUser(id).subscribe(
           data => {

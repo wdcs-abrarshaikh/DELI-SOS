@@ -116,54 +116,17 @@ import swal from 'sweetalert2'
     </label>
    </div>
 
+   <div class="form-group">
+   <label>Cuisines:</label><br/>
+   <div  *ngFor="let cuisine of cuisines ;let i=index"  >
+  <label>{{cuisine}}</label>
+ <input ng-model="searchText" placeholder="enter search term here" (change)="cuisin($event)>
+ </div>
+   
+ </div>
    
 </form>
-<div class="box box-solid box-primary">
-   <div>
-   <label>cuisin</label>
-   <div class="row" >
-    <div >	
-     <table class="table table-bordered">		
-     <tbody>
-     <tr>
-     <th>Name</th>
-     <th>Image</th>
-     <th *ngIf="!isView" >Action</th>
-    </tr>
-    <tr *ngFor="let cuisinSubset of cuisinImagesObject; let i=index" >
-     <td>
-     <div class="form-group ">
-     <input  [(ngModel)]='cuisinSubset.name' placeholder="name" (change)='changeCuisinName(i,cuisinSubset.name)' style="width:150px"  required="required"/>
-      <div class="help-block"></div>
-     </div>
-     </td>
-     <td >
-     <div class="form-group required"> 
-     <label>Image:</label><br/>
-      <div>
-      <img  [src]="cuisinSubset.image" class="rounded mb-3"  width="50"  height=auto>
-      </div>
-      <label class="btn-bs-file btn btn-ls btn-info"*ngIf="!isView" style="margin-top:6px" text-align="center" >image
-      <input type="file" accept="image/*" style="display: none" (change)="imageUploading($event,'cuisin',true,i)">
-      </label>   
-     <div class="help-block"></div>
-     </div>
-     </td>
-     <td >
-   <button *ngIf='cuisinSubset && !isView' class="btn btn-danger btn-xs" type="button" (click)="deleteImage(i,'cuisin')" style="margin-right:10px" >Delete</button>
-      </td>
-     </tr>
-     </tbody>
-     </table>
-     </div>
-     </div>
-     <div *ngIf="!isView">
-     <button class="btn btn-secondary btn-lg1" type="button"  (click)="addCuisin()" style="margin-right:10px" >Add More</button>
-   </div>
-    </div>
-    </div>
-  
-    
+ 
 <div class="modal-footer" *ngIf="!isView">
 <button type="submit" class="btn btn-outline-dark"  (click)="addRestaurant()">Save</button>&nbsp;&nbsp;
 <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Cancel</button>
@@ -181,12 +144,12 @@ export class NgbdModalContent {
     RestaurantForm: FormGroup;
     menuImages:Array<any>;
     restaurantImages:Array<any>;
-    cuisinImagesObject:Array<any>=[
-      {
-        name:'',
-        image:''
-      }
-    ];
+    cuisines:Array<any>=[];
+    //   {
+    //     name:'',
+    //     image:''
+    //   }
+    // ];
 
     mealOffers_arr:Array<any> = ["BREAKFAST","LUNCH","DINNER","ALL"]
 
@@ -202,7 +165,7 @@ export class NgbdModalContent {
     @Input () perPersonCost;
     @Input () mealOffers;
     @Input () menu;
-    @Input () cuisin;
+    // @Input () cuisin;
     loading = false;
     submitted = false;
     mypic:any = null; 
@@ -253,36 +216,45 @@ export class NgbdModalContent {
         });
   
     }
-    createItem(){
-      return {
-        name: '',
-        image:''
-       };
-    }
-  
-  changeCuisinName(index,value){
-   this.cuisinImagesObject[index].name = value;
-  }
 
-  async addCuisin(){
-    let isValid = await this.checkCuisinValid();
-    if(!isValid){
-      this.toastService.error("Please fill the All cuisin items.");
-    }else{
-      this.cuisinImagesObject.push(this.createItem())
-    } 
-  }
-
-
-  async checkCuisinValid(){
-   
-    let result = await this.cuisinImagesObject.filter((res)=>{
-      if(!res.name || !res.image){
-        return res;
+    cuisin(event){
+      this.restaurantService.getCuisin(event).subscribe((data)=>{
+        console.log(data)
+        // this.cuisines=data
+      }),err=>{
+        console.log(err)
       }
-    });
-    return (result.length>0)? false : true;
-  }
+    }
+    // createItem(){
+    //   return {
+    //     name: '',
+    //     image:''
+    //    };
+    // }
+  
+  // changeCuisinName(index,value){
+  //  this.cuisinImagesObject[index].name = value;
+  // }
+
+  // async addCuisin(){
+  //   let isValid = await this.checkCuisinValid();
+  //   if(!isValid){
+  //     this.toastService.error("Please fill the All cuisin items.");
+  //   }else{
+  //     this.cuisinImagesObject.push(this.createItem())
+  //   } 
+  // }
+
+
+  // async checkCuisinValid(){
+   
+  //   let result = await this.cuisinImagesObject.filter((res)=>{
+  //     if(!res.name || !res.image){
+  //       return res;
+  //     }
+  //   });
+  //   return (result.length>0)? false : true;
+  // }
 
 
 selectSelector(flag:string,arr){
@@ -294,20 +266,20 @@ selectSelector(flag:string,arr){
     case 'restaurant':
           this.restaurantImages  = arr;
           break; 
-    case 'cuisin':
-          let flag=false;
-          this.cuisinImagesObject.map(async (result,idx)=>{
-          if(result.name == arr[0].name){
-             this.cuisinImagesObject[idx]=arr[0];
-              flag = true;
-            }
-             if(idx == this.cuisinImagesObject.length-1){
-              if(!flag){
-                 this.cuisinImagesObject.push(arr[0])
-              }
-            }
-          })
-          break;           
+    // case 'cuisin':
+    //       let flag=false;
+    //       this.cuisinImagesObject.map(async (result,idx)=>{
+    //       if(result.name == arr[0].name){
+    //          this.cuisinImagesObject[idx]=arr[0];
+    //           flag = true;
+    //         }
+    //          if(idx == this.cuisinImagesObject.length-1){
+    //           if(!flag){
+    //              this.cuisinImagesObject.push(arr[0])
+    //           }
+    //         }
+    //       })
+    //       break;           
   };
  
 }
@@ -327,18 +299,18 @@ async imageUploading(event,flag,section,idx){
         }
       }
       let obj;
-      if(section){
-            obj= {
-                name:(this.cuisinImagesObject[idx].name)?(this.cuisinImagesObject[idx].name):'',
-                image: await this.uploadImage(allFiles)
-               }
-              obj.image = obj.image[0];
-              queryArray.push(obj); 
-            }else{  
+      // if(section){
+      //       obj= {
+      //           name:(this.cuisinImagesObject[idx].name)?(this.cuisinImagesObject[idx].name):'',
+      //           image: await this.uploadImage(allFiles)
+      //          }
+      //         obj.image = obj.image[0];
+      //         queryArray.push(obj); 
+      //       }else{  
               obj = await this.uploadImage(allFiles);
              
               queryArray = [...queryArray,...obj]
-             }  
+          //    }  
            this.selectSelector(flag,queryArray);
     }else{
       this.toastService.error("please select only five images");
@@ -365,9 +337,9 @@ async uploadImage(images) {
       case 'restaurant':
           this.restaurantImages.splice(i,1);
           break; 
-      case 'cuisin':
-          this.cuisinImagesObject.splice(i,1);
-          break;      
+      // case 'cuisin':
+      //     this.cuisinImagesObject.splice(i,1);
+      //     break;      
     }
 }
 
@@ -384,10 +356,10 @@ async uploadImage(images) {
 
 
  async addRestaurant() {
-    let isValid = await this.checkCuisinValid();
-     if(!isValid){
-      return this.toastService.error("Please fill the All cuisin items.");
-     }
+    // let isValid = await this.checkCuisinValid();
+    //  if(!isValid){
+    //   return this.toastService.error("Please fill the All cuisin items.");
+    //  }
      this.submitted = true;
     if (this.RestaurantForm.invalid) {
       return;
@@ -406,7 +378,7 @@ async uploadImage(images) {
         "perPersonCost": this.RestaurantForm.controls['perPersonCost'].value,
         "menu":this.menuImages,
         "photos":this.restaurantImages,
-        "cuisin":this.cuisinImagesObject
+        // "cuisin":this.cuisinImagesObject
         };
 
       
@@ -482,16 +454,16 @@ async uploadImage(images) {
       return true;
     }
   }
-  async uploadImageCuisin(obj){
-    let res= await obj.map(async (result)=>{
-        let response = await this.uploadImage([result.image]);
-        result.name =result.cuisinName;
-        result.image= response;
-        delete result.cuisinName;
-        return result;
-    })
-    return res;
-  }
+  // async uploadImageCuisin(obj){
+  //   let res= await obj.map(async (result)=>{
+  //       let response = await this.uploadImage([result.image]);
+  //       result.name =result.cuisinName;
+  //       result.image= response;
+  //       delete result.cuisinName;
+  //       return result;
+  //   })
+  //   return res;
+  // }
 
 
 }
@@ -586,7 +558,7 @@ export class RestaurantComponent implements OnInit,AfterViewInit {
     modalRef.componentInstance.perPersonCost = content ? content.perPersonCost : "";
     modalRef.componentInstance.menuImages = content ? content.menu: "";
     modalRef.componentInstance.restaurantImages = content ? content.photos : "";
-    modalRef.componentInstance.cuisinImagesObject = content ? content.cuisin: [{name:'',image:''}];
+    // modalRef.componentInstance.cuisinImagesObject = content ? content.cuisin: [{name:'',image:''}];
     modalRef.componentInstance.isAdd = this.isAdd;
     modalRef.componentInstance.isView=this.isView;
    modalRef.componentInstance.mealOffers = (content) ? await this.checkValue(content.mealOffers) : arr_value;

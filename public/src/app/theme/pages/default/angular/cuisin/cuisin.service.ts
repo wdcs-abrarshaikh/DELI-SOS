@@ -25,7 +25,6 @@ export class CuisinService {
     getHeaderWithToken() {
         let headers = new HttpHeaders()
         let token = JSON.parse(localStorage.getItem('_token'))
-        console.log(token)
          headers = headers.set('Authorization', token)
         headers = headers.set('Content-Type', 'application/json');
         return headers;
@@ -53,8 +52,8 @@ export class CuisinService {
     }
 
     deleteCuisin(id: any) {
-        console.log("in service",id)
-        return this.http.put<any>(URL + 'admin/deleteCuisin/' + id, { headers: this.getHeaderWithToken() })
+      
+        return this.http.put<any>(URL + 'admin/deleteCuisin/' + id,{}, { headers: this.getHeaderWithToken() })
             .map((res: Response) => {
                 console.log(res)
                 return res

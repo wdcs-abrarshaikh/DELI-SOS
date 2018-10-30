@@ -1,14 +1,14 @@
 .btn-add{
-    padding: 1.25rem 1.65rem;
+    padding: 1.10rem 1.40rem;
     font-size: 1.25rem;
-    line-height: 1.5;
+    line-height: 1;
     color:white;
-    
     background-color: transparent;
     background: linear-gradient(to right, #fc4a1a, #f7b733);
     margin-left: 90%;
-    margin-top:2%;
-    margin-right: 5%;
+    margin-top:0%;
+    border-color:#f7b733;
+    margin-right: 5%
 }
 .header{
     font-size: 3.15rem;

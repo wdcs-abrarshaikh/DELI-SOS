@@ -5,6 +5,7 @@ import { FormBuilder, Validators, FormControl, FormGroup, FormArray } from '@ang
 import { Location } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import swal from 'sweetalert2'
 
 @Component({
  
@@ -49,6 +50,7 @@ export class NgbdModalContent {
 
   ngOnInit() {
     this.buildAboutForm();
+    this.getAllAboutus();
   }
 
   get f() {
@@ -75,10 +77,22 @@ export class NgbdModalContent {
       console.log(addObj)
        this.aboutUsService.addAboutus(addObj).subscribe(
         data => {
-          console.log(data)
-          this.getAllAboutus();
-          this.activeModal.dismiss();
-          this.toastService.success(data['message']);
+          if (data['code'] == 201) {
+            swal({
+              position: 'center',
+              type: 'success',
+              title: data['message'],
+              showConfirmButton: false,
+              timer: 1500
+            })
+            this.activeModal.dismiss();
+          } else {
+            swal({
+              type: 'error',
+              text: data['message']
+            })
+            this.activeModal.dismiss();
+          }
         },
         error => {
           this.toastService.error(error['message']);
@@ -107,7 +121,6 @@ export class NgbdModalContent {
 export class AboutUsComponent implements OnInit {
   aboutUsList: any;
 
-
   @Input() id;
   @Input() content;
 
@@ -133,8 +146,12 @@ export class AboutUsComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private aboutUsService: AboutUsService) {
     this.aboutUsService.getAboutus().subscribe((data: any) => {
-      console.log("gugugugu",data)
-      this.aboutUsLists = data.aboutUsList.content
+    if(data.aboutUsList == null){
+       this.aboutUsList = data.aboutUsList
+      }else{
+        this.aboutUsList = data.aboutUsList.content
+      }
+     
     })
   }
 
@@ -153,13 +170,18 @@ export class AboutUsComponent implements OnInit {
 
   getAboutusList() {
     this.aboutUsService.getAllAboutus().subscribe((response: any) => {
-     this.aboutUsList = response.data[0]
-  
+    if(response.data==null){
+        this.aboutUsList = response.data;
+      }else{
+        this.aboutUsList = response.data.content
+        this.id=response.data._id
+      }
+    
     });
   }
   getAllAboutus() {
     this.aboutUsService.getAllAboutus().subscribe((response: any) => {
-        this.aboutUsService.setAboutus(response.data[0]);
+       this.aboutUsService.setAboutus(response.data);
     })
   }
   validateForm() {
@@ -170,10 +192,8 @@ export class AboutUsComponent implements OnInit {
     }
   }
 
-  addAboutUs(id ) {
-    console.log(id)
-    console.log("edit obj",this.editorConfig.editable)
-    if (this.editorConfig.editable)
+  addAboutUs() {
+  if (this.editorConfig.editable)
       this.editorConfig.editable = false;
     else
       this.editorConfig.editable = true;
@@ -181,18 +201,32 @@ export class AboutUsComponent implements OnInit {
     var editObj = {
       "content": this.aboutUsForm.controls['content'].value,
     }
-    console.log("....................",editObj)
-    console.log("mmmmmmmmmm",this.id)
+   
     this.aboutUsService.editAboutus(editObj,this.id).subscribe(
       data => {
-        console.log("dara will be here",data)
         if (!this.editorConfig.editable) {
-          this.toastService.success(data['response'].responseMessage);
+          if (!this.editorConfig.editable) {
+            this.getAllAboutus();
+            if (data['code'] == 200) {
+              swal({
+                position: 'center',
+                type: 'success',
+                title: data['message'],
+                showConfirmButton: false,
+                timer: 1500
+              })
+  
+            } else {
+              swal({
+                type: 'error',
+                text: data['message']
+              })
+            }
+          }
         }
-        this.getAllAboutus();
-      },
+     },
       error => {
-        this.toastService.error(error['error'].message);
+        this.toastService.error(error['response']);
       });
   }
   get f() {
@@ -206,27 +240,44 @@ export class AboutUsComponent implements OnInit {
     this.loading = true;
   }
 
-  deleteAboutus(id) {
-    this.aboutUsService.deleteAboutus(this.id).subscribe(
-      data => {
-        this.modalReference.close();
-          this.toastService.success(data['response'].responseMessage);
-          this.aboutUsService.getAllAboutus().subscribe((response: any) => {
-          this.aboutUsService.setAboutus(response.data);
-        })
-      },
-      error => {
-        this.toastService.error(error.errors);
-      });
-  }
+  
 
-  delete(content) {
-    this.modalReference = this.modalService.open(content);
-  }
-
+  delete() {
+    swal({
+       title: 'Are you sure?',
+       text: "You won't be able to revert this!",
+       type: 'warning',
+       showCancelButton: true,
+       confirmButtonColor: '#3085d6',
+       cancelButtonColor: '#d33',
+       confirmButtonText: 'Yes, delete it!'
+     }).then((result) => {
+       if (result.value) {
+         this.aboutUsService.deleteAboutus(this.id).subscribe(
+           data => {
+             console.log(data)
+                this.getAllAboutus();
+             swal(
+               'Deleted!',
+               'Your file has been deleted.',
+               'success'
+             )
+           },
+           error => {
+             swal(
+               'error!',
+               'Your file has been deleted.',
+               'success'
+             )
+           });
+ 
+       }
+     })
+ 
+   }
   cancelAboutUs() {
     this.editorConfig.editable = false;
-    // this.getAllAboutus();
+    this.getAllAboutus();
   }
   add(content){
   

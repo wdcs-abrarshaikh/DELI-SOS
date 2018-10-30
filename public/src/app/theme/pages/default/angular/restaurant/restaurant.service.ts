@@ -84,5 +84,12 @@ export class RestaurantService {
 
     }
 
+    getCuisin(value:any){
+        return this.http.get(URL + 'admin/getCuisinList', { headers: this.getHeaderWithToken() })
+        .pipe(
+            map((res: Response) => { return res })
+        );
+    }
+
 
 }

@@ -23,18 +23,21 @@
     text-align: center;
    }
 .btn-edit{
+    border: none;
         color:gray;
         background-color: transparent;
        
 
     }
 .btn-delete{
+    border: none;
         color:gray;
         background-color: transparent;
      
 
     }
     .btn-view{
+        border: none;
         color:gray;
         background-color: transparent;
        
@@ -71,4 +74,8 @@ table.dataTable thead th.sorting,
  .dataTables_wrapper .pagination .page-item:hover>.page-link {
     background: linear-gradient(45deg, #fc4a1a, #f7b733) !important;
     color: #fff;
+ }
+ .btn.m-btn--hover-brand:hover{
+    background: linear-gradient(45deg, #fc4a1a, #f7b733) !important;
+    border: none;
  }

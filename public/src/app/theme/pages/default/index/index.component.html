@@ -42,8 +42,10 @@
 			</div>
 		</div> 
 	</div>
-	</div>
+	</div><br>
+	
 		<div class="table1">
+				<h2 class="header1">Restaurants Awaiting Approval</h2>
 			<table  datatable class="table-bordered table-hover"  *ngIf="restList">
 			 <thead>
 				<tr>
@@ -64,8 +66,10 @@
 					  <i class="fas fa-eye" (click)="open(Rest)"></i> 
 					</button>
 					 &nbsp;&nbsp;
-         	<button type="button" class="btn btn1" (click)="Approve(Rest._id)" >Approve</button> 
+				 <button type="button" class="btn btn1" (click)="Approve(Rest._id)" >Approve</button> 
+				 <button type="button" class="btn btn-danger"  (click)="Reject(Rest._id)">Reject</button>
 			   </td>
+			   
 				 </tr>
 				</tbody> 
 			 

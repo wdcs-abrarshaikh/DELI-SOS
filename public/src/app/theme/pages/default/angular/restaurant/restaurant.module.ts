@@ -12,6 +12,7 @@ import {DefaultComponent} from '../../default.component';
 import {LayoutModule} from '../../../../layouts/layout.module';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { DataTablesModule } from 'angular-datatables';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
  
 
@@ -40,7 +41,7 @@ const routes: Routes = [
 		OwlDateTimeModule,
 		OwlNativeDateTimeModule,
 		DataTablesModule,
-		
+		Ng2SearchPipeModule
 
 	],
 	
