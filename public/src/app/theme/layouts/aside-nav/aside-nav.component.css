@@ -1,0 +1,9 @@
+.m-aside-menu .m-menu__nav .m-menu__item>.m-menu__heading:hover, .m-aside-menu .m-menu__nav .m-menu__item>.m-menu__link:hover {
+    background:#e97121;
+}
+.menu__nav .m-menu__item>.m-menu__link:hover {
+    background: sandybrown;
+}
+.m-menu__link:hover{
+    background: sandybrown;
+}

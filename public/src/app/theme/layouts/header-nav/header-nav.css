@@ -16,8 +16,9 @@ img.m--img-rounded.m--marginless {
 }
 .name{
     float:right;
-    font-size:20px;
+    font-size:22px;
     margin-top: 20px;
+    margin-right: 10px
 }
 h3{
     color:white;
@@ -41,4 +42,22 @@ h3{
     margin-left: 90%;
     margin-right: 5px;
   
+}
+.image{
+    vertical-align: middle;
+    border-style: none;
+    float: right;
+    height: 60px;
+    width:60px;
+    border-radius: 50%
+ }
+ .m-nav__link.m-dropdown__toggle.pic_nm {
+    display: table;
+    padding: 10px;
+    float: right;
+}
+
+.pic_nm span {
+    display: table-cell;
+    vertical-align: middle;
 }

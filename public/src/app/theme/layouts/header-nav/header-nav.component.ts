@@ -46,8 +46,14 @@ ngOnInit()  {
     this.name=name;
   })
   this.profileService.getProfile().subscribe((data: any) => {
-    this.profilesList=data.data.profilePicture
-    this.name=data.data.name
+  
+    if(data.data == undefined){
+        this.profilesList='dummy.jpg';
+    }else{
+        this.profilesList=data.data.profilePicture
+        this.name=data.data.name
+    }
+   
 });
 }
 

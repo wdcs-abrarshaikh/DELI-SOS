@@ -5,6 +5,7 @@ import { FormBuilder, Validators, FormControl, FormGroup, FormArray } from '@ang
 import { Location } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import swal from 'sweetalert2'
 
 @Component({
 
@@ -33,7 +34,7 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 
 export class NgbdModalContent {
-  usersList: Array<any>;
+  privacyPolicyLists: Array<any>;
   privacyForm: FormGroup;
   @Input() id;
   @Input() content;
@@ -45,15 +46,12 @@ export class NgbdModalContent {
     private _formBuilder: FormBuilder,
     private privacyPolicyService: PrivacyPolicyService,
     public activeModal: NgbActiveModal, ) {
-    // this.privacyPolicyService.getPrivacyPolicy().subscribe((data: any) => {
-    //   this.privacyPolicyLists = data.privacyPolicyList.content;
 
-    // })
   }
 
   ngOnInit() {
     this.buildPrivacyForm();
-
+    this.getAllPrivacyPolicy();
   }
 
   get f() {
@@ -67,17 +65,9 @@ export class NgbdModalContent {
 
   getAllPrivacyPolicy() {
     this.privacyPolicyService.getAllPrivacyPolicy().subscribe((response: any) => {
-      console.log("get response",response)
       this.privacyPolicyService.setPrivacyPolicy(response.data);
     })
   }
-
-  // getPrivacyPolicyList() {
-  //   this.privacyPolicyService.getAllPrivacyPolicy().subscribe((response: any) => {
-  //     this.privacyPolicyLists = response.response.result.content;
-  //     this.id = response.response.result._id;
-  //   });
-  // }
 
 
   addContent() {
@@ -88,13 +78,27 @@ export class NgbdModalContent {
       this.privacyPolicyService.addPrivacyPolicy(addObj).subscribe(
         data => {
           this.getAllPrivacyPolicy();
-          this.activeModal.dismiss();
-          this.toastService.success(data['message']);
+          if (data['code'] == 201) {
+            swal({
+              position: 'center',
+              type: 'success',
+              title: data['message'],
+              showConfirmButton: false,
+              timer: 1500
+            })
+            this.activeModal.dismiss();
+          } else {
+            swal({
+              type: 'error',
+              text: data['message']
+            })
+            this.activeModal.dismiss();
+          }
         },
         error => {
           this.toastService.error(error['message']);
         });
-       }
+    }
   }
 
   validateForm() {
@@ -134,13 +138,20 @@ export class PrivacyPolicyComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private privacyPolicyService: PrivacyPolicyService) {
     this.privacyPolicyService.getPrivacyPolicy().subscribe((data: any) => {
-      this.privacyPolicyLists = data.privacyPolicyList.content;
+     if (data.privacyPolicyLists == null) {
+         this.privacyPolicyLists = data.privacyPolicyLists
+         return;
+      } else {
+         this.privacyPolicyLists = data.privacyPolicyLists.content;
+      }
+
     })
   }
 
   ngOnInit() {
     this.buildprivacyPolicyForm();
-    // this.getPrivacyPolicyList();
+    this.getPrivacyPolicyList();
+    this.getAllPrivacyPolicy()
   }
 
   buildprivacyPolicyForm() {
@@ -158,19 +169,34 @@ export class PrivacyPolicyComponent implements OnInit {
     var editObj = {
       "content": this.privacyPolicyForm.controls['content'].value,
     }
+  
     this.privacyPolicyService.editPrivacyPolicy(editObj, this.id).subscribe(
       data => {
-
         if (!this.editorConfig.editable) {
-          this.toastService.success(data['response'].responseMessage);
+          this.getPrivacyPolicyList();
+          if (data['code'] == 200) {
+            swal({
+              position: 'center',
+              type: 'success',
+              title: data['message'],
+              showConfirmButton: false,
+              timer: 1500
+            })
+
+          } else {
+            swal({
+              type: 'error',
+              text: data['message']
+            })
+          }
         }
-        // this.getAllPrivacyPolicy();
+
       },
       error => {
         this.toastService.error(error['error'].message);
       });
+    }
 
-  }
 
   validateForm() {
     if (this.privacyPolicyForm.valid) {
@@ -180,18 +206,22 @@ export class PrivacyPolicyComponent implements OnInit {
     }
   }
 
-  // getAllPrivacyPolicy() {
-  //   this.privacyPolicyService.getAllPrivacyPolicy().subscribe((response: any) => {
-  //     this.privacyPolicyService.setPrivacyPolicy(response.response.result);
-  //   })
-  // }
+  getAllPrivacyPolicy() {
+    this.privacyPolicyService.getAllPrivacyPolicy().subscribe((response: any) => {
+      this.privacyPolicyService.setPrivacyPolicy(response.data);
+    })
+  }
 
-  // getPrivacyPolicyList() {
-  //   this.privacyPolicyService.getAllPrivacyPolicy().subscribe((response: any) => {
-  //     this.privacyPolicyLists = response.response.result.content;
-  //     this.id = response.response.result._id;
-  //   });
-  // }
+  getPrivacyPolicyList() {
+    this.privacyPolicyService.getAllPrivacyPolicy().subscribe((response: any) => {
+      if (response.data == null) {
+        this.privacyPolicyLists = response.data;
+      } else {
+        this.privacyPolicyLists = response.data.content;
+        this.id = response.data._id;
+      }
+    })
+  }
 
   get f() {
     return this.privacyPolicyForm.controls;
@@ -205,27 +235,44 @@ export class PrivacyPolicyComponent implements OnInit {
     this.loading = true;
   }
 
-  deletePrivacyPolicy(id) {
-    this.privacyPolicyService.deletePrivacyPolicy(this.id).subscribe(
-      data => {
-        this.modalReference.close();
-        this.toastService.success(data['response'].responseMessage);
-        this.privacyPolicyService.getPrivacyPolicy().subscribe((response: any) => {
-          this.privacyPolicyService.setPrivacyPolicy(response);
-        })
-      },
-      error => {
-        this.toastService.error(error.errors);
-      });
-  }
-  delete(content) {
-    this.modalReference = this.modalService.open(content);
+  delete() {
+   swal({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.value) {
+        this.privacyPolicyService.deletePrivacyPolicy(this.id).subscribe(
+          data => {
+               this.getAllPrivacyPolicy();
+            swal(
+              'Deleted!',
+              'Your file has been deleted.',
+              'success'
+            )
+          },
+          error => {
+            swal(
+              'error!',
+              'Your file has been deleted.',
+              'success'
+            )
+          });
+
+      }
+    })
+
   }
 
   cancelPrivacyPolicy() {
     this.editorConfig.editable = false;
-    // this.getAllPrivacyPolicy();
+    this.getAllPrivacyPolicy();
   }
+
   add(content) {
     if (!content) {
       this.isAdd = false;

@@ -1,10 +1,10 @@
 <h2 class="header">About Us</h2>
   
-<button class="btn-add" (click)="add()" ><i class="fas fa-plus"></i></button>
+<button class="btn-add" (click)="add()" *ngIf="!aboutUsList">Add</button>
 
 <form name="aboutUsForm" [formGroup]="aboutUsForm" (ngSubmit)="onSubmit()">
  <div id='commonCms'>
-    <app-ngx-editor [placeholder]="'Enter text here...'" [spellcheck]="true" formControlName="content" [(ngModel)]="aboutUsLists"
+    <app-ngx-editor [placeholder]="'Enter text here...'" [spellcheck]="true" formControlName="content" [(ngModel)]="aboutUsList"
       [config]="editorConfig"></app-ngx-editor>
 
   </div>
@@ -17,7 +17,7 @@
 
     <ng-template #save>
       <button type="button" [disabled]="loading" class="btn btn-outline-dark mrgRight5 btn-edit" (click)="addAboutUs()">Edit</button>
-      <button type="button" [disabled]="loading" class="btn btn-outline-dark btn-delete" (click)="delete(content)">Delete</button>
+      <button type="button" [disabled]="loading" class="btn btn-outline-dark btn-delete" (click)="delete()">Delete</button>
 
     </ng-template>
 

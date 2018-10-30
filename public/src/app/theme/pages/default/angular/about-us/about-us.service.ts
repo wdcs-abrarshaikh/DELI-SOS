@@ -17,9 +17,8 @@ export class AboutUsService {
 
     }
     setAboutus(data: any) {
-        console.log("kkkkkkkkkkkkk")
-        console.log(data)
-        this.aboutUsList.next({ aboutUsList: data});
+        console.log("kkkkkkkkkkkkk",data)
+       this.aboutUsList.next({ aboutUsList: data});
     }
     getAboutus(): Observable<any> {
         return this.aboutUsList.asObservable();
@@ -27,9 +26,8 @@ export class AboutUsService {
     }
     getHeaderWithToken() {
         let headers = new HttpHeaders()
+        headers = headers.set('Authorization', JSON.parse(localStorage.getItem('_token')))
         headers = headers.set('Content-Type', 'application/json')
-        let token = JSON.parse(localStorage.getItem('_token'))
-        headers = headers.set('Authorization', token)
         return headers;
     }
     addAboutus(about: any) {
@@ -43,25 +41,22 @@ export class AboutUsService {
         return this.http.get(URL + 'admin/aboutUsList',{ headers: this.getHeaderWithToken() })
             .pipe(
                 map((res: Response) => {
-                    console.log("get",res)
-                    return res })
+                     return res })
             );
     }
 
-
-    editAboutus(about: any, id: any) {
-        console.log(id)
-        var admin_id = JSON.parse(localStorage.getItem('_id'));
+  editAboutus(about: any, id: any) {
+     
         return this.http.put<any>(URL + 'admin/updateAboutUs/' + id, about, { headers: this.getHeaderWithToken() })
             .pipe(
                 map((res: Response) => { 
-                    console.log(">>>>>>>>>>>>>>>>>>>>",res)
+                  
                     return res }),
             );
     }
     deleteAboutus(id: any) {
-        var admin_id = JSON.parse(localStorage.getItem('_id'));
-        return this.http.put<any>(URL + 'admin/delAbout_Us' + admin_id, { headers: this.getHeaderWithToken() }).map((res: Response) => {
+        console.log("in delete",id)
+        return this.http.put<any>(URL + 'admin/deleteAboutUs/' + id,{}, { headers: this.getHeaderWithToken() }).map((res: Response) => {
             return res
         });
     }
