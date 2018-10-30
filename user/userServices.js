@@ -11,6 +11,8 @@ let schmaName = require('../constants').schemas;
 let adminService = require('../admin/adminServices');
 var mongoose = require('mongoose');
 const mongoQuery = require('../constants/mongoQuery');
+
+
 async function createUser(req, res) {
     let data = req.body;
     if (await userModel.findOne({ email: data.email })) {
@@ -82,7 +84,7 @@ function resetPassword(req, res) {
 
 function fetchDetail(req, res) {
     let id = req.params.id
-    userModel.aggregate(mongoQuery.userProfileWithReview(id), (err, response) => {
+    userModel.aggregate(mongoQuery.userProfileWithReview(id, true), (err, response) => {
         if (err) {
             console.log(err)
             return res.json({ code: code.internalError, message: msg.internalServerError })
@@ -143,26 +145,13 @@ function addRestaurant(req, res) {
 
 function getRestaurantDetail(req, res) {
     let id = req.params.id
-    restModel.aggregate([
-        {
-            $match: {
-                _id: mongoose.Types.ObjectId(id)
-            }
-        },
-        {
-            $lookup: {
-                foreignField: "_id",
-                localField: "review",
-                from: schmaName.reviews,
-                as: 'reviews_details'
-            }
-        },
-    ], (err, response) => {
+    restModel.aggregate(mongoQuery.getRestaurantDetail(id), (err, response) => {
         if (err) {
-            res.json({ code: code.ineternalError, message: msg.internalServerError })
+            console.log(err)
+            res.json({ code: code.internalError, message: msg.internalServerError })
         }
         else {
-            res.json({ code: code.ok, message: msg.ok, data: response })
+            res.json({ code: code.ok, message: msg.ok, data: response[0] })
         }
     })
 }
@@ -266,18 +255,26 @@ function getAllReviews(req, res) {
 }
 
 function addPhotoByUser(req, res) {
-    let data = req.body.data,
-        id = req.body.restId
+    let data = req.body
     data.postedAt = Date.now()
-    return restModel.findOneAndUpdate({ _id: id }, { $push: { photoByUser: data } }, (err, result) => {
-        if (err) {
-            res.json({ code: code.internalError, message: msg.internalServerError })
-        }
-        else if (!result) {
-            res.json({ code: code.notFound, message: msg.restNotFound })
+    let condition = {
+        _id: data.restId,
+        'photoByUser.userId': { $ne: data.userId }
+    }
+    let update = {
+        $addToSet: { photoByUser: { userId: data.userId, url: data.url, postedAt: data.postedAt } }
+    }
+    return restModel.findOneAndUpdate(condition, update).then((result) => {
+        if (!result) {
+            res.json({ code: code.forbidden, message: msg.alreadyUploadPhotos })
         }
         else {
             res.json({ code: code.created, message: msg.imageUploaded })
+        }
+    }).catch((err) => {
+        if (err) {
+            console.log(err)
+            res.json({ code: code.internalError, message: msg.internalServerError })
         }
     })
 }
@@ -334,46 +331,7 @@ function removeFavourite(req, res) {
 function showFavourites(req, res) {
     let obj = util.decodeToken(req.headers['authorization'])
     var userId = obj.id
-    return userModel.aggregate([
-        {
-            $match: {
-                _id: mongoose.Types.ObjectId(userId)
-            }
-        },
-        {
-            $lookup: {
-                foreignField: '_id',
-                localField: 'favourites',
-                from: 'restaurants',
-                as: 'favourites_details'
-            }
-        },
-        {
-            $unwind: '$favourites_details'
-        },
-        {
-            $lookup: {
-                foreignField: '_id',
-                localField: 'favourites_details.reviews',
-                from: schmaName.reviews,
-                as: 'reviews_details'
-            }
-        },
-        {
-            $addFields: {
-                "favourites_details.rating": { $avg: '$reviews_details.rating' },
-                "favourites_details.dist": " "
-            }
-        },
-        {
-            $project: {
-                'location': 1, '_id': 0,
-                'favourites_details._id': 1, 'favourites_details.name': 1,
-                'favourites_details.location': 1, 'favourites_details.cuisin': 1,
-                "favourites_details.rating": 1
-            }
-        }
-    ], (err, response) => {
+    return userModel.aggregate(mongoQuery.showFavourites(userId), (err, response) => {
         if (err) {
             res.json({ code: code.ineternalError, message: msg.internalServerError })
         }
@@ -392,12 +350,11 @@ function showFavourites(req, res) {
 
 function showProfile(req, res) {
     let obj = util.decodeToken(req.headers['authorization'])
-    let request ;
-    console.log(req.query)
-    if(req.query.reviews == 'true'){
-        request = mongoQuery.userProfileWithReview(obj.id,true)
-    }else{
-        request = mongoQuery.userProfileWithReview(obj.id,false)
+    let request;
+    if (req.query.reviews == 'true') {
+        request = mongoQuery.userProfileWithReview(obj.id, true)
+    } else {
+        request = mongoQuery.userProfileWithReview(obj.id, false)
     }
 
     userModel.aggregate(request, (err, response) => {
@@ -454,7 +411,7 @@ function changePassword(req, res) {
 function getNearByRestaurant(req, res) {
     userModel.findOne({ _id: req.params.userId, status: status.active }, (err, data) => {
         if (err) {
-            return res.json({ code: code.internalError, message: msg.internalError })
+            return res.json({ code: code.internalError, message: msg.internalServerError })
         } else if (!data) {
             return res.json({ code: code.notFound, message: msg.userNotFound })
         } else {
@@ -497,7 +454,7 @@ function getNearByRestaurant(req, res) {
                     console.log(err);
                     console.log(response)
                     if (err) {
-                        return res.json({ code: code.internalError, message: msg.internalError })
+                        return res.json({ code: code.internalError, message: msg.internalServerError })
                     } else {
                         console.log(response);
                         let marker = [];
@@ -631,9 +588,13 @@ function changeLocation(req, res) {
     let obj = util.decodeToken(req.headers['authorization'])
     return userModel.findByIdAndUpdate({ _id: obj.id }, { $set: { location: req.body.location } })
         .then((result) => {
+            if(result){
             res.json({ code: code.ok, message: msg.locationChanged })
+            }
         }).catch((err) => {
+            if(err){
             res.json({ code: code.ineternalError, message: msg.internalServerError })
+            }
         })
 }
 

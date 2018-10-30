@@ -4,7 +4,8 @@ http_codes = {
     created: 201,
     notFound: 404,
     ok: 200,
-    notImplemented: 501
+    notImplemented: 501,
+    forbidden:403
 }
 
 messages = {
@@ -59,7 +60,9 @@ messages = {
    cuisinUpdated:"Cuisin updated successfully",
    privacyPolicyUpdated:"Privacy policy updated successfully",
    aboutUsUpdated:"About us updated successfully",
-   restReqDeclined:"Restaurant approval rejected succssfully"
+   restReqDeclined:"Restaurant approval rejected succssfully",
+    alreadyUploadPhotos:"Sorry, you already post photos for this restaurant"
+
 }
 
 roles = {

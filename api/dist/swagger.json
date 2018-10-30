@@ -26,6 +26,80 @@
         }
     ],
     "paths": {
+        "/user/signUp": {
+            "post": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "Registering new user.",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "user",
+                        "description": "register in body.",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "email",
+                                "password",
+                                "name",
+                                "deviceId",
+                                "deviceType",
+                                "fcmToken"
+                            ],
+                            "properties": {
+                                "name": {
+                                    "type": "string"
+                                },
+                                "email": {
+                                    "type": "string"
+                                },
+                                "password": {
+                                    "type": "string",
+                                    "format": "One capital letter,small letter,special char and one number is required.Length lies between 6 to 16"
+                                },
+                                "deviceId": {
+                                    "type": "string"
+                                },
+                                "deviceType": {
+                                    "type": "string"
+                                },
+                                "fcmToken": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Sucessfully registered.",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessMessage"
+                        }
+                    },
+                    "400": {
+                        "description": "Erorr message.",
+                        "schema": {
+                            "$ref": "#/definitions/errorMessage"
+                        }
+                    },
+                    "404": {
+                        "description": "Erorr message.",
+                        "schema": {
+                            "$ref": "#/definitions/errorMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Erorr message.",
+                        "schema": {
+                            "$ref": "#/definitions/errorMessage"
+                        }
+                    }
+                }
+            }
+        },
         "/user/login": {
             "post": {
                 "tags": [
@@ -80,80 +154,6 @@
                 "responses": {
                     "200": {
                         "description": "Sucessfully login",
-                        "schema": {
-                            "$ref": "#/definitions/SuccessMessage"
-                        }
-                    },
-                    "400": {
-                        "description": "Erorr message.",
-                        "schema": {
-                            "$ref": "#/definitions/errorMessage"
-                        }
-                    },
-                    "404": {
-                        "description": "Erorr message.",
-                        "schema": {
-                            "$ref": "#/definitions/errorMessage"
-                        }
-                    },
-                    "500": {
-                        "description": "Erorr message.",
-                        "schema": {
-                            "$ref": "#/definitions/errorMessage"
-                        }
-                    }
-                }
-            }
-        },
-        "/user/signUp": {
-            "post": {
-                "tags": [
-                    "user"
-                ],
-                "summary": "Registering new user.",
-                "parameters": [
-                    {
-                        "in": "body",
-                        "name": "user",
-                        "description": "register in body.",
-                        "required": true,
-                        "schema": {
-                            "type": "object",
-                            "required": [
-                                "email",
-                                "password",
-                                "name",
-                                "deviceId",
-                                "deviceType",
-                                "fcmToken"
-                            ],
-                            "properties": {
-                                "name": {
-                                    "type": "string"
-                                },
-                                "email": {
-                                    "type": "string"
-                                },
-                                "password": {
-                                    "type": "string",
-                                    "format": "One capital letter,small letter,special char and one number is required.Length lies between 6 to 16"
-                                },
-                                "deviceId": {
-                                    "type": "string"
-                                },
-                                "deviceType": {
-                                    "type": "string"
-                                },
-                                "fcmToken": {
-                                    "type": "string"
-                                }
-                            }
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "Sucessfully registered.",
                         "schema": {
                             "$ref": "#/definitions/SuccessMessage"
                         }
@@ -392,6 +392,18 @@
                         "description": "token for validation.",
                         "required": true,
                         "type": "string"
+                    },
+                    {
+                        "name": "reviews",
+                        "in": "query",
+                        "description": "reviews tag for different response. for e.g. if reviews = true response contains all data, else it gives only name and profile picture",
+                        "required": true,
+                        "type": "string",
+                        "enum": [
+                            "true",
+                            "false"
+                        ],
+                        "default": "false"
                     }
                 ],
                 "responses": {
@@ -403,12 +415,6 @@
                     },
                     "400": {
                         "description": "Error message.",
-                        "schema": {
-                            "$ref": "#/definitions/errorMessage"
-                        }
-                    },
-                    "404": {
-                        "description": "Erorr message.",
                         "schema": {
                             "$ref": "#/definitions/errorMessage"
                         }
@@ -453,12 +459,6 @@
                     },
                     "400": {
                         "description": "Error message.",
-                        "schema": {
-                            "$ref": "#/definitions/errorMessage"
-                        }
-                    },
-                    "404": {
-                        "description": "Erorr message.",
                         "schema": {
                             "$ref": "#/definitions/errorMessage"
                         }
@@ -530,7 +530,7 @@
                                 "longitude",
                                 "openTime",
                                 "closeTime",
-                                "cuisin",
+                                "cuisinOffered",
                                 "menu",
                                 "perPersonCost"
                             ],
@@ -568,8 +568,11 @@
                                         "ALL"
                                     ]
                                 },
-                                "cuisin": {
-                                    "$ref": "#/definitions/cuisinArray"
+                                "cuisinOffered": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
                                 },
                                 "contactNumber": {
                                     "type": "number"
@@ -654,55 +657,6 @@
                             "$ref": "#/definitions/errorMessage"
                         }
                     },
-                    "404": {
-                        "description": "Erorr message.",
-                        "schema": {
-                            "$ref": "#/definitions/errorMessage"
-                        }
-                    },
-                    "500": {
-                        "description": "Erorr message.",
-                        "schema": {
-                            "$ref": "#/definitions/errorMessage"
-                        }
-                    }
-                }
-            }
-        },
-        "/user/getRestaurantList": {
-            "get": {
-                "tags": [
-                    "user"
-                ],
-                "summary": "get list of all restaurant.",
-                "parameters": [
-                    {
-                        "name": "authorization",
-                        "in": "header",
-                        "description": "token for authorization.",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "ok",
-                        "schema": {
-                            "$ref": "#/definitions/SuccessMessage"
-                        }
-                    },
-                    "400": {
-                        "description": "Erorr message.",
-                        "schema": {
-                            "$ref": "#/definitions/errorMessage"
-                        }
-                    },
-                    "404": {
-                        "description": "Erorr message.",
-                        "schema": {
-                            "$ref": "#/definitions/errorMessage"
-                        }
-                    },
                     "500": {
                         "description": "Erorr message.",
                         "schema": {
@@ -769,7 +723,10 @@
                                     "description": "Rating givent to restaurant by user."
                                 },
                                 "improvementArea": {
-                                    "type": "string"
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
                                 }
                             }
                         }
@@ -857,7 +814,10 @@
                                     "description": "Rating givent to restaurant by user."
                                 },
                                 "improvementArea": {
-                                    "type": "string"
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
                                 }
                             }
                         }
@@ -902,56 +862,6 @@
                         "name": "id",
                         "in": "path",
                         "description": "review id for delete review.",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "authorization",
-                        "in": "header",
-                        "description": "token for validation.",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "ok",
-                        "schema": {
-                            "$ref": "#/definitions/SuccessMessage"
-                        }
-                    },
-                    "400": {
-                        "description": "Erorr message.",
-                        "schema": {
-                            "$ref": "#/definitions/errorMessage"
-                        }
-                    },
-                    "404": {
-                        "description": "Erorr message.",
-                        "schema": {
-                            "$ref": "#/definitions/errorMessage"
-                        }
-                    },
-                    "500": {
-                        "description": "Erorr message.",
-                        "schema": {
-                            "$ref": "#/definitions/errorMessage"
-                        }
-                    }
-                }
-            }
-        },
-        "/user/getAllReviews/{restId}": {
-            "get": {
-                "tags": [
-                    "user"
-                ],
-                "summary": "Get all reviews.",
-                "parameters": [
-                    {
-                        "name": "restId",
-                        "in": "path",
-                        "description": "The review will be listed for the restaurant id you provide.",
                         "required": true,
                         "type": "string"
                     },
@@ -1297,63 +1207,6 @@
                 }
             }
         },
-        "/admin/login": {
-            "post": {
-                "tags": [
-                    "admin"
-                ],
-                "summary": "Authenticating user",
-                "parameters": [
-                    {
-                        "in": "body",
-                        "name": "admin",
-                        "description": "login admin.",
-                        "required": true,
-                        "schema": {
-                            "type": "object",
-                            "required": [
-                                "email",
-                                "password"
-                            ],
-                            "properties": {
-                                "email": {
-                                    "type": "string"
-                                },
-                                "password": {
-                                    "type": "string"
-                                }
-                            }
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Sucessfully login",
-                        "schema": {
-                            "$ref": "#/definitions/SuccessMessage"
-                        }
-                    },
-                    "400": {
-                        "description": "Erorr message.",
-                        "schema": {
-                            "$ref": "#/definitions/errorMessage"
-                        }
-                    },
-                    "404": {
-                        "description": "Erorr message.",
-                        "schema": {
-                            "$ref": "#/definitions/errorMessage"
-                        }
-                    },
-                    "500": {
-                        "description": "Erorr message.",
-                        "schema": {
-                            "$ref": "#/definitions/errorMessage"
-                        }
-                    }
-                }
-            }
-        },
         "/user/updateProfile": {
             "put": {
                 "tags": [
@@ -1406,6 +1259,383 @@
                         "description": "Success.",
                         "schema": {
                             "$ref": "#/definitions/SuccessMessage"
+                        }
+                    },
+                    "400": {
+                        "description": "Erorr message.",
+                        "schema": {
+                            "$ref": "#/definitions/errorMessage"
+                        }
+                    },
+                    "404": {
+                        "description": "Erorr message.",
+                        "schema": {
+                            "$ref": "#/definitions/errorMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Erorr message.",
+                        "schema": {
+                            "$ref": "#/definitions/errorMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/addPhotoByUser": {
+            "post": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "User add photo once for particular restaurant.",
+                "parameters": [
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "description": "token for validation.",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "user",
+                        "in": "body",
+                        "description": "data for upload photo.",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "restId",
+                                "userId",
+                                "url"
+                            ],
+                            "properties": {
+                                "restId": {
+                                    "type": "string",
+                                    "description": "Restaurant id for adding review"
+                                },
+                                "userId": {
+                                    "type": "string",
+                                    "description": "User id who is adding the review"
+                                },
+                                "url": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "created",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessMessage"
+                        }
+                    },
+                    "400": {
+                        "description": "Erorr message.",
+                        "schema": {
+                            "$ref": "#/definitions/errorMessage"
+                        }
+                    },
+                    "403": {
+                        "description": "Erorr message.",
+                        "schema": {
+                            "$ref": "#/definitions/errorMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Erorr message.",
+                        "schema": {
+                            "$ref": "#/definitions/errorMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/addToFavourites/{restId}": {
+            "get": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "add restaurants to favourites.",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "restId",
+                        "description": "id of restaurant, to be add.",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "description": "token for validation.",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "ok.",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessMessage"
+                        }
+                    },
+                    "400": {
+                        "description": "Erorr message.",
+                        "schema": {
+                            "$ref": "#/definitions/errorMessage"
+                        }
+                    },
+                    "404": {
+                        "description": "Erorr message.",
+                        "schema": {
+                            "$ref": "#/definitions/errorMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Erorr message.",
+                        "schema": {
+                            "$ref": "#/definitions/errorMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/removeFavourite/{restId}": {
+            "get": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "remove restaurant from favourites.",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "restId",
+                        "description": "id of restaurant, to be remove.",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "description": "token for validation.",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "ok.",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessMessage"
+                        }
+                    },
+                    "400": {
+                        "description": "Erorr message.",
+                        "schema": {
+                            "$ref": "#/definitions/errorMessage"
+                        }
+                    },
+                    "404": {
+                        "description": "Erorr message.",
+                        "schema": {
+                            "$ref": "#/definitions/errorMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Erorr message.",
+                        "schema": {
+                            "$ref": "#/definitions/errorMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/showFavourites": {
+            "get": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "get list of all the favourites restaurants.",
+                "parameters": [
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "description": "token for validation.",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok.",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessMessage"
+                        }
+                    },
+                    "400": {
+                        "description": "Erorr message.",
+                        "schema": {
+                            "$ref": "#/definitions/errorMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Erorr message.",
+                        "schema": {
+                            "$ref": "#/definitions/errorMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/changeLocation": {
+            "put": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "Update location of user.",
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "authorization",
+                        "description": "User token for basic authorization..",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "user",
+                        "description": "lat long in body.",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "latitude",
+                                "longitude"
+                            ],
+                            "properties": {
+                                "latitude": {
+                                    "type": "string",
+                                    "description": "current latitude of user"
+                                },
+                                "longitude": {
+                                    "type": "string",
+                                    "description": "current longitude of user"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success.",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessMessage"
+                        }
+                    },
+                    "400": {
+                        "description": "Erorr message.",
+                        "schema": {
+                            "$ref": "#/definitions/errorMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Erorr message.",
+                        "schema": {
+                            "$ref": "#/definitions/errorMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/likeUnlikeReview/{reviewId}": {
+            "get": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "add restaurants to favourites.",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "reviewId",
+                        "description": "id of review, to be like.",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "description": "token for validation.",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok.",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessMessage"
+                        }
+                    },
+                    "400": {
+                        "description": "Erorr message.",
+                        "schema": {
+                            "$ref": "#/definitions/errorMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Erorr message.",
+                        "schema": {
+                            "$ref": "#/definitions/errorMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/login": {
+            "post": {
+                "tags": [
+                    "admin"
+                ],
+                "summary": "Authenticating user",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "admin",
+                        "description": "login admin.",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "email",
+                                "password"
+                            ],
+                            "properties": {
+                                "email": {
+                                    "type": "string"
+                                },
+                                "password": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Sucessfully login",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessMessage"
+                        }
+                    },
+                    "400": {
+                        "description": "Erorr message.",
+                        "schema": {
+                            "$ref": "#/definitions/errorMessage"
                         }
                     },
                     "404": {
@@ -3329,19 +3559,7 @@
         "cuisinArray": {
             "type": "array",
             "items": {
-                "type": "object",
-                "required": [
-                    "name",
-                    "image"
-                ],
-                "properties": {
-                    "name": {
-                        "type": "string"
-                    },
-                    "image": {
-                        "type": "string"
-                    }
-                }
+                "type": "string"
             }
         }
     }
