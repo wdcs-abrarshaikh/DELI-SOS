@@ -2341,17 +2341,17 @@ paths:
             schema:
               $ref: '#/definitions/errorMessage'
        
-  "/admin/searchCuisin/{name}":
+  "/admin/searchCuisin":
       get:
         tags:
         - 'admin'
         summary: Search cuisin.
         parameters: 
-          - name: name
-            in: path
-            description: name of cuisin for search
+          - name: "name"
+            in: "query"
+            description: "name of cuisin which you want to search"
             required: true
-            type: string
+            type: "string"
           
           - name: authorization
             in: header

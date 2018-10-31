@@ -388,41 +388,41 @@ async function deleteUser(req, res) {
 //     })
 // }
 //returning unique cuisin function getCuisin
-async function getCuisin(req, res) {
-    await restModel.aggregate([
-        {
-            $project: {
-                cuisin: 1
-            }
-        },
-        {
-            $unwind: '$cuisin'
-        },
+// async function getCuisin(req, res) {
+//     await restModel.aggregate([
+//         {
+//             $project: {
+//                 cuisin: 1
+//             }
+//         },
+//         {
+//             $unwind: '$cuisin'
+//         },
 
-        {
-            $group: {
-                _id: '$cuisin.name',
-                image: { $first: '$cuisin.image' }
+//         {
+//             $group: {
+//                 _id: '$cuisin.name',
+//                 image: { $first: '$cuisin.image' }
 
-            }
-        }
-    ]).exec((err, data) => {
-        if (err) {
-            // console.log("jiiiiiiiiii", err)
-            return res.json({ code: code.internalError, message: msg.internalServerError })
-        }
-        else if (!data) {
-            return res.json({ code: code.notFound, message: msg.restNotFound })
-        }
-        else {
-            // console.log("data cuisin name",data)
-            return res.json({ code: code.ok, data: data })
+//             }
+//         }
+//     ]).exec((err, data) => {
+//         if (err) {
+//             // console.log("jiiiiiiiiii", err)
+//             return res.json({ code: code.internalError, message: msg.internalServerError })
+//         }
+//         else if (!data) {
+//             return res.json({ code: code.notFound, message: msg.restNotFound })
+//         }
+//         else {
+//             // console.log("data cuisin name",data)
+//             return res.json({ code: code.ok, data: data })
 
 
-        }
-    })
+//         }
+//     })
 
-}
+// }
 async function searchRestaurant(req, res) {
     restModel.find({ name: new RegExp('^' + req.params.name, "i") }, (err, data) => {
         if (err) {
@@ -687,6 +687,8 @@ async function addCuisin(req, res) {
 }
 
 async function searchCuisin(req, res) {
+    let name=req.query.name;
+   
     userModel.aggregate([
         {
             $project: { 'cuisin': 1 }
@@ -698,7 +700,7 @@ async function searchCuisin(req, res) {
 
             $match: {
                 'cuisin.status': 'ACTIVE',
-                'cuisin.name': new RegExp('^' + req.params.name, "i")
+                'cuisin.name': new RegExp('^' +name, "i")
             }
 
         },
@@ -715,6 +717,7 @@ async function searchCuisin(req, res) {
             return res.json({ code: code.internalError, msg: msg.internalServerError })
         }
         else if (data.length == 0) {
+            console.log("error----->",err)
             return res.json({ code: code.notFound, msg: msg.noMatchFound })
         }
         else {
@@ -814,7 +817,7 @@ module.exports = {
     deleteRestaurantPhoto,
     deleteUser,
     // whatuLike,
-    getCuisin,
+    // getCuisin,
     searchRestaurant,
     approveRestaurantProposal,
     getAllPendingRestaurant,
