@@ -691,7 +691,6 @@ function getCuisinList(req, res) {
 
 function filterRestaurant(req, res) {
     let data = req.body
-    console.log(data)
     restModel.aggregate([
         {
             $match: {
@@ -744,9 +743,6 @@ function filterRestaurant(req, res) {
                 },
                 reviews: { $push: '$reviews_details' }
             }
-        },
-        {
-
         }
         // {
         //     $project: {

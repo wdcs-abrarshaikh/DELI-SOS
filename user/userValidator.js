@@ -133,16 +133,16 @@ function validateRestaurant(req, res, next) {
     if (rest.name && rest.description && rest.latitude &&
         rest.longitude && rest.cuisinOffered && rest.openTime &&
         rest.closeTime && rest.menu) {
- 
+
         let name = rest.name.trim(),
             description = rest.description.trim(),
             latitude = rest.latitude.trim(),
             longitude = rest.latitude.trim(),
             openTime = rest.openTime.trim(),
             closeTime = rest.closeTime.trim();
-            
-            let len = rest.cuisinOffered;
-            let cusinlen = len.length;
+
+        let len = rest.cuisinOffered;
+        let cusinlen = len.length;
         if (cusinlen == 0) {
             return res.json({ code: code.badRequest, message: msg.invalidBody })
         }
@@ -152,20 +152,20 @@ function validateRestaurant(req, res, next) {
         else {
             return res.json({ code: code.badRequest, message: msg.invalidBody })
         }
- 
- 
+
+
     }
     else { return res.json({ code: code.badRequest, message: msg.invalidBody }) }
- }
+}
 function validateReview(req, res, next) {
     let data = req.body
     if (data.restId && data.userId && data.content && data.likePlace && data.rating && data.improvementArea) {
         var restId = data.restId.trim(),
             userId = data.userId.trim(),
             content = data.content.trim(),
-            likePlace = data.likePlace.trim()
-        improvementArea = data.improvementArea.trim()
-        if (restId && userId && content && likePlace && improvementArea) {
+            likePlace = data.likePlace.trim(),
+            improvementArea = data.improvementArea.length
+        if (restId && userId && content && likePlace && improvementArea > 0) {
             next();
         }
         else {
@@ -213,12 +213,12 @@ function validateUserId(req, res, next) {
     }
 }
 
-function validateChangeLocation(req,res,next){
-    if(req.body.latitude && req.body.longitude){
+function validateChangeLocation(req, res, next) {
+    if (req.body.latitude && req.body.longitude) {
         if (!validateLatLong(parseFloat(req.body.longitude), parseFloat(req.body.latitude))) {
             return res.json({ code: code.badRequest, message: msg.invalidLatLong })
         }
-        else{
+        else {
             req.body.location = {
                 type: 'Point',
                 coordinates: [parseFloat(req.body.longitude), parseFloat(req.body.latitude)]
@@ -226,17 +226,16 @@ function validateChangeLocation(req,res,next){
             next()
         }
     }
-    else{
+    else {
         return res.json({ code: code.badRequest, message: msg.invalidLatLong })
     }
 }
 
-function validateUpload(req,res,next){
-    if(req.body.restId && req.body.userId && req.body.url.length > 0)
-    {
+function validateUpload(req, res, next) {
+    if (req.body.restId && req.body.userId && req.body.url.length > 0) {
         next()
     }
-    else{
+    else {
         return res.json({ code: code.badRequest, message: msg.invalidBody })
     }
 }
