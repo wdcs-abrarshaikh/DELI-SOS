@@ -379,7 +379,7 @@ async function deleteUser(req, res) {
 //     // console.log("cuisin array", cui)
 //     // cuii=cuisin.name;
 
-//     await restModel.find(({ mealOffers: meal, mealOffers: 'ALL'},{ perPersonCost: { $gte: req.body.min, $lte: req.body.max }}), async (err, data) => {
+//     await restModel.find(({ mealOffers: meal, `mealOffers`: 'ALL'},{ perPersonCost: { $gte: req.body.min, $lte: req.body.max }}), async (err, data) => {
 //         if (err) { return res.json({ code: code.internalError, message: msg.internalServerError }) }
 //         else {
 //             // console.log("------cuisin",JSON.stringify(data[0].cuisin[0].name))
@@ -707,7 +707,8 @@ async function searchCuisin(req, res) {
                 _id: '$cuisin._id',
                 name: { $first: '$cuisin.name' },
                 image: { $first: '$cuisin.image' },
-                status: { $first: '$cuisin.status' }
+                status: { $first: '$cuisin.status' },
+                
             }
         }
     ]).exec((err, data) => {
