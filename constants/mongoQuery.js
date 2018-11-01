@@ -2,6 +2,7 @@ let schmaName = require('../constants').schemas;
 let mongoose = require('mongoose');
 
 function userProfileWithReview(id, flag) {
+    
     if (flag) {
         return [
             {
@@ -22,11 +23,11 @@ function userProfileWithReview(id, flag) {
                     path: '$reviews_details'
                 }
             },
-            {
-                $addFields: {
-                    'reviews_details.totalLiked': { $size: "$reviews_details.likedBy" }
-                }
-            },
+            // {
+            //     $addFields: {
+            //         'reviews_details.totalLiked': { $size: "$reviews_details.likedBy" }
+            //     }
+            // },
 
             {
                 $group: {
@@ -42,18 +43,18 @@ function userProfileWithReview(id, flag) {
                     reviews_details: { "$push": "$reviews_details" }
                 }
             },
-            {
-                $addFields: {
-                    "totalReviews": { $size: "$reviews_details" }
-                }
-            },
+            // {
+            //     $addFields: {
+            //         "totalReviews": { $size: "$reviews_details" }
+            //     }
+            // },
 
-            {
-                $addFields: {
-                    "totalFollower": { $size: "$_id.follower" },
-                    "totalFollowing": { $size: "$_id.following" }
-                }
-            },
+            // {
+            //     $addFields: {
+            //         "totalFollower": { $size: "$_id.follower" },
+            //         "totalFollowing": { $size: "$_id.following" }
+            //     }
+            // },
             { $unwind: '$reviews_details' },
             {
                 $lookup: {
@@ -76,16 +77,16 @@ function userProfileWithReview(id, flag) {
                     "reviews_details.createdAt": 1,
                     "reviews_details.totalLiked": 1,
                     "reviews_details.restaurant_details.name": 1,
-                    'totalReviews': 1, 'totalFollower': 1,
-                    'totalFollowing': 1, 'restaurant': 1
+                    // 'totalReviews': 1, 'totalFollower': 1,
+                    // 'totalFollowing': 1, 'restaurant': 1
                 }
             },
             {
                 $group: {
                     "_id": "$_id",
-                    "totalFollower": { $first: '$totalFollower' },
-                    "totalFollowing": { $first: '$totalFollower' },
-                    "totalReviews": { $first: "$totalReviews" },
+                    // "totalFollower": { $first: '$totalFollower' },
+                    // "totalFollowing": { $first: '$totalFollower' },
+                    // "totalReviews": { $first: "$totalReviews" },
                     "reviews": { $push: '$reviews_details' }
                 }
             }
@@ -129,7 +130,6 @@ function getRestaurantDetail(id){
                 'reviews_details.totalLiked': { $size: "$reviews_details.likedBy" }
             }
         },
-
         {
             $group: {
                 _id: {

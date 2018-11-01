@@ -181,7 +181,7 @@ function validateProfile(req, res, next) {
     let { name, email, profilePicture, locationVisible } = req.body;
     if (name || email || profilePicture || locationVisible) {
         console.log(req.body)
-        next();
+        next()
     }
     else {
         res.json({ code: code.badRequest, message: msg.invalidBody })
@@ -223,7 +223,7 @@ function validateChangeLocation(req,res,next){
                 type: 'Point',
                 coordinates: [parseFloat(req.body.longitude), parseFloat(req.body.latitude)]
             }
-            next();
+            next()
         }
     }
     else{
