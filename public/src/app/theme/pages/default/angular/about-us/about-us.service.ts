@@ -17,8 +17,7 @@ export class AboutUsService {
 
     }
     setAboutus(data: any) {
-        console.log("kkkkkkkkkkkkk",data)
-       this.aboutUsList.next({ aboutUsList: data});
+        this.aboutUsList.next({ aboutUsList: data });
     }
     getAboutus(): Observable<any> {
         return this.aboutUsList.asObservable();
@@ -31,32 +30,30 @@ export class AboutUsService {
         return headers;
     }
     addAboutus(about: any) {
-        console.log("lllll", about)
-        return this.http.post<any>(URL + 'admin/addAboutUs', about, { headers: this.getHeaderWithToken() })
+     return this.http.post<any>(URL + 'admin/addAboutUs', about, { headers: this.getHeaderWithToken() })
             .pipe(
                 map((res: Response) => { return res }),
             );
     }
     getAllAboutus() {
-        return this.http.get(URL + 'admin/aboutUsList',{ headers: this.getHeaderWithToken() })
+        return this.http.get(URL + 'admin/aboutUsList', { headers: this.getHeaderWithToken() })
             .pipe(
                 map((res: Response) => {
-                     return res })
+                  return res
+                })
             );
     }
 
-  editAboutus(about: any, id: any) {
-     
-        return this.http.put<any>(URL + 'admin/updateAboutUs/' + id, about, { headers: this.getHeaderWithToken() })
+    editAboutus(about: any, id: any) {
+      return this.http.put<any>(URL + 'admin/updateAboutUs/' + id, about, { headers: this.getHeaderWithToken() })
             .pipe(
-                map((res: Response) => { 
-                  
-                    return res }),
+                map((res: Response) => {
+                 return res
+                }),
             );
     }
     deleteAboutus(id: any) {
-        console.log("in delete",id)
-        return this.http.put<any>(URL + 'admin/deleteAboutUs/' + id,{}, { headers: this.getHeaderWithToken() }).map((res: Response) => {
+       return this.http.put<any>(URL + 'admin/deleteAboutUs/' + id, {}, { headers: this.getHeaderWithToken() }).map((res: Response) => {
             return res
         });
     }

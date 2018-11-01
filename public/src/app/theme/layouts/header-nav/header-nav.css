@@ -16,7 +16,7 @@ img.m--img-rounded.m--marginless {
 }
 .name{
     float:right;
-    font-size:22px;
+    font-size:30px;
     margin-top: 20px;
     margin-right: 10px
 }
@@ -60,4 +60,14 @@ h3{
 .pic_nm span {
     display: table-cell;
     vertical-align: middle;
+    font-size: 20px;
+}
+.m-nav .m-nav__item>.m-nav__link .m-nav__link-icon {
+    color: unset;
+}
+.m-nav__link:hover{
+    background-color:none;
+}
+.a{
+    background-color: red;
 }

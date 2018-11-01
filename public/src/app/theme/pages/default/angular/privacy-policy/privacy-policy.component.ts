@@ -20,8 +20,15 @@ import swal from 'sweetalert2'
 <form [formGroup]="privacyForm" (ngSubmit)="addContent()">
             <div class="form-group">
                 <label for="name">Content</label>
-                <textarea name="message" rows="10" cols="30" formControlName="content" [(ngModel)]="content" class="form-control"></textarea>
-                <p *ngIf="privacyForm.controls.content.errors?.required && (privacyForm.controls.content.dirty || privacyForm.controls.content.touched)" class="lbl-err">Content is required.</p>
+                <app-ngx-editor [placeholder]="'Enter text here...'" [spellcheck]="true" formControlName="content" [(ngModel)]="content"
+                [config]="editorConfig"></app-ngx-editor>
+                <div *ngIf="privacyForm.controls['content'].invalid && (privacyForm.controls['content'].dirty || privacyForm.controls['content'].touched)"
+                class="lbl-err">
+                <div *ngIf="privacyForm.controls['content'].errors.required">
+                  Content is required.
+                </div>
+              </div>
+               
              </div>
          <div class="modal-footer">
             <div class="form-group">
@@ -41,6 +48,16 @@ export class NgbdModalContent {
   loading = false;
   submitted = false;
   isAdd: boolean;
+  editorConfig = {
+    editable: true,
+    spellcheck: true,
+    height: '5rem',
+    minHeight: '5rem',
+    templateOptions: {
+      required: true,
+      minLength: 5
+    },
+  };
   constructor(private modalService: NgbModal,
     private toastService: ToastrService,
     private _formBuilder: FormBuilder,
@@ -51,8 +68,7 @@ export class NgbdModalContent {
 
   ngOnInit() {
     this.buildPrivacyForm();
-    this.getAllPrivacyPolicy();
-  }
+   }
 
   get f() {
     return this.privacyForm.controls;
@@ -65,7 +81,8 @@ export class NgbdModalContent {
 
   getAllPrivacyPolicy() {
     this.privacyPolicyService.getAllPrivacyPolicy().subscribe((response: any) => {
-      this.privacyPolicyService.setPrivacyPolicy(response.data);
+    this.privacyPolicyService.setPrivacyPolicy(response.data);
+
     })
   }
 
@@ -77,7 +94,6 @@ export class NgbdModalContent {
     if (this.isAdd) {
       this.privacyPolicyService.addPrivacyPolicy(addObj).subscribe(
         data => {
-          this.getAllPrivacyPolicy();
           if (data['code'] == 201) {
             swal({
               position: 'center',
@@ -86,14 +102,15 @@ export class NgbdModalContent {
               showConfirmButton: false,
               timer: 1500
             })
-            this.activeModal.dismiss();
           } else {
             swal({
               type: 'error',
               text: data['message']
             })
-            this.activeModal.dismiss();
+
           }
+          this.activeModal.dismiss();
+          this.getAllPrivacyPolicy();
         },
         error => {
           this.toastService.error(error['message']);
@@ -125,12 +142,20 @@ export class PrivacyPolicyComponent implements OnInit {
 
   modalReference: any;
   isAdd: boolean = false;
+  initialprivacyPolicyLists: Array<any>
   privacyPolicyLists: Array<any>;
   privacyPolicyForm: FormGroup;
   loading = false;
   submitted = false;
   editorConfig = {
     editable: false,
+    spellcheck: true,
+    height: '10rem',
+    minHeight: '5rem',
+    templateOptions: {
+      required: true,
+      minLength: 5
+    },
   };
 
   constructor(private modalService: NgbModal,
@@ -138,20 +163,21 @@ export class PrivacyPolicyComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private privacyPolicyService: PrivacyPolicyService) {
     this.privacyPolicyService.getPrivacyPolicy().subscribe((data: any) => {
-     if (data.privacyPolicyLists == null) {
-         this.privacyPolicyLists = data.privacyPolicyLists
-         return;
+     if (data.privacyPolicyLists !== null) {
+        this.privacyPolicyLists = data.privacyPolicyLists.content;
+        this.initialprivacyPolicyLists = this.privacyPolicyLists;
+        this.id = data.privacyPolicyLists._id;
       } else {
-         this.privacyPolicyLists = data.privacyPolicyLists.content;
+        this.privacyPolicyLists = data.privacyPolicyLists;
+        this.initialprivacyPolicyLists = this.privacyPolicyLists;
       }
-
     })
   }
 
   ngOnInit() {
     this.buildprivacyPolicyForm();
     this.getPrivacyPolicyList();
-    this.getAllPrivacyPolicy()
+  
   }
 
   buildprivacyPolicyForm() {
@@ -162,41 +188,39 @@ export class PrivacyPolicyComponent implements OnInit {
   }
 
   addPrivacyPolicy() {
-    if (this.editorConfig.editable)
+    if (this.editorConfig.editable) {
       this.editorConfig.editable = false;
-    else
-      this.editorConfig.editable = true;
-    var editObj = {
-      "content": this.privacyPolicyForm.controls['content'].value,
-    }
-  
-    this.privacyPolicyService.editPrivacyPolicy(editObj, this.id).subscribe(
-      data => {
-        if (!this.editorConfig.editable) {
+      var editObj = {
+        "content": this.privacyPolicyForm.controls['content'].value,
+      }
+     this.privacyPolicyService.editPrivacyPolicy(editObj, this.id).subscribe(
+        data => {
           this.getPrivacyPolicyList();
-          if (data['code'] == 200) {
-            swal({
-              position: 'center',
-              type: 'success',
-              title: data['message'],
-              showConfirmButton: false,
-              timer: 1500
-            })
-
-          } else {
-            swal({
-              type: 'error',
-              text: data['message']
-            })
+          if (!this.editorConfig.editable) {
+            if (data['code'] == 200) {
+              swal({
+                position: 'center',
+                type: 'success',
+                title: data['message'],
+                showConfirmButton: false,
+                timer: 1500
+              })
+              } else {
+              swal({
+                type: 'error',
+                text: data['message']
+              })
+            }
           }
-        }
-
-      },
-      error => {
-        this.toastService.error(error['error'].message);
-      });
+        },
+        error => {
+          this.toastService.error(error['error'].message);
+        });
     }
-
+    else {
+     this.editorConfig.editable = true;
+       }
+  }
 
   validateForm() {
     if (this.privacyPolicyForm.valid) {
@@ -214,11 +238,12 @@ export class PrivacyPolicyComponent implements OnInit {
 
   getPrivacyPolicyList() {
     this.privacyPolicyService.getAllPrivacyPolicy().subscribe((response: any) => {
-      if (response.data == null) {
-        this.privacyPolicyLists = response.data;
-      } else {
+      if (response.data !== null) {
         this.privacyPolicyLists = response.data.content;
+        this.initialprivacyPolicyLists = this.privacyPolicyLists;
         this.id = response.data._id;
+      } else {
+        this.initialprivacyPolicyLists = response.data;
       }
     })
   }
@@ -236,7 +261,7 @@ export class PrivacyPolicyComponent implements OnInit {
   }
 
   delete() {
-   swal({
+    swal({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",
       type: 'warning',
@@ -244,40 +269,49 @@ export class PrivacyPolicyComponent implements OnInit {
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
       confirmButtonText: 'Yes, delete it!'
-    }).then((result) => {
+     }).then((result) => {
       if (result.value) {
         this.privacyPolicyService.deletePrivacyPolicy(this.id).subscribe(
           data => {
-               this.getAllPrivacyPolicy();
-            swal(
-              'Deleted!',
-              'Your file has been deleted.',
-              'success'
-            )
+           this.getPrivacyPolicyList();
+            if (data['code'] == 200) {
+              swal(
+                'Deleted!',
+                data['message'],
+                'success'
+              )
+            } else {
+              swal(
+                'error!',
+                data['message'],
+                'success',
+
+              )
+            }
           },
           error => {
             swal(
               'error!',
-              'Your file has been deleted.',
+              error['message'],
               'success'
             )
           });
-
+        }
+      })
       }
-    })
-
-  }
+      
 
   cancelPrivacyPolicy() {
     this.editorConfig.editable = false;
     this.getAllPrivacyPolicy();
   }
 
-  add(content) {
+  open(content) {
+
     if (!content) {
-      this.isAdd = false;
-    } else {
       this.isAdd = true;
+    } else {
+      this.isAdd = false;
     }
     const modalRef = this.modalService.open(NgbdModalContent);
     modalRef.componentInstance.id = content ? content._id : "";

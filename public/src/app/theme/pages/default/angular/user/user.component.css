@@ -1,17 +1,15 @@
 
-.btn-add{
-    width:65px;
-    /* padding: 1.25rem 1.65rem; */
+.btn-add {
+    padding: 1.20rem 1.65rem;
     font-size: 1.25rem;
-    line-height: 1.5;
-    color:white;
-    background-color: transparent;
+    line-height: 1;
+    color: white;
+    border-color: #f7b733;
+    margin-left: 90%;
+    margin-top: 2%;
+    margin-right: 5%;
     background: linear-gradient(to right, #fc4a1a, #f7b733);
-    border-color:#f7b733;
-    margin-left: 81%;
-    margin-top:2%;
-    border-radius: 10px;
- }
+}
 .lbl-err {
     color: red;
     /* position: inherit;
@@ -84,3 +82,9 @@ table.dataTable thead th.sorting,
  .btn.m-btn--hover-brand:not(.btn-secondary):not(.btn-outline-light) i {
     background: linear-gradient(45deg, #fc4a1a, #f7b733) !important;
  }
+ .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    color: white !important;
+    border: 1px solid #f1d7a2;
+    background-color:#f1d7a2;
+    background:#f1d7a2
+}

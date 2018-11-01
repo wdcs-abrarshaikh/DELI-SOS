@@ -22,3 +22,9 @@
     background: linear-gradient(45deg, #fc4a1a, #f7b733) !important;
     color: #fff;
  }
+ .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    color: white !important;
+    border: 1px solid #f1d7a2;
+    background-color:#f1d7a2;
+    background:#f1d7a2
+}
