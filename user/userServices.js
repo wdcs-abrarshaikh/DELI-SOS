@@ -84,15 +84,32 @@ function resetPassword(req, res) {
 
 function fetchDetail(req, res) {
     let id = req.params.id
-    userModel.aggregate(mongoQuery.userProfileWithReview(id, true), (err, response) => {
+    userModel.findOne({ _id: id }, (err, data) => {
         if (err) {
-            console.log(err)
             return res.json({ code: code.internalError, message: msg.internalServerError })
         }
+        else if (!data) {
+            return res.json({ code: code.notFound, message: msg.userNotFound })
+        }
         else {
-            return res.json({ code: code.ok, message: msg.ok, data: response })
+            if (data.review.length > 0) {
+                userModel.aggregate(mongoQuery.userProfileWithReview(id, true), (err, response) => {
+                    if (err) {
+                        return res.json({ code: code.internalError, message: msg.internalServerError })
+                    }
+                    else {
+                        return res.json({ code: code.ok, message: msg.ok, data: response })
+                    }
+                })
+            }
+            else {
+                const { _id, name, profilePicture, location, locationVisible, follower, following, review } = data
+                let final = { _id, name, profilePicture, location, locationVisible, follower, following, review }
+                return res.json({ code: code.ok, message: msg.ok, data: final })
+            }
         }
     })
+
 }
 
 function manageSocialLogin(req, res) {
@@ -145,13 +162,38 @@ function addRestaurant(req, res) {
 
 function getRestaurantDetail(req, res) {
     let id = req.params.id
-    restModel.aggregate(mongoQuery.getRestaurantDetail(id), (err, response) => {
+    return restModel.findOne({ _id: id }, (err, data) => {
         if (err) {
-            console.log(err)
             res.json({ code: code.internalError, message: msg.internalServerError })
         }
+        else if (!data) {
+            res.json({ code: code.notFound, message: msg.restNotFound })
+        }
         else {
-            res.json({ code: code.ok, message: msg.ok, data: response[0] })
+            if (data.reviews.length > 0) {
+                restModel.aggregate(mongoQuery.getRestaurantDetail(id), (err, response) => {
+                    if (err) {
+                        res.json({ code: code.internalError, message: msg.internalServerError })
+                    }
+                    else {
+                        res.json({ code: code.ok, message: msg.ok, data: response })
+                    }
+                })
+            }
+            else {
+                const { _id, name, description, location,
+                    photos, cuisinOffered, openTime, closeTime,
+                    contactNumber, website, menu, photoByUser,
+                    reviews, perPersonCost } = data
+
+                let final = {
+                    _id, name, description, location,
+                    photos, cuisinOffered, openTime, closeTime,
+                    contactNumber, website, menu, photoByUser,
+                    reviews, perPersonCost
+                }
+                res.json({ code: code.ok, message: msg.ok, data: final })
+            }
         }
     })
 }
@@ -353,19 +395,44 @@ function showProfile(req, res) {
     let request;
     if (req.query.reviews == 'true') {
         request = mongoQuery.userProfileWithReview(obj.id, true)
+        userModel.findOne({ _id: obj.id }, (err, data) => {
+            if (err) {
+                res.json({ code: code.internalError, message: msg.internalServerError })
+            }
+            else if (!data) {
+                res.json({ code: code.notFound, message: msg.userNotFound })
+            }
+            else {
+                if (data.review.length > 0) {
+                    userModel.aggregate(request, (err, response) => {
+                        if (err) {
+                            console.log(err)
+                            return res.json({ code: code.internalError, message: msg.internalServerError })
+                        }
+                        else {
+                            return res.json({ code: code.ok, message: msg.ok, data: response })
+                        }
+                    })
+                }
+                else {
+                    const { _id, name, profilePicture, location, locationVisible, follower, following, review } = data
+                    let final = { _id, name, profilePicture, location, locationVisible, follower, following, review }
+                    return res.json({ code: code.ok, message: msg.ok, data: final })
+                }
+            }
+        })
     } else {
         request = mongoQuery.userProfileWithReview(obj.id, false)
+        userModel.aggregate(request, (err, response) => {
+            if (err) {
+                return res.json({ code: code.internalError, message: msg.internalServerError })
+            }
+            else {
+                return res.json({ code: code.ok, message: msg.ok, data: response })
+            }
+        })
     }
 
-    userModel.aggregate(request, (err, response) => {
-        if (err) {
-            console.log(err)
-            return res.json({ code: code.internalError, message: msg.internalServerError })
-        }
-        else {
-            return res.json({ code: code.ok, message: msg.ok, data: response })
-        }
-    })
 }
 
 function updateProfile(req, res) {
@@ -655,7 +722,7 @@ function filterRestaurant(req, res) {
             }
         },
         {
-            $unwind:'$reviews_details'
+            $unwind: '$reviews_details'
         },
         {
             $lookup: {
@@ -666,16 +733,16 @@ function filterRestaurant(req, res) {
             }
         },
         {
-            $group:{
-                _id:{
-                    "restId":"$_id",
-                    name:"$name",
-                    ratings:"$ratings",
-                    distance:"$distance",
-                    cuisins:"$cuisinOffered",
-                    userLocation:"$reviews.users_details.location"
+            $group: {
+                _id: {
+                    "restId": "$_id",
+                    name: "$name",
+                    ratings: "$ratings",
+                    distance: "$distance",
+                    cuisins: "$cuisinOffered",
+                    userLocation: "$reviews.users_details.location"
                 },
-                reviews:{$push:'$reviews_details'}
+                reviews: { $push: '$reviews_details' }
             }
         },
         {
