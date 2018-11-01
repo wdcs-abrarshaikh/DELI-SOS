@@ -121,6 +121,15 @@ function changeLocation(req,res){
 function likeUnlikeReview(req,res){
     service.likeUnlikeReview(req,res)
 }
+
+function getCuisinList(req,res){
+    service.getCuisinList(req,res)
+}
+
+function filterRestaurant(req,res){
+    service.filterRestaurant(req,res)
+}
+
 module.exports = {
     signup,
     login,
@@ -151,5 +160,7 @@ module.exports = {
     searchFollower,
     searchFollowing,
     changeLocation,
-    likeUnlikeReview
+    likeUnlikeReview,
+    getCuisinList,
+    filterRestaurant
 }

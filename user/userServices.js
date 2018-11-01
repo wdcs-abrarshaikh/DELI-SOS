@@ -76,7 +76,7 @@ function resetPassword(req, res) {
                     return (data == true) ? res.json({ code: code.ok, message: `password sent on ${result.email}` })
                         : res.json({ code: code.notImplemented, message: msg.mailNotSent })
                 }).catch((err) => {
-                    ; return res.json({ code: code.notImplemented, message: msg.mailNotSent })
+                    return res.json({ code: code.notImplemented, message: msg.mailNotSent })
                 })
             }
         })
@@ -588,12 +588,12 @@ function changeLocation(req, res) {
     let obj = util.decodeToken(req.headers['authorization'])
     return userModel.findByIdAndUpdate({ _id: obj.id }, { $set: { location: req.body.location } })
         .then((result) => {
-            if(result){
-            res.json({ code: code.ok, message: msg.locationChanged })
+            if (result) {
+                res.json({ code: code.ok, message: msg.locationChanged })
             }
         }).catch((err) => {
-            if(err){
-            res.json({ code: code.ineternalError, message: msg.internalServerError })
+            if (err) {
+                res.json({ code: code.ineternalError, message: msg.internalServerError })
             }
         })
 }
@@ -618,6 +618,86 @@ function likeUnlikeReview(req, res) {
     })
 }
 
+function getCuisinList(req, res) {
+    adminService.getCuisinList(req, res)
+}
+
+function filterRestaurant(req, res) {
+    let data = req.body
+    console.log(data)
+    restModel.aggregate([
+        {
+            $match: {
+                $and: [{
+                    $or: [
+                        { mealOffers: data.meal },
+                        { mealOffers: 'ALL' }
+                    ]
+                }, {
+                    cuisinOffered: { $in: data.cuisins },
+                    perPersonCost: { $gte: data.minBudget, $lte: data.maxBudget }
+                }
+                ]
+            }
+        },
+        {
+            $lookup: {
+                foreignField: '_id',
+                localField: 'reviews',
+                from: schmaName.reviews,
+                as: 'reviews_details'
+            }
+        },
+        {
+            $addFields: {
+                'ratings': { $avg: '$reviews_details.rating' },
+                'distance': ' '
+            }
+        },
+        {
+            $unwind:'$reviews_details'
+        },
+        {
+            $lookup: {
+                foreignField: '_id',
+                localField: 'reviews_details.userId',
+                from: schmaName.users,
+                as: 'reviews_details.users_details'
+            }
+        },
+        {
+            $group:{
+                _id:{
+                    "restId":"$_id",
+                    name:"$name",
+                    ratings:"$ratings",
+                    distance:"$distance",
+                    cuisins:"$cuisinOffered",
+                    userLocation:"$reviews.users_details.location"
+                },
+                reviews:{$push:'$reviews_details'}
+            }
+        },
+        {
+
+        }
+        // {
+        //     $project: {
+        //         "_id":1,
+        //         // "reviews.users_details.location":1
+        //     }
+        // }
+    ], (err, response) => {
+        if (err) {
+            console.log(err)
+            res.json({ code: code.internalError, message: msg.internalServerError })
+        }
+        else {
+            res.json({ code: code.ok, message: msg.ok, data: response })
+        }
+
+    })
+}
 module.exports = {
     createUser,
     authenticateUser,
@@ -648,5 +728,7 @@ module.exports = {
     searchFollower,
     searchFollowing,
     changeLocation,
-    likeUnlikeReview
+    likeUnlikeReview,
+    getCuisinList,
+    filterRestaurant
 }

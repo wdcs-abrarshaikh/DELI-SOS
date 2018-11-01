@@ -124,7 +124,7 @@ function validateRestaurant(req, res, next) {
         if (cusinlen == 0) {
             return res.json({ code: code.badRequest, message: msg.invalidBody })
         }
-        if (name && description && latitude && longitude && openTime && closeTime) {
+        if (name && description && openTime && closeTime) {
             next();
         }
         else {
