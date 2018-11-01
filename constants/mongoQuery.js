@@ -2,7 +2,7 @@ let schmaName = require('../constants').schemas;
 let mongoose = require('mongoose');
 
 function userProfileWithReview(id, flag) {
-    
+
     if (flag) {
         return [
             {
@@ -23,11 +23,11 @@ function userProfileWithReview(id, flag) {
                     path: '$reviews_details'
                 }
             },
-            // {
-            //     $addFields: {
-            //         'reviews_details.totalLiked': { $size: "$reviews_details.likedBy" }
-            //     }
-            // },
+            {
+                $addFields: {
+                    'reviews_details.totalLiked': { $size: "$reviews_details.likedBy" }
+                }
+            },
 
             {
                 $group: {
@@ -76,6 +76,7 @@ function userProfileWithReview(id, flag) {
                     "reviews_details.likePlace": 1,
                     "reviews_details.createdAt": 1,
                     "reviews_details.totalLiked": 1,
+                    "reviews_details.restaurant_details._id": 1,
                     "reviews_details.restaurant_details.name": 1,
                     // 'totalReviews': 1, 'totalFollower': 1,
                     // 'totalFollowing': 1, 'restaurant': 1
@@ -105,7 +106,7 @@ function userProfileWithReview(id, flag) {
 
 }
 
-function getRestaurantDetail(id){
+function getRestaurantDetail(id) {
     return [
         {
             $match: {
@@ -186,9 +187,10 @@ function getRestaurantDetail(id){
                 "reviews_details.likePlace": 1,
                 "reviews_details.createdAt": 1,
                 "reviews_details.totalLiked": 1,
-                "reviews_details.restaurant_details._id": 1,
-                "reviews_details.restaurant_details.name": 1,
+                //"reviews_details.restaurant_details._id": 1,
+                // "reviews_details.restaurant_details.name": 1,
                 "reviews_details.user_details._id": 1,
+                "reviews_details.user_details.name": 1,
                 "reviews_details.user_details.profilePicture": 1
             }
         },
@@ -203,8 +205,8 @@ function getRestaurantDetail(id){
     ]
 }
 
-function showFavourites(id){
-    return[
+function showFavourites(id) {
+    return [
         {
             $match: {
                 _id: mongoose.Types.ObjectId(id)
