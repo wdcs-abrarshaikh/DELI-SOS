@@ -8,20 +8,28 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import swal from 'sweetalert2'
 
 @Component({
- 
+
   selector: 'app-about-us',
-  template: ` <div class="modal-header">
+  template: `
+ <div class="modal-header">
   <h4 class="modal-title"> Add Content</h4>  
    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
-    <span aria-hidden="true">&times;</span>
+   <span aria-hidden="true">&times;</span>
   </button>
 </div>
 <div class="modal-body">
 <form [formGroup]="aboutUsForm" (ngSubmit)="addContent()">
             <div class="form-group">
                 <label for="name">Content</label>
-                <textarea name="message" rows="10" cols="30" formControlName="content" [(ngModel)]="content" class="form-control"></textarea>
-                <p *ngIf="aboutUsForm.controls.content.errors?.required && (aboutUsForm.controls.content.dirty || aboutUsForm.controls.content.touched)" class="lbl-err">Content is required.</p>
+                <app-ngx-editor [placeholder]="'Enter text here...'" [spellcheck]="true" formControlName="content" [(ngModel)]="content"
+                [config]="editorConfig"></app-ngx-editor>
+                <div *ngIf="aboutUsForm.controls['content'].invalid && (aboutUsForm.controls['content'].dirty || aboutUsForm.controls['content'].touched)"
+                class="lbl-err">
+                <div *ngIf="aboutUsForm.controls['content'].errors.required">
+                  Content is required.
+                </div>
+              </div>
+               
              </div>
          <div class="modal-footer">
             <div class="form-group">
@@ -41,7 +49,17 @@ export class NgbdModalContent {
   loading = false;
   submitted = false;
   isAdd: boolean;
- constructor(public activeModal: NgbActiveModal,
+  editorConfig = {
+    editable: true,
+    spellcheck: true,
+    height: '5rem',
+    minHeight: '5rem',
+    templateOptions: {
+      required: true,
+      minLength: 5
+    },
+  };
+  constructor(public activeModal: NgbActiveModal,
     private _router: Router,
     private _formBuilder: FormBuilder,
     private modalService: NgbModal,
@@ -59,24 +77,24 @@ export class NgbdModalContent {
 
   buildAboutForm() {
     this.aboutUsForm = this._formBuilder.group({
-     content: ['', [Validators.required]],
-   });
+      content: ['', [Validators.required]],
+    });
   }
 
   getAllAboutus() {
     this.aboutUsService.getAllAboutus().subscribe((response: any) => {
-     this.aboutUsService.setAboutus(response.data);
+      this.aboutUsService.setAboutus(response.data);
     })
   }
 
-  addContent(){
+  addContent() {
     var addObj = {
-     "content": this.aboutUsForm.controls['content'].value,
+      "content": this.aboutUsForm.controls['content'].value,
     }
     if (this.isAdd) {
-      console.log(addObj)
-       this.aboutUsService.addAboutus(addObj).subscribe(
+      this.aboutUsService.addAboutus(addObj).subscribe(
         data => {
+
           if (data['code'] == 201) {
             swal({
               position: 'center',
@@ -93,16 +111,16 @@ export class NgbdModalContent {
             })
             this.activeModal.dismiss();
           }
+          this.getAllAboutus();
         },
         error => {
           this.toastService.error(error['message']);
         });
-
-   }
+    }
   }
 
   validateForm() {
-   if (this.aboutUsForm.valid) {
+    if (this.aboutUsForm.valid) {
       return false;
     } else {
       return true;
@@ -119,14 +137,12 @@ export class NgbdModalContent {
 
 
 export class AboutUsComponent implements OnInit {
-  aboutUsList: any;
-
   @Input() id;
   @Input() content;
-
   modalReference: any;
   isAdd: boolean = false;
-  aboutUsLists: Array<any>;
+  aboutUsList: Array<any>;
+  initialaboutusList: Array<any>;
   aboutUsForm: FormGroup;
   loading = false;
   submitted = false;
@@ -146,42 +162,45 @@ export class AboutUsComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private aboutUsService: AboutUsService) {
     this.aboutUsService.getAboutus().subscribe((data: any) => {
-    if(data.aboutUsList == null){
-       this.aboutUsList = data.aboutUsList
-      }else{
+     if (data.aboutUsList == null) {
+        this.aboutUsList = data.aboutUsList
+        this.initialaboutusList = this.aboutUsList;
+      } else {
         this.aboutUsList = data.aboutUsList.content
+        this.id = data.aboutUsList._id;
+        this.initialaboutusList = this.aboutUsList;
       }
-     
+
     })
   }
 
   ngOnInit() {
     this.buildAboutusForm();
     this.getAboutusList();
-    this. getAllAboutus();
+    this.getAllAboutus();
 
   }
   buildAboutusForm() {
     this.aboutUsForm = this._formBuilder.group({
-      id:'',
+      id: '',
       content: '',
     });
   }
 
   getAboutusList() {
     this.aboutUsService.getAllAboutus().subscribe((response: any) => {
-    if(response.data==null){
-        this.aboutUsList = response.data;
-      }else{
+      if (response.data == null) {
+        this.initialaboutusList = response.data;
+      } else {
         this.aboutUsList = response.data.content
-        this.id=response.data._id
+        this.initialaboutusList = this.aboutUsList;
+        this.id = response.data._id
       }
-    
     });
   }
   getAllAboutus() {
     this.aboutUsService.getAllAboutus().subscribe((response: any) => {
-       this.aboutUsService.setAboutus(response.data);
+      this.aboutUsService.setAboutus(response.data);
     })
   }
   validateForm() {
@@ -193,20 +212,15 @@ export class AboutUsComponent implements OnInit {
   }
 
   addAboutUs() {
-  if (this.editorConfig.editable)
+    if (this.editorConfig.editable) {
       this.editorConfig.editable = false;
-    else
-      this.editorConfig.editable = true;
-
-    var editObj = {
-      "content": this.aboutUsForm.controls['content'].value,
-    }
-   
-    this.aboutUsService.editAboutus(editObj,this.id).subscribe(
-      data => {
-        if (!this.editorConfig.editable) {
+      var editObj = {
+        "content": this.aboutUsForm.controls['content'].value,
+      }
+      this.aboutUsService.editAboutus(editObj, this.id).subscribe(
+        data => {
+          this.getAllAboutus();
           if (!this.editorConfig.editable) {
-            this.getAllAboutus();
             if (data['code'] == 200) {
               swal({
                 position: 'center',
@@ -215,7 +229,6 @@ export class AboutUsComponent implements OnInit {
                 showConfirmButton: false,
                 timer: 1500
               })
-  
             } else {
               swal({
                 type: 'error',
@@ -223,12 +236,16 @@ export class AboutUsComponent implements OnInit {
               })
             }
           }
-        }
-     },
-      error => {
-        this.toastService.error(error['response']);
-      });
+        },
+        error => {
+          this.toastService.error(error['error'].message);
+        });
+    }
+    else {
+      this.editorConfig.editable = true;
+    }
   }
+
   get f() {
     return this.aboutUsForm.controls;
   }
@@ -240,56 +257,63 @@ export class AboutUsComponent implements OnInit {
     this.loading = true;
   }
 
-  
+
 
   delete() {
     swal({
-       title: 'Are you sure?',
-       text: "You won't be able to revert this!",
-       type: 'warning',
-       showCancelButton: true,
-       confirmButtonColor: '#3085d6',
-       cancelButtonColor: '#d33',
-       confirmButtonText: 'Yes, delete it!'
-     }).then((result) => {
-       if (result.value) {
-         this.aboutUsService.deleteAboutus(this.id).subscribe(
-           data => {
-             console.log(data)
-                this.getAllAboutus();
-             swal(
-               'Deleted!',
-               'Your file has been deleted.',
-               'success'
-             )
-           },
-           error => {
-             swal(
-               'error!',
-               'Your file has been deleted.',
-               'success'
-             )
-           });
- 
-       }
-     })
- 
-   }
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.value) {
+        this.aboutUsService.deleteAboutus(this.id).subscribe(
+          data => {
+            if (data['code'] == 200) {
+              swal(
+                'Deleted!',
+                data['message'],
+                'success'
+              )
+            } else {
+              swal(
+                'error!',
+                data['message'],
+                'success',
+              )
+            }
+            this, this.getAboutusList();
+          },
+          error => {
+            swal(
+              'error!',
+              error['message'],
+              'success'
+            )
+          });
+
+      }
+    })
+
+  }
+
+
   cancelAboutUs() {
     this.editorConfig.editable = false;
     this.getAllAboutus();
   }
-  add(content){
-  
-    if(!content){
-      this.isAdd=true;
-    }else{
-      this.isAdd=false;
+  add(content) {
+    if (!content) {
+      this.isAdd = true;
+    } else {
+      this.isAdd = false;
     }
     const modalRef = this.modalService.open(NgbdModalContent);
     modalRef.componentInstance.id = content ? content._id : "";
     modalRef.componentInstance.content = content ? content.content : "";
     modalRef.componentInstance.isAdd = this.isAdd;
-    console.log(content._id)
-   }
+  }
 }

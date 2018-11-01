@@ -20,7 +20,7 @@ export class PrivacyPolicyService {
   }
 
   getPrivacyPolicy(): Observable<any> {
-   return this.privacyPolicyLists.asObservable(); 
+    return this.privacyPolicyLists.asObservable(); 
   }
 
   getHeaderWithToken() {

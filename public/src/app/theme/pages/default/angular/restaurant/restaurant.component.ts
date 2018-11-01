@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Input,AfterViewInit,ViewEncapsulation  } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input,AfterViewInit,ViewEncapsulation,ElementRef, ViewChild  } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RestaurantService } from './restaurant.service';
 import { ScriptLoaderService } from '../../../../../_services/script-loader.service';
@@ -8,7 +8,10 @@ import { ToastrService } from 'ngx-toastr';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as _ from 'lodash';
 import swal from 'sweetalert2'
-
+import {MatAutocompleteSelectedEvent, MatChipInputEvent, MatAutocomplete} from '@angular/material';
+import {Observable} from 'rxjs';
+import {map, startWith} from 'rxjs/operators';
+import {COMMA, ENTER} from '@angular/cdk/keycodes';
 @Component({
   selector: 'app-restaurant',
   template: `
@@ -117,14 +120,39 @@ import swal from 'sweetalert2'
    </div>
 
    <div class="form-group">
-   <label>Cuisines:</label><br/>
-   <div  *ngFor="let cuisine of cuisines ;let i=index"  >
-  <label>{{cuisine}}</label>
- <input ng-model="searchText" placeholder="enter search term here" (change)="cuisin($event)>
- </div>
-   
- </div>
-   
+   <mat-form-field class="example-chip-list">
+  <mat-chip-list #chipList>
+    <mat-chip
+      *ngFor="let cuisinValue of cuisinExist,let i =index"
+      [selectable]="selectable"
+      [removable]="removable"
+      (removed)="remove(cuisinValue)">
+      {{cuisinValue}}
+      <span *ngIf="cuisinValue && !isView" (click)='removeItem(i)' style='color:blue'>&nbsp;&nbsp;x</span>
+    </mat-chip>
+    <input
+      placeholder="search cuisin"
+      formControlName="cuisinOffered"
+      [matAutocomplete]="auto"
+      [matChipInputFor]="chipList"
+      [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+      (matChipInputTokenEnd)="add($event)"
+      (keyup)='valueChange($event)'
+      >
+  </mat-chip-list>
+  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+    <mat-option *ngFor="let values of CuisinList " [value]="values">
+      {{CuisinList}}
+    </mat-option>
+  </mat-autocomplete>
+  
+</mat-form-field>
+<ul class="qz" [hidden]="CuisinList.length ==0">
+<li *ngFor="let values of CuisinList" (click)='selectedValue(values)' style='margin-top:3px;'>
+ {{values}}
+  </li>
+  </ul>
+   </div>   
 </form>
  
 <div class="modal-footer" *ngIf="!isView">
@@ -144,7 +172,14 @@ export class NgbdModalContent {
     RestaurantForm: FormGroup;
     menuImages:Array<any>;
     restaurantImages:Array<any>;
-    cuisines:Array<any>=[];
+    CuisinList:Array<any>=[];
+    cuisinExist:Array<any>= [];
+    selectable = true;
+    // removable = true;
+    filteredValues: Array<string[]>=[];
+    separatorKeysCodes: number[] = [ENTER, COMMA];
+    // @ViewChild('fruitInput') fruitInput: ElementRef<HTMLInputElement>;
+    @ViewChild('auto') matAutocomplete: MatAutocomplete;
     //   {
     //     name:'',
     //     image:''
@@ -165,7 +200,7 @@ export class NgbdModalContent {
     @Input () perPersonCost;
     @Input () mealOffers;
     @Input () menu;
-    // @Input () cuisin;
+    @Input () cuisinOffered;
     loading = false;
     submitted = false;
     mypic:any = null; 
@@ -178,7 +213,8 @@ export class NgbdModalContent {
       private _formBuilder: FormBuilder,
       private modalService: NgbModal,
       private restaurantService: RestaurantService,
-      private toastService: ToastrService) { }
+      private toastService: ToastrService) {
+                                                }
        ngOnInit() {
           this.buildRestaurantForm();
         }
@@ -212,50 +248,79 @@ export class NgbdModalContent {
        website:[''],
        menuImages: [''],
        mealOffers: this._formBuilder.array(this.arr_value),
-       perPersonCost:['',Validators.required]
+       perPersonCost:['',Validators.required],
+       cuisinOffered:['']
         });
   
     }
 
-    cuisin(event){
-      this.restaurantService.getCuisin(event).subscribe((data)=>{
-        console.log(data)
-        // this.cuisines=data
-      }),err=>{
-        console.log(err)
+  
+    add(event: MatChipInputEvent): void {
+      if (!this.matAutocomplete.isOpen) {
+        const input = event.input;
+        const value = event.value;
+       if ((value || '').trim()) {
+          if(this.cuisinExist.indexOf(value)== -1)
+          this.cuisinExist.push(value.trim());
+       }
+  
+    
+        if (input) {
+          input.value = '';
+        }
+    
       }
     }
-    // createItem(){
-    //   return {
-    //     name: '',
-    //     image:''
-    //    };
-    // }
-  
-  // changeCuisinName(index,value){
-  //  this.cuisinImagesObject[index].name = value;
-  // }
 
-  // async addCuisin(){
-  //   let isValid = await this.checkCuisinValid();
-  //   if(!isValid){
-  //     this.toastService.error("Please fill the All cuisin items.");
-  //   }else{
-  //     this.cuisinImagesObject.push(this.createItem())
-  //   } 
-  // }
-
-
-  // async checkCuisinValid(){
+    selectedValue(event) {
+     if(this.cuisinExist.indexOf(event)==-1)
+        this.cuisinExist.push(event);
    
-  //   let result = await this.cuisinImagesObject.filter((res)=>{
-  //     if(!res.name || !res.image){
-  //       return res;
-  //     }
-  //   });
-  //   return (result.length>0)? false : true;
-  // }
+    }
 
+    focusOutFn(event){
+    this.CuisinList=[]
+    }
+
+    removeItem(item){
+ 
+      this.cuisinExist.splice(item,1)
+    }
+    valueChange(value){
+      this.CuisinList=[]
+      this.cuisinExist= this.cuisinExist ? this.cuisinExist : [];
+       
+        if(value.key == 'Enter' || value.key == ','){
+      if(value.target.value && this.cuisinExist.indexOf(this.RestaurantForm.controls.cuisinOffered.value)<0){
+            this.cuisinExist.push(value.target.value);
+         
+            }
+         
+        }else if(this.RestaurantForm.controls.cuisinOffered.value !=""){
+       
+          this.restaurantService.serachCuisin(value.target.value).subscribe(async (data)=>{
+            if(data['code'] ==200){
+               data['data'].map(async (values)=>{
+                
+                 if(this.CuisinList.indexOf(values.name)==-1){
+                  this.CuisinList.push(values.name)
+                 }
+                 
+               })
+            }
+            
+          }),err=>{
+            console.log(err)
+          }
+        }
+        
+      // }
+      
+    }
+
+  
+
+   
 
 selectSelector(flag:string,arr){
 
@@ -266,20 +331,6 @@ selectSelector(flag:string,arr){
     case 'restaurant':
           this.restaurantImages  = arr;
           break; 
-    // case 'cuisin':
-    //       let flag=false;
-    //       this.cuisinImagesObject.map(async (result,idx)=>{
-    //       if(result.name == arr[0].name){
-    //          this.cuisinImagesObject[idx]=arr[0];
-    //           flag = true;
-    //         }
-    //          if(idx == this.cuisinImagesObject.length-1){
-    //           if(!flag){
-    //              this.cuisinImagesObject.push(arr[0])
-    //           }
-    //         }
-    //       })
-    //       break;           
   };
  
 }
@@ -299,19 +350,9 @@ async imageUploading(event,flag,section,idx){
         }
       }
       let obj;
-      // if(section){
-      //       obj= {
-      //           name:(this.cuisinImagesObject[idx].name)?(this.cuisinImagesObject[idx].name):'',
-      //           image: await this.uploadImage(allFiles)
-      //          }
-      //         obj.image = obj.image[0];
-      //         queryArray.push(obj); 
-      //       }else{  
-              obj = await this.uploadImage(allFiles);
-             
-              queryArray = [...queryArray,...obj]
-          //    }  
-           this.selectSelector(flag,queryArray);
+         obj = await this.uploadImage(allFiles);
+            queryArray = [...queryArray,...obj]
+         this.selectSelector(flag,queryArray);
     }else{
       this.toastService.error("please select only five images");
       return;
@@ -337,9 +378,7 @@ async uploadImage(images) {
       case 'restaurant':
           this.restaurantImages.splice(i,1);
           break; 
-      // case 'cuisin':
-      //     this.cuisinImagesObject.splice(i,1);
-      //     break;      
+    
     }
 }
 
@@ -356,10 +395,7 @@ async uploadImage(images) {
 
 
  async addRestaurant() {
-    // let isValid = await this.checkCuisinValid();
-    //  if(!isValid){
-    //   return this.toastService.error("Please fill the All cuisin items.");
-    //  }
+    
      this.submitted = true;
     if (this.RestaurantForm.invalid) {
       return;
@@ -378,20 +414,16 @@ async uploadImage(images) {
         "perPersonCost": this.RestaurantForm.controls['perPersonCost'].value,
         "menu":this.menuImages,
         "photos":this.restaurantImages,
-        // "cuisin":this.cuisinImagesObject
+        "cuisinOffered":this.cuisinExist,
         };
 
       
     if (this.isAdd) {
-
       await this.restaurantService.addRestaurant(addObj).subscribe(
         data => {
-          if(data['code'] !=201){
-            this.toastService.error("Please check all the fields and try again.");
-          }else{
-            this.activeModal.dismiss();
+           this.activeModal.dismiss();
             this.getAllRestaurant();
-            if (data['code'] ==200 ) {
+            if (data['code'] ==201 ) {
               swal({
                 position: 'center',
                 type: 'success',
@@ -406,9 +438,7 @@ async uploadImage(images) {
                 text: data['message']
               })
              }
-          }
-
-        },
+            },
         error => {
           this.toastService.error(error['message']);
         });
@@ -454,17 +484,7 @@ async uploadImage(images) {
       return true;
     }
   }
-  // async uploadImageCuisin(obj){
-  //   let res= await obj.map(async (result)=>{
-  //       let response = await this.uploadImage([result.image]);
-  //       result.name =result.cuisinName;
-  //       result.image= response;
-  //       delete result.cuisinName;
-  //       return result;
-  //   })
-  //   return res;
-  // }
-
+ 
 
 }
  
@@ -481,7 +501,7 @@ async uploadImage(images) {
 })
 
 export class RestaurantComponent implements OnInit,AfterViewInit {
-  // bannersDetail: any;
+
   modalReference: any;
   isAdd: boolean = false;
   RestaurantList: Array<any>;
@@ -558,15 +578,13 @@ export class RestaurantComponent implements OnInit,AfterViewInit {
     modalRef.componentInstance.perPersonCost = content ? content.perPersonCost : "";
     modalRef.componentInstance.menuImages = content ? content.menu: "";
     modalRef.componentInstance.restaurantImages = content ? content.photos : "";
-    // modalRef.componentInstance.cuisinImagesObject = content ? content.cuisin: [{name:'',image:''}];
+    modalRef.componentInstance.cuisinExist = content ? content.cuisinOffered: "";
     modalRef.componentInstance.isAdd = this.isAdd;
     modalRef.componentInstance.isView=this.isView;
    modalRef.componentInstance.mealOffers = (content) ? await this.checkValue(content.mealOffers) : arr_value;
  
   }
-
-
-  
+ 
   delete(id) {
   
     swal({
@@ -579,11 +597,9 @@ export class RestaurantComponent implements OnInit,AfterViewInit {
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.value) {
-        console.log("result",result.value)
-        this.restaurantService.deleteRestaurant(id).subscribe(
+      this.restaurantService.deleteRestaurant(id).subscribe(
           data => {
-            console.log(data)
-          this.getRestaurantList();
+        this.getRestaurantList();
             swal(
               'Deleted!',
               'Your file has been deleted.',

@@ -1,12 +1,11 @@
-.btn-add{
+.btn-add {
     padding: 1.20rem 1.65rem;
     font-size: 1.25rem;
     line-height: 1;
-    color:white;
-    /* background-color: transparent; */
-    border-color:#f7b733;
+    color: white;
+    border-color: #f7b733;
     margin-left: 90%;
-    margin-top:2%;
+    margin-top: 2%;
     margin-right: 5%;
     background: linear-gradient(to right, #fc4a1a, #f7b733);
 }
@@ -80,7 +79,39 @@
        height: 50;
        width: 50;
    } */
-  .btn.m-btn--hover-brand:hover{
+  .btn.m-btn--hover-brand:hover, .btn.m-btn--hover-brand:focus, .btn.m-btn--hover-brand:active{
     background: linear-gradient(45deg, #fc4a1a, #f7b733) !important;
     border: none;
  }
+
+ .example-chip-list {
+    width: 100%;
+  }
+
+.ul{
+box-shadow: 0 4px 4px 0 rgba(0,0,0,0.1);
+}
+.li:hover{
+background: #fafafa;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    color: white !important;
+    border: 1px solid #f1d7a2;
+    background-color:#f1d7a2;
+    background:#f1d7a2
+}
+ul.qz{
+    list-style: none;
+    box-shadow: 0 4px 4px 0 rgba(0,0,0,0.1);
+    padding:20px;
+    border:1px solid #d4d4d4;
+
+}
+ul.qz li{
+    font-size:14px;
+    padding:4px;
+    cursor: pointer;
+}
+ul.qz li:hover{
+    background: #d4d4d4;
+}

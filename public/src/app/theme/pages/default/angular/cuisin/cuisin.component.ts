@@ -49,6 +49,7 @@ import swal from 'sweetalert2'
          </div>
         </form>`,
   styleUrls: ['./cuisin.component.css'],
+
  
 })
 

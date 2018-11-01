@@ -10,18 +10,21 @@
     border-color:#f7b733;
     margin-right: 5%
 }
+
 .header{
     font-size: 3.15rem;
-  
+   
     padding: 1.25rem 4.65rem;
     text-align: center;
-   }
-   .btn-edit{
+}
+
+
+.btn-edit{
     color:white;
     width:80px;
     background: #2e85a0;
        border-radius: 25%;
-  
+    opacity: 1;
 }
 .btn-edit:hover{opacity: 1;}
 
@@ -36,7 +39,7 @@
     color:white;
     width:80px;
     background: #a73a08;
-  
+    opacity: 1;
     border-radius: 25%;
 }
 
@@ -47,9 +50,8 @@
     color:white;
     width:80px;
     background: #49a558;
-   
-    border-radius: 25%;
-   
+     border-radius: 25%;
+    opacity: 1;
 }
 .btn-save:hover{opacity: 1;}
 
@@ -60,7 +62,14 @@
 }
 
 
-.banner-image {
+.ngx-editor {   
+    height: auto !important;
+    min-height: 250px !important;
+}
+.lbl-err {
+    color: red;
+ }
+ .banner-image {
     /* height: 85px; */
     width: 130px;
     margin-left: 122px;
@@ -71,14 +80,12 @@
     line-height: 1.5;
     color:white;
     margin-right:45px;
- background-color: transparent;
- background: #a73a08;
-    border-color: #a73a08;
+    background: #a73a08;
+
  }
  :host app-ngx-editor /deep/ .ngx-editor-textarea {
     height:500px !important;
-    
- }
+ } 
 
  #commonCms{
     padding-top: 5%; 
@@ -90,10 +97,12 @@
      float: right;
      margin-right:10%;
      padding: 5px;
-     opacity: none;
  }
 
  .mrgRight5{
      margin-right: 8px;
  }
+ .ngx-editor-textarea1 {
+    height:300px !important;
  
+ }

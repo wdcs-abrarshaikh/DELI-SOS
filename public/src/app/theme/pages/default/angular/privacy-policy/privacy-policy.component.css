@@ -102,3 +102,7 @@
  .mrgRight5{
      margin-right: 8px;
  }
+ .ngx-editor-textarea1 {
+    height:300px !important;
+ 
+ }
