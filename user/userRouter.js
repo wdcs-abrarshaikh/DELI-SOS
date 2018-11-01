@@ -53,7 +53,7 @@ userRouter.route('/addReview')
     })
 
 userRouter.route('/updateReview/:id')
-    .put([validate.validateReview, validate.verifyUserToken], (req, res) => {
+    .put([validate.verifyUserToken], (req, res) => {
         actions.updateReview(req, res)
     })
 
