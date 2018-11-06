@@ -103,7 +103,6 @@ function userProfileWithReview(id, flag) {
             }
         }]
     }
-
 }
 
 function getRestaurantDetail(id) {
@@ -173,7 +172,7 @@ function getRestaurantDetail(id) {
                 from: schmaName.users,
                 as: 'reviews_details.user_details'
             }
-        },
+        },    
         {
             $project: {
                 "_id": 1, "name": 1,
@@ -187,8 +186,8 @@ function getRestaurantDetail(id) {
                 "reviews_details.likePlace": 1,
                 "reviews_details.createdAt": 1,
                 "reviews_details.totalLiked": 1,
-                //"reviews_details.restaurant_details._id": 1,
-                // "reviews_details.restaurant_details.name": 1,
+                // "reviews_details.restaurants_details._id":1,
+                // "reviews_details.restaurants_details.name":1,
                 "reviews_details.user_details._id": 1,
                 "reviews_details.user_details.name": 1,
                 "reviews_details.user_details.profilePicture": 1
@@ -248,8 +247,55 @@ function showFavourites(id) {
     ]
 }
 
+function filterRestaurant(data){
+    return[
+        {
+            $match: {
+                $and: [
+                    {
+                        $or: [
+                            { mealOffers: data.meal },
+                            { mealOffers: 'ALL' }
+                        ]
+                    },
+                    {
+                        cuisinOffered: { $in: data.cuisins },
+                        perPersonCost: { $gte: data.minBudget, $lte: data.maxBudget }
+                    }
+                ]
+            }
+        },
+        {
+            $lookup: {
+                foreignField: '_id',
+                localField: 'reviews',
+                from: schmaName.reviews,
+                as: 'reviews_details'
+            }
+        },
+
+        {
+            $group: {
+                _id: {
+                    'restId': '$_id',
+                    name: '$name',
+                    cuisins: '$cuisinOffered',
+                    location: '$location',
+                    reviews: '$reviews_details'
+                }
+            }
+        },
+        {
+            $addFields: {
+                '_id.ratings': { $avg: '$_id.reviews.rating' },
+                '_id.distance': ' '
+            }
+        }
+    ]
+}
 module.exports = {
     userProfileWithReview,
     getRestaurantDetail,
-    showFavourites
+    showFavourites,
+    filterRestaurant
 }

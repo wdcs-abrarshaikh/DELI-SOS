@@ -689,21 +689,44 @@ function getCuisinList(req, res) {
     adminService.getCuisinList(req, res)
 }
 
-function filterRestaurant(req, res) {
+function filterRestaurants(req, res) {
     let data = req.body
-    restModel.aggregate([
+    restModel.aggregate(mongoQuery.filterRestaurant(data), (err, response) => {
+        if (err) {
+            console.log(err)
+            res.json({ code: code.internalError, message: msg.internalServerError })
+        }
+        else {
+            let obj = util.decodeToken(req.headers['authorization'])
+            userModel.findOne({ _id: obj.id }).select('location').exec((err, loc) => {
+                if (err) {
+                    res.json({ code: code.internalError, message: msg.internalServerError })
+                }
+                else if (loc) {
+                    let final = response.map(function (data) {
+                        data._id.distance = util.calculateDistance(loc.location.coordinates[1], loc.location.coordinates[0],
+                            data._id.location.coordinates[1], data._id.location.coordinates[0], "K") * 1000;
+                        delete data._id.location;
+                        return data;
+                    })
+                    res.json({ code: code.ok, message: msg.ok, data: final })
+                }
+            })
+        }
+    })
+}
+
+function searchRestaurants(req, res) {
+    let search = req.params.name
+    return restModel.aggregate([
         {
             $match: {
-                $and: [{
-                    $or: [
-                        { mealOffers: data.meal },
-                        { mealOffers: 'ALL' }
-                    ]
-                }, {
-                    cuisinOffered: { $in: data.cuisins },
-                    perPersonCost: { $gte: data.minBudget, $lte: data.maxBudget }
-                }
-                ]
+                $or: [{
+                    name: { $regex: '^'+search, $options: 'i' }
+                },
+                {
+                    cuisinOffered: { $elemMatch: { $regex: '^'+search, $options: 'i' } }
+                }]
             }
         },
         {
@@ -715,50 +738,43 @@ function filterRestaurant(req, res) {
             }
         },
         {
-            $addFields: {
-                'ratings': { $avg: '$reviews_details.rating' },
-                'distance': ' '
-            }
-        },
-        {
-            $unwind: '$reviews_details'
-        },
-        {
-            $lookup: {
-                foreignField: '_id',
-                localField: 'reviews_details.userId',
-                from: schmaName.users,
-                as: 'reviews_details.users_details'
-            }
-        },
-        {
             $group: {
                 _id: {
-                    "restId": "$_id",
-                    name: "$name",
-                    ratings: "$ratings",
-                    distance: "$distance",
-                    cuisins: "$cuisinOffered",
-                    userLocation: "$reviews.users_details.location"
-                },
-                reviews: { $push: '$reviews_details' }
+                    'restId': '$_id',
+                    name: '$name',
+                    cuisins: '$cuisinOffered',
+                    location: '$location',
+                    reviews: '$reviews_details'
+                }
+            }
+        },
+        {
+            $addFields: {
+                '_id.ratings': { $avg: '$_id.reviews.rating' },  
+                '_id.distance': ' '
             }
         }
-        // {
-        //     $project: {
-        //         "_id":1,
-        //         // "reviews.users_details.location":1
-        //     }
-        // }
     ], (err, response) => {
         if (err) {
-            console.log(err)
             res.json({ code: code.internalError, message: msg.internalServerError })
         }
         else {
-            res.json({ code: code.ok, message: msg.ok, data: response })
+            let obj = util.decodeToken(req.headers['authorization'])
+            userModel.findOne({ _id: obj.id }).select('location').exec((err, loc) => {
+                if (err) {
+                    res.json({ code: code.internalError, message: msg.internalServerError })
+                }
+                else if (loc) {
+                    let final = response.map(function (data) { 
+                        data._id.distance = util.calculateDistance(loc.location.coordinates[1], loc.location.coordinates[0],
+                            data._id.location.coordinates[1], data._id.location.coordinates[0], "K") * 1000;
+                        delete data._id.location;
+                        return data;
+                    })
+                    res.json({ code: code.ok, message: msg.ok, data: final })
+                }
+            })
         }
-
     })
 }
 module.exports = {
@@ -793,5 +809,6 @@ module.exports = {
     changeLocation,
     likeUnlikeReview,
     getCuisinList,
-    filterRestaurant
+    filterRestaurants,
+    searchRestaurants
 }
