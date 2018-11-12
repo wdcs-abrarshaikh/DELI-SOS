@@ -134,6 +134,13 @@ function searchRestaurants(req,res){
     service.searchRestaurants(req,res)
 }
 
+function getAboutUs(req,res){
+    service.getAboutUs(req,res)
+}
+
+function contactUs(req,res){
+    service.contactUs(req,res)
+}
 module.exports = {
     signup,
     login,
@@ -167,5 +174,7 @@ module.exports = {
     likeUnlikeReview,
     getCuisinList,
     filterRestaurants,
-    searchRestaurants
+    searchRestaurants,
+    getAboutUs,
+    contactUs
 }

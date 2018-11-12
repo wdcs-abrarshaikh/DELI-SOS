@@ -239,6 +239,15 @@ function validateUpload(req, res, next) {
         return res.json({ code: code.badRequest, message: msg.invalidBody })
     }
 }
+
+function validateContactUs(req,res,next){
+    if(req.body.content && req.body.contactNo){
+        next()
+    }
+    else{
+        return res.json({ code: code.badRequest, message: msg.invalidBody })
+    }
+}
 module.exports = {
     validateSignUp,
     validateLogin,
@@ -251,5 +260,6 @@ module.exports = {
     validateChangePassword,
     validateUserId,
     validateChangeLocation,
-    validateUpload
+    validateUpload,
+    validateContactUs
 }

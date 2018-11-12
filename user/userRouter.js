@@ -166,4 +166,14 @@ userRouter.route('/searchRestaurants/:name')
     .get([validate.verifyUserToken], (req, res) => {
         actions.searchRestaurants(req,res)
     })
+
+userRouter.route('/getAboutUs')
+    .get([validate.verifyUserToken],(req,res)=>{
+        actions.getAboutUs(req,res)
+    })
+
+userRouter.route('/contactUs')
+    .post([validate.verifyUserToken,validate.validateContactUs],(req,res)=>{
+        actions.contactUs(req,res)
+    })
 module.exports = userRouter;

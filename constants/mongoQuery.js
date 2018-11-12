@@ -3,7 +3,7 @@ let mongoose = require('mongoose');
 
 function userProfileWithReview(id, flag) {
 
-    if (flag) {
+    if (flag == true) {
         return [
             {
                 $match: {
@@ -38,7 +38,7 @@ function userProfileWithReview(id, flag) {
                         location: "$location",
                         locationVisible: "$locationVisible",
                         follower: "$follower",
-                        following: "$following",
+                        following: "$following"
                     },
                     reviews_details: { "$push": "$reviews_details" }
                 }
@@ -65,8 +65,18 @@ function userProfileWithReview(id, flag) {
                 }
             },
             {
+                $unwind: '$reviews_details.restaurant_details'
+            },
+            {
+                $addFields: {
+                    "reviews_details.restaurantId": "$reviews_details.restaurant_details._id",
+                    "reviews_details.restaurantName": "$reviews_details.restaurant_details.name"
+                }
+            },
+            {
                 $project: {
-                    "_id": 1, "name": 1,
+                    "_id": 1,
+                    "name": 1,
                     "profilePicture": 1,
                     "location": 1, "locationVisible": 1,
                     "reviews_details._id": 1,
@@ -76,8 +86,8 @@ function userProfileWithReview(id, flag) {
                     "reviews_details.likePlace": 1,
                     "reviews_details.createdAt": 1,
                     "reviews_details.totalLiked": 1,
-                    "reviews_details.restaurant_details._id": 1,
-                    "reviews_details.restaurant_details.name": 1,
+                    "reviews_details.restaurantId": 1,
+                    "reviews_details.restaurantName": 1,
                     // 'totalReviews': 1, 'totalFollower': 1,
                     // 'totalFollowing': 1, 'restaurant': 1
                 }
@@ -91,7 +101,6 @@ function userProfileWithReview(id, flag) {
                     "reviews": { $push: '$reviews_details' }
                 }
             }
-
         ]
     } else {
         return [{ $match: { _id: mongoose.Types.ObjectId(id) } }, {
@@ -172,7 +181,17 @@ function getRestaurantDetail(id) {
                 from: schmaName.users,
                 as: 'reviews_details.user_details'
             }
-        },    
+        },
+        {
+            $unwind: '$reviews_details.user_details'
+        },
+        {
+            $addFields: {
+                'reviews_details.userId': '$reviews_details.user_details._id',
+                'reviews_details.userName': '$reviews_details.user_details.name',
+                'reviews_details.userProfilePicture': '$reviews_details.user_details.profilePicture'
+            }
+        },
         {
             $project: {
                 "_id": 1, "name": 1,
@@ -186,11 +205,12 @@ function getRestaurantDetail(id) {
                 "reviews_details.likePlace": 1,
                 "reviews_details.createdAt": 1,
                 "reviews_details.totalLiked": 1,
-                // "reviews_details.restaurants_details._id":1,
-                // "reviews_details.restaurants_details.name":1,
-                "reviews_details.user_details._id": 1,
-                "reviews_details.user_details.name": 1,
-                "reviews_details.user_details.profilePicture": 1
+                "reviews_details.userId": 1,
+                "reviews_details.userName": 1,
+                "reviews_details.userProfilePicture": 1,
+                // "reviews_details.user_details._id": 1,
+                // "reviews_details.user_details.name": 1,
+                // "reviews_details.user_details.profilePicture": 1
             }
         },
         {
@@ -247,8 +267,8 @@ function showFavourites(id) {
     ]
 }
 
-function filterRestaurant(data){
-    return[
+function filterRestaurant(data) {
+    return [
         {
             $match: {
                 $and: [
@@ -273,7 +293,46 @@ function filterRestaurant(data){
                 as: 'reviews_details'
             }
         },
+        {
+            $group: {
+                _id: {
+                    'restId': '$_id',
+                    name: '$name',
+                    cuisins: '$cuisinOffered',
+                    location: '$location',
+                    reviews: '$reviews_details'
+                }
+            }
+        },
+        {
+            $addFields: {
+                '_id.ratings': { $avg: '$_id.reviews.rating' },
+                '_id.distance': ' '
+            }
+        }
+    ]
+}
 
+function searchRestaurants(name) {
+    return [
+        {
+            $match: {
+                $or: [{
+                    name: { $regex: '^' + name, $options: 'i' }
+                },
+                {
+                    cuisinOffered: { $elemMatch: { $regex: '^' + name, $options: 'i' } }
+                }]
+            }
+        },
+        {                                                                                                              
+            $lookup: {
+                foreignField: '_id',
+                localField: 'reviews',
+                from: schmaName.reviews,
+                as: 'reviews_details'
+            }
+        },
         {
             $group: {
                 _id: {
@@ -297,5 +356,6 @@ module.exports = {
     userProfileWithReview,
     getRestaurantDetail,
     showFavourites,
-    filterRestaurant
+    filterRestaurant,
+    searchRestaurants
 }
