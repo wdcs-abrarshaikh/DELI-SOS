@@ -139,7 +139,7 @@ async function getUserDetail(req, res) {
 }
 
 async function createUser(req, res) {
-    console.log("in  create user api", req.body)
+    //console.log("in  create user api", req.body)
     let data = req.body;
     if (await userModel.findOne({ email: data.email })) {
         return res.json({ code: code.badRequest, message: msg.emailAlreadyRegistered });
@@ -184,13 +184,13 @@ async function addRestaurant(req, res) {
         type: "Point",
         coordinates: [req.body.longitude, req.body.latitude]
     }
-    console.log("body", req.body)
+    //console.log("body", req.body)
     let rest = new restModel(req.body)
     let obj = util.decodeToken(req.headers['authorization'])
     rest.createdBy = obj.id;
     rest.status = status.active;
     rest.save((err, data) => {
-        console.log(err)
+       // console.log(err)
         return (err) ? res.json({ code: code.internalError, message: msg.internalServerError }) :
             res.json({ code: code.created, message: msg.restAddSucessfully, data: data })
     })
@@ -214,7 +214,7 @@ async function getRestaurantDetails(req, res) {
 async function getRestaurantList(req, res) {
     restModel.find({ status: status.active }, (err, result) => {
         if (err) {
-            console.log("error", err)
+            //console.log("error", err)
             res.json({ code: code.internalError, message: msg.internalServerError })
         }
         else {
@@ -247,7 +247,7 @@ async function updateRestaurant(req, res) {
 async function deleteRestaurant(req, res) {
     restModel.findByIdAndUpdate({ _id: req.params.id },
         { $set: { status: status.inactive } }, { new: true }, (err, data) => {
-            console.log(err)
+            //console.log(err)
             if (err) {
                 return res.json({ code: code.internalError, message: msg.internalServerError })
             }
@@ -479,14 +479,14 @@ function restaurantCounts(req, res) {
 }
 
 function userCounts(req, res) {
-    console.log("in noofuser")
+    //console.log("in noofuser")
     userModel.find({ $and: [{ status: status.active }, { role: role.USER }] }, (err, results) => {
         if (err) {
             return res.json({ code: code.internalError, message: msg.internalServerError })
         }
         else {
             var count = results.length
-            console.log("no. of users", count)
+      //      console.log("no. of users", count)
             return res.json({ code: code.ok, message: msg.ok, data: count })
         }
     });
@@ -505,8 +505,6 @@ function reviewCounts(req, res) {
             // console.log("data cuisin name",data)
             // console.log("reviews", results.length)
             return res.json({ code: code.ok, data: results })
-
-
         }
     });
 
@@ -533,7 +531,7 @@ async function addAboutUs(req, res) {
             about.type = "About_Us"
             about.save((err, data) => {
                 if (err) {
-                    console.log("error", err)
+                   // console.log("error", err)
                     return res.json({ code: code.internalError, message: msg.internalServerError })
                 }
                 else if (data.length == 0) {
@@ -561,7 +559,6 @@ async function aboutUsList(req, res) {
 }
 
 async function deleteAboutUs(req, res) {
-
     await aboutModel.findByIdAndUpdate({ _id: req.params.id }, { $set: { status: status.inactive } }, (err, data) => {
         if (err) {
             return res.json({ code: code.internalError, message: msg.internalError })
@@ -606,7 +603,7 @@ async function addPrivacyPolicy(req, res) {
     })
 }
 
-async function privacyPolicyList(req, res) {
+async function privacyPolicyList(req, res) {                                    
     aboutModel.findOne({ $and: [{ status: status.active }, { type: Type.privacy }] }, (err, data) => {
         if (err) {
             return res.json({ code: code.internalError, message: msg.internalServerError })
@@ -778,7 +775,6 @@ async function deleteCuisin(req, res) {
 }
 
 async function updateCuisin(req, res) {
-
     userModel.updateOne({ role: role.ADMIN, cuisin: { $elemMatch: { _id: req.params.id } } },
         { $set: { 'cuisin.$': req.body } }).exec((err, data) => {
             if (err) {

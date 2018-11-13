@@ -1,6 +1,7 @@
 var userModel = require('../schema/user');
 var restModel = require('../schema/restaurant');
-var reviewModel = require('../schema/review')
+var reviewModel = require('../schema/review');
+var aboutModel = require('../schema/about_Privacy');
 var bcrypt = require('bcrypt');
 var util = require('../app util/util');
 var code = require('../constants').http_codes;
@@ -8,6 +9,7 @@ var msg = require('../constants').messages;
 var role = require('../constants').roles;
 var status = require('../constants').status;
 let schmaName = require('../constants').schemas;
+let type = require('../constants').Type;
 let adminService = require('../admin/adminServices');
 var mongoose = require('mongoose');
 const mongoQuery = require('../constants/mongoQuery');
@@ -98,7 +100,7 @@ function fetchDetail(req, res) {
                         return res.json({ code: code.internalError, message: msg.internalServerError })
                     }
                     else {
-                        return res.json({ code: code.ok, message: msg.ok, data: response })
+                        return res.json({ code: code.ok, message: msg.ok, data: response[0] })
                     }
                 })
             }
@@ -173,10 +175,11 @@ function getRestaurantDetail(req, res) {
             if (data.reviews.length > 0) {
                 restModel.aggregate(mongoQuery.getRestaurantDetail(id), (err, response) => {
                     if (err) {
+                        console.log(err)
                         res.json({ code: code.internalError, message: msg.internalServerError })
                     }
                     else {
-                        res.json({ code: code.ok, message: msg.ok, data: response })
+                        res.json({ code: code.ok, message: msg.ok, data: response[0] })
                     }
                 })
             }
@@ -410,7 +413,7 @@ function showProfile(req, res) {
                             return res.json({ code: code.internalError, message: msg.internalServerError })
                         }
                         else {
-                            return res.json({ code: code.ok, message: msg.ok, data: response })
+                            return res.json({ code: code.ok, message: msg.ok, data: response[0] })
                         }
                     })
                 }
@@ -428,7 +431,7 @@ function showProfile(req, res) {
                 return res.json({ code: code.internalError, message: msg.internalServerError })
             }
             else {
-                return res.json({ code: code.ok, message: msg.ok, data: response })
+                return res.json({ code: code.ok, message: msg.ok, data: response[0] })
             }
         })
     }
@@ -669,7 +672,6 @@ function likeUnlikeReview(req, res) {
     let obj = util.decodeToken(req.headers['authorization'])
 
     return reviewModel.findById({ _id: req.params.reviewId }).then((result) => {
-        console.log(result.likedBy.indexOf(obj.id) >= 0)
         if (result.likedBy.indexOf(obj.id) >= 0) {
             reviewModel.update({ _id: req.params.reviewId }, { $pull: { likedBy: obj.id } }).then((result) => {
                 res.json({ code: code.ok, message: msg.ok })
@@ -689,78 +691,87 @@ function getCuisinList(req, res) {
     adminService.getCuisinList(req, res)
 }
 
-function filterRestaurant(req, res) {
+function filterRestaurants(req, res) {
     let data = req.body
-    restModel.aggregate([
-        {
-            $match: {
-                $and: [{
-                    $or: [
-                        { mealOffers: data.meal },
-                        { mealOffers: 'ALL' }
-                    ]
-                }, {
-                    cuisinOffered: { $in: data.cuisins },
-                    perPersonCost: { $gte: data.minBudget, $lte: data.maxBudget }
-                }
-                ]
-            }
-        },
-        {
-            $lookup: {
-                foreignField: '_id',
-                localField: 'reviews',
-                from: schmaName.reviews,
-                as: 'reviews_details'
-            }
-        },
-        {
-            $addFields: {
-                'ratings': { $avg: '$reviews_details.rating' },
-                'distance': ' '
-            }
-        },
-        {
-            $unwind: '$reviews_details'
-        },
-        {
-            $lookup: {
-                foreignField: '_id',
-                localField: 'reviews_details.userId',
-                from: schmaName.users,
-                as: 'reviews_details.users_details'
-            }
-        },
-        {
-            $group: {
-                _id: {
-                    "restId": "$_id",
-                    name: "$name",
-                    ratings: "$ratings",
-                    distance: "$distance",
-                    cuisins: "$cuisinOffered",
-                    userLocation: "$reviews.users_details.location"
-                },
-                reviews: { $push: '$reviews_details' }
-            }
-        }
-        // {
-        //     $project: {
-        //         "_id":1,
-        //         // "reviews.users_details.location":1
-        //     }
-        // }
-    ], (err, response) => {
+    restModel.aggregate(mongoQuery.filterRestaurant(data), (err, response) => {
         if (err) {
-            console.log(err)
             res.json({ code: code.internalError, message: msg.internalServerError })
         }
         else {
-            res.json({ code: code.ok, message: msg.ok, data: response })
+            let obj = util.decodeToken(req.headers['authorization'])
+            userModel.findOne({ _id: obj.id }).select('location').exec((err, loc) => {
+                if (err) {
+                    res.json({ code: code.internalError, message: msg.internalServerError })
+                }
+                else if (loc) {
+                    let final = response.map(function (data) {
+                        data._id.distance = util.calculateDistance(loc.location.coordinates[1], loc.location.coordinates[0],
+                            data._id.location.coordinates[1], data._id.location.coordinates[0], "K") * 1000;
+                        delete data._id.location;
+                        delete data._id.reviews;
+                        return data;
+                    })
+                    res.json({ code: code.ok, message: msg.ok, data: final })
+                }
+            })
         }
-
     })
 }
+
+function searchRestaurants(req, res) {
+    let search = req.params.name
+    let sortBy = req.query.sortBy
+
+    return restModel.aggregate(mongoQuery.searchRestaurants(search), (err, response) => {
+        if (err) {
+            res.json({ code: code.internalError, message: msg.internalServerError })
+        }
+        else {
+            let obj = util.decodeToken(req.headers['authorization'])
+            userModel.findOne({ _id: obj.id }).select('location').exec((err, loc) => {
+                if (err) {
+                    res.json({ code: code.internalError, message: msg.internalServerError })
+                }
+                else if (loc) {
+                    var final = response.map(function (data) {
+                        data._id.distance = util.calculateDistance(loc.location.coordinates[1], loc.location.coordinates[0],
+                            data._id.location.coordinates[1], data._id.location.coordinates[0], "K") * 1000;
+                        delete data._id.location;
+                        delete data._id.reviews;
+                        return data;
+                    })
+                    if (sortBy) {
+                        final.sort((a, b) => {
+                            return (b._id[sortBy] - a._id[sortBy])
+                        })
+                    }
+                    res.json({ code: code.ok, message: msg.ok, data: final })
+                }
+            })
+        }
+    })
+}
+
+function getAboutUs(req, res) {
+    adminService.aboutUsList(req, res)
+}
+
+function contactUs(req, res) {
+    let data = req.body
+    let obj = util.decodeToken(req.headers['authorization'])
+    data.createdBy = obj.id
+    data.type = type.contact
+    let contactReq = new aboutModel(data)
+    return contactReq.save((err,result)=>{
+        if (err) {
+            res.json({ code: code.internalError, message: msg.internalServerError })
+        }
+        else{
+            res.json({ code: code.created, message: msg.contactReqSent })
+        }
+    })
+}
+
 module.exports = {
     createUser,
     authenticateUser,
@@ -793,5 +804,8 @@ module.exports = {
     changeLocation,
     likeUnlikeReview,
     getCuisinList,
-    filterRestaurant
+    filterRestaurants,
+    searchRestaurants,
+    getAboutUs,
+    contactUs
 }
