@@ -1,12 +1,11 @@
 .btn-add {
-    padding: 1.20rem 1.65rem;
+    padding: 1.0rem 1.65rem;
     font-size: 1.25rem;
-    line-height: 1;
+    line-height: .6;
     color: white;
-    border-color: #f7b733;
-    margin-left: 90%;
-    margin-top: 2%;
-    margin-right: 5%;
+    border-color: #e95e37;
+    margin-left: 88%;
+    margin-bottom: 16px;
     background: linear-gradient(to right, #fc4a1a, #f7b733);
 }
 .lbl-err {
@@ -54,12 +53,10 @@
 .label {
     font-weight: 500;
 }
-.table1{
-    margin: 43px;
-}
+
 .header{
     font-size: 3.15rem;
-    padding: 1.25rem 4.65rem;
+    padding: 1.30rem 4.65rem;
     text-align: center;
    }
    .dataTables_wrapper .pagination .page-item.active>.page-link {
@@ -114,4 +111,38 @@ ul.qz li{
 }
 ul.qz li:hover{
     background: #d4d4d4;
+}
+
+   .container-fluid {
+    width: 85%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+table.dataTable thead .sorting_asc {
+ background-image: none;
+}
+table.dataTable thead th.sorting,
+   table.dataTable thead th.sorting_asc,
+   table.dataTable thead th.sorting_desc {
+   background: none;
+   padding: 7px 8px;
+   }
+   .m-badge {
+    background:linear-gradient(45deg, #fc4a1a, #f7b733) !important;
+    color:white;
+    font-weight: bold !important;
+   }
+ .fa-eye:before {
+    content: "\f06e";
+    color: royalblue;
+}
+.fa-edit:before, .fa-pencil-square-o:before {
+    content: "\f044";
+    color: green;
+}
+.fa-trash-alt:before {
+    content: "\f2ed";
+    color: red;
 }

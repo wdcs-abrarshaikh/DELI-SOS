@@ -1,0 +1,27 @@
+<div class="modal-header">
+  <h4 class="modal-title"> Add Content</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="privacyForm" (ngSubmit)="addContent()">
+    <div class="form-group">
+      <label for="name">Content</label>
+      <app-ngx-editor [placeholder]="'Enter text here...'" [spellcheck]="true" formControlName="content" [(ngModel)]="content"
+        [config]="editorConfig"></app-ngx-editor>
+      <div *ngIf="privacyForm.controls['content'].invalid && (privacyForm.controls['content'].dirty || privacyForm.controls['content'].touched)"
+        class="lbl-err">
+        <div *ngIf="privacyForm.controls['content'].errors.required">
+          Content is required.
+        </div>
+      </div>
+
+    </div>
+    <div class="modal-footer">
+      <div class="form-group">
+        <button type="submit" class="btn btn-outline-dark" [disabled]="validateForm()">Save</button>&nbsp;&nbsp;
+        <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Cancel</button>
+      </div>
+    </div>
+  </form>

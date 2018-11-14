@@ -2,13 +2,14 @@ import { ScriptLoaderService } from './../../../../_services/script-loader.servi
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
-import { IndexComponent ,NgbdModalContent} from './index.component';
+import { IndexComponent } from './index.component';
 import { LayoutModule } from '../../../layouts/layout.module';
 import { DefaultComponent } from '../default.component';
 import { DataTablesModule } from 'angular-datatables';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { IndexRoutingModule } from './index.routing';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { ViewrestaurantComponent } from './viewrestaurant/viewrestaurant.component';
 
 
 
@@ -36,12 +37,12 @@ const routes: Routes = [
 		ReactiveFormsModule,
         ],
         exports: [
-        RouterModule,NgbdModalContent
+        RouterModule,ViewrestaurantComponent
         ],
         declarations: [
-        IndexComponent,NgbdModalContent],
+        IndexComponent, ViewrestaurantComponent],
         providers:[ScriptLoaderService],
 
-        entryComponents: [NgbdModalContent] })
+        entryComponents: [ViewrestaurantComponent] })
 
         export class IndexModule  {}

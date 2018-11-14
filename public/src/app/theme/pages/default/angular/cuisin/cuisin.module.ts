@@ -1,4 +1,4 @@
-import { CuisinComponent, NgbdModalContent } from './cuisin.component';
+import { CuisinComponent } from './cuisin.component';
 import { CuisinService } from './cuisin.service';
 import { CuisinRoutingModule } from './cuisin.routing';
 import { NgModule } from '@angular/core';
@@ -9,6 +9,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DefaultComponent } from '../../default.component';
 import { LayoutModule } from '../../../../layouts/layout.module';
 import { DataTablesModule } from 'angular-datatables';
+import { AddEditcuisinComponent } from './add-editcuisin/add-editcuisin.component';
 // import { ScriptLoaderService } from './_services/script-loader.service';
 
 
@@ -38,10 +39,10 @@ const routes: Routes = [
 
 	],
 
-	exports: [CuisinComponent, NgbdModalContent],
-	declarations: [CuisinComponent, NgbdModalContent],
+	exports: [CuisinComponent, AddEditcuisinComponent],
+	declarations: [CuisinComponent, AddEditcuisinComponent],
 	providers: [CuisinService],
-	entryComponents: [NgbdModalContent]
+	entryComponents: [AddEditcuisinComponent]
 
 })
 export class CuisinModule {

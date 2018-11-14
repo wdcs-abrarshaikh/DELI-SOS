@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import {Router, NavigationStart, NavigationEnd} from '@angular/router';
 import { FormBuilder, Validators, FormControl, FormGroup, FormArray } from '@angular/forms';
 import { ForgotPasswordService } from './forgot-password.service';
@@ -14,7 +14,8 @@ export class ForgotPasswordComponent implements OnInit {
   submitted = false;
   constructor(private formBuilder: FormBuilder,
                private router: Router,
-              private forgotPasswordService:ForgotPasswordService) { }
+              private forgotPasswordService:ForgotPasswordService,
+              private spinnerService: Ng4LoadingSpinnerService) { }
 
   ngOnInit() {
     this.forgotPasswordForm = this.formBuilder.group({
@@ -29,7 +30,9 @@ export class ForgotPasswordComponent implements OnInit {
    if( this.forgotPasswordForm.invalid){
      return ;
       }
-  }
+      this.spinnerService.show();
+     }
+
       get f(){
         return this.forgotPasswordForm.controls;
       }
@@ -38,7 +41,7 @@ export class ForgotPasswordComponent implements OnInit {
      this.forgotPasswordService.post(this.forgotPasswordForm.value).subscribe((response: any) => {
       if(response.code==200){
        this.router.navigate(['/forgotemail']);
-       this.loading = false;
+       this.spinnerService.hide();
       }
      
     }, error => {

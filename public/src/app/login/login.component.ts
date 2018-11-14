@@ -3,6 +3,7 @@ import { LoginService } from './login.service';
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationStart, NavigationEnd } from '@angular/router';
 import { FormBuilder, Validators, FormControl, FormGroup, FormArray } from '@angular/forms';
+import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 
 
 @Component({
@@ -18,7 +19,8 @@ export class LoginComponent implements OnInit {
   constructor(private _formBuilder: FormBuilder,
     private _router: Router,
     private _loginService: LoginService,
-    private toastService: ToastrService) { }
+    private toastService: ToastrService,
+    private spinnerService: Ng4LoadingSpinnerService ) { }
 
 
   ngOnInit() {
@@ -28,17 +30,16 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
-
-    // stop here if form is invalid
+   // stop here if form is invalid
     if (this.loginForm.invalid) {
           return;
     }
-
-    this.loading = true;
+   this.spinnerService.show();
   }
-
+  
   signIn() {
     this._loginService.post(this.loginForm.value).subscribe((response: any) => {
+      this.spinnerService.hide();
       if (response['code'] == 200) {
        this.toastService.success(response.message);
        localStorage.setItem('_token', JSON.stringify(response.token))
@@ -47,10 +48,10 @@ export class LoginComponent implements OnInit {
       }
       else{
         this.toastService.error(response.message);
-        this.loading = false;
+        this.spinnerService.hide();
       }
     }, error => {
-      this.loading = false
+      this.spinnerService.hide();
       console.log('error' + error);
     });
 

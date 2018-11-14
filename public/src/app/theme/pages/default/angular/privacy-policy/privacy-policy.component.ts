@@ -1,3 +1,4 @@
+import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { PrivacyPolicyService } from './privacy-policy.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -6,128 +7,9 @@ import { Location } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import swal from 'sweetalert2'
-
-@Component({
-
-  selector: 'app-privacy-policy',
-  template: ` <div class="modal-header">
-  <h4 class="modal-title"> Add Content</h4>  
-   <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
-    <span aria-hidden="true">&times;</span>
-  </button>
-</div>
-<div class="modal-body">
-<form [formGroup]="privacyForm" (ngSubmit)="addContent()">
-            <div class="form-group">
-                <label for="name">Content</label>
-                <app-ngx-editor [placeholder]="'Enter text here...'" [spellcheck]="true" formControlName="content" [(ngModel)]="content"
-                [config]="editorConfig"></app-ngx-editor>
-                <div *ngIf="privacyForm.controls['content'].invalid && (privacyForm.controls['content'].dirty || privacyForm.controls['content'].touched)"
-                class="lbl-err">
-                <div *ngIf="privacyForm.controls['content'].errors.required">
-                  Content is required.
-                </div>
-              </div>
-               
-             </div>
-         <div class="modal-footer">
-            <div class="form-group">
-           <button type="submit"  class="btn btn-outline-dark" [disabled]="validateForm()">Save</button>&nbsp;&nbsp;
-           <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Cancel</button>
-            </div>
-         </div>
-        </form>`,
-  styleUrls: ['./privacy-policy.component.css']
-})
-
-export class NgbdModalContent {
-  privacyPolicyLists: Array<any>;
-  privacyForm: FormGroup;
-  @Input() id;
-  @Input() content;
-  loading = false;
-  submitted = false;
-  isAdd: boolean;
-  editorConfig = {
-    editable: true,
-    spellcheck: true,
-    height: '5rem',
-    minHeight: '5rem',
-    templateOptions: {
-      required: true,
-      minLength: 5
-    },
-  };
-  constructor(private modalService: NgbModal,
-    private toastService: ToastrService,
-    private _formBuilder: FormBuilder,
-    private privacyPolicyService: PrivacyPolicyService,
-    public activeModal: NgbActiveModal, ) {
-
-  }
-
-  ngOnInit() {
-    this.buildPrivacyForm();
-   }
-
-  get f() {
-    return this.privacyForm.controls;
-  }
-  buildPrivacyForm() {
-    this.privacyForm = this._formBuilder.group({
-      content: ['', [Validators.required]]
-    });
-  }
-
-  getAllPrivacyPolicy() {
-    this.privacyPolicyService.getAllPrivacyPolicy().subscribe((response: any) => {
-    this.privacyPolicyService.setPrivacyPolicy(response.data);
-
-    })
-  }
+import { AddPrivacyPolicyComponent } from './add-privacy-policy/add-privacy-policy.component';
 
 
-  addContent() {
-    var addObj = {
-      "content": this.privacyForm.controls['content'].value,
-    }
-    if (this.isAdd) {
-      this.privacyPolicyService.addPrivacyPolicy(addObj).subscribe(
-        data => {
-          if (data['code'] == 201) {
-            swal({
-              position: 'center',
-              type: 'success',
-              title: data['message'],
-              showConfirmButton: false,
-              timer: 1500
-            })
-          } else {
-            swal({
-              type: 'error',
-              text: data['message']
-            })
-
-          }
-          this.activeModal.dismiss();
-          this.getAllPrivacyPolicy();
-        },
-        error => {
-          this.toastService.error(error['message']);
-        });
-    }
-  }
-
-  validateForm() {
-    if (this.privacyForm.valid) {
-      return false;
-    } else {
-      return true;
-    }
-  }
-
-
-}
 
 @Component({
   selector: 'app-privacy-policy',
@@ -161,9 +43,10 @@ export class PrivacyPolicyComponent implements OnInit {
   constructor(private modalService: NgbModal,
     private toastService: ToastrService,
     private _formBuilder: FormBuilder,
-    private privacyPolicyService: PrivacyPolicyService) {
+    private privacyPolicyService: PrivacyPolicyService,
+    private spinnerService: Ng4LoadingSpinnerService) {
     this.privacyPolicyService.getPrivacyPolicy().subscribe((data: any) => {
-     if (data.privacyPolicyLists !== null) {
+      if (data.privacyPolicyLists !== null) {
         this.privacyPolicyLists = data.privacyPolicyLists.content;
         this.initialprivacyPolicyLists = this.privacyPolicyLists;
         this.id = data.privacyPolicyLists._id;
@@ -177,7 +60,7 @@ export class PrivacyPolicyComponent implements OnInit {
   ngOnInit() {
     this.buildprivacyPolicyForm();
     this.getPrivacyPolicyList();
-  
+
   }
 
   buildprivacyPolicyForm() {
@@ -193,7 +76,7 @@ export class PrivacyPolicyComponent implements OnInit {
       var editObj = {
         "content": this.privacyPolicyForm.controls['content'].value,
       }
-     this.privacyPolicyService.editPrivacyPolicy(editObj, this.id).subscribe(
+      this.privacyPolicyService.editPrivacyPolicy(editObj, this.id).subscribe(
         data => {
           this.getPrivacyPolicyList();
           if (!this.editorConfig.editable) {
@@ -205,7 +88,7 @@ export class PrivacyPolicyComponent implements OnInit {
                 showConfirmButton: false,
                 timer: 1500
               })
-              } else {
+            } else {
               swal({
                 type: 'error',
                 text: data['message']
@@ -218,8 +101,8 @@ export class PrivacyPolicyComponent implements OnInit {
         });
     }
     else {
-     this.editorConfig.editable = true;
-       }
+      this.editorConfig.editable = true;
+    }
   }
 
   validateForm() {
@@ -237,7 +120,9 @@ export class PrivacyPolicyComponent implements OnInit {
   }
 
   getPrivacyPolicyList() {
+    this.spinnerService.show();
     this.privacyPolicyService.getAllPrivacyPolicy().subscribe((response: any) => {
+      this.spinnerService.hide();
       if (response.data !== null) {
         this.privacyPolicyLists = response.data.content;
         this.initialprivacyPolicyLists = this.privacyPolicyLists;
@@ -269,11 +154,11 @@ export class PrivacyPolicyComponent implements OnInit {
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
       confirmButtonText: 'Yes, delete it!'
-     }).then((result) => {
+    }).then((result) => {
       if (result.value) {
         this.privacyPolicyService.deletePrivacyPolicy(this.id).subscribe(
           data => {
-           this.getPrivacyPolicyList();
+            this.getPrivacyPolicyList();
             if (data['code'] == 200) {
               swal(
                 'Deleted!',
@@ -296,10 +181,10 @@ export class PrivacyPolicyComponent implements OnInit {
               'success'
             )
           });
-        }
-      })
       }
-      
+    })
+  }
+
 
   cancelPrivacyPolicy() {
     this.editorConfig.editable = false;
@@ -313,7 +198,7 @@ export class PrivacyPolicyComponent implements OnInit {
     } else {
       this.isAdd = false;
     }
-    const modalRef = this.modalService.open(NgbdModalContent);
+    const modalRef = this.modalService.open(AddPrivacyPolicyComponent);
     modalRef.componentInstance.id = content ? content._id : "";
     modalRef.componentInstance.content = content ? content.content : "";
     modalRef.componentInstance.isAdd = this.isAdd;

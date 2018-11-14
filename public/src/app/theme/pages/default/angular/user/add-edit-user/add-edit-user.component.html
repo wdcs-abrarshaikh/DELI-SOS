@@ -1,0 +1,62 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{ isAdd ? 'Add' : 'Edit'}} User</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="userForm" (ngSubmit)="addUsers()">
+    <div class="form-group">
+      <label for="name">User Name</label>
+      <input type="text" formControlName="name" [(ngModel)]="name" class="form-control" />
+      <p *ngIf="userForm.controls.name.errors?.required && (userForm.controls.name.dirty || userForm.controls.name.touched)"
+        class="lbl-err">Name is required.</p>
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="text" formControlName="email" [(ngModel)]="email" class="form-control" />
+      <p *ngIf="userForm.controls.email.errors?.required  && (userForm.controls.email.dirty || userForm.controls.email.touched)"
+        class="lbl-err">email Id is required.</p>
+      <p *ngIf="userForm.controls.email.errors?.pattern  && (userForm.controls.email.dirty || userForm.controls.email.touched)"
+        class="lbl-err">Enter Valid Email.</p>
+    </div>
+
+    <div class="form-group">
+      <label for="deviceId">DeviceId</label>
+      <input type="text" formControlName="deviceId" [(ngModel)]="deviceId" class="form-control" />
+      <p *ngIf="userForm.controls.deviceId.errors?.required  && (userForm.controls.deviceId.dirty || userForm.controls.deviceId.touched)"
+        class="lbl-err">Device Id is required.</p>
+    </div>
+
+    <div class="form-group">
+      <label for="deviceType">Device Type</label>
+      <input type="text" formControlName="deviceType" [(ngModel)]="deviceType" class="form-control" />
+      <p *ngIf="userForm.controls.deviceType.errors?.required  && (userForm.controls.deviceType.dirty || userForm.controls.deviceType.touched)"
+        class="lbl-err">Device Type is required.</p>
+    </div>
+
+    <div class="form-group">
+      <label for="fcmToken">fcm Token</label>
+      <input type="text" formControlName="fcmToken" [(ngModel)]="fcmToken" class="form-control" />
+      <p *ngIf="userForm.controls.fcmToken.errors?.required  && (userForm.controls.fcmToken.dirty || userForm.controls.fcmToken.touched)"
+        class="lbl-err">fcmToken is required.</p>
+    </div>
+
+    <div [hidden]="!isAdd">
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" formControlName="password" [(ngModel)]="password" class="form-control" />
+        <p *ngIf="userForm.controls.password.errors?.required  && (userForm.controls.password.dirty || userForm.controls.password.touched)"
+          class="lbl-err">password is required.</p>
+        <p *ngIf="userForm.controls.password.errors?.pattern  && (userForm.controls.password.dirty || userForm.controls.password.touched)"
+          class="lbl-err">Enter Valid Password.</p>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <div class="form-group">
+        <button type="submit" class="btn btn-outline-dark" [disabled]="validateForm()">Save</button>&nbsp;&nbsp;
+        <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Cancel</button>
+      </div>
+    </div>
+  </form>
