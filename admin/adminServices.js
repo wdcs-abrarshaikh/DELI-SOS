@@ -117,7 +117,7 @@ async function resetPassword(req, res) {
 }
 
 async function getUsers(req, res) {
-    userModel.find({ role: role.USER,status:status.active }, (err, result) => {
+    userModel.find({ role: role.USER, status: status.active }, (err, result) => {
         return (err) ? res.json({ code: code.internalError, message: internalServerError })
             : res.json({ code: code.ok, message: msg.ok, data: result })
     })
@@ -190,7 +190,7 @@ async function addRestaurant(req, res) {
     rest.createdBy = obj.id;
     rest.status = status.active;
     rest.save((err, data) => {
-       // console.log(err)
+        // console.log(err)
         return (err) ? res.json({ code: code.internalError, message: msg.internalServerError }) :
             res.json({ code: code.created, message: msg.restAddSucessfully, data: data })
     })
@@ -306,8 +306,8 @@ function uploadPhoto(req, res) {
                 .then((result) => result)
                 .catch((error) => error)
 
-              let upload = await multipleUpload; 
-              return res.json({code:code.created,message:msg.ok,data:upload})
+            let upload = await multipleUpload;
+            return res.json({ code: code.created, message: msg.ok, data: upload })
         }
     });
 }
@@ -427,7 +427,7 @@ async function searchRestaurant(req, res) {
         if (err) {
             return res.json({ code: code.internalError, message: msg.internalServerError })
         }
-        else if (data.length==0) {
+        else if (data.length == 0) {
             return res.json({ code: code.notFound, message: msg.restNotFound })
         }
         else {
@@ -454,7 +454,7 @@ async function approveRestaurantProposal(rest_id, res) {
 }
 
 
-function getAllPendingRestaurant(req,res) {
+function getAllPendingRestaurant(req, res) {
     restModel.find({ status: status.pending }, (err, data) => {
 
         return (err) ? res.json({ code: code.internalError, message: msg.internalServerError }) :
@@ -485,7 +485,7 @@ function userCounts(req, res) {
         }
         else {
             var count = results.length
-      //      console.log("no. of users", count)
+            //      console.log("no. of users", count)
             return res.json({ code: code.ok, message: msg.ok, data: count })
         }
     });
@@ -530,7 +530,7 @@ async function addAboutUs(req, res) {
             about.type = "About_Us"
             about.save((err, data) => {
                 if (err) {
-                   // console.log("error", err)
+                    // console.log("error", err)
                     return res.json({ code: code.internalError, message: msg.internalServerError })
                 }
                 else if (data.length == 0) {
@@ -602,7 +602,7 @@ async function addPrivacyPolicy(req, res) {
     })
 }
 
-async function privacyPolicyList(req, res) {                                    
+async function privacyPolicyList(req, res) {
     aboutModel.findOne({ $and: [{ status: status.active }, { type: Type.privacy }] }, (err, data) => {
         if (err) {
             return res.json({ code: code.internalError, message: msg.internalServerError })
@@ -643,14 +643,15 @@ async function deletePrivacyPolicy(req, res) {
 }
 
 async function getContactRequest(req, res) {
-    aboutModel.findOne({ $and: [{ status: status.active }, { type: Type.contact }] }, (err, data) => {
-        if (err) {
-            return res.json({ code: code.internalError, message: msg.internalServerError })
-        }
-        else {
-            return res.json({ code: code.ok, message: msg.ok, data: data })
-        }
-    })
+    aboutModel.findOne({ $and: [{ status: status.active }, { type: Type.contact }] })
+        .populate({ path: 'createdBy', select : 'name email' }).exec((err, data) => {
+            if (err) {
+                return res.json({ code: code.internalError, message: msg.internalServerError })
+            }
+            else {
+                return res.json({ code: code.ok, message: msg.ok, data: data })
+            }
+        })
 }
 
 // async function resolveContactRequest(req, res) {
@@ -678,8 +679,6 @@ async function addCuisin(req, res) {
                 // console.log("err in array updation ")
             } else { return res.json({ code: code.ok, msg: msg.cuisinAdded }) }
         });
-
-
 }
 
 async function searchCuisin(req, res) {
@@ -704,7 +703,7 @@ async function searchCuisin(req, res) {
                 name: { $first: '$cuisin.name' },
                 image: { $first: '$cuisin.image' },
                 status: { $first: '$cuisin.status' },
-                
+
             }
         }
     ]).exec((err, data) => {
@@ -715,7 +714,7 @@ async function searchCuisin(req, res) {
             return res.json({ code: code.notFound, msg: msg.noMatchFound })
         }
         else {
-            return res.json({ code: code.ok,message:msg.ok, data: data })
+            return res.json({ code: code.ok, message: msg.ok, data: data })
 
 
         }
@@ -752,7 +751,7 @@ async function getCuisinList(req, res) {
             return res.json({ code: code.internalError, message: msg.internalServerError })
         }
         else {
-            return res.json({ code: code.ok,message:msg.ok, data: data })
+            return res.json({ code: code.ok, message: msg.ok, data: data })
         }
     })
 

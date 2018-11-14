@@ -391,12 +391,14 @@ paths:
                     items:
                       type: string
                 mealOffers:
-                    type: string
-                    enum:
-                    - BREAKFAST
-                    - LUNCH
-                    - DINNER
-                    - ALL
+                    type: array
+                    items:
+                      type: string
+                      enum:
+                        - BREAKFAST
+                        - LUNCH
+                        - DINNER
+                        - ALL
                 cuisinOffered:
                     type: array
                     items:
@@ -1123,8 +1125,155 @@ paths:
           "500":
             description: Erorr message.
             schema:
+              $ref: '#/definitions/errorMessage'   
+              
+  "/user/getCuisinList":
+      get:
+        tags:
+        - 'user'
+        summary: get list of all the cuisins.
+        parameters: 
+          - name: authorization
+            in: header
+            description: token for validation.
+            required: true
+            type: string
+        
+        responses:
+          "200":
+            description: ok.
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "400":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "500":
+            description: Erorr message.
+            schema:
               $ref: '#/definitions/errorMessage'              
               
+  "/user/filterRestaurants":
+      post:
+        tags:
+        - 'user'
+        summary: filter restaurants by given criteria.
+        parameters: 
+            
+          - name: authorization
+            in: header
+            description: token for validation.
+            required: true
+            type: string
+            
+          - name: user
+            in: body
+            description: criteria for filter.
+            required: true
+            schema: 
+              type: object
+              required: 
+                - meal
+                - cuisins
+                - minBudget
+                - maxBudget
+              properties:
+                meal:
+                    type: string
+                    enum: 
+                      - BREAKFAST
+                      - LUNCH
+                      - DINNER
+                    description: type of meal 
+                cuisins:
+                    type: array
+                    items:
+                      type: string
+                      description: array of cuisin
+                minBudget:
+                    type: number
+                    description: minimum budget
+                maxBudget:
+                    type: number
+                    
+        responses:
+          "200":
+            description: ok
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "500":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "400":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+              
+  "/user/searchRestaurants/{name}":
+      get:
+        tags:
+        - 'user'
+        summary: get profile of logged in user.
+        
+        parameters: 
+          - name: authorization
+            in: header
+            description: token for validation.
+            required: true
+            type: string
+          - in: path
+            name: name
+            description: name of restaurant, to be search.
+            required: true
+            type: string
+          - name: "sortBy"
+            in: "query"
+            description: "sortBy tag. for eg. sortBy ratings"
+            required: true
+            type: "string"
+            enum:
+              - "ratings"
+              - "distance"
+        responses:
+          "200":
+            description: ok
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "500":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "400":
+            description: Error message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+              
+  "/user/getAboutUs":
+      get:
+        tags:
+        - 'user'
+        summary: get content of about us.
+        parameters: 
+          - name: authorization
+            in: header
+            description: token for validation.
+            required: true
+            type: string
+        
+        responses:
+          "200":
+            description: ok.
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "400":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "500":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
  
   "/admin/login":
       post:

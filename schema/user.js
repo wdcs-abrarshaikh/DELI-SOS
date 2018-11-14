@@ -75,13 +75,13 @@ var userSchema = new schema({
             }
         }
     },
-    cuisin: 
-         [{
+    cuisin:
+        [{
             name: { type: String },
             image: { type: String },
-            status:{type:String,default:status.active}
+            status: { type: String, default: status.active }
         }]
-    
+
 });
 
 User = module.exports = mongoose.model(schmaName.users, userSchema)

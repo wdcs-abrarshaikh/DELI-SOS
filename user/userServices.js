@@ -409,7 +409,6 @@ function showProfile(req, res) {
                 if (data.review.length > 0) {
                     userModel.aggregate(request, (err, response) => {
                         if (err) {
-                            console.log(err)
                             return res.json({ code: code.internalError, message: msg.internalServerError })
                         }
                         else {
@@ -435,7 +434,6 @@ function showProfile(req, res) {
             }
         })
     }
-
 }
 
 function updateProfile(req, res) {

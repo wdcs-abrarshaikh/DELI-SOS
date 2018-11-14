@@ -180,7 +180,6 @@ function validateReview(req, res, next) {
 function validateProfile(req, res, next) {
     let { name, email, profilePicture, locationVisible } = req.body;
     if (name || email || profilePicture || locationVisible) {
-        console.log(req.body)
         next()
     }
     else {

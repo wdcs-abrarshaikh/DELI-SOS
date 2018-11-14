@@ -28,7 +28,6 @@ function userProfileWithReview(id, flag) {
                     'reviews_details.totalLiked': { $size: "$reviews_details.likedBy" }
                 }
             },
-
             {
                 $group: {
                     _id: {
