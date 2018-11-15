@@ -49,14 +49,14 @@ export class AddEditUserComponent implements OnInit {
   }
   buildUserForm() {
     this.userForm = this._formBuilder.group({
-      name: ['', [Validators.required]],
+      name: ['', [Validators.required, , Validators.pattern(/^(?=.{1,40}$)[a-zA-Z]+(?:[-' ][a-zA-Z]+)*$/)]],
       email: ['', [Validators.required, Validators.pattern(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)]],
-      password: ['', [Validators.required]],
+      password: ['', [Validators.required, Validators.pattern(/^(?=.*[A-z])(?=.*[0-9])(?=.*[@#$_-])\S{8,20}$/)]],
       deviceId: ['', Validators.required],
       deviceType: ['', Validators.required],
       fcmToken: ['', Validators.required]
     });
-    console.log(this.userForm)
+
   }
 
   addUsers() {
@@ -92,7 +92,7 @@ export class AddEditUserComponent implements OnInit {
           this.toastService.error(error['message']);
         });
     } else {
-      console.log(addObj)
+
       this.userService.editUser(addObj, this.id).subscribe(
         data => {
           this.getAllUser();
@@ -120,7 +120,6 @@ export class AddEditUserComponent implements OnInit {
   }
 
   getAllUser() {
-   
     this.userService.getAllUsers().subscribe((response: any) => {
       this.userService.setUsers(response);
     })

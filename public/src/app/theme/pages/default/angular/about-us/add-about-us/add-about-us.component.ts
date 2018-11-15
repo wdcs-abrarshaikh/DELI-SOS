@@ -27,7 +27,7 @@ export class AddAboutUsComponent implements OnInit {
     editable: true,
     spellcheck: true,
     height: '5rem',
-    minHeight: '5rem',
+    minHeight: '30rem',
     templateOptions: {
       required: true,
       minLength: 5

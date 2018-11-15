@@ -6,7 +6,9 @@
     <div id='commonCms'>
       <app-ngx-editor [placeholder]="'Enter text here...'" [spellcheck]="true" formControlName="content" [(ngModel)]="aboutUsList"
         [config]="editorConfig"></app-ngx-editor>
-
+        <div *ngIf="aboutUsForm.controls['content'].errors?.required &&  (aboutUsForm.controls['content'].dirty || aboutUsForm.controls['content'].touched)" class="lbl-err">
+            Content is required.
+          </div>
     </div>
     <div id='customBtns'>
       <div *ngIf="editorConfig.editable;else save;">

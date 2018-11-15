@@ -85,19 +85,19 @@ export class AddEditRestaurantComponent implements OnInit {
       this.arr_value = this.mealOffers
     }
     this.RestaurantForm = this._formBuilder.group({
-      name: ['', [Validators.required]],
-      description: ['', [Validators.required]],
-      latitude: ['', Validators.required],
-      longitude: ['', Validators.required],
-      openTime: ['', Validators.required],
+      name: ['', [Validators.required,Validators.pattern(/^(?!\s*$).+/)]],
+      description: ['', [Validators.required,Validators.pattern(/^(?!\s*$).+/)]],
+      latitude: ['', [Validators.required,Validators.pattern(/^(?!\s*$).+/)]],
+      longitude: ['',[Validators.required,Validators.pattern(/^(?!\s*$).+/)]],
+      openTime: [, Validators.required],
       closeTime: ['', Validators.required],
       restaurantImages: [''],
-      contactNumber: ['', Validators.required],
-      website: [''],
+      contactNumber: ['',[ Validators.required,Validators.pattern(/^[+]?\d{8,14}$/)]],
+      website: ['',[Validators.required,Validators.pattern(/^(?!\s*$).+/)]],
       menuImages: [''],
       mealOffers: this._formBuilder.array(this.arr_value),
       perPersonCost: ['', [Validators.required, Validators.pattern(/^(0|[1-9][0-9]*)$/)]],
-      cuisinOffered: ['']
+      cuisinOffered: ['',Validators.required]
     });
 
   }

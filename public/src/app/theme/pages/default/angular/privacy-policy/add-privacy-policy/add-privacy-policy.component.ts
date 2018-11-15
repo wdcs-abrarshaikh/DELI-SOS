@@ -25,7 +25,7 @@ export class AddPrivacyPolicyComponent implements OnInit {
   editorConfig = {
     editable: true,
     spellcheck: true,
-    height: '5rem',
+    height: '30rem',
     minHeight: '5rem',
     templateOptions: {
       required: true,
@@ -99,7 +99,6 @@ export class AddPrivacyPolicyComponent implements OnInit {
       return true;
     }
   }
-
-
+ 
 
 }

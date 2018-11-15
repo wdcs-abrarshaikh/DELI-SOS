@@ -47,12 +47,12 @@ export class AddEditcuisinComponent implements OnInit {
 
     if(this.isAdd){
       this.cuisinForm = this._formBuilder.group({
-        name: ['', [Validators.required]],
+        name: ['', [Validators.required,Validators.pattern(/^(?!\s*$).+/)]],
         image:['',[Validators.required]]
       });
     }else{
       this.cuisinForm = this._formBuilder.group({
-        name: ['', [Validators.required]],
+        name: ['', [Validators.required,Validators.pattern(/^(?!\s*$).+/)]],
         image:['']
       });
     }

@@ -25,7 +25,8 @@ h3{
     text-align: center;
     margin-left: 5px;
     margin-top:20px;
-    font-size: 30px
+    font-size: 30px;
+    cursor: pointer;
 }
 .label{
     font-style: bold;

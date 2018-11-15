@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <h4 class="modal-title">{{ isAdd ? 'Add' : isView ? 'View' : 'Edit'}} User</h4>  
+  <h4 class="modal-title">{{ isAdd ? 'Add' : isView ? 'View' : 'Edit'}} Cuisin</h4>  
   <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
     <span aria-hidden="true">&times;</span>
   </button>
@@ -10,8 +10,10 @@
                 <label for="name">Cuisin Name</label>
                 <input type="text" formControlName="name"  class="form-control" [(ngModel)]="name" [ngClass]="{'is-invalid':submitted && f.name.errors}" />
                <div *ngIf="submitted && f.name.errors" class="lbl-err">
-               <div *ngIf="f.name.errors.required">Name is required</div>
-               </div>
+               <div *ngIf=" f.name.errors.required ">Name is required</div>
+               <div *ngIf="f.name.errors.pattern">Name is required</div>
+              
+                </div>
              </div>
 
              <div class="form-group">
@@ -27,8 +29,8 @@
            
         <div class="modal-footer">
             <div class="form-group" *ngIf="!isView">
-           <button type="submit"  class="btn btn-outline-dark" >Save</button>&nbsp;&nbsp;
-           <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Cancel</button>
+           <button type="submit"  class="btn btn-save" >Save</button>&nbsp;&nbsp;
+           <button type="button" class="btn btn-delete" (click)="activeModal.close('Close click')">Cancel</button>
             </div>
          </div>
         </form>

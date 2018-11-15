@@ -66,7 +66,7 @@ export class PrivacyPolicyComponent implements OnInit {
   buildprivacyPolicyForm() {
     this.privacyPolicyForm = this._formBuilder.group({
       id: '',
-      content: '',
+      content: ['',Validators.required]
     });
   }
 

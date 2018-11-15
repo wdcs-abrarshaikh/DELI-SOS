@@ -40,8 +40,7 @@ export class ProfileComponent implements OnInit {
       this.email = data.data.email
       this.profilesList = data.data.profilePicture
       this.spinnerService.hide();
-
-    });
+     });
   }
 
   ngOnInit() {
@@ -50,7 +49,7 @@ export class ProfileComponent implements OnInit {
   }
   buildProfileForm() {
     this.profileForm = this._formBuilder.group({
-      name: ['', [Validators.required]],
+      name: ['', [Validators.required,Validators.pattern(/^(?!\s*$).+/)]],
       profilePicture: [''],
     });
   }

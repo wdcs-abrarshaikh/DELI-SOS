@@ -30,8 +30,8 @@ export class AboutUsComponent implements OnInit {
   editorConfig = {
     editable: false,
     spellcheck: true,
-    height: '10rem',
-    minHeight: '5rem',
+    height: '12rem',
+    minHeight: '10rem',
     placeholder: 'Type something. Test the Editor... ヽ(^。^)丿'
   };
 
@@ -65,7 +65,7 @@ export class AboutUsComponent implements OnInit {
   buildAboutusForm() {
     this.aboutUsForm = this._formBuilder.group({
       id: '',
-      content: '',
+      content: ['',Validators.required],
     });
   }
 

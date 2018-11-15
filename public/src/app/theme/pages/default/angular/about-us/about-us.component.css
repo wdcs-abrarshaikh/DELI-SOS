@@ -58,11 +58,6 @@
   transform: translateY(4px);
 }
 
-
-.ngx-editor {   
-    height: auto !important;
-    min-height: 250px !important;
-}
 .lbl-err {
     color: red;
  }

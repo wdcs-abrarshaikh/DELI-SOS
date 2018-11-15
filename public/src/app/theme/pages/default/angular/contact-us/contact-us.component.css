@@ -48,3 +48,17 @@
     content: "\f2ed";
     color: red;
 }
+.btn-save {
+    color: white;
+    width: 80px;
+    background: #49a558;
+    border-radius: 25%;
+    opacity: 1.5;
+}
+.btn-delete{
+    color: white;
+    width: 80px;
+    background: #a73a08;
+    opacity: 1.5;
+    border-radius: 25%;
+}

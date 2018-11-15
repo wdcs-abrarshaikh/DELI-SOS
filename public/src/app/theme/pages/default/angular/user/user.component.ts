@@ -78,9 +78,10 @@ export class UserComponent implements OnInit, AfterViewInit {
   getUserList() {
     this.spinnerService.show();
    this.userService.getAllUsers().subscribe((response: any) => {
-     this.spinnerService.hide();
+    
       // console.log("all data here display")
       this.usersList = response.data;
+      this.spinnerService.hide();
     });
   }
 
