@@ -90,7 +90,7 @@ export class UserComponent implements OnInit, AfterViewInit {
   }
 
   delete(id) {
-    console.log(id)
+  
     swal({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",

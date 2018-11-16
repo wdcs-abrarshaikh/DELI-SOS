@@ -3,6 +3,7 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import {Router, NavigationStart, NavigationEnd} from '@angular/router';
 import { FormBuilder, Validators, FormControl, FormGroup, FormArray } from '@angular/forms';
 import { ForgotPasswordService } from './forgot-password.service';
+import swal from 'sweetalert2'
 @Component({
   selector: 'app-forgot-password',
   templateUrl: './forgot-password.component.html',
@@ -39,18 +40,28 @@ export class ForgotPasswordComponent implements OnInit {
 
    forgotPassword() {
      this.forgotPasswordService.post(this.forgotPasswordForm.value).subscribe((response: any) => {
-      if(response.code==200){
-       this.router.navigate(['/forgotemail']);
-       this.spinnerService.hide();
+       console.log(response)
+       if (response['code'] == 200) {
+        swal({
+          position: 'center',
+          type: 'success',
+          title: response['message'],
+          showConfirmButton: false,
+          timer: 1500
+        })
+        this.router.navigate(['/forgotemail']);
+        this.spinnerService.hide();
+     } else {
+        swal({
+          type: 'error',
+          text: response['message']
+        })
       }
-     
-    }, error => {
+    },
+      error => {
       console.log('error',JSON.stringify(error));
-      
     });
-    
-      // this._router.navigate(['./theme/pages/default/index']);
-        
+         
   }
 
 }

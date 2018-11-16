@@ -11,7 +11,7 @@
       <input type="text" formControlName="name" [(ngModel)]="name" class="form-control" />
       <p *ngIf="userForm.controls.name.errors?.required && (userForm.controls.name.dirty || userForm.controls.name.touched)"
         class="lbl-err">Name is required.</p>
-        <p *ngIf="userForm.controls.name.errors?.pattern && (userForm.controls.name.dirty || userForm.controls.name.touched)"
+      <p *ngIf="userForm.controls.name.errors?.pattern && (userForm.controls.name.dirty || userForm.controls.name.touched)"
         class="lbl-err">Enter Valid Name.</p>
 
     </div>
@@ -50,13 +50,9 @@
       <div class="form-group">
         <label for="password">Password</label>
         <input type="password" formControlName="password" [(ngModel)]="password" class="form-control" />
-        <p *ngIf="userForm.controls.password.errors?.required  && (userForm.controls.password.dirty || userForm.controls.password.touched)"
-          class="lbl-err">password is required.</p>
-        <p *ngIf="userForm.controls.password.errors?.pattern  && (userForm.controls.password.dirty || userForm.controls.password.touched)"
-          class="lbl-err">Enter Valid Password.</p>
       </div>
     </div>
-    
+
     <div class="modal-footer">
       <div class="form-group">
         <button type="submit" class="btn btn-save" [disabled]="validateForm()">Save</button>&nbsp;&nbsp;

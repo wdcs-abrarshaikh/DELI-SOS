@@ -244,7 +244,7 @@ export class AddEditRestaurantComponent implements OnInit {
     if (arr.length == value.length) {
       arr = ['ALL']
     }
-    console.log(arr)
+
     return arr;
   }
 
@@ -304,11 +304,9 @@ export class AddEditRestaurantComponent implements OnInit {
 
 
   async addRestaurant() {
-
+    
     this.submitted = true;
-    if (this.RestaurantForm.invalid) {
-      return;
-    }
+  
     this.loading = true;
     var addObj = {
       "name": this.RestaurantForm.controls['name'].value,
@@ -328,8 +326,10 @@ export class AddEditRestaurantComponent implements OnInit {
 
 
     if (this.isAdd) {
-      console.log(addObj)
-      await this.restaurantService.addRestaurant(addObj).subscribe(
+      if (this.RestaurantForm.invalid) {
+          return;
+        }
+    await this.restaurantService.addRestaurant(addObj).subscribe(
         data => {
           this.activeModal.dismiss();
           this.getAllRestaurant();
@@ -353,9 +353,9 @@ export class AddEditRestaurantComponent implements OnInit {
           this.toastService.error(error['message']);
         });
     } else {
-
-      this.restaurantService.editRestaurant(addObj, this.id).subscribe(
+    this.restaurantService.editRestaurant(addObj, this.id).subscribe(
         data => {
+       
           this.getAllRestaurant();
           this.activeModal.dismiss();
           if (data['code'] == 200) {

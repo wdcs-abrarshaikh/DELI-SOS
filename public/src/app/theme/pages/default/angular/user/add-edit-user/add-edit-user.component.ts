@@ -51,7 +51,7 @@ export class AddEditUserComponent implements OnInit {
     this.userForm = this._formBuilder.group({
       name: ['', [Validators.required, , Validators.pattern(/^(?=.{1,40}$)[a-zA-Z]+(?:[-' ][a-zA-Z]+)*$/)]],
       email: ['', [Validators.required, Validators.pattern(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)]],
-      password: ['', [Validators.required, Validators.pattern(/^(?=.*[A-z])(?=.*[0-9])(?=.*[@#$_-])\S{8,20}$/)]],
+      password: [''],
       deviceId: ['', Validators.required],
       deviceType: ['', Validators.required],
       fcmToken: ['', Validators.required]
@@ -126,7 +126,6 @@ export class AddEditUserComponent implements OnInit {
   }
 
   validateForm() {
-
     if (this.userForm.valid) {
       return false;
     } else {
