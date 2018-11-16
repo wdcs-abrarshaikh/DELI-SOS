@@ -149,7 +149,7 @@ function getRestaurantDetail(id) {
                     description: '$description',
                     openTime: '$openTime',
                     closeTime: '$closeTime',
-                    cuisin: '$cuisin',
+                    cuisin: '$cuisinOffered',
                     contactNumber: '$contactNumber',
                     website: '$website',
                     perPersonCost: '$perPersonCost',

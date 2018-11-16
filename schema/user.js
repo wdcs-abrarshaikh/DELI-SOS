@@ -63,7 +63,7 @@ var userSchema = new schema({
             else {
                 return false;
             }
-        }
+        }       
     },
     fcmToken: {
         type: String, required: function () {
