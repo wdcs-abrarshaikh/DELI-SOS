@@ -42,18 +42,13 @@ function userProfileWithReview(id, flag) {
                     reviews_details: { "$push": "$reviews_details" }
                 }
             },
-            // {
-            //     $addFields: {
-            //         "totalReviews": { $size: "$reviews_details" }
-            //     }
-            // },
-
-            // {
-            //     $addFields: {
-            //         "totalFollower": { $size: "$_id.follower" },
-            //         "totalFollowing": { $size: "$_id.following" }
-            //     }
-            // },
+            {
+                $addFields: {
+                    "_id.totalReviews": { $size: "$reviews_details" },
+                    "_id.totalFollower": { $size: "$_id.follower" },
+                    "_id.totalFollowing": { $size: "$_id.following" }
+                }
+            },
             { $unwind: '$reviews_details' },
             {
                 $lookup: {
@@ -86,17 +81,12 @@ function userProfileWithReview(id, flag) {
                     "reviews_details.createdAt": 1,
                     "reviews_details.totalLiked": 1,
                     "reviews_details.restaurantId": 1,
-                    "reviews_details.restaurantName": 1,
-                    // 'totalReviews': 1, 'totalFollower': 1,
-                    // 'totalFollowing': 1, 'restaurant': 1
+                    "reviews_details.restaurantName": 1
                 }
             },
             {
                 $group: {
                     "_id": "$_id",
-                    // "totalFollower": { $first: '$totalFollower' },
-                    // "totalFollowing": { $first: '$totalFollower' },
-                    // "totalReviews": { $first: "$totalReviews" },
                     "reviews": { $push: '$reviews_details' }
                 }
             }
@@ -188,7 +178,8 @@ function getRestaurantDetail(id) {
             $addFields: {
                 'reviews_details.userId': '$reviews_details.user_details._id',
                 'reviews_details.userName': '$reviews_details.user_details.name',
-                'reviews_details.userProfilePicture': '$reviews_details.user_details.profilePicture'
+                'reviews_details.userProfilePicture': '$reviews_details.user_details.profilePicture',
+                '_id.favourites':'$reviews_details.user_details.favourites'
             }
         },
         {

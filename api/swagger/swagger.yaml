@@ -336,7 +336,9 @@ paths:
             name: img
             description: Select image ,You can also select multiple images at a time,the maximum limit is 5.
             required: true
-            type: file
+            type: array
+            items:
+              type: file
         responses:
           "201":
             description: image uploaded
@@ -2663,7 +2665,7 @@ definitions:
     properties:
       code:
         type: "integer"
-      messgae:
+      message:
         type: "string"
     
   SuccessMessage:
@@ -2671,7 +2673,7 @@ definitions:
     properties:
       code:
         type: "integer"
-      messgae:
+      message:
         type: "string"  
     
     
