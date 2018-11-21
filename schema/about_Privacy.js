@@ -5,7 +5,7 @@ let Type = require('../constants').Type;
 let Status = require('../constants').status;
 var aboutSchema = new schema({
    content:{type:String,required: true },
-   createdBy:{type: mongoose.Schema.Types.ObjectId},
+   createdBy:{type: mongoose.Schema.Types.ObjectId,ref: schmaName.users},
    type:{type:String,enum:[Type.about,Type.privacy,Type.contact]},
 //    Name:{type:String,required:function(){ return (this.Type == Type.contact) ? true : false}},
    contactNo:{type:Number,required:function(){ return (this.Type == Type.contact) ? true : false}},
