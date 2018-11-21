@@ -1,13 +1,11 @@
-.btn-add{
-    padding: 1.25rem 1.65rem;
+.btn-add {
+    padding: 1.20rem 1.65rem;
     font-size: 1.25rem;
-    line-height: 1.5;
-    color:white;
-    background-color: transparent;
-    background: #5867dd;
-    border-color: #5867dd;
-    margin-left: 95%;
-    margin-top:2%;
+    line-height: 1;
+    color: white;
+    border-color: #f7b733;
+    margin-left: 92.5%;
+    background: linear-gradient(to right, #fc4a1a, #f7b733);
 }
 .btn-edit{
     color:white;

@@ -63,7 +63,7 @@ export class IndexService {
     }
 
     rejectRestaurant(id){
-        return this.http.put(URL+'admin/'+id,{},{headers:this.getHeaderWithToken()})
+        return this.http.put(URL+'admin/deleteRestaurantReq/'+id,{},{headers:this.getHeaderWithToken()})
         .pipe(
             map((res:Response)=>{
                 return res

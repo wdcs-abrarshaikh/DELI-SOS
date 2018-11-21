@@ -1,20 +1,16 @@
-.btn-add{
-    padding: 1.10rem 1.40rem;
+.btn-add {
+    padding: 1.0rem 1.65rem;
     font-size: 1.25rem;
-    line-height: 1;
-    color:white;
-    background-color: transparent;
+    line-height: .6;
+    color: white;
+    border-color: #e95e37;
+    margin-left: 88%;
+    margin-bottom: 16px;
     background: linear-gradient(to right, #fc4a1a, #f7b733);
-    margin-left: 90%;
-    margin-top:0%;
-    border-color:#f7b733;
-    margin-right: 5%
 }
-
 .header{
     font-size: 3.15rem;
-   
-    padding: 1.25rem 4.65rem;
+   padding: 1.30rem 4.65rem;
     text-align: center;
 }
 
@@ -23,7 +19,7 @@
     color:white;
     width:80px;
     background: #2e85a0;
-       border-radius: 25%;
+    border-radius: 25%;
     opacity: 1;
 }
 .btn-edit:hover{opacity: 1;}
@@ -89,8 +85,8 @@
 
  #commonCms{
     padding-top: 5%; 
-    padding-right: 10%;
-    padding-left: 10%;
+    padding-right: 7%;
+    padding-left: 7%;
  }
 
  #customBtns{
@@ -101,4 +97,8 @@
 
  .mrgRight5{
      margin-right: 8px;
+ }
+ .ngx-editor-textarea1 {
+    height:300px !important;
+ 
  }

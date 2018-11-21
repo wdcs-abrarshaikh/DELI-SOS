@@ -1,4 +1,4 @@
-import { UserComponent,NgbdModalContent } from './user.component';
+import { UserComponent } from './user.component';
 import { DefaultComponent } from './../../default.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';

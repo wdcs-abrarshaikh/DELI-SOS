@@ -1,6 +1,6 @@
 <!-- BEGIN: Subheader -->
 <app-header-nav></app-header-nav>
-<h2 class="header" >Profile</h2>
+<h2 class="header">Profile</h2>
 <!-- <div class="m-subheader" appunwraptag="">
     <div class="d-flex align-items-center">
         <div class="m-auto">
@@ -9,7 +9,7 @@
     </div>
 </div> -->
 <!-- END: Subheader -->
-<div class="m-content">
+<div class="m-content m1">
     <div class="row">
         <div class="col-xl-3 col-lg-4">
             <form name="profileForm" [formGroup]="profileForm" (ngSubmit)="onSubmit()" style="padding-left: 500px">
@@ -19,10 +19,12 @@
                             <div *ngIf="display">
                                 <app-atom-spinner [animationDuration]="1000" [size]="60" [color]="'#ff1d5e'">
                                 </app-atom-spinner>
-
                             </div>
                             <div *ngIf="!display">
-                                <img [src]="profilesList" [alt]="profilesList" class="image" id="files" style="cursor: pointer" />
+                                <img *ngIf="!profilesList" src="./assets/demo/default/media/img/logo/dummy.jpg" [alt]="profilesList"
+                                    class="image" id="files" style="cursor: pointer" />
+                                <img *ngIf="profilesList" [src]="profilesList" [alt]="profilesList" class="image" id="files"
+                                    style="cursor: pointer" />
                                 <label class="change-image" data-toggle="m-tooltip" title="upload Image">
                                     <input type="file" id="files" style="display: none" (change)="uploadImage($event)">
                                 </label>
@@ -37,8 +39,12 @@
                             <div class="col-9">
                                 <input class="form-control m-input cus_inp" type="text" formControlName="name"
                                     [(ngModel)]="name">
-                                    <p *ngIf="profileForm.controls.name.errors?.required && (profileForm.controls.name.dirty || profileForm.controls.name.touched)" class="lbl-err">Name is required.</p>
-                                <button type="button" class="btn m-btn--custom mrgLeft10000 yellow_btn" (click)="editProfile()">Save Changes
+                                <p *ngIf="profileForm.controls.name.errors?.required && (profileForm.controls.name.dirty || profileForm.controls.name.touched)"
+                                    class="lbl-err">Name is required.</p>
+                                    <p *ngIf="profileForm.controls.name.errors?.pattern && (profileForm.controls.name.dirty || profileForm.controls.name.touched)"
+                                    class="lbl-err">Name is required.</p>
+                                <button type="button" class="btn m-btn--custom mrgLeft10000 yellow_btn" (click)="editProfile()">Save
+                                    Changes
                                 </button>
                             </div>
                         </div>

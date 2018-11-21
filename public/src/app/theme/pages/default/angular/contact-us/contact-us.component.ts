@@ -114,21 +114,20 @@ export class ContactUsComponent implements OnInit {
 
   ngOnInit() {
       this.getAllContactRequest()
- 
-  }
+ }
  
 
   getAllContactRequest() {
       this.contactUsService.getAllContactRequest().subscribe((response: any) => {
           this.contactUsList = response.data
-          
-          
-      })
+     })
   }
   open(content) {
       const modalRef = this.modalService.open(NgbdModalContent);
       modalRef.componentInstance.id = content ? content._id : "";
       modalRef.componentInstance.name = content ? content.name : "";
+     modalRef.componentInstance.name = content ? content.name : "";
+
     
   }
 
