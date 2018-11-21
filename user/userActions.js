@@ -126,10 +126,21 @@ function getCuisinList(req,res){
     service.getCuisinList(req,res)
 }
 
-function filterRestaurant(req,res){
-    service.filterRestaurant(req,res)
+function filterRestaurants(req,res){
+    service.filterRestaurants(req,res)
 }
 
+function searchRestaurants(req,res){
+    service.searchRestaurants(req,res)
+}
+
+function getAboutUs(req,res){
+    service.getAboutUs(req,res)
+}
+
+function contactUs(req,res){
+    service.contactUs(req,res)
+}
 module.exports = {
     signup,
     login,
@@ -162,5 +173,8 @@ module.exports = {
     changeLocation,
     likeUnlikeReview,
     getCuisinList,
-    filterRestaurant
+    filterRestaurants,
+    searchRestaurants,
+    getAboutUs,
+    contactUs
 }

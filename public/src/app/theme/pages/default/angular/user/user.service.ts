@@ -18,10 +18,11 @@ export class UserService {
     setUsers(data: any) {
         this.usersList.next({ usersList: data });
     }
+
     getUsers(): Observable<any> {
         return this.usersList.asObservable();
-
-    }
+  }
+  
     getHeaderWithToken() {
         let headers = new HttpHeaders()
         headers = headers.set('Content-Type', 'application/json')

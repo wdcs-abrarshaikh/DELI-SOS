@@ -53,7 +53,7 @@ userRouter.route('/addReview')
     })
 
 userRouter.route('/updateReview/:id')
-    .put([validate.validateReview, validate.verifyUserToken], (req, res) => {
+    .put([validate.verifyUserToken], (req, res) => {
         actions.updateReview(req, res)
     })
 
@@ -149,16 +149,31 @@ userRouter.route('/changeLocation')
 
 userRouter.route('/likeUnlikeReview/:reviewId')
     .get([validate.verifyUserToken], (req, res) => {
-        actions.likeUnlikeReview(req,res)
+        actions.likeUnlikeReview(req, res)
     })
 
 userRouter.route('/getCuisinList')
-    .get([validate.verifyUserToken],(req,res)=>{
-        actions.getCuisinList(req,res)
+    .get([validate.verifyUserToken], (req, res) => {
+        actions.getCuisinList(req, res)
     })
 
-userRouter.route('/filterRestaurant')
-    .post([validate.verifyUserToken],(req,res)=>{
-        actions.filterRestaurant(req,res)
+userRouter.route('/filterRestaurants')
+    .post([validate.verifyUserToken], (req, res) => {
+        actions.filterRestaurants(req, res)
+    })
+
+userRouter.route('/searchRestaurants/:name')
+    .get([validate.verifyUserToken], (req, res) => {
+        actions.searchRestaurants(req,res)
+    })
+
+userRouter.route('/getAboutUs')
+    .get([validate.verifyUserToken],(req,res)=>{
+        actions.getAboutUs(req,res)
+    })
+
+userRouter.route('/contactUs')
+    .post([validate.verifyUserToken,validate.validateContactUs],(req,res)=>{
+        actions.contactUs(req,res)
     })
 module.exports = userRouter;

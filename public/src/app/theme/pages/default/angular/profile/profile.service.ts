@@ -41,7 +41,7 @@ export class ProfileService {
 
 
     getProfile() {
-
+        
         var admin_id = JSON.parse(localStorage.getItem('_id'));
         return this.http.get(URL + 'admin/getUserDetail/' + admin_id, { headers: this.getHeaderWithToken() })
             .pipe(

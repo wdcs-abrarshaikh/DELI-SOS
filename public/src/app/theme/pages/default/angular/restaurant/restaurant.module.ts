@@ -1,6 +1,6 @@
 
-
-import { RestaurantComponent, NgbdModalContent} from './../restaurant/restaurant.component';
+import { AddEditRestaurantComponent } from './add-edit-restaurant/add-edit-restaurant.component';
+import { RestaurantComponent} from './../restaurant/restaurant.component';
 import { RestaurantService } from './restaurant.service';
 import { RestaurantRoutingModule } from './restaurant.routing';
 import {NgModule} from '@angular/core';
@@ -13,6 +13,7 @@ import {LayoutModule} from '../../../../layouts/layout.module';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { DataTablesModule } from 'angular-datatables';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import * as $ from 'jquery';
 import {
 	MatAutocompleteModule,
 	MatBadgeModule,
@@ -50,6 +51,7 @@ import {
 	MatTooltipModule,
 	MatTreeModule,
   } from '@angular/material';
+
  
 
 
@@ -116,10 +118,10 @@ const routes: Routes = [
 
 	],
 	
-	exports: [RestaurantComponent,NgbdModalContent],
-	declarations: [RestaurantComponent,NgbdModalContent],
+	exports: [RestaurantComponent,AddEditRestaurantComponent],
+	declarations: [RestaurantComponent, AddEditRestaurantComponent],
 	providers: [RestaurantComponent], 
-	entryComponents:[NgbdModalContent]
+	entryComponents:[AddEditRestaurantComponent]
 	
 })
 export class RestaurantModule {

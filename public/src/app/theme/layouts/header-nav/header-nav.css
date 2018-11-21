@@ -25,14 +25,15 @@ h3{
     text-align: center;
     margin-left: 5px;
     margin-top:20px;
-    font-size: 30px
+    font-size: 30px;
+    cursor: pointer;
 }
 .label{
     font-style: bold;
     text-align: right
 }
 .user{
-    color:orangered;
+    color:#fc4a1a;
     font-weight: 500;
     font :bold;
     font-size: 25px
@@ -55,6 +56,7 @@ h3{
     display: table;
     padding: 10px;
     float: right;
+    cursor: pointer;
 }
 
 .pic_nm span {
@@ -63,11 +65,32 @@ h3{
     font-size: 20px;
 }
 .m-nav .m-nav__item>.m-nav__link .m-nav__link-icon {
-    color: unset;
+    color: #fc4a1a;
+}
+.m-nav .m-nav__item>.m-nav__link .m-nav__link-text {
+    color: #fc4a1a
 }
 .m-nav__link:hover{
     background-color:none;
 }
-.a{
-    background-color: red;
+
+.m-nav .m-nav__item:hover:not(.m-nav__item--disabled)>.m-nav__link .m-nav__link-text {
+    color: #fd7e14;
+ }
+ .m-nav .m-nav__item:hover:not(.m-nav__item--disabled)>.m-nav__link .m-nav__link-icon {
+    color: #fd7e14;
+ }
+ .a1{
+    color: white;
+    text-decoration: none;
+    background-color: transparent;
+    -webkit-text-decoration-skip: objects;
+}
+.a1:hover {
+    color: white;
+ 
+}
+.m-dropdown__wrapper .m-dropdown__arrow{
+    color: #fff !important;
+    right: 61px!important;
 }

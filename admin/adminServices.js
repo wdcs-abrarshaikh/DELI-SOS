@@ -117,7 +117,7 @@ async function resetPassword(req, res) {
 }
 
 async function getUsers(req, res) {
-    userModel.find({ role: role.USER,status:status.active }, (err, result) => {
+    userModel.find({ role: role.USER, status: status.active }, (err, result) => {
         return (err) ? res.json({ code: code.internalError, message: internalServerError })
             : res.json({ code: code.ok, message: msg.ok, data: result })
     })
@@ -139,7 +139,7 @@ async function getUserDetail(req, res) {
 }
 
 async function createUser(req, res) {
-    console.log("in  create user api", req.body)
+    //console.log("in  create user api", req.body)
     let data = req.body;
     if (await userModel.findOne({ email: data.email })) {
         return res.json({ code: code.badRequest, message: msg.emailAlreadyRegistered });
@@ -184,13 +184,13 @@ async function addRestaurant(req, res) {
         type: "Point",
         coordinates: [req.body.longitude, req.body.latitude]
     }
-    console.log("body", req.body)
+    //console.log("body", req.body)
     let rest = new restModel(req.body)
     let obj = util.decodeToken(req.headers['authorization'])
     rest.createdBy = obj.id;
     rest.status = status.active;
     rest.save((err, data) => {
-        console.log(err)
+        // console.log(err)
         return (err) ? res.json({ code: code.internalError, message: msg.internalServerError }) :
             res.json({ code: code.created, message: msg.restAddSucessfully, data: data })
     })
@@ -214,7 +214,7 @@ async function getRestaurantDetails(req, res) {
 async function getRestaurantList(req, res) {
     restModel.find({ status: status.active }, (err, result) => {
         if (err) {
-            console.log("error", err)
+            //console.log("error", err)
             res.json({ code: code.internalError, message: msg.internalServerError })
         }
         else {
@@ -247,7 +247,7 @@ async function updateRestaurant(req, res) {
 async function deleteRestaurant(req, res) {
     restModel.findByIdAndUpdate({ _id: req.params.id },
         { $set: { status: status.inactive } }, { new: true }, (err, data) => {
-            console.log(err)
+            //console.log(err)
             if (err) {
                 return res.json({ code: code.internalError, message: msg.internalServerError })
             }
@@ -306,8 +306,8 @@ function uploadPhoto(req, res) {
                 .then((result) => result)
                 .catch((error) => error)
 
-              let upload = await multipleUpload; 
-              return res.json({code:code.created,message:msg.ok,data:upload})
+            let upload = await multipleUpload;
+            return res.json({ code: code.created, message: msg.ok, data: upload })
         }
     });
 }
@@ -428,7 +428,7 @@ async function searchRestaurant(req, res) {
         if (err) {
             return res.json({ code: code.internalError, message: msg.internalServerError })
         }
-        else if (data.length==0) {
+        else if (data.length == 0) {
             return res.json({ code: code.notFound, message: msg.restNotFound })
         }
         else {
@@ -455,7 +455,7 @@ async function approveRestaurantProposal(rest_id, res) {
 }
 
 
-function getAllPendingRestaurant(req,res) {
+function getAllPendingRestaurant(req, res) {
     restModel.find({ status: status.pending }, (err, data) => {
 
         return (err) ? res.json({ code: code.internalError, message: msg.internalServerError }) :
@@ -479,14 +479,14 @@ function restaurantCounts(req, res) {
 }
 
 function userCounts(req, res) {
-    console.log("in noofuser")
+    //console.log("in noofuser")
     userModel.find({ $and: [{ status: status.active }, { role: role.USER }] }, (err, results) => {
         if (err) {
             return res.json({ code: code.internalError, message: msg.internalServerError })
         }
         else {
             var count = results.length
-            console.log("no. of users", count)
+            //      console.log("no. of users", count)
             return res.json({ code: code.ok, message: msg.ok, data: count })
         }
     });
@@ -505,8 +505,6 @@ function reviewCounts(req, res) {
             // console.log("data cuisin name",data)
             // console.log("reviews", results.length)
             return res.json({ code: code.ok, data: results })
-
-
         }
     });
 
@@ -533,7 +531,7 @@ async function addAboutUs(req, res) {
             about.type = "About_Us"
             about.save((err, data) => {
                 if (err) {
-                    console.log("error", err)
+                    // console.log("error", err)
                     return res.json({ code: code.internalError, message: msg.internalServerError })
                 }
                 else if (data.length == 0) {
@@ -561,7 +559,6 @@ async function aboutUsList(req, res) {
 }
 
 async function deleteAboutUs(req, res) {
-
     await aboutModel.findByIdAndUpdate({ _id: req.params.id }, { $set: { status: status.inactive } }, (err, data) => {
         if (err) {
             return res.json({ code: code.internalError, message: msg.internalError })
@@ -647,14 +644,15 @@ async function deletePrivacyPolicy(req, res) {
 }
 
 async function getContactRequest(req, res) {
-    aboutModel.findOne({ $and: [{ status: status.active }, { type: Type.contact }] }, (err, data) => {
-        if (err) {
-            return res.json({ code: code.internalError, message: msg.internalServerError })
-        }
-        else {
-            return res.json({ code: code.ok, message: msg.ok, data: data })
-        }
-    })
+    aboutModel.findOne({ $and: [{ status: status.active }, { type: Type.contact }] })
+        .populate({ path: 'createdBy', select : 'name email' }).exec((err, data) => {
+            if (err) {
+                return res.json({ code: code.internalError, message: msg.internalServerError })
+            }
+            else {
+                return res.json({ code: code.ok, message: msg.ok, data: data })
+            }
+        })
 }
 
 // async function resolveContactRequest(req, res) {
@@ -682,8 +680,6 @@ async function addCuisin(req, res) {
                 // console.log("err in array updation ")
             } else { return res.json({ code: code.ok, msg: msg.cuisinAdded }) }
         });
-
-
 }
 
 async function searchCuisin(req, res) {
@@ -710,7 +706,7 @@ async function searchCuisin(req, res) {
                 name: { $first: '$cuisin.name' },
                 image: { $first: '$cuisin.image' },
                 status: { $first: '$cuisin.status' },
-                
+
             }
         }
     ]).exec((err, data) => {
@@ -722,7 +718,7 @@ async function searchCuisin(req, res) {
             return res.json({ code: code.notFound, msg: msg.noMatchFound })
         }
         else {
-            return res.json({ code: code.ok,message:msg.ok, data: data })
+            return res.json({ code: code.ok, message: msg.ok, data: data })
 
 
         }
@@ -759,7 +755,7 @@ async function getCuisinList(req, res) {
             return res.json({ code: code.internalError, message: msg.internalServerError })
         }
         else {
-            return res.json({ code: code.ok,message:msg.ok, data: data })
+            return res.json({ code: code.ok, message: msg.ok, data: data })
         }
     })
 
@@ -778,7 +774,6 @@ async function deleteCuisin(req, res) {
 }
 
 async function updateCuisin(req, res) {
-
     userModel.updateOne({ role: role.ADMIN, cuisin: { $elemMatch: { _id: req.params.id } } },
         { $set: { 'cuisin.$': req.body } }).exec((err, data) => {
             if (err) {

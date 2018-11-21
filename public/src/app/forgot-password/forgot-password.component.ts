@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-
+import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import {Router, NavigationStart, NavigationEnd} from '@angular/router';
 import { FormBuilder, Validators, FormControl, FormGroup, FormArray } from '@angular/forms';
 import { ForgotPasswordService } from './forgot-password.service';
+import swal from 'sweetalert2'
 @Component({
   selector: 'app-forgot-password',
   templateUrl: './forgot-password.component.html',
@@ -14,7 +15,8 @@ export class ForgotPasswordComponent implements OnInit {
   submitted = false;
   constructor(private formBuilder: FormBuilder,
                private router: Router,
-              private forgotPasswordService:ForgotPasswordService) { }
+              private forgotPasswordService:ForgotPasswordService,
+              private spinnerService: Ng4LoadingSpinnerService) { }
 
   ngOnInit() {
     this.forgotPasswordForm = this.formBuilder.group({
@@ -29,25 +31,37 @@ export class ForgotPasswordComponent implements OnInit {
    if( this.forgotPasswordForm.invalid){
      return ;
       }
-  }
+      this.spinnerService.show();
+     }
+
       get f(){
         return this.forgotPasswordForm.controls;
       }
 
    forgotPassword() {
      this.forgotPasswordService.post(this.forgotPasswordForm.value).subscribe((response: any) => {
-      if(response.code==200){
-       this.router.navigate(['/forgotemail']);
-       this.loading = false;
+       console.log(response)
+       if (response['code'] == 200) {
+        swal({
+          position: 'center',
+          type: 'success',
+          title: response['message'],
+          showConfirmButton: false,
+          timer: 1500
+        })
+        this.router.navigate(['/forgotemail']);
+        this.spinnerService.hide();
+     } else {
+        swal({
+          type: 'error',
+          text: response['message']
+        })
       }
-     
-    }, error => {
+    },
+      error => {
       console.log('error',JSON.stringify(error));
-      
     });
-    
-      // this._router.navigate(['./theme/pages/default/index']);
-        
+         
   }
 
 }

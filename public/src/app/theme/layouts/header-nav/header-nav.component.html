@@ -4,19 +4,13 @@
 	<div class="m-container m-container--fluid m-container--full-height" style="background: white ">
 		<div class="m-stack m-stack--ver m-stack--desktop" style="background: white ">
 			<!-- BEGIN: Brand -->
-			<div class="m-stack__item m-brand  m-brand--skin-dark" style="background:  rgb(236, 151, 39);  /* fallback for old browsers */
-			background: -webkit-linear-gradient(to right, rgb(236, 151, 39)), #e97121;  /* Chrome 10-25, Safari 5.1-6 */
-			background: linear-gradient(to right, rgb(236, 151, 39), #e97121); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-			
+			<div class="m-stack__item m-brand  m-brand--skin-dark" style="background:linear-gradient(to right,rgb(236, 151, 39), #e97121)
 			">
 				<div class="m-stack m-stack--ver m-stack--general">
-					<div class="m-stack__item m-stack__item--middle m-brand__logo"> <img alt="" src="./assets/demo/default/media/img/logo/logo1.png"
-						height="65px" margin-top="50px" /> <a routerLink="/index" class="m-brand__logo-wrapper">
-
-							
-
-						</a> </div>
-						<h3>DELI&nbsp;S.O.S</h3>
+					<div class="m-stack__item m-stack__item--middle m-brand__logo"> <img alt="" routerLink="/index" src="./assets/demo/default/media/img/logo/logo1.png"
+						 style=" cursor: pointer" height="65px" margin-top="50px" />
+					</div>
+					<h3 routerLink="/index">DELI&nbsp;S.O.S</h3>
 					<div class="m-stack__item m-stack__item--middle m-brand__tools">
 						<!-- BEGIN: Left Aside Minimize Toggle<a id="m_aside_left_minimize_toggle" class="m-brand__icon m-brand__toggler m-brand__toggler--left m--visible-desktop-inline-block">   END -->
 						<!-- BEGIN: Responsive Aside Left Menu Toggler --><a id="m_aside_left_offcanvas_toggle" class="m-brand__icon m-brand__toggler m-brand__toggler--left m--visible-tablet-and-mobile-inline-block">
@@ -38,30 +32,29 @@
 
 				<div class="m-nav__item m-topbar__user-profile m-topbar__user-profile--img  m-dropdown m-dropdown--medium m-dropdown--arrow m-dropdown--header-bg-fill m-dropdown--align-right m-dropdown--mobile-full-width m-dropdown--skin-light"
 				 m-dropdown-toggle="click">
-             	<div class="m-nav__link m-dropdown__toggle pic_nm"> 
+					<div class="m-nav__link m-dropdown__toggle pic_nm">
 						<span>
 							<div *ngIf="!profilesList">
-								<img src="dummy.jpg" class="image"  >
+								<img src="./assets/demo/default/media/img/logo/dummy.jpg" class="image">
 							</div>
 							<div *ngIf="profilesList">
-								<img [src]="profilesList" class="image" alt="profilesList" >
-						</div>
-					</span>
-					<span class="m-topbar__userpic font">&nbsp;{{name}}</span>
-                 </div> 
-				<div class="m-dropdown__wrapper"> <span class="m-dropdown__arrow m-dropdown__arrow--right m-dropdown__arrow--adjust"></span>
+								<img [src]="profilesList" class="image" alt="profilesList">
+							</div>
+						</span>
+						<span class="m-topbar__userpic font">&nbsp;{{name}}</span>
+					</div>
+					<div class="m-dropdown__wrapper" style="z-index: 101;top: 80px;right:10px"> <span class="m-dropdown__arrow m-dropdown__arrow--right m-dropdown__arrow--adjust"
+						 style="right:61px!important;"></span>
 						<div class="m-dropdown__inner">
 							<div class="m-dropdown__header m--align-center" style="background-size: cover;">
 								<div class="m-card-user m-card-user--skin-dark">
-									<!-- <div *ngIf="profilesList">
-										<img [src]="profilesList" class="img-circle" alt="profilesList" width="80" height=auto>
-									</div> -->
+									<div *ngIf="!profilesList">
+										<img src="./assets/demo/default/media/img/logo/dummy.jpg" class="image">
+									</div>
 									<div class="m-card-user__pic"> <img [src]="profilesList" class="m--img-circle" height="70" width="80" alt="" />
 									</div>
 									<div class="m-card-user__details"> <span class="user">{{name}}</span> </div>
 								</div>
-
-
 							</div>
 							<div class="m-dropdown__body">
 								<div class="m-dropdown__content">
@@ -81,6 +74,7 @@
 							</div>
 						</div>
 					</div>
+
 				</div>
 			</div>
 		</div>

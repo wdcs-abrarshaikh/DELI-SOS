@@ -1,6 +1,7 @@
 var userModel = require('../schema/user');
 var restModel = require('../schema/restaurant');
-var reviewModel = require('../schema/review')
+var reviewModel = require('../schema/review');
+var aboutModel = require('../schema/about_Privacy');
 var bcrypt = require('bcrypt');
 var util = require('../app util/util');
 var code = require('../constants').http_codes;
@@ -8,6 +9,7 @@ var msg = require('../constants').messages;
 var role = require('../constants').roles;
 var status = require('../constants').status;
 let schmaName = require('../constants').schemas;
+let type = require('../constants').Type;
 let adminService = require('../admin/adminServices');
 var mongoose = require('mongoose');
 const mongoQuery = require('../constants/mongoQuery');
@@ -83,16 +85,57 @@ function resetPassword(req, res) {
 }
 
 function fetchDetail(req, res) {
-    let id = req.params.id
-    userModel.aggregate(mongoQuery.userProfileWithReview(id, true), (err, response) => {
+    let id = req.params.id,
+        userId = util.decodeToken(req.headers['authorization']).id;
+    userModel.findOne({ _id: id }, (err, data) => {
         if (err) {
-            console.log(err)
             return res.json({ code: code.internalError, message: msg.internalServerError })
         }
+        else if (!data) {
+            return res.json({ code: code.notFound, message: msg.userNotFound })
+        }
         else {
-            return res.json({ code: code.ok, message: msg.ok, data: response })
+            if (data.review.length > 0) {
+                userModel.aggregate(mongoQuery.userProfileWithReview(id, true), (err, response) => {
+                    if (err) {
+                        return res.json({ code: code.internalError, message: msg.internalServerError })
+                    }
+                    else {
+                        console.log('in if',response)
+                        let final = response.map(function (data) {
+                            data._id.followedByMe = 0;
+                            data._id.follower.some(function (liked) {
+                                if (liked.equals(userId) == true) {
+                                    data._id.followedByMe = 1;
+                                }
+                            })
+                            let reviews_details = data.reviews.map(function (result) {
+                                result.likedByMe = 0;
+                                result.likedBy.some(function (liked) {
+                                    if (liked.equals(userId) == true) {
+                                        result.likedByMe = 1;
+                                    }
+                                });
+                                delete result.likedBy
+                                return result
+                            })
+                            data.reviews = reviews_details
+                            delete data._id.follower
+                            delete data._id.following
+                            return data
+                        })
+                        return res.json({ code: code.ok, message: msg.ok, data: response[0] })
+                    }
+                })
+            }
+            else {
+                const { _id, name, profilePicture, location, locationVisible, follower, following, review } = data
+                let final = { _id, name, profilePicture, location, locationVisible, follower, following, review }
+                return res.json({ code: code.ok, message: msg.ok, data: final })
+            }
         }
     })
+
 }
 
 function manageSocialLogin(req, res) {
@@ -144,14 +187,62 @@ function addRestaurant(req, res) {
 }
 
 function getRestaurantDetail(req, res) {
-    let id = req.params.id
-    restModel.aggregate(mongoQuery.getRestaurantDetail(id), (err, response) => {
+    let id = req.params.id,
+        userId = mongoose.Types.ObjectId(util.decodeToken(req.headers['authorization']).id);
+    return restModel.findOne({ _id: id }, (err, data) => {
         if (err) {
-            console.log(err)
             res.json({ code: code.internalError, message: msg.internalServerError })
         }
+        else if (!data) {
+            res.json({ code: code.notFound, message: msg.restNotFound })
+        }
         else {
-            res.json({ code: code.ok, message: msg.ok, data: response[0] })
+            if (data.reviews.length > 0) {
+                restModel.aggregate(mongoQuery.getRestaurantDetail(id), (err, response) => {
+                    if (err) {
+                        console.log(err)
+                        res.json({ code: code.internalError, message: msg.internalServerError })
+                    }
+                    else {
+                        let final = response.map(function (data) {
+                            data._id.addedInFavourites = 0;
+                            data._id.favourites.some(function (favourite) {
+                                if (favourite.equals(id) == true) {
+                                    data._id.addedInFavourites = 1;
+                                }
+                            });
+                            let reviewDetails = data.reviews.map(function (result) {
+                                result.likedByMe = 0
+                                result.likedBy.some(function (liked) {
+                                    if (liked.equals(userId) == true) {
+                                        result.likedByMe = 1;
+                                    }
+                                });
+                                delete result.likedBy
+                                return result;
+                            })
+                            data.reviews = reviewDetails
+                            delete data._id.favourites;
+                            return data;
+                        })
+                        res.json({ code: code.ok, message: msg.ok, data: final[0] })
+                    }
+                })
+            }
+            else {
+                const { _id, name, description, location,
+                    photos, cuisinOffered, openTime, closeTime,
+                    contactNumber, website, menu, photoByUser,
+                    reviews, perPersonCost } = data
+
+                let final = {
+                    _id, name, description, location,
+                    photos, cuisinOffered, openTime, closeTime,
+                    contactNumber, website, menu, photoByUser,
+                    reviews, perPersonCost
+                }
+                res.json({ code: code.ok, message: msg.ok, data: final })
+            }
         }
     })
 }
@@ -256,13 +347,22 @@ function getAllReviews(req, res) {
 
 function addPhotoByUser(req, res) {
     let data = req.body
-    data.postedAt = Date.now()
     let condition = {
         _id: data.restId,
         'photoByUser.userId': { $ne: data.userId }
     }
+    let newArray=[]
+    let obj  = data.url.map(async(result)=>{
+        var newObj ={
+            userId: data.userId,
+            url:result,
+            postedAt: Date.now()
+        };
+        newArray.push(newObj);
+        return result;
+    })
     let update = {
-        $addToSet: { photoByUser: { userId: data.userId, url: data.url, postedAt: data.postedAt } }
+        $addToSet: { photoByUser: newArray }
     }
     return restModel.findOneAndUpdate(condition, update).then((result) => {
         if (!result) {
@@ -353,19 +453,58 @@ function showProfile(req, res) {
     let request;
     if (req.query.reviews == 'true') {
         request = mongoQuery.userProfileWithReview(obj.id, true)
+        userModel.findOne({ _id: obj.id }, (err, data) => {
+            if (err) {
+                res.json({ code: code.internalError, message: msg.internalServerError })
+            }
+            else if (!data) {
+                res.json({ code: code.notFound, message: msg.userNotFound })
+            }
+            else {
+                if (data.review.length > 0) {
+                    userModel.aggregate(request, (err, response) => {
+                        if (err) {
+                            return res.json({ code: code.internalError, message: msg.internalServerError })
+                        }
+                        else {
+                            let final = response.map(function (data) {
+                                let reviews_details = data.reviews.map(function (result) {
+                                    result.likedByMe = 0;
+                                    result.likedBy.some(function (liked) {
+                                        if (liked.equals(obj.id) == true) {
+                                            result.likedByMe = 1;
+                                        }
+                                    });
+                                    delete result.likedBy
+                                    return result
+                                })
+                                data.reviews = reviews_details
+                                delete data._id.follower
+                                delete data._id.following
+                                return data
+                            })
+                            return res.json({ code: code.ok, message: msg.ok, data: final[0] })
+                        }
+                    })
+                }
+                else {
+                    const { _id, name, profilePicture, location, locationVisible, follower, following, review } = data
+                    let final = { _id, name, profilePicture, location, locationVisible, follower, following, review }
+                    return res.json({ code: code.ok, message: msg.ok, data: final })
+                }
+            }
+        })
     } else {
         request = mongoQuery.userProfileWithReview(obj.id, false)
+        userModel.aggregate(request, (err, response) => {
+            if (err) {
+                return res.json({ code: code.internalError, message: msg.internalServerError })
+            }
+            else {
+                return res.json({ code: code.ok, message: msg.ok, data: response[0] })
+            }
+        })
     }
-
-    userModel.aggregate(request, (err, response) => {
-        if (err) {
-            console.log(err)
-            return res.json({ code: code.internalError, message: msg.internalServerError })
-        }
-        else {
-            return res.json({ code: code.ok, message: msg.ok, data: response })
-        }
-    })
 }
 
 function updateProfile(req, res) {
@@ -459,6 +598,7 @@ function getNearByRestaurant(req, res) {
                         console.log(response);
                         let marker = [];
                         let recommendation = []
+                       
                         let modifyed_response = response.map(async (response_res) => {
                             let obj = Object.assign({}, response_res);
                             delete obj.mealOffers;
@@ -468,6 +608,14 @@ function getNearByRestaurant(req, res) {
                             response_res.photos = response_res.photos[0];
                             delete obj.location;
                             delete response_res.location;
+                            
+                            response_res.addedInFavourites = 0;
+                            data.favourites.some(function (favourite) {
+                                if (favourite.equals(response_res._id) == true) {
+                                    response_res.addedInFavourites = 1;
+                                }
+                            });
+
                             marker.push(obj);
                             recommendation.push(response_res);
 
@@ -544,14 +692,26 @@ function getFollowingList(req, res) {
 
 function getFollowerList(req, res) {
     let obj = util.decodeToken(req.headers['authorization'])
-    userModel.findOne({ _id: obj.id })
+    return userModel.findOne({ _id: obj.id })
         .select({ "follower": 1, "_id": 0 })
-        .populate({ path: "follower", select: "_id name profilePicture location locationVisible follower" })
-        .exec((err, data) => {
+        .populate({ path: "follower", select: "_id name profilePicture location locationVisible follower following" })
+        .lean().exec((err, data) => {
             if (err) {
                 res.json({ code: code.ineternalError, message: msg.internalServerError })
             }
             else {
+                let final = data.follower.map(function (result) {
+                    result.followedByMe = 0
+                    result.follower.some(function (followed) {
+                        if (followed.equals(obj.id) == true) {
+                            result.followedByMe = 1;
+                        }
+                    });
+                    delete result.following
+                    delete result.follower
+                    return result;
+                })
+                data.follower = final
                 res.json({ code: code.ok, message: msg.ok, data: data })
             }
         })
@@ -600,9 +760,7 @@ function changeLocation(req, res) {
 
 function likeUnlikeReview(req, res) {
     let obj = util.decodeToken(req.headers['authorization'])
-
     return reviewModel.findById({ _id: req.params.reviewId }).then((result) => {
-        console.log(result.likedBy.indexOf(obj.id) >= 0)
         if (result.likedBy.indexOf(obj.id) >= 0) {
             reviewModel.update({ _id: req.params.reviewId }, { $pull: { likedBy: obj.id } }).then((result) => {
                 res.json({ code: code.ok, message: msg.ok })
@@ -622,82 +780,87 @@ function getCuisinList(req, res) {
     adminService.getCuisinList(req, res)
 }
 
-function filterRestaurant(req, res) {
+function filterRestaurants(req, res) {
     let data = req.body
-    console.log(data)
-    restModel.aggregate([
-        {
-            $match: {
-                $and: [{
-                    $or: [
-                        { mealOffers: data.meal },
-                        { mealOffers: 'ALL' }
-                    ]
-                }, {
-                    cuisinOffered: { $in: data.cuisins },
-                    perPersonCost: { $gte: data.minBudget, $lte: data.maxBudget }
-                }
-                ]
-            }
-        },
-        {
-            $lookup: {
-                foreignField: '_id',
-                localField: 'reviews',
-                from: schmaName.reviews,
-                as: 'reviews_details'
-            }
-        },
-        {
-            $addFields: {
-                'ratings': { $avg: '$reviews_details.rating' },
-                'distance': ' '
-            }
-        },
-        {
-            $unwind:'$reviews_details'
-        },
-        {
-            $lookup: {
-                foreignField: '_id',
-                localField: 'reviews_details.userId',
-                from: schmaName.users,
-                as: 'reviews_details.users_details'
-            }
-        },
-        {
-            $group:{
-                _id:{
-                    "restId":"$_id",
-                    name:"$name",
-                    ratings:"$ratings",
-                    distance:"$distance",
-                    cuisins:"$cuisinOffered",
-                    userLocation:"$reviews.users_details.location"
-                },
-                reviews:{$push:'$reviews_details'}
-            }
-        },
-        {
-
-        }
-        // {
-        //     $project: {
-        //         "_id":1,
-        //         // "reviews.users_details.location":1
-        //     }
-        // }
-    ], (err, response) => {
+    restModel.aggregate(mongoQuery.filterRestaurant(data), (err, response) => {
         if (err) {
-            console.log(err)
             res.json({ code: code.internalError, message: msg.internalServerError })
         }
         else {
-            res.json({ code: code.ok, message: msg.ok, data: response })
+            let obj = util.decodeToken(req.headers['authorization'])
+            userModel.findOne({ _id: obj.id }).select('location').exec((err, loc) => {
+                if (err) {
+                    res.json({ code: code.internalError, message: msg.internalServerError })
+                }
+                else if (loc) {
+                    let final = response.map(function (data) {
+                        data._id.distance = util.calculateDistance(loc.location.coordinates[1], loc.location.coordinates[0],
+                            data._id.location.coordinates[1], data._id.location.coordinates[0], "K") * 1000;
+                        delete data._id.location;
+                        delete data._id.reviews;
+                        return data;
+                    })
+                    res.json({ code: code.ok, message: msg.ok, data: final })
+                }
+            })
         }
-
     })
 }
+
+function searchRestaurants(req, res) {
+    let search = req.params.name
+    let sortBy = req.query.sortBy
+
+    return restModel.aggregate(mongoQuery.searchRestaurants(search), (err, response) => {
+        if (err) {
+            res.json({ code: code.internalError, message: msg.internalServerError })
+        }
+        else {
+            let obj = util.decodeToken(req.headers['authorization'])
+            userModel.findOne({ _id: obj.id }).select('location').exec((err, loc) => {
+                if (err) {
+                    res.json({ code: code.internalError, message: msg.internalServerError })
+                }
+                else if (loc) {
+                    var final = response.map(function (data) {
+                        data._id.distance = util.calculateDistance(loc.location.coordinates[1], loc.location.coordinates[0],
+                            data._id.location.coordinates[1], data._id.location.coordinates[0], "K") * 1000;
+                        delete data._id.location;
+                        delete data._id.reviews;
+                        return data;
+                    })
+                    if (sortBy) {
+                        final.sort((a, b) => {
+                            return (b._id[sortBy] - a._id[sortBy])
+                        })
+                    }
+                    res.json({ code: code.ok, message: msg.ok, data: final })
+                }
+            })
+        }
+    })
+}
+
+function getAboutUs(req, res) {
+    adminService.aboutUsList(req, res)
+}
+
+function contactUs(req, res) {
+    let data = req.body
+    let obj = util.decodeToken(req.headers['authorization'])
+    data.createdBy = obj.id
+    data.type = type.contact
+    let contactReq = new aboutModel(data)
+    return contactReq.save((err, result) => {
+        if (err) {
+            res.json({ code: code.internalError, message: msg.internalServerError })
+        }
+        else {
+            res.json({ code: code.created, message: msg.contactReqSent })
+        }
+    })
+}
+
 module.exports = {
     createUser,
     authenticateUser,
@@ -730,5 +893,8 @@ module.exports = {
     changeLocation,
     likeUnlikeReview,
     getCuisinList,
-    filterRestaurant
+    filterRestaurants,
+    searchRestaurants,
+    getAboutUs,
+    contactUs
 }

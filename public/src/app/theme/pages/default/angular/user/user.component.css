@@ -1,13 +1,12 @@
 
 .btn-add {
-    padding: 1.20rem 1.65rem;
+    padding: 1.0rem 1.65rem;
     font-size: 1.25rem;
-    line-height: 1;
+    line-height: .6;
     color: white;
-    border-color: #f7b733;
-    margin-left: 90%;
-    margin-top: 2%;
-    margin-right: 5%;
+    border-color: #e95e37;
+    margin-left: 88%;
+    margin-bottom: 16px;
     background: linear-gradient(to right, #fc4a1a, #f7b733);
 }
 .lbl-err {
@@ -18,7 +17,6 @@
  }
  .header{
     font-size: 3.15rem;
-   
     padding: 1.25rem 4.65rem;
     text-align: center;
    }
@@ -31,8 +29,6 @@
        border:none;
         color:gray;
         background-color: transparent;
-     
-
     }
     .btn-view{
         border:none;
@@ -56,15 +52,12 @@
  background: #a73a08;
     border-color: #a73a08;
 }
-.table1{
-    margin: 45px;
-    margin-left: 25px;
-}
+
 table.dataTable thead th.sorting,
    table.dataTable thead th.sorting_asc,
    table.dataTable thead th.sorting_desc {
    background: none;
-   padding: 4px 5px;
+   padding: 7px 8px;
    }
  
    .dataTables_wrapper .pagination .page-item.active>.page-link {
@@ -87,4 +80,46 @@ table.dataTable thead th.sorting,
     border: 1px solid #f1d7a2;
     background-color:#f1d7a2;
     background:#f1d7a2
+}
+.container-fluid {
+    width: 85%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+ .btn.m-btn--hover-brand:hover, .btn.m-btn--hover-brand:focus, .btn.m-btn--hover-brand:active{
+    background: linear-gradient(45deg, #fc4a1a, #f7b733) !important;
+    border: none;
+ }
+ .m-badge {
+    background:linear-gradient(45deg, #fc4a1a, #f7b733) !important;
+    color:white;
+    font-weight: bold !important;
+   }
+   .fa-eye:before {
+    content: "\f06e";
+    color: royalblue;
+}
+.fa-edit:before, .fa-pencil-square-o:before {
+    content: "\f044";
+    color: green;
+}
+.fa-trash-alt:before {
+    content: "\f2ed";
+    color: red;
+}
+.btn-save {
+    color: white;
+    width: 80px;
+    background: #49a558;
+    border-radius: 25%;
+    opacity: 1.5;
+}
+.btn-delete{
+    color: white;
+    width: 80px;
+    background: #a73a08;
+    opacity: 1.5;
+    border-radius: 25%;
 }

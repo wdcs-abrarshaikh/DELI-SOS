@@ -6,129 +6,10 @@ import { Location } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import swal from 'sweetalert2'
-
-@Component({
-
-  selector: 'app-about-us',
-  template: `
- <div class="modal-header">
-  <h4 class="modal-title"> Add Content</h4>  
-   <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
-   <span aria-hidden="true">&times;</span>
-  </button>
-</div>
-<div class="modal-body">
-<form [formGroup]="aboutUsForm" (ngSubmit)="addContent()">
-            <div class="form-group">
-                <label for="name">Content</label>
-                <app-ngx-editor [placeholder]="'Enter text here...'" [spellcheck]="true" formControlName="content" [(ngModel)]="content"
-                [config]="editorConfig"></app-ngx-editor>
-                <div *ngIf="aboutUsForm.controls['content'].invalid && (aboutUsForm.controls['content'].dirty || aboutUsForm.controls['content'].touched)"
-                class="lbl-err">
-                <div *ngIf="aboutUsForm.controls['content'].errors.required">
-                  Content is required.
-                </div>
-              </div>
-               
-             </div>
-         <div class="modal-footer">
-            <div class="form-group">
-           <button type="submit"  class="btn btn-outline-dark" [disabled]="validateForm()">Save</button>&nbsp;&nbsp;
-           <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Cancel</button>
-            </div>
-         </div>
-        </form>`,
-  styleUrls: ['./about-us.component.css']
-})
-
-export class NgbdModalContent {
-  usersList: Array<any>;
-  aboutUsForm: FormGroup;
-  @Input() id;
-  @Input() content;
-  loading = false;
-  submitted = false;
-  isAdd: boolean;
-  editorConfig = {
-    editable: true,
-    spellcheck: true,
-    height: '5rem',
-    minHeight: '5rem',
-    templateOptions: {
-      required: true,
-      minLength: 5
-    },
-  };
-  constructor(public activeModal: NgbActiveModal,
-    private _router: Router,
-    private _formBuilder: FormBuilder,
-    private modalService: NgbModal,
-    private aboutUsService: AboutUsService,
-    private toastService: ToastrService) { }
-
-  ngOnInit() {
-    this.buildAboutForm();
-    this.getAllAboutus();
-  }
-
-  get f() {
-    return this.aboutUsForm.controls;
-  }
-
-  buildAboutForm() {
-    this.aboutUsForm = this._formBuilder.group({
-      content: ['', [Validators.required]],
-    });
-  }
-
-  getAllAboutus() {
-    this.aboutUsService.getAllAboutus().subscribe((response: any) => {
-      this.aboutUsService.setAboutus(response.data);
-    })
-  }
-
-  addContent() {
-    var addObj = {
-      "content": this.aboutUsForm.controls['content'].value,
-    }
-    if (this.isAdd) {
-      this.aboutUsService.addAboutus(addObj).subscribe(
-        data => {
-
-          if (data['code'] == 201) {
-            swal({
-              position: 'center',
-              type: 'success',
-              title: data['message'],
-              showConfirmButton: false,
-              timer: 1500
-            })
-            this.activeModal.dismiss();
-          } else {
-            swal({
-              type: 'error',
-              text: data['message']
-            })
-            this.activeModal.dismiss();
-          }
-          this.getAllAboutus();
-        },
-        error => {
-          this.toastService.error(error['message']);
-        });
-    }
-  }
-
-  validateForm() {
-    if (this.aboutUsForm.valid) {
-      return false;
-    } else {
-      return true;
-    }
-  }
+import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
+import { AddAboutUsComponent } from './add-about-us/add-about-us.component'
 
 
-}
 @Component({
   selector: 'app-about-us',
   templateUrl: './about-us.component.html',
@@ -149,8 +30,8 @@ export class AboutUsComponent implements OnInit {
   editorConfig = {
     editable: false,
     spellcheck: true,
-    height: '10rem',
-    minHeight: '5rem',
+    height: '12rem',
+    minHeight: '10rem',
     placeholder: 'Type something. Test the Editor... ヽ(^。^)丿'
   };
 
@@ -160,9 +41,10 @@ export class AboutUsComponent implements OnInit {
     private location: Location,
     private toastService: ToastrService,
     private _formBuilder: FormBuilder,
-    private aboutUsService: AboutUsService) {
+    private aboutUsService: AboutUsService,
+    private spinnerService: Ng4LoadingSpinnerService) {
     this.aboutUsService.getAboutus().subscribe((data: any) => {
-     if (data.aboutUsList == null) {
+      if (data.aboutUsList == null) {
         this.aboutUsList = data.aboutUsList
         this.initialaboutusList = this.aboutUsList;
       } else {
@@ -183,12 +65,14 @@ export class AboutUsComponent implements OnInit {
   buildAboutusForm() {
     this.aboutUsForm = this._formBuilder.group({
       id: '',
-      content: '',
+      content: ['',Validators.required],
     });
   }
 
   getAboutusList() {
+    this.spinnerService.show();
     this.aboutUsService.getAllAboutus().subscribe((response: any) => {
+      this.spinnerService.hide();
       if (response.data == null) {
         this.initialaboutusList = response.data;
       } else {
@@ -200,6 +84,7 @@ export class AboutUsComponent implements OnInit {
   }
   getAllAboutus() {
     this.aboutUsService.getAllAboutus().subscribe((response: any) => {
+      console.log(response)
       this.aboutUsService.setAboutus(response.data);
     })
   }
@@ -285,7 +170,7 @@ export class AboutUsComponent implements OnInit {
                 'success',
               )
             }
-            this, this.getAboutusList();
+            this.getAboutusList();
           },
           error => {
             swal(
@@ -294,7 +179,6 @@ export class AboutUsComponent implements OnInit {
               'success'
             )
           });
-
       }
     })
 
@@ -311,7 +195,7 @@ export class AboutUsComponent implements OnInit {
     } else {
       this.isAdd = false;
     }
-    const modalRef = this.modalService.open(NgbdModalContent);
+    const modalRef = this.modalService.open(AddAboutUsComponent);
     modalRef.componentInstance.id = content ? content._id : "";
     modalRef.componentInstance.content = content ? content.content : "";
     modalRef.componentInstance.isAdd = this.isAdd;

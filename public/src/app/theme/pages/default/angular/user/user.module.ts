@@ -1,4 +1,4 @@
-import { UserComponent, NgbdModalContent } from './user.component';
+import { UserComponent} from './user.component';
 import { UserService } from './user.service';
 import { UserRoutingModule } from './user.routing';
 import { NgModule } from '@angular/core';
@@ -9,7 +9,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DefaultComponent } from '../../default.component';
 import { LayoutModule } from '../../../../layouts/layout.module';
 import { DataTablesModule } from 'angular-datatables';
-// import { ScriptLoaderService } from './_services/script-loader.service';
+import { AddEditUserComponent } from './add-edit-user/add-edit-user.component';
+
 
 const routes: Routes = [
 	{
@@ -36,10 +37,10 @@ const routes: Routes = [
 
 	],
 
-	exports: [UserComponent, NgbdModalContent],
-	declarations: [UserComponent, NgbdModalContent],
+	exports: [UserComponent, AddEditUserComponent],
+	declarations: [UserComponent, AddEditUserComponent],
 	providers: [UserService,],
-	entryComponents: [NgbdModalContent]
+	entryComponents: [AddEditUserComponent]
 
 })
 export class UserModule {
