@@ -86,7 +86,9 @@
 
             <div class="form-group">
               <label>Upload Menu Images:</label><br />
-              <img [src]="list.menu" class="rounded mb-3" width="50" height="50">
+              <div *ngFor="let url of list.menu ;let i=index">
+                <img [src]="url" class="rounded mb-3" width="50" height="50">
+              </div>
             </div>
 
             <div class="form-group">
@@ -97,7 +99,9 @@
 
             <div class="form-group">
               <label>Photos:</label><br />
-              <img [src]="list.photos" class="rounded mb-3" width="50" height="50">
+              <div *ngFor="let url of list.photos ;let i=index">
+                <img [src]="url" class="rounded mb-3" width="50" height="50">
+              </div>
             </div>
 
             <div class="form-group">
@@ -120,7 +124,7 @@
           <i class="fas fa-edit"></i>
         </button> &nbsp;&nbsp;
         <button type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill"
-          data-toggle="m-tooltip" data-placement="top" title="Delete"(click)="delete(list._id)">
+          data-toggle="m-tooltip" data-placement="top" title="Delete" (click)="delete(list._id)">
           <i class="fas fa-trash-alt"></i>
         </button>
       </td>

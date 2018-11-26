@@ -81,7 +81,7 @@ export class RestaurantComponent implements OnInit, AfterViewInit {
     } else {
        this.isAdd = false
    }
-   
+   console.log(content.menu)
     const modalRef = this.modalService.open(AddEditRestaurantComponent);
     let arr_value: any = [false, false, false, false];
     modalRef.componentInstance.id = content ? content._id : "";
