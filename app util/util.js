@@ -102,13 +102,13 @@ function sendEMail(receiverid, data) {
 }
 
 function checkFileType(file, callback) {
-    const fileTypes = /jpeg|jpg|png|gif/;
+    const fileTypes = /jpeg|jpg|png|gif|pdf/;
     const extName = fileTypes.test(path.extname(file.originalname).toLocaleLowerCase());
     if (extName) {
         return callback(null, true);
     }
     else {
-        callback('Error:Images only!')
+        callback('Error:Images and pdf only!')
     }
 }
 

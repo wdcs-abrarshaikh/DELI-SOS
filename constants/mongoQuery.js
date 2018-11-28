@@ -44,7 +44,7 @@ function userProfileWithReview(id, flag) {
             },
             {
                 $addFields: {
-                    "_id.totalReviews": { $size: "$reviews_details" },
+                    "_id.totalReviews":"",
                     "_id.totalFollower": { $size: "$_id.follower" },
                     "_id.totalFollowing": { $size: "$_id.following" }
                 }
@@ -80,6 +80,7 @@ function userProfileWithReview(id, flag) {
                     "reviews_details.likePlace": 1,
                     "reviews_details.createdAt": 1,
                     "reviews_details.totalLiked": 1,
+                    "reviews_details.status": 1,
                     "reviews_details.restaurantId": 1,
                     "reviews_details.restaurantName": 1
                 }
@@ -148,12 +149,12 @@ function getRestaurantDetail(id) {
                 reviews_details: { "$push": "$reviews_details" }
             }
         },
-        {
-            $addFields: {
-                "totalRatings": { $size: "$reviews_details" },
-                "avgRating": { $avg: "$reviews_details.rating" }
-            }
-        },
+        // {
+        //     $addFields: {
+        //         "totalRatings": { $size: "$reviews_details" },
+        //         "avgRating": { $avg: "$reviews_details.rating" }
+        //     }
+        // },
         { $unwind: '$reviews_details' },
         {
             $lookup: {
@@ -197,6 +198,7 @@ function getRestaurantDetail(id) {
                 "reviews_details.totalLiked": 1,
                 "reviews_details.userId": 1,
                 "reviews_details.userName": 1,
+                "reviews_details.status": 1,
                 "reviews_details.userProfilePicture": 1,
                 // "reviews_details.user_details._id": 1,
                 // "reviews_details.user_details.name": 1,
@@ -293,12 +295,6 @@ function filterRestaurant(data) {
                     reviews: '$reviews_details'
                 }
             }
-        },
-        {
-            $addFields: {
-                '_id.ratings': { $avg: '$_id.reviews.rating' },
-                '_id.distance': ' '
-            }
         }
     ]
 }
@@ -332,12 +328,6 @@ function searchRestaurants(name) {
                     location: '$location',
                     reviews: '$reviews_details'
                 }
-            }
-        },
-        {
-            $addFields: {
-                '_id.ratings': { $avg: '$_id.reviews.rating' },
-                '_id.distance': ' '
             }
         }
     ]
