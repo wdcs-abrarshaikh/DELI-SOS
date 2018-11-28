@@ -270,7 +270,6 @@ async function deleteRestaurant(req, res) {
 // }
 function uploadPhoto(req, res) {
     req.newFile_name = [];
-
     util.upload(req, res, async function (err) {
         if (err) {
             return res.json({ code: code.badRequest, message: err })
