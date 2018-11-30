@@ -338,7 +338,7 @@ paths:
             required: true
             type: array
             items:
-              type: file
+              type: string
         responses:
           "201":
             description: image uploaded
@@ -566,7 +566,6 @@ paths:
                 - content
                 - likePlace
                 - rating
-                - improvementArea
               properties:
                 content:
                     type: string
@@ -582,10 +581,6 @@ paths:
                 rating:
                     type: number
                     description: Rating givent to restaurant by user.
-                improvementArea:
-                    type: array
-                    items:
-                      type: string
                     
         responses:
           "200":

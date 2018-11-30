@@ -314,7 +314,7 @@ function addReview(req, res) {
 }
 
 function updateReview(req, res) {
-    reviewModel.findByIdAndUpdate({ _id: req.params.id }, { $set: req.body }, (err, data) => {
+    reviewModel.findByIdAndUpdate({ _id: req.params.id }, { $set: req.body },{new:true}, (err, data) => {
         if (err) {
             return res.json({ code: code.internalError, message: msg.internalServerError })
         }
