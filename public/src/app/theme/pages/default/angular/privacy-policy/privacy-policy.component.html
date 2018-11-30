@@ -1,0 +1,28 @@
+<h2 class="header">Privacy Policy</h2>
+<button class="btn-add" (click)="open()" *ngIf="!initialprivacyPolicyLists">Add</button>
+<form name="privacyPolicyForm" [formGroup]="privacyPolicyForm" (ngSubmit)="onSubmit()">
+  <div *ngIf="initialprivacyPolicyLists">
+    <div id='commonCms'>
+      <app-ngx-editor [placeholder]="'Enter text here...'" [spellcheck]="true" formControlName="content" [(ngModel)]="privacyPolicyLists"
+        [config]="editorConfig"></app-ngx-editor>
+        <div *ngIf="privacyPolicyForm.controls['content'].errors?.required &&  (privacyPolicyForm.controls['content'].dirty || privacyPolicyForm.controls['content'].touched)"  class="lbl-err">
+            Content is required.
+          </div>
+    </div>
+
+    <div id='customBtns'>
+      <div *ngIf="editorConfig.editable;else save;">
+        <button type="button" [disabled]="loading" class="btn btn-outline-dark mrgRight5 btn-save" (click)="addPrivacyPolicy()">Save</button>
+        <button type="button" [disabled]="loading" class="btn btn-outline-dark btn-delete" (click)="cancelPrivacyPolicy()">Cancel</button>
+
+      </div>
+    </div>
+    <ng-template #save>
+      <button type="button" [disabled]="loading" class="btn btn-outline-dark mrgRight5 btn-edit" (click)="addPrivacyPolicy()">Edit</button>
+      <button type="button" [disabled]="loading" class="btn btn-outline-dark btn-delete" (click)="delete()">Delete</button>
+
+    </ng-template>
+
+  </div>
+
+</form>

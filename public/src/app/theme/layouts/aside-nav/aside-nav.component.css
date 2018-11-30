@@ -1,0 +1,44 @@
+.m-aside-menu .m-menu__nav .m-menu__item>.m-menu__heading:hover, .m-aside-menu .m-menu__nav .m-menu__item>.m-menu__link:hover {
+    background:#dd600c;
+}
+.menu__nav .m-menu__item>.m-menu__link:hover {
+    background: sandybrown;
+}
+.m-menu__link:hover{
+    background: sandybrown;
+}
+.m-menu__item.m-menu__item--active a{
+    -webkit-transition: background-color .3s;
+    transition: background-color .3s;
+    background-color:sandybrown;
+ }
+ .m-aside-menu .m-menu__nav .m-menu__item>.m-menu__link:hover {
+    text-decoration: none;
+    cursor: pointer;
+    background: sandybrown;
+ }
+ .m-menu__link{
+    color:white; 
+    /* font-weight:500; */
+    font-size: 1.2rem;
+    position: relative;
+    display: flex;
+    align-items: center;
+    font-weight: bold !important;
+ }
+ a:hover {
+    color: white;
+    text-decoration: underline;
+}
+.m-menu__link-text {
+    display: contents !important;
+    font-weight: bold !important;
+    color:white
+}
+.m-menu__nav img {
+    margin-right: 10px;
+}
+.m-menu__nav i.fa, i.fas, i.fa, i.far {
+    font-size: 18px;
+    width:32px;
+}

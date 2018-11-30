@@ -1,0 +1,26 @@
+<h2 class="header">About Us</h2>
+
+
+<div *ngIf="initialaboutusList">
+  <form name="aboutUsForm" [formGroup]="aboutUsForm" (ngSubmit)="onSubmit()">
+    <div id='commonCms'>
+      <app-ngx-editor [placeholder]="'Enter text here...'" [spellcheck]="true" formControlName="content" [(ngModel)]="aboutUsList"
+        [config]="editorConfig"></app-ngx-editor>
+        <div *ngIf="aboutUsForm.controls['content'].errors?.required &&  (aboutUsForm.controls['content'].dirty || aboutUsForm.controls['content'].touched)" class="lbl-err">
+            Content is required.
+          </div>
+    </div>
+    <div id='customBtns'>
+      <div *ngIf="editorConfig.editable;else save;">
+        <button type="button" [disabled]="loading" class="btn btn-outline-ark mrgRight5 btn-save" (click)="addAboutUs()">Save</button>
+        <button type="button" [disabled]="loading" class="btn btn-outline-ark btn-delete" (click)="cancelAboutUs()">Cancel</button>
+    </div>
+    <ng-template #save>
+        <button type="button" [disabled]="loading" class="btn btn-outline-dark mrgRight5 btn-edit" (click)="addAboutUs()">Edit</button>
+        <button type="button" [disabled]="loading" class="btn btn-outline-dark btn-delete" (click)="delete()">Delete</button>
+      </ng-template>
+
+    </div>
+  </form>
+</div>
+<button class="btn-add" (click)="add()" *ngIf="!initialaboutusList">Add</button>

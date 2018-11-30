@@ -3,6 +3,10 @@ var validate = require('./userValidator')
 var actions = require('./userActions')
 
 
+userRouter.post('/uploadPhoto', (req, res) => {
+    actions.uploadPhoto(req, res)
+});
+
 userRouter.route('/signUp')
     .post([validate.validateSignUp], (req, res) => {
         actions.signup(req, res)
@@ -14,7 +18,7 @@ userRouter.route('/login')
     });
 
 userRouter.route('/socialLogin')
-    .post([validate.validateBody], (req, res) => {
+    .post([validate.validateSocialLogin], (req, res) => {
         actions.socialLogin(req, res)
     })
 
@@ -29,7 +33,7 @@ userRouter.route('/getUserDetail/:id')
     })
 
 userRouter.route('/addRestaurant')
-    .post([validate.validateBody, validate.verifyUserToken], (req, res) => {
+    .post([validate.validateRestaurant, validate.verifyUserToken], (req, res) => {
         actions.addRestaurant(req, res)
     })
 
@@ -38,13 +42,138 @@ userRouter.route('/getRestaurantDetail/:id')
         actions.getRestaurantDetail(req, res)
     })
 
-userRouter.route('/addPhoto/')
-    .post([validate.validateBody, validate.verifyUserToken], (req, res) => {
-        actions.addPhoto(req, res)
+userRouter.route('/getRestaurantList')
+    .get([validate.verifyUserToken], (req, res) => {
+        actions.getRestaurantList(req, res)
     })
 
-userRouter.route('/deletePhoto')
+userRouter.route('/addReview')
+    .post([validate.validateReview, validate.verifyUserToken], (req, res) => {
+        actions.addReview(req, res)
+    })
+
+userRouter.route('/updateReview/:id')
+    .put([validate.verifyUserToken], (req, res) => {
+        actions.updateReview(req, res)
+    })
+
+userRouter.route('/deleteReview/:id')
+    .get([validate.verifyUserToken], (req, res) => {
+        actions.deleteReview(req, res)
+    })
+
+userRouter.route('/getAllReviews/:restId')
+    .get([validate.verifyUserToken], (req, res) => {
+        actions.getAllReviews(req, res)
+    })
+
+userRouter.route('/addPhotoByUser')
+    .post([validate.validateUpload, validate.verifyUserToken], (req, res) => {
+        actions.addPhotoByUser(req, res)
+    })
+
+userRouter.route('/deletePhotoByUser')
     .post([validate.validateBody, validate.verifyUserToken], (req, res) => {
-        actions.deletePhoto(req, res)
+        actions.deletePhotoByUser(req, res)
+    })
+
+userRouter.route('/addToFavourites/:restId')
+    .get([validate.verifyUserToken], (req, res) => {
+        actions.addToFavourites(req, res)
+    })
+
+userRouter.route('/removeFavourite/:restId')
+    .get([validate.verifyUserToken], (req, res) => {
+        actions.removeFavourite(req, res)
+    })
+
+userRouter.route('/showFavourites')
+    .get([validate.verifyUserToken], (req, res) => {
+        actions.showFavourites(req, res)
+    })
+
+userRouter.route('/showProfile')
+    .get([validate.verifyUserToken], (req, res) => {
+        actions.showProfile(req, res)
+    })
+
+userRouter.route('/updateProfile')
+    .put([validate.validateProfile, validate.verifyUserToken], (req, res) => {
+        actions.updateProfile(req, res)
+    })
+
+userRouter.route('/changePassword')
+    .post([validate.validateChangePassword, validate.verifyUserToken], (req, res) => {
+        actions.changePassword(req, res)
+    });
+
+userRouter.route('/getNearByRestaurant/:userId')
+    .get([validate.validateUserId, validate.verifyUserToken], (req, res) => {
+        actions.getNearByRestaurant(req, res)
+    });
+
+userRouter.route('/followUser/:userId')
+    .get([validate.validateUserId, validate.verifyUserToken], (req, res) => {
+        actions.followUser(req, res)
+    })
+
+userRouter.route('/unfollowUser/:userId')
+    .get([validate.validateUserId, validate.verifyUserToken], (req, res) => {
+        actions.unfollowUser(req, res)
+    })
+
+userRouter.route('/getFollowingList')
+    .get([validate.verifyUserToken], (req, res) => {
+        actions.getFollowingList(req, res)
+    })
+
+userRouter.route('/getFollowerList')
+    .get([validate.verifyUserToken], (req, res) => {
+        actions.getFollowerList(req, res)
+    })
+
+userRouter.route('/searchFollower/:name')
+    .get([validate.verifyUserToken], (req, res) => {
+        actions.searchFollower(req, res)
+    })
+
+userRouter.route('/searchFollowing/:name')
+    .get([validate.verifyUserToken], (req, res) => {
+        actions.searchFollowing(req, res)
+    })
+
+userRouter.route('/changeLocation')
+    .put([validate.validateChangeLocation, validate.verifyUserToken], (req, res) => {
+        actions.changeLocation(req, res)
+    })
+
+userRouter.route('/likeUnlikeReview/:reviewId')
+    .get([validate.verifyUserToken], (req, res) => {
+        actions.likeUnlikeReview(req, res)
+    })
+
+userRouter.route('/getCuisinList')
+    .get([validate.verifyUserToken], (req, res) => {
+        actions.getCuisinList(req, res)
+    })
+
+userRouter.route('/filterRestaurants')
+    .post([validate.verifyUserToken], (req, res) => {
+        actions.filterRestaurants(req, res)
+    })
+
+userRouter.route('/searchRestaurants/:name')
+    .get([validate.verifyUserToken], (req, res) => {
+        actions.searchRestaurants(req,res)
+    })
+
+userRouter.route('/getAboutUs')
+    .get([validate.verifyUserToken],(req,res)=>{
+        actions.getAboutUs(req,res)
+    })
+
+userRouter.route('/contactUs')
+    .post([validate.verifyUserToken,validate.validateContactUs],(req,res)=>{
+        actions.contactUs(req,res)
     })
 module.exports = userRouter;

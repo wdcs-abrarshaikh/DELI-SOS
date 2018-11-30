@@ -1,0 +1,66 @@
+<h2 class="header">Cuisines</h2>
+<button class="btn-add" (click)="open()">Add</button>
+
+
+<table *ngIf="cuisinsList" datatable class="table-bordered table-hover">
+  <thead>
+    <tr>
+      <td style="font-weight: bold; width:10%;">Sr.</td>
+      <td style="font-weight: bold; width:40%;">Cuisin Name</td>
+      <td style="font-weight: bold; width: 20%;">Status</td>
+      <th style="width:20%"> &nbsp;Action</th>
+    </tr>
+  </thead>
+  <tbody>
+
+    <tr *ngFor="let cuisin of cuisinsList ; let i=index">
+      <td>{{i+1}}</td>
+      <td>{{cuisin.name}}</td>
+      <td><span class="m-badge  m-badge--wide">{{cuisin.status}}</span></td>
+      <td>
+
+        <button type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill"
+          data-toggle="m-tooltip" data-placement="top" title="View" (click)="viewCuisines(viewCuisin)">
+          <i class="fas fa-eye"></i>
+        </button>
+        <ng-template #viewCuisin let-c="close" let-d="dismiss">
+          <div class="modal-header">
+            <h4 class="modal-title">View cuisin</h4>
+            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="name">Cuisin Name</label>
+              <input type="text" class="form-control" [(ngModel)]="cuisin.name" disabled />
+            </div>
+
+            <div class="form-group">
+              <label>Cuisin Images:</label><br>
+              <img [src]="cuisin.image" class="rounded mb-3" width="50%" height=auto /> &nbsp;&nbsp;<br>
+            </div>
+
+          </div>
+        </ng-template>
+        &nbsp;&nbsp;
+
+        <button type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill"
+          data-toggle="m-tooltip" data-placement="top" title="Edit" (click)="open(cuisin,'edit')">
+          <i class="fas fa-edit"></i>
+        </button> &nbsp;&nbsp;
+
+        <button type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill"
+          data-toggle="m-tooltip" data-placement="top" title="Delete" (click)="delete(cuisin._id)">
+          <i class="fas fa-trash-alt"></i>
+        </button>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+<script>
+  $(document).ready(function () {
+    $('[data-toggle="m-tooltip"]').tooltip();
+  });
+</script>

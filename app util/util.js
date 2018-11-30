@@ -3,11 +3,35 @@ var nodemailer = require('nodemailer')
 var jwt = require('jsonwebtoken')
 var cloudinary = require('cloudinary')
 var fs = require('fs')
+var path = require('path')
+var multer = require('multer');
+var storage = multer.diskStorage({
+    destination: function (req, file, callback) {
+
+        callback(null, './img');
+    },
+    filename: function (req, file, callback) {
+        console.log(file)
+        let file_name = file.fieldname + '-' + Date.now() + path.extname(file.originalname)
+        req.newFile_name.push(file_name);
+        callback(null, file_name);
+    }
+});
+var upload = multer({
+    storage: storage,
+    fileFilter:function(req,file,callback){
+        console.log(file)
+        checkFileType(file,callback)
+    }
+}).array('img', 5);
+
 cloudinary.config({
     cloud_name: process.env.cloud_name,
     api_key: process.env.api_key,
     api_secret: process.env.api_secret
 })
+
+
 
 function validateEmail(data) {
     let regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -15,7 +39,7 @@ function validateEmail(data) {
 }
 
 function validatePassword(data) {
-    let regex = /^(?=.*[A-z])(?=.*[0-9])(?=.*[@#$_-])\S{6,16}$/;
+    let regex = /^(?=.*[A-z])(?=.*[0-9])(?=.*[@#$_-])\S{8,20}$/;
     return regex.test(data)
 }
 
@@ -25,7 +49,11 @@ function generateToken(data, secret) {
         email: data.email,
         role: data.role
     }
-    return jwt.sign(obj, secret, { expiresIn: '1hr' })
+    return jwt.sign(obj, secret, { expiresIn: '24hr' })
+}
+
+function decodeToken(token) {
+    return jwt.decode(token)
 }
 
 function generateRandomPassword() {
@@ -73,22 +101,42 @@ function sendEMail(receiverid, data) {
 
 }
 
-function uploadPhoto(req) {
-    return new Promise((resolve, reject) => {
-        var binary = new Buffer(req.body.file, 'base64')
-        fs.writeFile("img/test.jpg", binary, 'binary', async () => {
-            await cloudinary.uploader.upload('img/test.jpg', (result) => {
-                (result) ? resolve(result.url) : reject('error')
-            })
-        })
-    })
+function checkFileType(file, callback) {
+    const fileTypes = /jpeg|jpg|png|gif|pdf/;
+    const extName = fileTypes.test(path.extname(file.originalname).toLocaleLowerCase());
+    if (extName) {
+        return callback(null, true);
+    }
+    else {
+        callback('Error:Images and pdf only!')
+    }
 }
 
+function calculateDistance(lat1, lon1, lat2, lon2, unit) {
+	var radlat1 = Math.PI * lat1/180
+	var radlat2 = Math.PI * lat2/180
+	var theta = lon1-lon2
+	var radtheta = Math.PI * theta/180
+	var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+	if (dist > 1) {
+		dist = 1;
+	}
+	dist = Math.acos(dist)
+	dist = dist * 180/Math.PI
+	dist = dist * 60 * 1.1515
+	if (unit=="K") { dist = dist * 1.609344 }
+	if (unit=="N") { dist = dist * 0.8684 }
+	return dist
+}
 module.exports = {
+    upload,
+    storage,
     validateEmail,
     validatePassword,
     generateToken,
     generateRandomPassword,
     sendEMail,
-    uploadPhoto
+    decodeToken,
+    checkFileType,
+    calculateDistance
 }
