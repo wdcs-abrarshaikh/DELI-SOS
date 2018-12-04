@@ -803,8 +803,11 @@ function getCuisinList(req, res) {
 }
 
 function filterRestaurants(req, res) {
-    let data = req.body
-    restModel.aggregate(mongoQuery.filterRestaurant(data), (err, response) => {
+    let data = req.body, flag = false
+    if(data.maxBudget){
+        flag = true;
+    }
+    restModel.aggregate(mongoQuery.filterRestaurant(data,flag), (err, response) => {
         if (err) {
             res.json({ code: code.internalError, message: msg.internalServerError })
         }
