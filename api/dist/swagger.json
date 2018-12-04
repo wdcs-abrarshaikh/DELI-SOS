@@ -1656,8 +1656,7 @@
                             "required": [
                                 "meal",
                                 "cuisins",
-                                "minBudget",
-                                "maxBudget"
+                                "minBudget"
                             ],
                             "properties": {
                                 "meal": {
@@ -1681,7 +1680,8 @@
                                     "description": "minimum budget"
                                 },
                                 "maxBudget": {
-                                    "type": "number"
+                                    "type": "number",
+                                    "description": "maximum budget if selected by user"
                                 }
                             }
                         }

@@ -44,7 +44,7 @@ function userProfileWithReview(id, flag) {
             },
             {
                 $addFields: {
-                    "_id.totalReviews":"",
+                    "_id.totalReviews": "",
                     "_id.totalFollower": { $size: "$_id.follower" },
                     "_id.totalFollowing": { $size: "$_id.following" }
                 }
@@ -180,7 +180,7 @@ function getRestaurantDetail(id) {
                 'reviews_details.userId': '$reviews_details.user_details._id',
                 'reviews_details.userName': '$reviews_details.user_details.name',
                 'reviews_details.userProfilePicture': '$reviews_details.user_details.profilePicture',
-                '_id.favourites':'$reviews_details.user_details.favourites'
+                '_id.favourites': '$reviews_details.user_details.favourites'
             }
         },
         {
@@ -259,59 +259,110 @@ function showFavourites(id) {
     ]
 }
 
-function filterRestaurant(data) {
-    return [
-        {
-            $match: {
-                $and: [
-                    {
-                        $or: [
-                            { mealOffers: data.meal },
-                            { mealOffers: 'ALL' }
-                        ]
-                    },
-                    {
-                        cuisinOffered: { $in: data.cuisins },
-                        perPersonCost: { $gte: data.minBudget, $lte: data.maxBudget }
+function filterRestaurant(data, flag) {
+    if (flag == true) {
+        return [
+            {
+                $match: {
+                    $and: [
+                        {
+                            $or: [
+                                { mealOffers: data.meal },
+                                { mealOffers: 'ALL' }
+                            ]
+                        },
+                        {
+                            cuisinOffered: { $in: data.cuisins },
+                            perPersonCost: { $gte: data.minBudget, $lte: data.maxBudget },
+                            status: 'ACTIVE'
+                        }
+                    ]
+                }
+            },
+            {
+                $lookup: {
+                    foreignField: '_id',
+                    localField: 'reviews',
+                    from: schmaName.reviews,
+                    as: 'reviews_details'
+                }
+            },
+            {
+                $group: {
+                    _id: {
+                        'restId': '$_id',
+                        name: '$name',
+                        cuisins: '$cuisinOffered',
+                        location: '$location',
+                        reviews: '$reviews_details'
                     }
-                ]
-            }
-        },
-        {
-            $lookup: {
-                foreignField: '_id',
-                localField: 'reviews',
-                from: schmaName.reviews,
-                as: 'reviews_details'
-            }
-        },
-        {
-            $group: {
-                _id: {
-                    'restId': '$_id',
-                    name: '$name',
-                    cuisins: '$cuisinOffered',
-                    location: '$location',
-                    reviews: '$reviews_details'
                 }
             }
-        }
-    ]
+        ]
+    }
+    else{
+        return [
+            {
+                $match: {
+                    $and: [
+                        {
+                            $or: [
+                                { mealOffers: data.meal },
+                                { mealOffers: 'ALL' }
+                            ]
+                        },
+                        {
+                            cuisinOffered: { $in: data.cuisins },
+                            perPersonCost: { $gte: data.minBudget },
+                            status: 'ACTIVE'
+                        }
+                    ]
+                }
+            },
+            {
+                $lookup: {
+                    foreignField: '_id',
+                    localField: 'reviews',
+                    from: schmaName.reviews,
+                    as: 'reviews_details'
+                }
+            },
+            {
+                $group: {
+                    _id: {
+                        'restId': '$_id',
+                        name: '$name',
+                        cuisins: '$cuisinOffered',
+                        location: '$location',
+                        reviews: '$reviews_details'
+                    }
+                }
+            }
+        ]
+    }
 }
 
 function searchRestaurants(name) {
     return [
         {
             $match: {
-                $or: [{
-                    name: { $regex: '^' + name, $options: 'i' }
-                },
-                {
-                    cuisinOffered: { $elemMatch: { $regex: '^' + name, $options: 'i' } }
-                }]
+                $and: [
+                    {
+                        $or: [{
+                            name: { $regex: '^' + name, $options: 'i' }
+                        },
+                        {
+                            cuisinOffered: { $elemMatch: { $regex: '^' + name, $options: 'i' } }
+                        }]
+                    },
+                    {
+                        status: 'ACTIVE'
+                    }
+                ]
+
             }
         },
-        {                                                                                                              
+        {
             $lookup: {
                 foreignField: '_id',
                 localField: 'reviews',
