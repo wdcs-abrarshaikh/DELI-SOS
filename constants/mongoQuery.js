@@ -149,12 +149,12 @@ function getRestaurantDetail(id) {
                 reviews_details: { "$push": "$reviews_details" }
             }
         },
-        // {
-        //     $addFields: {
-        //         "totalRatings": { $size: "$reviews_details" },
-        //         "avgRating": { $avg: "$reviews_details.rating" }
-        //     }
-        // },
+        // // {
+        // //     $addFields: {
+        // //         "totalRatings": { $size: "$reviews_details" },
+        // //         "avgRating": { $avg: "$reviews_details.rating" }
+        // //     }
+        // // },
         { $unwind: '$reviews_details' },
         {
             $lookup: {
@@ -180,7 +180,7 @@ function getRestaurantDetail(id) {
                 'reviews_details.userId': '$reviews_details.user_details._id',
                 'reviews_details.userName': '$reviews_details.user_details.name',
                 'reviews_details.userProfilePicture': '$reviews_details.user_details.profilePicture',
-                '_id.favourites': '$reviews_details.user_details.favourites'
+                //'reviews_details.favourites': '$reviews_details.user_details.favourites'  
             }
         },
         {
@@ -213,6 +213,7 @@ function getRestaurantDetail(id) {
                 "reviews": { $push: '$reviews_details' }
             }
         }
+        
     ]
 }
 
