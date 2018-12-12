@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 
 @Component({
   selector: 'app-forgot-email',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ForgotEmailComponent implements OnInit {
 
-  constructor() { }
+  constructor( private spinnerService: Ng4LoadingSpinnerService ) { }
 
   ngOnInit() {
   }

@@ -20,7 +20,7 @@ import { ThemeRoutingModule } from "./theme/theme-routing.module";
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
 import { ForgotEmailComponent } from './forgot-email/forgot-email.component';
-
+import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 
 
@@ -34,12 +34,7 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
     ForgotPasswordComponent,
     // SignUpComponent,
     ForgotEmailComponent,
-  
  
-    // ImagesPipe,
-    
-   
-      
   ],
   imports: [
     BrowserModule,
@@ -54,7 +49,8 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
     AuthModule,
     ToastrModule.forRoot(),
     OwlDateTimeModule,
-    OwlNativeDateTimeModule 
+    OwlNativeDateTimeModule ,
+    Ng4LoadingSpinnerModule.forRoot()
 
   ],
   providers: [ScriptLoaderService],

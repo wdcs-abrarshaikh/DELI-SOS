@@ -1,5 +1,5 @@
 import { AboutUsService } from './about-us.service';
-import { AboutUsComponent,NgbdModalContent } from './about-us.component';
+import { AboutUsComponent } from './about-us.component';
 import { AboutUsRoutingModule } from './about-us.routing';
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
@@ -8,7 +8,8 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {DefaultComponent} from '../../default.component';
 import {LayoutModule} from '../../../../layouts/layout.module';
-import { NgxEditorModule } from 'ngx-editor'
+import { NgxEditorModule } from 'ngx-editor';
+import { AddAboutUsComponent } from './add-about-us/add-about-us.component'
 
 
 const routes: Routes = [
@@ -35,10 +36,10 @@ const routes: Routes = [
 		ReactiveFormsModule
 	],
 	
-	exports: [AboutUsComponent,NgbdModalContent],
-	declarations: [AboutUsComponent,NgbdModalContent],
+	exports: [AboutUsComponent,AddAboutUsComponent],
+	declarations: [AboutUsComponent, AddAboutUsComponent],
 	providers: [AboutUsService], 
-	entryComponents:[NgbdModalContent]
+	entryComponents:[AddAboutUsComponent]
 	
 })
 export class AboutUsModule {

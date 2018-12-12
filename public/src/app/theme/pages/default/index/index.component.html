@@ -1,13 +1,6 @@
 <!-- BEGIN: Subheader -->
 <h2 class="header">Dashboard</h2>
-<!-- <div class="m-subheader" appunwraptag="">
-	<div class="d-flex align-items-center">
-		<div class="mr-auto">
-			
-		</div>
-	
-	</div>
-</div>  -->
+
 <div class="m-content">
 	<!--Begin::Section-->
 	<div class="row">
@@ -17,66 +10,74 @@
 				<div class="m-portlet__head">
 					<div class="m-portlet__head-caption">
 						<div class="m-portlet__head-title">
-							<h3 class="m-portlet__head-text"> Users </h3><br>
-						
+							<h3 class="m-portlet__head-text"><i class="fa fa-users" width="100px" style="color:black"></i> Users </h3><br>
 						</div>
 					</div>
-					<h3 class="m-portlet__head-caption"  style="color:black">{{usersList}}</h3>
+					<h3 class="m-portlet__head-caption" style="color:black">{{usersList}}</h3>
 				</div>
-				
+
 			</div>
 			<!--end:: Widgets/Top Products-->
 		</div>
-		
-		<div class="col-xl-4"> 
-			  <div class="m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force">
+
+		<div class="col-xl-4">
+			<div class="m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force">
 				<div class="m-portlet__head">
 					<div class="m-portlet__head-caption">
 						<div class="m-portlet__head-title">
-							<h3 class="m-portlet__head-text"> Restaurants </h3>
+							<img src="./assets/demo/default/media/img/logo/restaurant.png" width="30px" style="background:black" />
+							<h3 class="m-portlet__head-text">&nbsp; Restaurants </h3>
 						</div>
 					</div>
 					<h3 class="m-portlet__head-caption" style="color:black">{{restaurantList}}</h3>
 				</div>
-			
+
 			</div>
-		</div> 
+		</div>
 	</div>
-	</div><br>
-	
-		<div class="table1">
-				<h2 class="header1">Restaurants Awaiting Approval</h2>
-			<table  datatable class="table-bordered table-hover"  *ngIf="restList">
-			 <thead>
-				<tr>
-				  <th>Sr.</th>
-				  <th>Restaurant Name</th>
-				  <th>Status</th>
-				  <th class="sorting">Action</th>
-				</tr>
-			 </thead>
-				
-			  <tbody>
-		    	<tr *ngFor="let Rest of restList ; let i=index">
-				  <td>{{i+1}}</td>
-				  <td>{{Rest.name}}</td>
-				  <td>{{Rest.status}}</td>
-			    <td>
-					<button type="button" class="btn-view">
-					  <i class="fas fa-eye" (click)="open(Rest)"></i> 
+</div><br>
+
+<div class="table1">
+	<h2 class="header1">Restaurants Awaiting Approval</h2>
+	<table datatable class="table-bordered table-hover" *ngIf="restList">
+		<thead>
+			<tr>
+				<td style="font-weight: bold; width: 10%">Sr.</td>
+				<td style="font-weight: bold; width: 40%;">Restaurant Name</td>
+				<td style="font-weight: bold; width: 20%;">Status</td>
+				<th style=" width: 20%;"> &nbsp;Action</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			<tr *ngFor="let Rest of restList ; let i=index">
+				<td>{{i+1}}</td>
+				<td>{{Rest.name}}</td>
+				<td><span class="m-badge  m-badge--wide">{{Rest.status}}</span></td>
+				<td>
+					<button type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill"
+					 data-toggle="m-tooltip"  data-placement="top" title="View" (click)="open(Rest)">
+						<i class="fas fa-eye"></i>
 					</button>
-					 &nbsp;&nbsp;
-				 <button type="button" class="btn btn1" (click)="Approve(Rest._id)" >Approve</button> 
-				 <button type="button" class="btn btn-danger"  (click)="Reject(Rest._id)">Reject</button>
-			   </td>
-			   
-				 </tr>
-				</tbody> 
-			 
-			</table>
-	</div>
-	
-	
-	
-		
-	
+					&nbsp;&nbsp;
+
+					<button type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill"
+					 data-toggle="m-tooltip"  data-placement="top" title="Appove" (click)=" Approve(Rest._id) ">
+						<i class="fa fa-check f1"></i>
+					</button> &nbsp;&nbsp;
+
+					<button type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill"
+					 data-toggle="m-tooltip"  data-placement="top" title="Reject"  (click)="Reject(Rest._id)">
+						<i class="fa fa-close "></i>
+					</button> &nbsp;&nbsp;
+				</td>
+
+			</tr>
+		</tbody>
+	</table>
+</div>
+<script>
+$(document).ready(function(){
+    $('[data-toggle="m-tooltip"]').tooltip();   
+});
+</script>

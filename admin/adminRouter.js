@@ -101,10 +101,10 @@ adminRouter.route('/deleteUser/:id')
 //         action.whatuLike(req, res)
 //     })
 
-adminRouter.route('/getCuisin')
-    .get((req, res) => {
-        action.getCuisin(req, res)
-    })
+// adminRouter.route('/getCuisin')
+//     .get((req, res) => {
+//         action.getCuisin(req, res)
+//     })
 
 adminRouter.route('/searchRestaurant/:name')
     .get([validate.verifyAdminToken], (req, res) => {
@@ -184,7 +184,7 @@ adminRouter.route('/addCuisin')
     .post([validate.verifyAdminToken, validate.validateCuisin], (req, res) => {
         action.addCuisin(req, res)
     })
-adminRouter.route('/searchCuisin/:name')
+adminRouter.route('/searchCuisin')
     .get([validate.verifyAdminToken], (req, res) => {
         action.searchCuisin(req, res)
     })

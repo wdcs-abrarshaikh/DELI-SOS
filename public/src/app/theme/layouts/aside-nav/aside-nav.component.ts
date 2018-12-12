@@ -5,6 +5,7 @@ import { Helpers } from '../../../helpers';
 @Component({
     selector: "app-aside-nav",
     templateUrl: "./aside-nav.component.html",
+    styleUrls: ['./aside-nav.component.css'],
     encapsulation: ViewEncapsulation.None,
 })
 export class AsideNavComponent implements OnInit, AfterViewInit {

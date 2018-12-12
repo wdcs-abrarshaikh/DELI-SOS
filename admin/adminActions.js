@@ -64,9 +64,10 @@ function deleteUser(req, res) {
 // function whatuLike(req,res){
 //     service.whatuLike(req,res)
 // }
-function getCuisin(req, res) {
-    service.getCuisin(req, res)
-}
+
+// function getCuisin(req, res) {
+//     service.getCuisin(req, res)
+// }
 function searchRestaurant(req, res) {
     service.searchRestaurant(req, res)
 }
@@ -177,7 +178,7 @@ module.exports = {
     deleteRestaurantPhoto,
     deleteUser,
     // whatuLike,
-    getCuisin,
+    // getCuisin,
     searchRestaurant,
     approveRestaurantProposal,
     getAllPendingRestaurant,

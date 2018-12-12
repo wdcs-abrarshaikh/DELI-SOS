@@ -3509,7 +3509,7 @@
                 }
             }
         },
-        "/admin/searchCuisin/{name}": {
+        "/admin/searchCuisin": {
             "get": {
                 "tags": [
                     "admin"
@@ -3518,8 +3518,8 @@
                 "parameters": [
                     {
                         "name": "name",
-                        "in": "path",
-                        "description": "name of cuisin for search",
+                        "in": "query",
+                        "description": "name of cuisin which you want to search",
                         "required": true,
                         "type": "string"
                     },

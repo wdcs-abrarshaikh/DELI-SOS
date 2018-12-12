@@ -5,13 +5,16 @@ import { FormBuilder, Validators, FormControl, FormGroup, FormArray } from '@ang
 import { map } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 import swal from 'sweetalert2'
+import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 
 
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.css']
+  styleUrls: ['./profile.component.css'],
+  
+
 })
 export class ProfileComponent implements OnInit {
   id: any
@@ -28,14 +31,16 @@ export class ProfileComponent implements OnInit {
   constructor(private loginService: LoginService,
     private profileService: ProfileService,
     private _formBuilder: FormBuilder,
-    private toastService: ToastrService) {
+    private toastService: ToastrService,
+    private spinnerService: Ng4LoadingSpinnerService) {
+      this.spinnerService.show();
     this.profileService.getProfile().subscribe((data: any) => {
       this.id = data.data._id
       this.name = data.data.name
       this.email = data.data.email
       this.profilesList = data.data.profilePicture
-
-    });
+      this.spinnerService.hide();
+     });
   }
 
   ngOnInit() {
@@ -44,7 +49,7 @@ export class ProfileComponent implements OnInit {
   }
   buildProfileForm() {
     this.profileForm = this._formBuilder.group({
-      name: ['', [Validators.required]],
+      name: ['', [Validators.required,Validators.pattern(/^(?!\s*$).+/)]],
       profilePicture: [''],
     });
   }
