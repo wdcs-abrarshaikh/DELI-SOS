@@ -126,6 +126,13 @@ function getRestaurantDetail(id) {
                 path: '$reviews_details'
             }
         },
+        { 
+            $match: { 
+               'reviews_details.status' : {
+                     $eq: 'ACTIVE'
+               }
+            } 
+         },
         {
             $addFields: {
                 'reviews_details.totalLiked': { $size: "$reviews_details.likedBy" }
@@ -151,12 +158,12 @@ function getRestaurantDetail(id) {
                 reviews_details: { "$push": "$reviews_details" }
             }
         },
-        // // {
-        // //     $addFields: {
-        // //         "totalRatings": { $size: "$reviews_details" },
-        // //         "avgRating": { $avg: "$reviews_details.rating" }
-        // //     }
-        // // },
+        {
+            $addFields: {
+                "totalRatings": { $size: "$reviews_details" },
+                "avgRating": { $avg: "$reviews_details.rating" }
+            }
+        },
         { $unwind: '$reviews_details' },
         {
             $lookup: {
