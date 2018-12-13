@@ -64,7 +64,8 @@ function userProfileWithReview(id, flag) {
             {
                 $addFields: {
                     "reviews_details.restaurantId": "$reviews_details.restaurant_details._id",
-                    "reviews_details.restaurantName": "$reviews_details.restaurant_details.name"
+                    "reviews_details.restaurantName": "$reviews_details.restaurant_details.name",
+                    'reviews_details.userProfilePicture':"$_id.profilePicture"
                 }
             },
             {
@@ -82,7 +83,8 @@ function userProfileWithReview(id, flag) {
                     "reviews_details.totalLiked": 1,
                     "reviews_details.status": 1,
                     "reviews_details.restaurantId": 1,
-                    "reviews_details.restaurantName": 1
+                    "reviews_details.restaurantName": 1,
+                    'reviews_details.userProfilePicture':1
                 }
             },
             {
