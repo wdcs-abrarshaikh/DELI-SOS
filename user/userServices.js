@@ -214,22 +214,22 @@ function getRestaurantDetail(req, res) {
                             if (fav.indexOf(id) >= 0) {
                                 actual_response._id.addedInFavourites = 1;
                             }
-                            var totalRating = 0;
-                            let reviewDetails = actual_response.reviews.filter(function (review_unfilter) {
-                                review_unfilter.likedByMe = 0
-                                if (review_unfilter.likedBy.indexOf(userId) >= 0) {
-                                    review_unfilter.likedByMe = 1;
-                                }
-                                if (review_unfilter.status == status.active) {
-                                    totalRating += review_unfilter.rating
-                                    delete review_unfilter.status
-                                    delete review_unfilter.likedBy
-                                    return review_unfilter
-                                }
-                            })
-                            actual_response.reviews = reviewDetails;
-                            actual_response.totalRatings = reviewDetails.length
-                            actual_response.avgRating = totalRating / actual_response.totalRatings
+                            // var totalRating = 0;
+                            // let reviewDetails = actual_response.reviews.filter(function (review_unfilter) {
+                            //     review_unfilter.likedByMe = 0
+                            //     if (review_unfilter.likedBy.indexOf(userId) >= 0) {
+                            //         review_unfilter.likedByMe = 1;
+                            //     }
+                            //     if (review_unfilter.status == status.active) {
+                            //         totalRating += review_unfilter.rating
+                            //         delete review_unfilter.status
+                            //         delete review_unfilter.likedBy
+                            //         return review_unfilter
+                            //     }
+                            // })
+                            // actual_response.reviews = reviewDetails;
+                            // actual_response.totalRatings = reviewDetails.length
+                            // actual_response.avgRating = totalRating / actual_response.totalRatings
                             return res.json({ code: code.ok, message: msg.ok, data: actual_response })
                         })
                     }
