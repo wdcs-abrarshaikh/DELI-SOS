@@ -253,17 +253,36 @@ function showFavourites(id) {
             }
         },
         {
+            $match: { 
+                'reviews_details.status' : {
+                      $eq: 'ACTIVE'
+                }
+             } 
+        },
+        {
             $addFields: {
                 "favourites_details.rating": { $avg: '$reviews_details.rating' },
                 "favourites_details.dist": " "
             }
         },
         {
+            $group: {
+                _id: {
+                    'restId': '$favourites_details._id',
+                    name: '$favourites_details.name',
+                    cuisins: '$favourites_details.cuisinOffered',
+                    location: '$favourites_details.location',
+                    ratings: '$favourites_details.rating'
+                },
+                location:{ $first: '$location' }
+            }
+        },
+        {
             $project: {
-                'location': 1, '_id': 0,
-                'favourites_details._id': 1, 'favourites_details.name': 1,
-                'favourites_details.location': 1, 'favourites_details.cuisin': 1,
-                "favourites_details.rating": 1
+                'location': 1, '_id': 1,
+                // 'favourites_details._id': 1, 'favourites_details.name': 1,
+                // 'favourites_details.location': 1, 'favourites_details.cuisin': 1,
+                // "favourites_details.rating": 1
             }
         }
     ]
@@ -381,16 +400,30 @@ function searchRestaurants(name) {
             }
         },
         {
+            $match: { 
+                'reviews_details.status' : {
+                      $eq: 'ACTIVE'
+                }
+             } 
+        },
+        {
+            $addFields: {
+                "ratings": { $avg: '$reviews_details.rating' },
+            }
+        },
+        {
             $group: {
                 _id: {
                     'restId': '$_id',
                     name: '$name',
                     cuisins: '$cuisinOffered',
                     location: '$location',
-                    reviews: '$reviews_details'
+                    reviews: '$reviews_details',
+                    ratings:'$ratings'
                 }
             }
         }
+        
     ]
 }
 module.exports = {
