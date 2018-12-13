@@ -214,22 +214,16 @@ function getRestaurantDetail(req, res) {
                             if (fav.indexOf(id) >= 0) {
                                 actual_response._id.addedInFavourites = 1;
                             }
-                            // var totalRating = 0;
-                            // let reviewDetails = actual_response.reviews.filter(function (review_unfilter) {
-                            //     review_unfilter.likedByMe = 0
-                            //     if (review_unfilter.likedBy.indexOf(userId) >= 0) {
-                            //         review_unfilter.likedByMe = 1;
-                            //     }
-                            //     if (review_unfilter.status == status.active) {
-                            //         totalRating += review_unfilter.rating
-                            //         delete review_unfilter.status
-                            //         delete review_unfilter.likedBy
-                            //         return review_unfilter
-                            //     }
-                            // })
-                            // actual_response.reviews = reviewDetails;
-                            // actual_response.totalRatings = reviewDetails.length
-                            // actual_response.avgRating = totalRating / actual_response.totalRatings
+                            let reviewDetails = actual_response.reviews.filter(function (review_unfilter) {
+                                review_unfilter.likedByMe = 0
+                                if (review_unfilter.likedBy.indexOf(userId) >= 0) {
+                                    review_unfilter.likedByMe = 1;
+                                }
+                                delete review_unfilter.status
+                                delete review_unfilter.likedBy
+                                return review_unfilter
+                            })
+                            actual_response.reviews = reviewDetails;
                             return res.json({ code: code.ok, message: msg.ok, data: actual_response })
                         })
                     }
@@ -442,11 +436,12 @@ function showFavourites(req, res) {
             res.json({ code: code.ineternalError, message: msg.internalServerError })
         }
         else {
+            console.log(response)
             let final = response.map(function (data) {
-                data.favourites_details.dist = util.calculateDistance(data.location.coordinates[1], data.location.coordinates[0],
-                    data.favourites_details.location.coordinates[1], data.favourites_details.location.coordinates[0], "K") * 1000;
+                data._id.distance = util.calculateDistance(data.location.coordinates[1], data.location.coordinates[0],
+                    data._id.location.coordinates[1], data._id.location.coordinates[0], "K") * 1000;
                 delete data.location;
-                delete data.favourites_details.location;
+                delete data._id.location;
                 return data;
             })
             res.json({ code: code.ok, message: msg.ok, data: final })
@@ -637,8 +632,8 @@ function getNearByRestaurant(req, res) {
                             recommendation.push(response_res);
 
                         });
-
-                        return res.json({ code: code.ok, marker, recommendation })
+                        let finalRecommendation = recommendation.slice(0,10)
+                        return res.json({ code: code.ok, marker, finalRecommendation })
                     }
 
                 })
@@ -696,12 +691,24 @@ function getFollowingList(req, res) {
     let obj = util.decodeToken(req.headers['authorization'])
     userModel.findOne({ _id: obj.id })
         .select({ "following": 1, "_id": 0 })
-        .populate({ path: "following", select: "_id name profilePicture location locationVisible" })
-        .exec((err, data) => {
+        .populate({ path: "following", select: "_id name profilePicture location locationVisible follower following" })
+        .lean().exec((err, data) => {
             if (err) {
                 res.json({ code: code.ineternalError, message: msg.internalServerError })
             }
             else {
+                let final = data.following.map(function (result) {
+                    result.followedByMe = 0
+                    result.following.some(function (followed) {
+                        if (followed.equals(obj.id) == true) {
+                            result.followedByMe = 1;
+                        }
+                    });
+                    delete result.following
+                    delete result.follower
+                    return result;
+                })
+                data.following = final
                 res.json({ code: code.ok, message: msg.ok, data: data })
             }
         })
@@ -748,14 +755,26 @@ function searchInList(req, res, listName) {
     let obj = util.decodeToken(req.headers['authorization'])
     userModel.findOne({ _id: obj.id }).select({ listName: 1, "_id": 0 })
         .populate({
-            path: listName, select: "_id name profilePicture location locationVisible",
+            path: listName, select: "_id name profilePicture location locationVisible following follower ",
             match: { name: new RegExp('^' + req.params.name, "i") }
         })
-        .exec((err, data) => {
+        .lean().exec((err, data) => {
             if (err) {
                 res.json({ code: code.ineternalError, message: msg.internalServerError })
             }
             else {
+                let final = data[listName].map(function (result) {
+                    result.followedByMe = 0
+                    result[listName].some(function (followed) {
+                        if (followed.equals(obj.id) == true) {
+                            result.followedByMe = 1;
+                        }
+                    });
+                    delete result.following
+                    delete result.follower
+                    return result;
+                })
+                data[listName] = final
                 res.json({ code: code.ok, message: msg.ok, data: data })
             }
         })
@@ -858,19 +877,19 @@ function searchRestaurants(req, res) {
                     var final = response.map(function (data) {
                         data._id.distance = util.calculateDistance(loc.location.coordinates[1], loc.location.coordinates[0],
                             data._id.location.coordinates[1], data._id.location.coordinates[0], "K") * 1000;
-                        var totalRatings = 0;
-                        let reviews_details = data._id.reviews.filter(function (result) {
-                            if (result.status == status.active) {
-                                totalRatings += result.rating
-                                return result
-                            }
-                        })
-                        if (reviews_details.length > 0) {
-                            data._id.ratings = totalRatings / reviews_details.length
-                        }
-                        else {
-                            data._id.ratings = 0
-                        }
+                        // var totalRatings = 0;
+                        // let reviews_details = data._id.reviews.filter(function (result) {
+                        //     if (result.status == status.active) {
+                        //         totalRatings += result.rating
+                        //         return result
+                        //     }
+                        // })
+                        // if (reviews_details.length > 0) {
+                        //     data._id.ratings = totalRatings / reviews_details.length
+                        // }
+                        // else {
+                        //     data._id.ratings = 0
+                        // }
                         delete data._id.location;
                         delete data._id.reviews;
                         return data;
