@@ -632,8 +632,9 @@ function getNearByRestaurant(req, res) {
                             recommendation.push(response_res);
 
                         });
-                        let finalRecommendation = recommendation.slice(0,10)
-                        return res.json({ code: code.ok, marker, finalRecommendation })
+                        recommendation = recommendation.slice(0,10)
+                        
+                        return res.json({ code: code.ok, marker, recommendation })
                     }
 
                 })
