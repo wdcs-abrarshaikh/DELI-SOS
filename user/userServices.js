@@ -216,9 +216,13 @@ function getRestaurantDetail(req, res) {
                             }
                             let reviewDetails = actual_response.reviews.filter(function (review_unfilter) {
                                 review_unfilter.likedByMe = 0
-                                if (review_unfilter.likedBy.indexOf(userId) >= 0) {
-                                    review_unfilter.likedByMe = 1;
-                                }
+
+                                review_unfilter.likedBy.some((liked) => {
+                                    if (liked.equals(userId) == true) {
+                                        review_unfilter.likedByMe = 1;
+                                    }
+                                });
+
                                 delete review_unfilter.status
                                 delete review_unfilter.likedBy
                                 return review_unfilter
@@ -632,8 +636,8 @@ function getNearByRestaurant(req, res) {
                             recommendation.push(response_res);
 
                         });
-                        recommendation = recommendation.slice(0,10)
-                        
+                        recommendation = recommendation.slice(0, 10)
+
                         return res.json({ code: code.ok, marker, recommendation })
                     }
 
