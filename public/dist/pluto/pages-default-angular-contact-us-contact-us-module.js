@@ -7,7 +7,7 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".table1{\n    margin: 43px;\n}\n.btn1{\n    background: #f7b733;\n}\n.header{\n    font-size: 3.15rem;\n   \n    padding: 1.25rem 4.65rem;\n    text-align: center;\n}"
+module.exports = ".table1{\n    margin: 43px;\n}\n.btn1{\n    background: #f7b733;\n}\n.header{\n    font-size: 3.15rem;\n   \n    padding: 1.25rem 4.65rem;\n    text-align: center;\n}\n.dataTables_wrapper .dataTables_paginate .paginate_button:hover {\n    color: white !important;\n    border: 1px solid #f1d7a2;\n    background-color:#f1d7a2;\n    background:#f1d7a2\n}\n.container-fluid {\n    width: 85%;\n    padding-right: 15px;\n    padding-left: 15px;\n    margin-right: auto;\n    margin-left: auto;\n}\n.btn.m-btn--hover-brand:hover, .btn.m-btn--hover-brand:focus, .btn.m-btn--hover-brand:active{\n    background: linear-gradient(45deg, #fc4a1a, #f7b733) !important;\n    border: none;\n }\n.m-badge {\n    background:linear-gradient(45deg, #fc4a1a, #f7b733) !important;\n    color:white;\n    font-weight: bold !important;\n   }\n.fa-eye:before {\n    content: \"\\f06e\";\n    color: royalblue;\n}\n.fa-eye:before {\n    content: \"\\f06e\";\n    color: royalblue;\n}\n.fa-edit:before, .fa-pencil-square-o:before {\n    content: \"\\f044\";\n    color: green;\n}\n.fa-trash-alt:before {\n    content: \"\\f2ed\";\n    color: red;\n}\n.btn-save {\n    color: white;\n    width: 80px;\n    background: #49a558;\n    border-radius: 25%;\n    opacity: 1.5;\n}\n.btn-delete{\n    color: white;\n    width: 80px;\n    background: #a73a08;\n    opacity: 1.5;\n    border-radius: 25%;\n}"
 
 /***/ }),
 
@@ -18,7 +18,7 @@ module.exports = ".table1{\n    margin: 43px;\n}\n.btn1{\n    background: #f7b73
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<h2 class=\"header \" >ContactUs List</h2>\n<div class=\"table1\">\n  <table  datatable class=\"table-bordered table-hover\" >\n   <thead>\n    <tr>\n      <th>Sr.</th>\n      <th>UserName</th>\n      <th>Status</th>\n      <th>Action</th>\n    </tr>\n   </thead>\n    \n    <tbody>\n      <tr *ngFor=\"let contact of contactUsList ; let i=index\">\n      <td>{{i+1}}</td>\n      <td>{{contact.name}}</td>\n      <td>{{contact.status}}</td>\n      <td>\n      <button type=\"button\" class=\"btn-view\">\n        <i class=\"fas fa-eye\" (click)=\"open(Rest)\"></i> \n      </button>\n       &nbsp;&nbsp;\n       <button type=\"button\" class=\"btn btn1\" (click)=\"resolve(contact._id)\" >Approve</button> \n     </td>\n     </tr>\n    </tbody> \n   \n  </table>\n</div>"
+module.exports = "<h2 class=\"header \" >ContactUs List</h2>\n<div class=\"table1\">\n  <table  datatable class=\"table-bordered table-hover\" >\n   <thead>\n    <tr>\n      <th>Sr.</th>\n      <th>UserName</th>\n      <th>Status</th>\n      <th>Action</th>\n    </tr>\n   </thead>\n    \n    <tbody>\n      <tr *ngFor=\"let contact of contactUsList ; let i=index\">\n      <td>{{i+1}}</td>\n      <td>{{contact.createdBy.name}}</td>\n      <td><span class=\"m-badge  m-badge--wide\">{{contact.status}}</span></td>\n      <td>\n      <button type=\"button\" class=\"btn-view\">\n        <i class=\"fas fa-eye\" (click)=\"open(Rest)\"></i> \n      </button>\n       &nbsp;&nbsp;\n       <button type=\"button\" class=\"btn btn1\" (click)=\"resolve(contact._id)\" >Approve</button> \n     </td>\n     </tr>\n    </tbody> \n   \n  </table>\n</div>"
 
 /***/ }),
 
@@ -137,6 +137,7 @@ var ContactUsComponent = /** @class */ (function () {
     ContactUsComponent.prototype.open = function (content) {
         var modalRef = this.modalService.open(NgbdModalContent);
         modalRef.componentInstance.id = content ? content._id : "";
+        modalRef.componentInstance.name = content ? content.name : "";
         modalRef.componentInstance.name = content ? content.name : "";
     };
     ContactUsComponent.prototype.resolve = function (id) {
