@@ -192,51 +192,44 @@ function addRestaurant(req, res) {
 function getRestaurantDetail(req, res) {
     let id = req.params.id,
         userId = mongoose.Types.ObjectId(util.decodeToken(req.headers['authorization']).id);
-    return restModel.findOne({ _id: id }, (err, data) => {
+    restModel.findOne({ _id: id }, (err, data) => {
         if (err) {
-            res.json({ code: code.internalError, message: msg.internalServerError })
+            return res.json({ code: code.internalError, message: msg.internalServerError })
         }
         else if (!data) {
-            res.json({ code: code.notFound, message: msg.restNotFound })
+            return res.json({ code: code.notFound, message: msg.restNotFound })
         }
         else {
             if (data.reviews.length > 0) {
-                restModel.aggregate(mongoQuery.getRestaurantDetail(id), (err, response) => {
+                restModel.aggregate(mongoQuery.getRestaurantDetail(id), async (err, response) => {
                     if (err) {
                         console.log(err)
-                        res.json({ code: code.internalError, message: msg.internalServerError })
+                        return res.json({ code: code.internalError, message: msg.internalServerError })
                     }
                     else {
-                        let final = response.map(function (data) {
-                            data._id.addedInFavourites = 0;
+                        userModel.findOne({ _id: userId }, { 'favourites': 1, '_id': 0 }).then((result) => {
+                            let fav = result.favourites
+                            let actual_response = response[0]
+                            actual_response._id.addedInFavourites = 0;
+                            if (fav.indexOf(id) >= 0) {
+                                actual_response._id.addedInFavourites = 1;
+                            }
+                            let reviewDetails = actual_response.reviews.filter(function (review_unfilter) {
+                                review_unfilter.likedByMe = 0
 
-                            data._id.favourites.some(function (favourite) {
-                                if (favourite.equals(id) == true) {
-                                    data._id.addedInFavourites = 1;
-                                }
-                            });
-                            var totalRating = 0;
-                            let reviewDetails = data.reviews.filter(function (result) {
-                                result.likedByMe = 0
-                                result.likedBy.some(function (liked) {
+                                review_unfilter.likedBy.some((liked) => {
                                     if (liked.equals(userId) == true) {
-                                        result.likedByMe = 1;
+                                        review_unfilter.likedByMe = 1;
                                     }
                                 });
-                                if (result.status == status.active) {
-                                    totalRating += result.rating
-                                    delete result.status
-                                    delete result.likedBy
-                                    return result
-                                }
+
+                                delete review_unfilter.status
+                                delete review_unfilter.likedBy
+                                return review_unfilter
                             })
-                            data.totalRatings = reviewDetails.length
-                            data.avgRating = totalRating/data.totalRatings
-                            data.reviews = reviewDetails
-                            delete data._id.favourites;
-                            return data;
+                            actual_response.reviews = reviewDetails;
+                            return res.json({ code: code.ok, message: msg.ok, data: actual_response })
                         })
-                        res.json({ code: code.ok, message: msg.ok, data: final[0] })
                     }
                 })
             }
@@ -252,7 +245,7 @@ function getRestaurantDetail(req, res) {
                     contactNumber, website, menu, photoByUser,
                     reviews, perPersonCost
                 }
-                res.json({ code: code.ok, message: msg.ok, data: final })
+                return res.json({ code: code.ok, message: msg.ok, data: final })
             }
         }
     })
@@ -314,7 +307,7 @@ function addReview(req, res) {
 }
 
 function updateReview(req, res) {
-    reviewModel.findByIdAndUpdate({ _id: req.params.id }, { $set: req.body },{new:true}, (err, data) => {
+    reviewModel.findByIdAndUpdate({ _id: req.params.id }, { $set: req.body }, { new: true }, (err, data) => {
         if (err) {
             return res.json({ code: code.internalError, message: msg.internalServerError })
         }
@@ -447,11 +440,12 @@ function showFavourites(req, res) {
             res.json({ code: code.ineternalError, message: msg.internalServerError })
         }
         else {
+            console.log(response)
             let final = response.map(function (data) {
-                data.favourites_details.dist = util.calculateDistance(data.location.coordinates[1], data.location.coordinates[0],
-                    data.favourites_details.location.coordinates[1], data.favourites_details.location.coordinates[0], "K") * 1000;
+                data._id.distance = util.calculateDistance(data.location.coordinates[1], data.location.coordinates[0],
+                    data._id.location.coordinates[1], data._id.location.coordinates[0], "K") * 1000;
                 delete data.location;
-                delete data.favourites_details.location;
+                delete data._id.location;
                 return data;
             })
             res.json({ code: code.ok, message: msg.ok, data: final })
@@ -642,6 +636,7 @@ function getNearByRestaurant(req, res) {
                             recommendation.push(response_res);
 
                         });
+                        recommendation = recommendation.slice(0, 10)
 
                         return res.json({ code: code.ok, marker, recommendation })
                     }
@@ -701,12 +696,24 @@ function getFollowingList(req, res) {
     let obj = util.decodeToken(req.headers['authorization'])
     userModel.findOne({ _id: obj.id })
         .select({ "following": 1, "_id": 0 })
-        .populate({ path: "following", select: "_id name profilePicture location locationVisible" })
-        .exec((err, data) => {
+        .populate({ path: "following", select: "_id name profilePicture location locationVisible follower following" })
+        .lean().exec((err, data) => {
             if (err) {
                 res.json({ code: code.ineternalError, message: msg.internalServerError })
             }
             else {
+                let final = data.following.map(function (result) {
+                    result.followedByMe = 0
+                    result.following.some(function (followed) {
+                        if (followed.equals(obj.id) == true) {
+                            result.followedByMe = 1;
+                        }
+                    });
+                    delete result.following
+                    delete result.follower
+                    return result;
+                })
+                data.following = final
                 res.json({ code: code.ok, message: msg.ok, data: data })
             }
         })
@@ -753,14 +760,26 @@ function searchInList(req, res, listName) {
     let obj = util.decodeToken(req.headers['authorization'])
     userModel.findOne({ _id: obj.id }).select({ listName: 1, "_id": 0 })
         .populate({
-            path: listName, select: "_id name profilePicture location locationVisible",
+            path: listName, select: "_id name profilePicture location locationVisible following follower ",
             match: { name: new RegExp('^' + req.params.name, "i") }
         })
-        .exec((err, data) => {
+        .lean().exec((err, data) => {
             if (err) {
                 res.json({ code: code.ineternalError, message: msg.internalServerError })
             }
             else {
+                let final = data[listName].map(function (result) {
+                    result.followedByMe = 0
+                    result[listName].some(function (followed) {
+                        if (followed.equals(obj.id) == true) {
+                            result.followedByMe = 1;
+                        }
+                    });
+                    delete result.following
+                    delete result.follower
+                    return result;
+                })
+                data[listName] = final
                 res.json({ code: code.ok, message: msg.ok, data: data })
             }
         })
@@ -804,10 +823,10 @@ function getCuisinList(req, res) {
 
 function filterRestaurants(req, res) {
     let data = req.body, flag = false
-    if(data.maxBudget){
+    if (data.maxBudget) {
         flag = true;
     }
-    restModel.aggregate(mongoQuery.filterRestaurant(data,flag), (err, response) => {
+    restModel.aggregate(mongoQuery.filterRestaurant(data, flag), (err, response) => {
         if (err) {
             res.json({ code: code.internalError, message: msg.internalServerError })
         }
@@ -863,19 +882,19 @@ function searchRestaurants(req, res) {
                     var final = response.map(function (data) {
                         data._id.distance = util.calculateDistance(loc.location.coordinates[1], loc.location.coordinates[0],
                             data._id.location.coordinates[1], data._id.location.coordinates[0], "K") * 1000;
-                        var totalRatings = 0;
-                        let reviews_details = data._id.reviews.filter(function (result) {
-                            if (result.status == status.active) {
-                                totalRatings += result.rating
-                                return result
-                            }
-                        })
-                        if (reviews_details.length > 0) {
-                            data._id.ratings = totalRatings / reviews_details.length
-                        }
-                        else {
-                            data._id.ratings = 0
-                        }
+                        // var totalRatings = 0;
+                        // let reviews_details = data._id.reviews.filter(function (result) {
+                        //     if (result.status == status.active) {
+                        //         totalRatings += result.rating
+                        //         return result
+                        //     }
+                        // })
+                        // if (reviews_details.length > 0) {
+                        //     data._id.ratings = totalRatings / reviews_details.length
+                        // }
+                        // else {
+                        //     data._id.ratings = 0
+                        // }
                         delete data._id.location;
                         delete data._id.reviews;
                         return data;

@@ -64,7 +64,8 @@ function userProfileWithReview(id, flag) {
             {
                 $addFields: {
                     "reviews_details.restaurantId": "$reviews_details.restaurant_details._id",
-                    "reviews_details.restaurantName": "$reviews_details.restaurant_details.name"
+                    "reviews_details.restaurantName": "$reviews_details.restaurant_details.name",
+                    'reviews_details.userProfilePicture':"$_id.profilePicture"
                 }
             },
             {
@@ -82,7 +83,8 @@ function userProfileWithReview(id, flag) {
                     "reviews_details.totalLiked": 1,
                     "reviews_details.status": 1,
                     "reviews_details.restaurantId": 1,
-                    "reviews_details.restaurantName": 1
+                    "reviews_details.restaurantName": 1,
+                    'reviews_details.userProfilePicture':1
                 }
             },
             {
@@ -124,6 +126,13 @@ function getRestaurantDetail(id) {
                 path: '$reviews_details'
             }
         },
+        { 
+            $match: { 
+               'reviews_details.status' : {
+                     $eq: 'ACTIVE'
+               }
+            } 
+         },
         {
             $addFields: {
                 'reviews_details.totalLiked': { $size: "$reviews_details.likedBy" }
@@ -149,12 +158,12 @@ function getRestaurantDetail(id) {
                 reviews_details: { "$push": "$reviews_details" }
             }
         },
-        // {
-        //     $addFields: {
-        //         "totalRatings": { $size: "$reviews_details" },
-        //         "avgRating": { $avg: "$reviews_details.rating" }
-        //     }
-        // },
+        {
+            $addFields: {
+                "totalRatings": { $size: "$reviews_details" },
+                "avgRating": { $avg: "$reviews_details.rating" }
+            }
+        },
         { $unwind: '$reviews_details' },
         {
             $lookup: {
@@ -180,7 +189,7 @@ function getRestaurantDetail(id) {
                 'reviews_details.userId': '$reviews_details.user_details._id',
                 'reviews_details.userName': '$reviews_details.user_details.name',
                 'reviews_details.userProfilePicture': '$reviews_details.user_details.profilePicture',
-                '_id.favourites': '$reviews_details.user_details.favourites'
+                //'reviews_details.favourites': '$reviews_details.user_details.favourites'  
             }
         },
         {
@@ -213,6 +222,7 @@ function getRestaurantDetail(id) {
                 "reviews": { $push: '$reviews_details' }
             }
         }
+        
     ]
 }
 
@@ -243,17 +253,36 @@ function showFavourites(id) {
             }
         },
         {
+            $match: { 
+                'reviews_details.status' : {
+                      $eq: 'ACTIVE'
+                }
+             } 
+        },
+        {
             $addFields: {
                 "favourites_details.rating": { $avg: '$reviews_details.rating' },
                 "favourites_details.dist": " "
             }
         },
         {
+            $group: {
+                _id: {
+                    'restId': '$favourites_details._id',
+                    name: '$favourites_details.name',
+                    cuisins: '$favourites_details.cuisinOffered',
+                    location: '$favourites_details.location',
+                    ratings: '$favourites_details.rating'
+                },
+                location:{ $first: '$location' }
+            }
+        },
+        {
             $project: {
-                'location': 1, '_id': 0,
-                'favourites_details._id': 1, 'favourites_details.name': 1,
-                'favourites_details.location': 1, 'favourites_details.cuisin': 1,
-                "favourites_details.rating": 1
+                'location': 1, '_id': 1,
+                // 'favourites_details._id': 1, 'favourites_details.name': 1,
+                // 'favourites_details.location': 1, 'favourites_details.cuisin': 1,
+                // "favourites_details.rating": 1
             }
         }
     ]
@@ -371,16 +400,30 @@ function searchRestaurants(name) {
             }
         },
         {
+            $match: { 
+                'reviews_details.status' : {
+                      $eq: 'ACTIVE'
+                }
+             } 
+        },
+        {
+            $addFields: {
+                "ratings": { $avg: '$reviews_details.rating' },
+            }
+        },
+        {
             $group: {
                 _id: {
                     'restId': '$_id',
                     name: '$name',
                     cuisins: '$cuisinOffered',
                     location: '$location',
-                    reviews: '$reviews_details'
+                    reviews: '$reviews_details',
+                    ratings:'$ratings'
                 }
             }
         }
+        
     ]
 }
 module.exports = {
