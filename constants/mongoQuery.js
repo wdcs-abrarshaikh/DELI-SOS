@@ -65,7 +65,7 @@ function userProfileWithReview(id, flag) {
                 $addFields: {
                     "reviews_details.restaurantId": "$reviews_details.restaurant_details._id",
                     "reviews_details.restaurantName": "$reviews_details.restaurant_details.name",
-                    'reviews_details.userProfilePicture':"$_id.profilePicture"
+                    'reviews_details.userProfilePicture': "$_id.profilePicture"
                 }
             },
             {
@@ -84,7 +84,7 @@ function userProfileWithReview(id, flag) {
                     "reviews_details.status": 1,
                     "reviews_details.restaurantId": 1,
                     "reviews_details.restaurantName": 1,
-                    'reviews_details.userProfilePicture':1
+                    'reviews_details.userProfilePicture': 1
                 }
             },
             {
@@ -126,13 +126,13 @@ function getRestaurantDetail(id) {
                 path: '$reviews_details'
             }
         },
-        { 
-            $match: { 
-               'reviews_details.status' : {
-                     $eq: 'ACTIVE'
-               }
-            } 
-         },
+        {
+            $match: {
+                'reviews_details.status': {
+                    $eq: 'ACTIVE'
+                }
+            }
+        },
         {
             $addFields: {
                 'reviews_details.totalLiked': { $size: "$reviews_details.likedBy" }
@@ -222,7 +222,7 @@ function getRestaurantDetail(id) {
                 "reviews": { $push: '$reviews_details' }
             }
         }
-        
+
     ]
 }
 
@@ -253,11 +253,11 @@ function showFavourites(id) {
             }
         },
         {
-            $match: { 
-                'reviews_details.status' : {
-                      $eq: 'ACTIVE'
+            $match: {
+                'reviews_details.status': {
+                    $eq: 'ACTIVE'
                 }
-             } 
+            }
         },
         {
             $addFields: {
@@ -274,7 +274,7 @@ function showFavourites(id) {
                     location: '$favourites_details.location',
                     ratings: '$favourites_details.rating'
                 },
-                location:{ $first: '$location' }
+                location: { $first: '$location' }
             }
         },
         {
@@ -329,7 +329,7 @@ function filterRestaurant(data, flag) {
             }
         ]
     }
-    else{
+    else {
         return [
             {
                 $match: {
@@ -400,11 +400,11 @@ function searchRestaurants(name) {
             }
         },
         {
-            $match: { 
-                'reviews_details.status' : {
-                      $eq: 'ACTIVE'
+            $match: {
+                'reviews_details.status': {
+                    $eq: 'ACTIVE'
                 }
-             } 
+            }
         },
         {
             $addFields: {
@@ -419,17 +419,66 @@ function searchRestaurants(name) {
                     cuisins: '$cuisinOffered',
                     location: '$location',
                     reviews: '$reviews_details',
-                    ratings:'$ratings'
+                    ratings: '$ratings'
                 }
             }
         }
-        
+
     ]
 }
+
+function notificationList(id) {
+    return [
+        {
+            $match:{
+                receiver: mongoose.Types.ObjectId(id)
+            }
+        },
+        {
+            $lookup: {
+                foreignField: '_id',
+                localField: 'sender',
+                from: schmaName.users,
+                as: 'sender_details'
+            }
+        },
+        {
+            $lookup: {
+                foreignField: '_id',
+                localField: 'restId',
+                from: schmaName.restaurants,
+                as: 'restaurant_details'
+            }
+        },
+        {
+            $lookup: {
+                foreignField: '_id',
+                localField: 'reviewId',
+                from: schmaName.reviews,
+                as: 'review_details'
+            }
+        },
+        {
+            $project:{
+                "_id":1,"createdAt":1,
+                "notificationType":1,
+                "sender_details._id":1,
+                "sender_details.name":1,
+                "sender_details.profilePicture":1,
+                "restaurant_details._id":1,
+                "restaurant_details.name":1,
+                "review_details._id":1,
+                "review_details.content":1
+            }
+        }
+    ]
+}
+
 module.exports = {
     userProfileWithReview,
     getRestaurantDetail,
     showFavourites,
     filterRestaurant,
-    searchRestaurants
+    searchRestaurants,
+    notificationList
 }

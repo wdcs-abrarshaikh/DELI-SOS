@@ -164,16 +164,26 @@ userRouter.route('/filterRestaurants')
 
 userRouter.route('/searchRestaurants/:name')
     .get([validate.verifyUserToken], (req, res) => {
-        actions.searchRestaurants(req,res)
+        actions.searchRestaurants(req, res)
     })
 
 userRouter.route('/getAboutUs')
-    .get([validate.verifyUserToken],(req,res)=>{
-        actions.getAboutUs(req,res)
+    .get([validate.verifyUserToken], (req, res) => {
+        actions.getAboutUs(req, res)
     })
 
 userRouter.route('/contactUs')
-    .post([validate.verifyUserToken,validate.validateContactUs],(req,res)=>{
-        actions.contactUs(req,res)
+    .post([validate.verifyUserToken, validate.validateContactUs], (req, res) => {
+        actions.contactUs(req, res)
+    })
+
+userRouter.route('/getNotificationList/:userId')
+    .get([validate.verifyUserToken], (req, res) => {
+        actions.getNotificationList(req, res)
+    })
+
+userRouter.route('/logout')
+    .get([validate.verifyUserToken],(req,res)=>{
+        actions.logout(req,res)
     })
 module.exports = userRouter;

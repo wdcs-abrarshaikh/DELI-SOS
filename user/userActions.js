@@ -141,6 +141,15 @@ function getAboutUs(req,res){
 function contactUs(req,res){
     service.contactUs(req,res)
 }
+
+function getNotificationList(req,res){
+    service.getNotificationList(req,res)
+}
+
+function logout(req,res){
+    service.logout(req,res)
+}
+
 module.exports = {
     signup,
     login,
@@ -176,5 +185,7 @@ module.exports = {
     filterRestaurants,
     searchRestaurants,
     getAboutUs,
-    contactUs
+    contactUs,
+    getNotificationList,
+    logout
 }

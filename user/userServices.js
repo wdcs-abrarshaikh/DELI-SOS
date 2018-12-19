@@ -2,6 +2,7 @@ var userModel = require('../schema/user');
 var restModel = require('../schema/restaurant');
 var reviewModel = require('../schema/review');
 var aboutModel = require('../schema/about_Privacy');
+var notificationModel = require('../schema/notification');
 var bcrypt = require('bcrypt');
 var util = require('../app util/util');
 var code = require('../constants').http_codes;
@@ -13,6 +14,7 @@ let type = require('../constants').Type;
 let adminService = require('../admin/adminServices');
 var mongoose = require('mongoose');
 const mongoQuery = require('../constants/mongoQuery');
+const ntfctnType = require('../constants').notificationsTypes;
 
 
 async function createUser(req, res) {
@@ -282,7 +284,7 @@ function addReview(req, res) {
                             rres.json({ code: code.internalError, message: msg.internalServerError })
                         }
                         else {
-                            userModel.findByIdAndUpdate({ _id: req.body.userId }, { $push: { review: data._id } }, (err) => {
+                            userModel.findByIdAndUpdate({ _id: req.body.userId }, { $push: { review: data._id } }, (err,result) => {
                                 if (err) {
                                     return res.json({ code: code.internalError, message: msg.internalServerError })
                                 }
@@ -292,9 +294,19 @@ function addReview(req, res) {
                                             return res.json({ code: code.internalError, message: msg.internalServerError })
                                         }
                                         else {
-                                            return res.json({ code: code.created, message: msg.reviewAdded, data: data })
+                                            let model = new notificationModel()
+                                            model.notificationType = ntfctnType.reviewPosted
+                                            model.reviewId = data._id;
+                                            model.sender = req.body.userId;
+                                            model.restId = req.body.restId;
+                                            model.receiver = result.follower;
+
+                                            model.save().then((response) => {
+                                                return res.json({ code: code.created, message: msg.reviewAdded, data: data })
+                                            })
                                         }
                                     })
+
                                 }
                             })
 
@@ -649,20 +661,35 @@ function getNearByRestaurant(req, res) {
 function followUser(req, res) {
     let obj = util.decodeToken(req.headers['authorization']),
         uid = req.params.userId
-    return userModel.findByIdAndUpdate({ _id: uid }, { $addToSet: { follower: obj.id } }, (err, result) => {
+    userModel.findByIdAndUpdate({ _id: uid }, { $addToSet: { follower: obj.id } }, (err, result) => {
         if (err) {
-            res.json({ code: code.ineternalError, message: msg.internalServerError })
+            return res.json({ code: code.ineternalError, message: msg.internalServerError })
         }
         else if (!result) {
-            res.json({ code: code.notFound, message: msg.userNotFound })
+            return res.json({ code: code.notFound, message: msg.userNotFound })
         }
         else {
             userModel.findOneAndUpdate({ _id: obj.id }, { $addToSet: { following: uid } }, (err, data) => {
                 if (err) {
-                    res.json({ code: code.ineternalError, message: msg.internalServerError })
+                    return res.json({ code: code.ineternalError, message: msg.internalServerError })
                 }
                 else {
-                    res.json({ code: code.ok, message: msg.followed })
+                    let model = new notificationModel()
+                    model.sender = obj.id
+                    model.receiver = [uid]
+                    model.notificationType = ntfctnType.follow
+
+                    if (data.follower.indexOf(uid) != -1) {
+                        model.notificationType = ntfctnType.followedBack
+                    }
+                    model.save((err, response) => {
+                        if (err) {
+                            return res.json({ code: code.ineternalError, message: msg.internalServerError })
+                        }
+                        else {
+                            return res.json({ code: code.ok, message: msg.followed })
+                        }
+                    })
                 }
             })
         }
@@ -801,19 +828,28 @@ function changeLocation(req, res) {
 
 function likeUnlikeReview(req, res) {
     let obj = util.decodeToken(req.headers['authorization'])
-    return reviewModel.findById({ _id: req.params.reviewId }).then((result) => {
+    reviewModel.findById({ _id: req.params.reviewId }).then((result) => {
         if (result.likedBy.indexOf(obj.id) >= 0) {
             reviewModel.update({ _id: req.params.reviewId }, { $pull: { likedBy: obj.id } }).then((result) => {
-                res.json({ code: code.ok, message: msg.ok })
+                return res.json({ code: code.ok, message: msg.unlikedReview })
             })
         }
         else {
-            reviewModel.update({ _id: req.params.reviewId }, { $push: { likedBy: obj.id } }).then((result) => {
-                res.json({ code: code.ok, message: msg.ok })
+            reviewModel.findOneAndUpdate({ _id: req.params.reviewId }, { $push: { likedBy: obj.id } }).then((result) => {
+                let model = new notificationModel()
+                model.notificationType = ntfctnType.reviewLiked
+                model.reviewId = req.params.reviewId;
+                model.sender = obj.id;
+                model.restId = result.restId;
+                model.receiver = [result.userId];
+
+                model.save().then((response) => {
+                    return res.json({ code: code.ok, message: msg.likedReview })
+                })
             })
         }
     }).catch((err) => {
-        res.json({ code: code.internalError, message: msg.internalServerError })
+        return res.json({ code: code.internalError, message: msg.internalServerError })
     })
 }
 
@@ -931,6 +967,34 @@ function contactUs(req, res) {
     })
 }
 
+function getNotificationList(req, res) {
+    notificationModel.aggregate(mongoQuery.notificationList(req.params.userId)).then((data) => {
+        let final = data.map((result) => {
+            if (result.notificationType != ntfctnType.reviewPosted && result.notificationType != ntfctnType.reviewLiked) {
+                delete result.restaurant_details
+                delete result.review_details
+            }
+            return result
+        })
+        return res.json({ code: code.ok, message: msg.ok, data: final })
+    }).catch((err) => {
+        console.log(err)
+        return res.json({ code: code.internalError, message: msg.internalServerError })
+    })
+}
+
+function logout(req, res) {
+    let obj = util.decodeToken(req.headers['authorization'])
+    userModel.findByIdAndUpdate({ _id: obj.id }, { $push: { blackListedTokens: req.headers['authorization'] } })
+        .then((data) => {
+            if (data) {
+                return res.json({ code: code.ok, message: msg.loggedout })
+            }
+        }).catch((err) => {
+            return res.json({ code: code.internalError, message: msg.internalServerError })
+        })
+}
+
 module.exports = {
     createUser,
     authenticateUser,
@@ -966,5 +1030,7 @@ module.exports = {
     filterRestaurants,
     searchRestaurants,
     getAboutUs,
-    contactUs
+    contactUs,
+    getNotificationList,
+    logout
 }

@@ -1,7 +1,8 @@
 var jwt = require('jsonwebtoken')
 var code = require('../constants').http_codes;
 var msg = require('../constants').messages;
-
+var util = require('../app util/util')
+var userModel = require('../schema/user')
 function validateSignUp(req, res, next) {
     if (req.body.name && req.body.password && req.body.email && req.body.deviceId && req.body.deviceType && req.body.fcmToken) {
         var name = req.body.name.trim(),
@@ -91,7 +92,17 @@ async function verifyUserToken(req, res, next) {
             return res.json({ code: code.badRequest, message: msg.invalidToken })
         }
         else {
-            next();
+            let obj = util.decodeToken(token)
+            userModel.findOne({ $and: [{ _id: obj.id }, { blackListedTokens: { $in: token } }] }).then((data) => {
+                if (data) {
+                    return res.json({ code: code.badRequest, message: msg.tokenExpired })
+                }
+                else {
+                    next();
+                }
+            }).catch((err) => {
+                return res.json({ code: code.internalError, message: msg.internalServerError })
+            })
         }
     })
 }
@@ -239,11 +250,11 @@ function validateUpload(req, res, next) {
     }
 }
 
-function validateContactUs(req,res,next){
-    if(req.body.content && req.body.contactNo){
+function validateContactUs(req, res, next) {
+    if (req.body.content && req.body.contactNo) {
         next()
     }
-    else{
+    else {
         return res.json({ code: code.badRequest, message: msg.invalidBody })
     }
 }

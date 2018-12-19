@@ -10,6 +10,6 @@ mongoose.connect(process.env.dbUrl)
 app.use(morgan('combined'));
 require('./router')(app)
 
-app.listen(process.env.port,()=>{
+module.exports = app.listen(process.env.port,()=>{
     console.log(`server listening on ${process.env.port}`)
 })
