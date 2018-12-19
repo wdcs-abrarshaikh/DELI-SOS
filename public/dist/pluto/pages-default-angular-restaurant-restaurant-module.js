@@ -44586,7 +44586,6 @@ var RestaurantComponent = /** @class */ (function () {
                         else {
                             this.isAdd = false;
                         }
-                        console.log(content.menu);
                         modalRef = this.modalService.open(_add_edit_restaurant_add_edit_restaurant_component__WEBPACK_IMPORTED_MODULE_8__["AddEditRestaurantComponent"]);
                         arr_value = [false, false, false, false];
                         modalRef.componentInstance.id = content ? content._id : "";
