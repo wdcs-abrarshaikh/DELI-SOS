@@ -17,6 +17,7 @@ export class CuisinService {
     }
     setCuisins(data: any) {
         this.cuisinsList.next({ cuisinsList: data });
+        this.cuisinsList.complete();    
     }
     getCuisins(): Observable<any> {
         return this.cuisinsList.asObservable();
