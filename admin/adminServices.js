@@ -42,6 +42,7 @@ async function createAdmin(req, res) {
 
 //this is a login function of admin. it returns token which expires in 1hr and result:id,mail and role
 async function authenticateAdmin(req, res) {
+    
     let data = req.body;
     await userModel.findOne({ email: data.email, role: role.ADMIN }, (err, result) => {
         if (err) {
