@@ -3,6 +3,7 @@ var code = require('../constants').http_codes;
 var msg = require('../constants').messages;
 var util = require('../app util/util')
 var userModel = require('../schema/user')
+
 function validateSignUp(req, res, next) {
     if (req.body.name && req.body.password && req.body.email && req.body.deviceId && req.body.deviceType && req.body.fcmToken) {
         var name = req.body.name.trim(),
@@ -58,6 +59,7 @@ function validateLogin(req, res, next) {
         return res.json({ code: code.badRequest, message: msg.invalidBody })
     }
 }
+
 function validateSocialLogin(req, res, next) {
     if (req.body.name && req.body.socialId && req.body.deviceId && req.body.deviceType && req.body.fcmToken && req.body.latitude && req.body.longitude) {
         let name = req.body.name.trim(),
@@ -84,6 +86,7 @@ function validateSocialLogin(req, res, next) {
         return res.json({ code: code.badRequest, message: msg.invalidBody })
     }
 }
+
 async function verifyUserToken(req, res, next) {
     let token = req.headers['authorization']
 
@@ -139,6 +142,7 @@ async function validateBody(req, res, next) {
         next();
     }
 }
+
 function validateRestaurant(req, res, next) {
     let rest = req.body
     if (rest.name && rest.description && rest.latitude &&
@@ -168,6 +172,7 @@ function validateRestaurant(req, res, next) {
     }
     else { return res.json({ code: code.badRequest, message: msg.invalidBody }) }
 }
+
 function validateReview(req, res, next) {
     let data = req.body
     if (data.restId && data.userId && data.content && data.likePlace && data.rating && data.improvementArea) {
