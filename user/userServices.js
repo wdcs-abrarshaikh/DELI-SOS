@@ -67,8 +67,8 @@ function authenticateUser(req, res) {
                             return res.json({ code: code.ineternalError, message: msg.internalServerError })
                         }
                     })
-                    let {_id,name,location,locationVisible,email} = result
-                    result = {_id,name,location,locationVisible,email}
+                    let {_id,name,location,locationVisible,email,role,profilePicture} = result
+                    result = {_id,name,location,locationVisible,email,role,profilePicture}
                     return res.json({ code: code.ok, message: msg.loggedIn, token: token, data: result })
                 }
                 else {
