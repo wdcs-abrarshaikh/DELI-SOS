@@ -187,11 +187,6 @@ userRouter.route('/logout')
         actions.logout(req, res)
     })
 
-userRouter.route('/getReviewDetails/:id')
-    .get([validate.verifyUserToken],(req,res)=>{
-        actions.getReviewDetails(req,res)
-    })
-
 userRouter.route('/shareReview/:reviewId/:restId')
     .get([validate.verifyUserToken], (req, res) => {
         actions.shareReview(req, res)

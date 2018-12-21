@@ -1326,6 +1326,42 @@ paths:
             description: Erorr message.
             schema:
               $ref: '#/definitions/errorMessage'
+  
+  "/user/shareReview/{reviewId}/{restId}":
+      get:
+        tags:
+        - 'user'
+        summary: to get url for redirect to restaurant where shared review posted.
+        parameters: 
+          - in: path
+            name: reviewId
+            description: id of shared review.
+            required: true
+            type: string
+          - in: path
+            name: restId
+            description: id of shared review's restaurant.
+            required: true
+            type: string
+          - name: authorization
+            in: header
+            description: token for validation.
+            required: true
+            type: string
+        
+        responses:
+          "200":
+            description: ok.
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "400":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "500":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'  
  
   "/admin/login":
       post:
