@@ -150,6 +150,9 @@ function logout(req,res){
     service.logout(req,res)
 }
 
+function shareReview(req,res){
+    service.shareReview(req,res)
+}
 module.exports = {
     signup,
     login,
@@ -187,5 +190,7 @@ module.exports = {
     getAboutUs,
     contactUs,
     getNotificationList,
-    logout
+    logout,
+    shareReview,
+    getReviewDetails
 }

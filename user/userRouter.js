@@ -183,7 +183,12 @@ userRouter.route('/getNotificationList/:userId')
     })
 
 userRouter.route('/logout')
-    .get([validate.verifyUserToken],(req,res)=>{
-        actions.logout(req,res)
+    .get([validate.verifyUserToken], (req, res) => {
+        actions.logout(req, res)
+    })
+
+userRouter.route('/shareReview/:reviewId/:restId')
+    .get([validate.verifyUserToken], (req, res) => {
+        actions.shareReview(req, res)
     })
 module.exports = userRouter;

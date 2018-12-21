@@ -430,7 +430,7 @@ function searchRestaurants(name) {
 function notificationList(id) {
     return [
         {
-            $match:{
+            $match: {
                 receiver: mongoose.Types.ObjectId(id)
             }
         },
@@ -459,16 +459,33 @@ function notificationList(id) {
             }
         },
         {
-            $project:{
-                "_id":1,"createdAt":1,
-                "notificationType":1,
-                "sender_details._id":1,
-                "sender_details.name":1,
-                "sender_details.profilePicture":1,
-                "restaurant_details._id":1,
-                "restaurant_details.name":1,
-                "review_details._id":1,
-                "review_details.content":1
+            $project: {
+                "_id": 1,
+                "createdAt": 1,
+                "notificationType": 1,
+                "sender_details._id": 1,
+                "sender_details.name": 1,
+                "sender_details.profilePicture": 1,
+                "restaurant_details._id": 1,
+                "restaurant_details.name": 1,
+                "review_details._id": 1,
+                "review_details.content": 1
+            }
+        },
+        {
+            $group: {
+                _id: {
+                    notificationId: "$_id",
+                    createdAt: "$createdAt",
+                    notificationType: "$notificationType",
+                    senderId: { "$arrayElemAt": ["$sender_details._id", 0] },
+                    senderName: { "$arrayElemAt": ["$sender_details.name", 0] },
+                    senderProfilePicture: { "$arrayElemAt": ["$sender_details.profilePicture", 0] },
+                    restId: { "$arrayElemAt": ["$restaurant_details._id", 0] },
+                    restName: { "$arrayElemAt": ["$restaurant_details.name", 0] },
+                    reviewId: { "$arrayElemAt": ["$review_details._id", 0] },
+                    reviewContent: { "$arrayElemAt": ["$review_details.content", 0] }
+                }
             }
         }
     ]
