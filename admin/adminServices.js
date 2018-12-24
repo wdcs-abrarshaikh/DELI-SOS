@@ -643,8 +643,8 @@ async function deletePrivacyPolicy(req, res) {
 }
 
 async function getContactRequest(req, res) {
-    aboutModel.findOne({ $and: [{ status: status.active }, { type: Type.contact }] })
-        .populate({ path: 'createdBy', select : 'name email' }).exec((err, data) => {
+    aboutModel.find({ $and: [{ status: status.active }, { type: Type.contact }] })
+        .exec((err, data) => {
             if (err) {
                 return res.json({ code: code.internalError, message: msg.internalServerError })
             }

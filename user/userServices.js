@@ -980,12 +980,12 @@ function contactUs(req, res) {
     data.createdBy = obj.id
     data.type = type.contact
     let contactReq = new aboutModel(data)
-    return contactReq.save((err, result) => {
+    contactReq.save((err, result) => {
         if (err) {
-            res.json({ code: code.internalError, message: msg.internalServerError })
+            return res.json({ code: code.internalError, message: msg.internalServerError })
         }
         else {
-            res.json({ code: code.created, message: msg.contactReqSent })
+            return res.json({ code: code.created, message: msg.contactReqSent })
         }
     })
 }

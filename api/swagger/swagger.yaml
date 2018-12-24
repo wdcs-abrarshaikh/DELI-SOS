@@ -1362,6 +1362,62 @@ paths:
             description: Erorr message.
             schema:
               $ref: '#/definitions/errorMessage'  
+              
+  "/user/conactUs":
+      post:
+        tags:
+        - 'user'
+        summary: send contact request to admin if you have any  or suggestion.
+        parameters: 
+            
+          - name: authorization
+            in: header
+            description: token for validation.
+            required: true
+            type: string
+            
+          - name: user
+            in: body
+            description: details of request.
+            required: true
+            schema: 
+              type: object
+              required: 
+                - name
+                - email
+                - contactNumber
+                - content
+              properties:
+                name:
+                    type: string
+                    description: name of the person who is going to make request
+                contactNumber:
+                    type: string
+                    description: contact number of the person who is going to make request
+                email:
+                    type: string
+                    description: email of the person who is going to make request
+                content:
+                    type: string
+                    description: content for the request
+                    
+        responses:
+          "201":
+            description: created
+            schema:
+              $ref: '#/definitions/SuccessMessage'
+          "500":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "404":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
+          "400":
+            description: Erorr message.
+            schema:
+              $ref: '#/definitions/errorMessage'
  
   "/admin/login":
       post:
