@@ -188,7 +188,7 @@ userRouter.route('/logout')
     })
 
 userRouter.route('/shareReview/:reviewId/:restId')
-    .get([validate.verifyUserToken], (req, res) => {
+    .get((req, res) => {
         actions.shareReview(req, res)
     })
 module.exports = userRouter;

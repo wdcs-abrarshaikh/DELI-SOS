@@ -45,6 +45,7 @@ function validatePassword(data) {
 function generateToken(data, secret) {
     let obj = {
         id: data._id,
+        name: data.name,
         email: data.email,
         role: data.role
     }
