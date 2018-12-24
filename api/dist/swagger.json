@@ -1930,7 +1930,7 @@
                 }
             }
         },
-        "/user/conactUs": {
+        "/user/contactUs": {
             "post": {
                 "tags": [
                     "user"

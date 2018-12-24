@@ -1363,7 +1363,7 @@ paths:
             schema:
               $ref: '#/definitions/errorMessage'  
               
-  "/user/conactUs":
+  "/user/contactUs":
       post:
         tags:
         - 'user'
@@ -2800,7 +2800,6 @@ paths:
             description: Internal Server Error
             schema:
               $ref: '#/definitions/errorMessage'
-              
 definitions:
   errorMessage:
     type: "object"
