@@ -173,7 +173,7 @@ userRouter.route('/getAboutUs')
     })
 
 userRouter.route('/contactUs')
-    .post([validate.verifyUserToken, validate.validateContactUs], (req, res) => {
+    .post([validate.verifyUserToken], (req, res) => {
         actions.contactUs(req, res)
     })
 

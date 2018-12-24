@@ -67,8 +67,8 @@ function authenticateUser(req, res) {
                             return res.json({ code: code.ineternalError, message: msg.internalServerError })
                         }
                     })
-                    let {_id,name,location,locationVisible,email,role,profilePicture} = result
-                    result = {_id,name,location,locationVisible,email,role,profilePicture}
+                    let { _id, name, location, locationVisible, email, role, profilePicture } = result
+                    result = { _id, name, location, locationVisible, email, role, profilePicture }
                     return res.json({ code: code.ok, message: msg.loggedIn, token: token, data: result })
                 }
                 else {
@@ -250,18 +250,33 @@ function getRestaurantDetail(req, res) {
                 })
             }
             else {
-                const { _id, name, description, location,
-                    photos, cuisinOffered, openTime, closeTime,
+                const { name, description, location,
+                    photos, openTime, closeTime,
                     contactNumber, website, menu, photoByUser,
-                    reviews, perPersonCost } = data
-
-                let final = {
-                    _id, name, description, location,
-                    photos, cuisinOffered, openTime, closeTime,
+                    perPersonCost } = data
+                let final = {};
+                final._id = {
+                    name, description, location,
+                    photos, openTime, closeTime,
                     contactNumber, website, menu, photoByUser,
-                    reviews, perPersonCost
+                    perPersonCost
                 }
-                return res.json({ code: code.ok, message: msg.ok, data: final })
+                final._id.cuisin = data.cuisinOffered
+                final._id.restId = data._id
+                final.reviews = data.reviews
+                final.totalRatings = 0
+                final.avgRating = 0
+                userModel.findOne({ _id: userId }, { 'favourites': 1, '_id': 0 })
+                    .then((result) => {
+                        let fav = result.favourites
+                        final._id.addedInFavourites = 0;
+                        if (fav.indexOf(id) >= 0) {
+                            final._id.addedInFavourites = 1;
+                        }
+                        return res.json({ code: code.ok, message: msg.ok, data: final })
+                    }).catch((err) => {
+                        return res.json({ code: code.internalError, message: msg.internalServerError })
+                    })
             }
         }
     })
@@ -965,12 +980,12 @@ function contactUs(req, res) {
     data.createdBy = obj.id
     data.type = type.contact
     let contactReq = new aboutModel(data)
-    return contactReq.save((err, result) => {
+    contactReq.save((err, result) => {
         if (err) {
-            res.json({ code: code.internalError, message: msg.internalServerError })
+            return res.json({ code: code.internalError, message: msg.internalServerError })
         }
         else {
-            res.json({ code: code.created, message: msg.contactReqSent })
+            return res.json({ code: code.created, message: msg.contactReqSent })
         }
     })
 }
