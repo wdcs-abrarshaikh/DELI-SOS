@@ -112,4 +112,9 @@ userRouter.route('/getNearByRestaurant/:userId')
         actions.getNearByRestaurant(req, res)
 });
 
+userRouter.route('/getRestaurant')
+    .get( (req, res) => {
+        actions.getRestaurant(req, res)
+});
+
 module.exports = userRouter;

@@ -49,6 +49,7 @@ export class AddEditRestaurantComponent implements OnInit {
   @Input() mealOffers;
   @Input() menu;
   @Input() cuisinOffered;
+  
   loading = false;
   submitted = false;
   mypic: any = null;
@@ -96,7 +97,7 @@ export class AddEditRestaurantComponent implements OnInit {
       website: ['',[Validators.required,Validators.pattern(/^(?!\s*$).+/)]],
       menuImages: [''],
       mealOffers: this._formBuilder.array(this.arr_value),
-      perPersonCost: ['', [Validators.required, Validators.pattern(/^(0|[1-9][0-9]*)$/)]],
+      perPersonCost: ['', [Validators.required, Validators.pattern(/^([1-9][0-9]*)$/)]],
       cuisinOffered: ['',Validators.required]
     });
 
@@ -169,8 +170,7 @@ export class AddEditRestaurantComponent implements OnInit {
 
 
   selectSelector(flag: string, arr) {
-
-    switch (flag) {
+  switch (flag) {
       case 'menu':
         if (this.menuImages.length > 0) {
           this.menuImages = this.menuImages.concat(arr)
