@@ -191,6 +191,5 @@ module.exports = {
     contactUs,
     getNotificationList,
     logout,
-    shareReview,
-    getReviewDetails
+    shareReview
 }
