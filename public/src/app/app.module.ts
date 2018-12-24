@@ -52,7 +52,6 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
     OwlNativeDateTimeModule ,
     Ng4LoadingSpinnerModule.forRoot()
 
-
   ],
   providers: [ScriptLoaderService],
   bootstrap: [AppComponent],

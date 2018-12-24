@@ -12,7 +12,6 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { ViewrestaurantComponent } from './viewrestaurant/viewrestaurant.component';
 
 
-
 const routes: Routes = [
     {
         "path": "",
@@ -34,7 +33,8 @@ const routes: Routes = [
         DataTablesModule,
         NgbModule.forRoot(),
         FormsModule,
-		ReactiveFormsModule,
+        ReactiveFormsModule,
+        // ScriptLoaderService
         ],
         exports: [
         RouterModule,ViewrestaurantComponent

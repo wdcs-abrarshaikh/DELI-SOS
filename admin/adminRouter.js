@@ -69,22 +69,22 @@ adminRouter.route('/deleteRestaurant/:id')
     })
 
 adminRouter.route('/uploadPhoto')
-    .post([validate.validateBody],(req, res) => {
+    .post([validate.validateBody], (req, res) => {
         action.uploadPhoto(req, res)
     })
 
-    adminRouter.route('/deletePhoto').post([validate.verifyAdminToken],(req,res)=>{
-    action.deletePhoto(req,res)
-    })
+adminRouter.route('/deletePhoto').post([validate.verifyAdminToken], (req, res) => {
+    action.deletePhoto(req, res)
+})
 
-    adminRouter.route('/approveRestaurantProposal/:restaurant_id').get([validate.validaterestId,validate.verifyAdminToken],(req,res)=>{
-    let {restaurant_id}= req.params;
-    action.approveRestaurantProposal(restaurant_id,res)
-    })
+adminRouter.route('/approveRestaurantProposal/:restaurant_id').get([validate.validaterestId, validate.verifyAdminToken], (req, res) => {
+    let { restaurant_id } = req.params;
+    action.approveRestaurantProposal(restaurant_id, res)
+})
 
-    adminRouter.route('/getAllPendingRestaurant').get([validate.verifyAdminToken],(req,res)=>{
-    action.getAllPendingRestaurant(req,res)
-    })
+adminRouter.route('/getAllPendingRestaurant').get([validate.verifyAdminToken], (req, res) => {
+    action.getAllPendingRestaurant(req, res)
+})
 
 adminRouter.route('/deleteRestaurantPhoto')
     .post([validate.verifyAdminToken], (req, res) => {
@@ -101,14 +101,108 @@ adminRouter.route('/deleteUser/:id')
 //         action.whatuLike(req, res)
 //     })
 
-adminRouter.route('/getCuisin')
-    .get((req, res) => {
-        action.getCuisin(req, res)
-    })
+// adminRouter.route('/getCuisin')
+//     .get((req, res) => {
+//         action.getCuisin(req, res)
+//     })
 
 adminRouter.route('/searchRestaurant/:name')
-    .get((req, res) => {
+    .get([validate.verifyAdminToken], (req, res) => {
         action.searchRestaurant(req, res)
     })
+adminRouter.route('/restaurantCounts')
+    .get([validate.verifyAdminToken], (req, res) => {
+        action.restaurantCounts(req, res)
+    })
 
+adminRouter.route('/userCounts')
+    .get([validate.verifyAdminToken], (req, res) => {
+        action.userCounts(req, res)
+    })
+
+adminRouter.route('/reviewCounts')
+    .get([validate.verifyAdminToken], (req, res) => {
+        action.reviewCounts(req, res)
+    })
+
+adminRouter.route('/verifyToken')
+    .get([validate.verifyAdminToken], (req, res) => {
+        action.verifyToken(req, res)
+    })
+
+adminRouter.route('/addAboutUs')
+    .post([validate.verifyAdminToken], (req, res) => {
+        action.addAboutUs(req, res)
+    })
+
+adminRouter.route('/aboutUsList')
+    .get([validate.verifyAdminToken], (req, res) => {
+        action.aboutUsList(req, res)
+    })
+
+adminRouter.route('/deleteAboutUs/:id')
+    .put([validate.verifyAdminToken], (req, res) => {
+        action.deleteAboutUs(req, res)
+    })
+
+adminRouter.route('/updateAboutUs/:id')
+    .put([validate.verifyAdminToken], (req, res) => {
+        action.updateAboutUs(req, res)
+    })
+
+adminRouter.route('/addPrivacyPolicy')
+    .post([validate.verifyAdminToken], (req, res) => {
+        action.addPrivacyPolicy(req, res)
+    })
+
+adminRouter.route('/privacyPolicyList')
+    .get([validate.verifyAdminToken], (req, res) => {
+        action.privacyPolicyList(req, res)
+    })
+
+adminRouter.route('/updatePrivacyPolicy/:id')
+    .put([validate.verifyAdminToken], (req, res) => {
+        action.updatePrivacyPolicy(req, res)
+    })
+
+adminRouter.route('/deletePrivacyPolicy/:id')
+    .put([validate.verifyAdminToken], (req, res) => {
+        action.deletePrivacyPolicy(req, res)
+    })
+
+adminRouter.route('/getContactRequest')
+    .get([validate.verifyAdminToken], (req, res) => {
+        action.getContactRequest(req, res)
+    })
+
+// adminRouter.route('/resolveContactRequest/:id')
+//     .put([validate.verifyAdminToken], (req, res) => {
+//         action.resolveContactRequest(req, res)
+//     })
+
+adminRouter.route('/addCuisin')
+    .post([validate.verifyAdminToken, validate.validateCuisin], (req, res) => {
+        action.addCuisin(req, res)
+    })
+adminRouter.route('/searchCuisin')
+    .get([validate.verifyAdminToken], (req, res) => {
+        action.searchCuisin(req, res)
+    })
+adminRouter.route('/getCuisinList')
+    .get([validate.verifyAdminToken], (req, res) => {
+        action.getCuisinList(req, res)
+    })
+adminRouter.route('/deleteCuisin/:id')
+    .put([validate.verifyAdminToken], (req, res) => {
+        action.deleteCuisin(req, res)
+    })
+adminRouter.route('/updateCuisin/:id')
+    .put([validate.verifyAdminToken, validate.validateCuisin], (req, res) => {
+        action.updateCuisin(req, res)
+    })
+
+adminRouter.route('/deleteRestaurantReq/:id')
+    .put([validate.verifyAdminToken], (req, res) => {
+        action.deleteRestaurantReq(req, res)
+    })
 module.exports = adminRouter

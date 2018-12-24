@@ -30,8 +30,8 @@ function getRestaurantDetail(req, res) {
     service.getRestaurantDetail(req, res)
 }
 
-function getRestaurantList(req,res){
-    service.getRestaurantList(req,res)
+function getRestaurantList(req, res) {
+    service.getRestaurantList(req, res)
 }
 
 function uploadPhoto(req, res) {
@@ -90,10 +90,76 @@ function getNearByRestaurant(req, res) {
     service.getNearByRestaurant(req, res)
 }
 
+<<<<<<< HEAD
 function getRestaurant(req,res){
     service.getRestaurant(req,res)
 }
 
+=======
+function followUser(req, res) {
+    service.followUser(req, res)
+}
+
+function getFollowingList(req, res) {
+    service.getFollowingList(req, res)
+}
+
+function getFollowerList(req, res) {
+    service.getFollowerList(req, res)
+}
+
+function unfollowUser(req,res){
+    service.unfollowUser(req,res)
+}
+
+function searchFollower(req,res){
+    service.searchFollower(req,res)
+}
+
+function searchFollowing(req,res){
+    service.searchFollowing(req,res)
+}
+
+function changeLocation(req,res){
+    service.changeLocation(req,res)
+}
+
+function likeUnlikeReview(req,res){
+    service.likeUnlikeReview(req,res)
+}
+
+function getCuisinList(req,res){
+    service.getCuisinList(req,res)
+}
+
+function filterRestaurants(req,res){
+    service.filterRestaurants(req,res)
+}
+
+function searchRestaurants(req,res){
+    service.searchRestaurants(req,res)
+}
+
+function getAboutUs(req,res){
+    service.getAboutUs(req,res)
+}
+
+function contactUs(req,res){
+    service.contactUs(req,res)
+}
+
+function getNotificationList(req,res){
+    service.getNotificationList(req,res)
+}
+
+function logout(req,res){
+    service.logout(req,res)
+}
+
+function shareReview(req,res){
+    service.shareReview(req,res)
+}
+>>>>>>> 9f34894b36ad8c4804ebbfa4e9c6ef5b6aa2eedb
 module.exports = {
     signup,
     login,
@@ -117,5 +183,24 @@ module.exports = {
     changePassword,
     getRestaurantList,
     getNearByRestaurant,
+<<<<<<< HEAD
     getRestaurant
+=======
+    followUser,
+    getFollowingList,
+    getFollowerList,
+    unfollowUser,
+    searchFollower,
+    searchFollowing,
+    changeLocation,
+    likeUnlikeReview,
+    getCuisinList,
+    filterRestaurants,
+    searchRestaurants,
+    getAboutUs,
+    contactUs,
+    getNotificationList,
+    logout,
+    shareReview
+>>>>>>> 9f34894b36ad8c4804ebbfa4e9c6ef5b6aa2eedb
 }

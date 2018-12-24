@@ -25,9 +25,9 @@ var userSchema = new schema({
         state: String,
         pincode: Number
     },
-    locationVisible:{type:Boolean,default:true},
-    location:{
-        type:{type:String},
+    locationVisible: { type: Boolean, default: true },
+    location: {
+        type: { type: String },
         coordinates: [Number]
     },
     review: [{ type: mongoose.Schema.Types.ObjectId, ref: schmaName.reviews }],
@@ -37,14 +37,16 @@ var userSchema = new schema({
     likes: [{ type: mongoose.Schema.Types.ObjectId, ref: schmaName.reviews }],
     createdAt: { type: Date, default: Date.now },
     role: { type: String, enum: [roles.ADMIN, roles.USER], default: roles.USER },
-    status: { type: String, emnum: [status.active, status.inactive], default: status.active },
+    status: { type: String, enum: [status.active, status.inactive], default: status.active },
     isSocialLogin: { type: Boolean },
+    activeToken: { type: String },
+    blackListedTokens: [{ type: String }],
     socialId: {
         type: String, required: function () {
-            return (this.isSocialLogin == true) ? true : false  
+            return (this.isSocialLogin == true) ? true : false
         }
     },
-    profilePicture: { type: String },
+    profilePicture: { type: String, default: ' ' },
     deviceId: {
         type: String, required: function () {
             if (this.role == roles.USER) {
@@ -56,8 +58,8 @@ var userSchema = new schema({
         }
     },
     deviceType: {
-        type: String,required: function(){
-            if(this.role == roles.USER) {
+        type: String, required: function () {
+            if (this.role == roles.USER) {
                 return true;
             }
             else {
@@ -65,16 +67,23 @@ var userSchema = new schema({
             }
         }
     },
-    fcmToken:{
-        type: String,required: function(){
-            if(this.role == roles.USER){
+    fcmToken: {
+        type: String, required: function () {
+            if (this.role == roles.USER) {
                 return true;
             }
-            else{
+            else {
                 return false;
             }
         }
-    }
+    },
+    cuisin:
+        [{
+            name: { type: String },
+            image: { type: String },
+            status: { type: String, default: status.active }
+        }]
+
 });
 
 User = module.exports = mongoose.model(schmaName.users, userSchema)
@@ -88,9 +97,9 @@ User.countDocuments(async function (err, data) {
             "email": process.env.admin_email,
             "password": process.env.admin_password,
             "role": roles.ADMIN,
-            location:{
-                type:"Point",
-                coordinates: [72.51231,23.02771]
+            location: {
+                type: "Point",
+                coordinates: [process.env.long, process.env.lat]
             },
             location_address: {
                 street1: '512 new avanue',
@@ -99,6 +108,7 @@ User.countDocuments(async function (err, data) {
                 state: 'Gujarat',
                 pincode: 382007
             }
+
         };
 
         let updatedPass = await bcrypt.hashSync(obj.password, 11);
