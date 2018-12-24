@@ -482,34 +482,35 @@ function showFavourites(req, res) {
             res.json({ code: code.ineternalError, message: msg.internalServerError })
         }
         else {
-            let final = response.map(function (data) {
-                data._id.distance = util.calculateDistance(data.location.coordinates[1], data.location.coordinates[0],
-                    data._id.location.coordinates[1], data._id.location.coordinates[0], "K") * 1000;
-                var totalRatings = 0;
-                if (data.reviews.length > 0) {
-                    var reviews_details = data.reviews[0].filter((result) => {
-                        if (result.status == status.active) {
-                            totalRatings += result.rating
-                            return result
-                        }
-                    })
+            let final = response.filter(function (data) {
+                if (data._id.status == status.active) {
+                    data._id.distance = util.calculateDistance(data.location.coordinates[1], data.location.coordinates[0],
+                        data._id.location.coordinates[1], data._id.location.coordinates[0], "K") * 1000;
+                    var totalRatings = 0;
+                    if (data.reviews.length > 0) {
+                        var reviews_details = data.reviews[0].filter((result) => {
+                            if (result.status == status.active) {
+                                totalRatings += result.rating
+                                return result
+                            }
+                        })
 
-                    if (reviews_details.length > 0) {
-                        data._id.ratings = totalRatings / reviews_details.length
+                        if (reviews_details.length > 0) {
+                            data._id.ratings = totalRatings / reviews_details.length
+                        }
+                        else {
+                            data._id.ratings = 0
+                        }
                     }
                     else {
                         data._id.ratings = 0
                     }
+                    delete data._id.status
+                    delete data.location;
+                    delete data.reviews;
+                    delete data._id.location;
+                    return data;
                 }
-                else{
-                    data._id.ratings = 0
-                }
-                delete data.location;
-                delete data.reviews;
-                delete data._id.location;
-                return data;
-
-
             })
             res.json({ code: code.ok, message: msg.ok, data: final })
         }

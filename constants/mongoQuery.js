@@ -273,7 +273,8 @@ function showFavourites(id) {
                     name: '$favourites_details.name',
                     cuisins: '$favourites_details.cuisinOffered',
                     location: '$favourites_details.location',
-                    ratings: '$favourites_details.rating'
+                    ratings: '$favourites_details.rating',
+                    status: '$favourites_details.status'
                 },
                 reviews:{"$push": "$reviews_details"},
                 location: { $first: '$location' }
