@@ -1,5 +1,6 @@
-let schmaName = require('../constants').schemas;
-let mongoose = require('mongoose');
+const schmaName = require('../constants').schemas;
+const mongoose = require('mongoose');
+const userModel = require('../schema/user')
 
 function userProfileWithReview(id, flag) {
 
@@ -252,19 +253,19 @@ function showFavourites(id) {
                 as: 'reviews_details'
             }
         },
-        {
-            $match: {
-                'reviews_details.status': {
-                    $eq: 'ACTIVE'
-                }
-            }
-        },
-        {
-            $addFields: {
-                "favourites_details.rating": { $avg: '$reviews_details.rating' },
-                "favourites_details.dist": " "
-            }
-        },
+        // {
+        //     $match: {
+        //         'reviews_details.status': {
+        //             $eq: 'ACTIVE'
+        //         }
+        //     }
+        // },
+        // {
+        //     $addFields: {
+        //         "favourites_details.rating": { $avg: '$reviews_details.rating' },
+        //         "favourites_details.dist": " "
+        //     }
+        // },
         {
             $group: {
                 _id: {
@@ -274,12 +275,14 @@ function showFavourites(id) {
                     location: '$favourites_details.location',
                     ratings: '$favourites_details.rating'
                 },
+                reviews:{"$push": "$reviews_details"},
                 location: { $first: '$location' }
             }
         },
         {
             $project: {
                 'location': 1, '_id': 1,
+                'reviews':1
                 // 'favourites_details._id': 1, 'favourites_details.name': 1,
                 // 'favourites_details.location': 1, 'favourites_details.cuisin': 1,
                 // "favourites_details.rating": 1

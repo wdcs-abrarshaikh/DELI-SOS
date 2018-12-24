@@ -16,7 +16,6 @@ var mongoose = require('mongoose');
 const mongoQuery = require('../constants/mongoQuery');
 const ntfctnType = require('../constants').notificationsTypes;
 
-
 async function createUser(req, res) {
     let data = req.body;
     if (await userModel.findOne({ email: data.email })) {
@@ -245,6 +244,9 @@ function getRestaurantDetail(req, res) {
                             })
                             actual_response.reviews = reviewDetails;
                             return res.json({ code: code.ok, message: msg.ok, data: actual_response })
+                        }).catch((err) => {
+                            console.log(err)
+                            return res.json({ code: code.internalError, message: msg.internalServerError })
                         })
                     }
                 })
@@ -483,9 +485,31 @@ function showFavourites(req, res) {
             let final = response.map(function (data) {
                 data._id.distance = util.calculateDistance(data.location.coordinates[1], data.location.coordinates[0],
                     data._id.location.coordinates[1], data._id.location.coordinates[0], "K") * 1000;
+                var totalRatings = 0;
+                if (data.reviews.length > 0) {
+                    var reviews_details = data.reviews[0].filter((result) => {
+                        if (result.status == status.active) {
+                            totalRatings += result.rating
+                            return result
+                        }
+                    })
+
+                    if (reviews_details.length > 0) {
+                        data._id.ratings = totalRatings / reviews_details.length
+                    }
+                    else {
+                        data._id.ratings = 0
+                    }
+                }
+                else{
+                    data._id.ratings = 0
+                }
                 delete data.location;
+                delete data.reviews;
                 delete data._id.location;
                 return data;
+
+
             })
             res.json({ code: code.ok, message: msg.ok, data: final })
         }
