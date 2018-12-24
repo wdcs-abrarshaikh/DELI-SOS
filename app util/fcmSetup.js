@@ -6,8 +6,8 @@ function createModel(type,to,data,title,body){
 
     var message;
     message ={  
-        to : 'AAAAYZPE2Nk:APA91bHG6GW4srikju5qMHCLlK1HzXB25QGaCcMBoe4IKksOJDwop_RujrhW3Htir3HmTGv8MeOrq5brLOw67dmtccXzXFL1VATGz9Y_WbrXzWX5zln5bx-cGZ8RMdBTWBYHtFMe7x5Q',
-        collapse_key : 'AIzaSyAwAw1eQlNVdGphMDS_zNLRDppcbpdVskw',
+        to : 'cLhzc8DfPPQ:APA91bHtEd8Yp1yq1vf3nde0SSGvLHWM4ZcxRp_bDmGzcBPU9gCwm8BIqqv4OD9bUEM0msz6ngi8B3Aj7aqsX4-Za1M-N3SuTPmqX3QSdEpus1LkShvvEZPLJbpZOdKBs4YcLfFF8_lr',
+        // collapse_key : '<insert-collapse-key>',
         data : data,  
     };
 
