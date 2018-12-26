@@ -339,14 +339,10 @@ function addReview(req, res) {
                                             }).catch((err) => {
                                                 return res.json({ code: code.internalError, message: msg.internalServerError })
                                             })
-
+                                            let notfctnData = model
                                             model.save().then((response) => {
                                                 let obj = util.decodeToken(req.headers['authorization'])
                                                 let message = `${obj.name} posted new review.`
-                                                let notfctnData = {
-                                                    title: process.env.appName,
-                                                    message: message
-                                                }
                                                 receiverTokens.map((token) => {
                                                     fcm.sendMessage(token.fcmToken, message, process.env.appName, notfctnData)
                                                 })
@@ -389,6 +385,11 @@ function deleteReview(req, res) {
             return res.json({ code: code.notFound, message: msg.reviewNotFound })
         }
         else {
+            notificationModel.findOneAndRemove({ reviewId: req.params.id }, (err, result) => {
+                if (err) {
+                    return res.json({ code: code.internalError, message: msg.internalServerError })
+                }
+            })
             return res.json({ code: code.ok, message: msg.deleted })
         }
     })
@@ -754,11 +755,7 @@ function followUser(req, res) {
                             return res.json({ code: code.ineternalError, message: msg.internalServerError })
                         }
                         else {
-                            let notfctnData = {
-                                title: process.env.appName,
-                                message: message
-                            }
-                            fcm.sendMessage(result.fcmToken, message, process.env.appName, notfctnData)
+                            fcm.sendMessage(result.fcmToken, message, process.env.appName, model)
                             return res.json({ code: code.ok, message: msg.followed })
                         }
                     })
@@ -771,20 +768,30 @@ function followUser(req, res) {
 function unfollowUser(req, res) {
     let obj = util.decodeToken(req.headers['authorization']),
         uid = req.params.userId
-    return userModel.findByIdAndUpdate({ _id: uid }, { $pull: { follower: obj.id } }, (err, result) => {
+    userModel.findByIdAndUpdate({ _id: uid }, { $pull: { follower: obj.id } }, (err, result) => {
         if (err) {
-            res.json({ code: code.ineternalError, message: msg.internalServerError })
+            return res.json({ code: code.ineternalError, message: msg.internalServerError })
         }
         else if (!result) {
-            res.json({ code: code.notFound, message: msg.userNotFound })
+            return res.json({ code: code.notFound, message: msg.userNotFound })
         }
         else {
             userModel.findOneAndUpdate({ _id: obj.id }, { $pull: { following: uid } }, (err, data) => {
                 if (err) {
-                    res.json({ code: code.ineternalError, message: msg.internalServerError })
+                    return res.json({ code: code.ineternalError, message: msg.internalServerError })
                 }
                 else {
-                    res.json({ code: code.ok, message: msg.unfollowed })
+                    notificationModel.findOneAndRemove({
+                        $and: [{ sender: obj.id },
+                        { $or: [{ notificationType: ntfctnType.follow }, { notificationType: ntfctnType.followedBack }] }],
+                    }, (err, result) => {
+                        if (err) {
+                            return res.json({ code: code.ineternalError, message: msg.internalServerError })
+                        }
+                        else {
+                            return res.json({ code: code.ok, message: msg.unfollowed })
+                        }
+                    })
                 }
             })
         }
@@ -903,30 +910,35 @@ function likeUnlikeReview(req, res) {
     reviewModel.findById({ _id: req.params.reviewId }).then((result) => {
         if (result.likedBy.indexOf(obj.id) >= 0) {
             reviewModel.update({ _id: req.params.reviewId }, { $pull: { likedBy: obj.id } }).then((result) => {
-                return res.json({ code: code.ok, message: msg.unlikedReview })
+                notificationModel.findOneAndRemove({ $and: [{ reviewId: req.params.reviewId }, { notificationType: ntfctnType.reviewLiked }] }).then(() => {
+                    return res.json({ code: code.ok, message: msg.unlikedReview })
+                }).catch((err) => {
+                    return res.json({ code: code.internalError, message: msg.internalServerError })
+                })
             })
         }
         else {
             reviewModel.findOneAndUpdate({ _id: req.params.reviewId }, { $push: { likedBy: obj.id } }).then((result) => {
-                let model = new notificationModel()
-                model.notificationType = ntfctnType.reviewLiked
-                model.reviewId = req.params.reviewId;
-                model.sender = obj.id;
-                model.restId = result.restId;
-                model.receiver = [result.userId];
+                if (obj.id != result.userId) {
+                    let model = new notificationModel()
+                    model.notificationType = ntfctnType.reviewLiked
+                    model.reviewId = req.params.reviewId;
+                    model.sender = obj.id;
+                    model.restId = result.restId;
+                    model.receiver = [result.userId];
 
-                model.save().then(async (response) => {
-                    let user = await userModel.findById({ _id: result.userId }).select('fcmToken').then((data) => {
-                        return data
+                    model.save().then(async (response) => {
+                        let user = await userModel.findById({ _id: result.userId }).select('fcmToken').then((data) => {
+                            return data
+                        })
+                        let message = `${obj.name} liked your review`
+                        fcm.sendMessage(user.fcmToken, message, process.env.appName, model)
+                        return res.json({ code: code.ok, message: msg.likedReview })
                     })
-                    let message = `${obj.name} liked your review`
-                    let notfctnData = {
-                        title: process.env.appName,
-                        message: message
-                    }
-                    fcm.sendMessage(user.fcmToken, message, process.env.appName, notfctnData)
+                }
+                else {
                     return res.json({ code: code.ok, message: msg.likedReview })
-                })
+                }
             })
         }
     }).catch((err) => {
@@ -1052,7 +1064,6 @@ function getNotificationList(req, res) {
     notificationModel.aggregate(mongoQuery.notificationList(req.params.userId)).then((data) => {
         return res.json({ code: code.ok, message: msg.ok, data: data })
     }).catch((err) => {
-        console.log(err)
         return res.json({ code: code.internalError, message: msg.internalServerError })
     })
 }

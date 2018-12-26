@@ -276,14 +276,14 @@ function showFavourites(id) {
                     ratings: '$favourites_details.rating',
                     status: '$favourites_details.status'
                 },
-                reviews:{"$push": "$reviews_details"},
+                reviews: { "$push": "$reviews_details" },
                 location: { $first: '$location' }
             }
         },
         {
             $project: {
                 'location': 1, '_id': 1,
-                'reviews':1
+                'reviews': 1
                 // 'favourites_details._id': 1, 'favourites_details.name': 1,
                 // 'favourites_details.location': 1, 'favourites_details.cuisin': 1,
                 // "favourites_details.rating": 1
@@ -491,6 +491,9 @@ function notificationList(id) {
                     reviewContent: { "$arrayElemAt": ["$review_details.content", 0] }
                 }
             }
+        },
+        {
+            $sort: { "_id.createdAt": -1 }
         }
     ]
 }
