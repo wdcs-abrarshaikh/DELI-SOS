@@ -927,25 +927,30 @@ function likeUnlikeReview(req, res) {
         }
         else {
             reviewModel.findOneAndUpdate({ _id: req.params.reviewId }, { $push: { likedBy: obj.id } }).then((result) => {
-                let model = new notificationModel()
-                model.notificationType = ntfctnType.reviewLiked
-                model.reviewId = req.params.reviewId;
-                model.sender = obj.id;
-                model.restId = result.restId;
-                model.receiver = [result.userId];
+                if (obj.id != result.userId) {
+                    let model = new notificationModel()
+                    model.notificationType = ntfctnType.reviewLiked
+                    model.reviewId = req.params.reviewId;
+                    model.sender = obj.id;
+                    model.restId = result.restId;
+                    model.receiver = [result.userId];
 
-                model.save().then(async (response) => {
-                    let user = await userModel.findById({ _id: result.userId }).select('fcmToken').then((data) => {
-                        return data
+                    model.save().then(async (response) => {
+                        let user = await userModel.findById({ _id: result.userId }).select('fcmToken').then((data) => {
+                            return data
+                        })
+                        let message = `${obj.name} liked your review`
+                        let notfctnData = {
+                            title: process.env.appName,
+                            message: message
+                        }
+                        fcm.sendMessage(user.fcmToken, message, process.env.appName, notfctnData)
+                        return res.json({ code: code.ok, message: msg.likedReview })
                     })
-                    let message = `${obj.name} liked your review`
-                    let notfctnData = {
-                        title: process.env.appName,
-                        message: message
-                    }
-                    fcm.sendMessage(user.fcmToken, message, process.env.appName, notfctnData)
+                }
+                else {
                     return res.json({ code: code.ok, message: msg.likedReview })
-                })
+                }
             })
         }
     }).catch((err) => {
