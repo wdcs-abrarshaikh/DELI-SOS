@@ -14,6 +14,7 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { DataTablesModule } from 'angular-datatables';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import * as $ from 'jquery';
+import { GooglePlaceModule } from "ngx-google-places-autocomplete";
 import {
 	MatAutocompleteModule,
 	MatBadgeModule,
@@ -70,6 +71,7 @@ const routes: Routes = [
 
 @NgModule({
 	imports: [
+		GooglePlaceModule,
 		CommonModule, 
 		RestaurantRoutingModule,
 		LayoutModule,

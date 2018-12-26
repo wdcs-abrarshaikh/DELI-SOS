@@ -14,6 +14,8 @@ import { map, startWith } from 'rxjs/operators';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 // import { timingSafeEqual } from 'crypto';
 
+
+
 @Component({
   selector: 'app-add-edit-restaurant',
   templateUrl: './add-edit-restaurant.component.html',
@@ -33,7 +35,6 @@ export class AddEditRestaurantComponent implements OnInit {
   separatorKeysCodes: number[] = [ENTER, COMMA];
   @ViewChild('valuesInput') valuesInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
-
   mealOffers_arr: Array<any> = ["BREAKFAST", "LUNCH", "DINNER", "ALL"]
 
   @Input() name;

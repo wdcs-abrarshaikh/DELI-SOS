@@ -626,7 +626,7 @@ module.exports = function (NAME, wrapper, methods, common, IS_MAP, IS_WEAK) {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-var core = module.exports = { version: '2.5.7' };
+var core = module.exports = { version: '2.6.1' };
 if (typeof __e == 'number') __e = core; // eslint-disable-line no-undef
 
 
@@ -5473,7 +5473,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /home/codezeros/Desktop/DELI-SOS/public/src/polyfills.ts */"./src/polyfills.ts");
+module.exports = __webpack_require__(/*! /home/codezeros/Documents/DELI SOS/public/src/polyfills.ts */"./src/polyfills.ts");
 
 
 /***/ })

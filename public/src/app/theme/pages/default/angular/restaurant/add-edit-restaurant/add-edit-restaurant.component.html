@@ -26,6 +26,16 @@
 
 
     <div class="form-group">
+      <label>Address</label>
+      <!-- <input class="form-control m-input" google-place type="text" formControlName="adderss" [(ngModel)]="address"> -->
+      <input ngx-google-places-autocomplete [options]='options' #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)"/>
+      <p *ngIf="RestaurantForm.controls.address.errors?.required &&  (RestaurantForm.controls.address.dirty || RestaurantForm.controls.address.touched)"
+        class="lbl-err">Address is required.</p>
+      <p *ngIf="RestaurantForm.controls.address.errors?.pattern " class="lbl-err">Address is required.</p>
+
+    </div><br>
+
+    <div class="form-group">
       <label>Latitude</label>
       <input class="form-control m-input" type="text" formControlName="latitude" [(ngModel)]="latitude">
       <p *ngIf="RestaurantForm.controls.latitude.errors?.required &&  (RestaurantForm.controls.latitude.dirty || RestaurantForm.controls.latitude.touched)"
