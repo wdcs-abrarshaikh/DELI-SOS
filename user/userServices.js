@@ -339,14 +339,10 @@ function addReview(req, res) {
                                             }).catch((err) => {
                                                 return res.json({ code: code.internalError, message: msg.internalServerError })
                                             })
-
+                                            let notfctnData = model
                                             model.save().then((response) => {
                                                 let obj = util.decodeToken(req.headers['authorization'])
                                                 let message = `${obj.name} posted new review.`
-                                                let notfctnData = {
-                                                    title: process.env.appName,
-                                                    message: message
-                                                }
                                                 receiverTokens.map((token) => {
                                                     fcm.sendMessage(token.fcmToken, message, process.env.appName, notfctnData)
                                                 })
@@ -759,11 +755,7 @@ function followUser(req, res) {
                             return res.json({ code: code.ineternalError, message: msg.internalServerError })
                         }
                         else {
-                            let notfctnData = {
-                                title: process.env.appName,
-                                message: message
-                            }
-                            fcm.sendMessage(result.fcmToken, message, process.env.appName, notfctnData)
+                            fcm.sendMessage(result.fcmToken, message, process.env.appName, model)
                             return res.json({ code: code.ok, message: msg.followed })
                         }
                     })
@@ -940,11 +932,7 @@ function likeUnlikeReview(req, res) {
                             return data
                         })
                         let message = `${obj.name} liked your review`
-                        let notfctnData = {
-                            title: process.env.appName,
-                            message: message
-                        }
-                        fcm.sendMessage(user.fcmToken, message, process.env.appName, notfctnData)
+                        fcm.sendMessage(user.fcmToken, message, process.env.appName, model)
                         return res.json({ code: code.ok, message: msg.likedReview })
                     })
                 }
