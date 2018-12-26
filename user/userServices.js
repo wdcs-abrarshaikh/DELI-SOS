@@ -15,6 +15,7 @@ let adminService = require('../admin/adminServices');
 var mongoose = require('mongoose');
 const mongoQuery = require('../constants/mongoQuery');
 const ntfctnType = require('../constants').notificationsTypes;
+const fcm = require('../app util/fcmSetup')
 
 async function createUser(req, res) {
     let data = req.body;
@@ -292,7 +293,6 @@ function getRestaurantList(req, res) {
 }
 
 function addReview(req, res) {
-
     userModel.findOne({ _id: req.body.userId }, (err, data) => {
         if (err) {
             return res.json({ code: code.internalError, message: msg.internalServerError })
@@ -331,8 +331,25 @@ function addReview(req, res) {
                                             model.sender = req.body.userId;
                                             model.restId = req.body.restId;
                                             model.receiver = result.follower;
+                                            let receiverTokens;
+                                            userModel.find({ _id: { $in: result.follower } }).select('fcmToken').then((tokens) => {
+                                                if (tokens.length > 0) {
+                                                    receiverTokens = tokens
+                                                }
+                                            }).catch((err) => {
+                                                return res.json({ code: code.internalError, message: msg.internalServerError })
+                                            })
 
                                             model.save().then((response) => {
+                                                let obj = util.decodeToken(req.headers['authorization'])
+                                                let message = `${obj.name} posted new review.`
+                                                let notfctnData = {
+                                                    title: process.env.appName,
+                                                    message: message
+                                                }
+                                                receiverTokens.map((token) => {
+                                                    fcm.sendMessage(token.fcmToken, message, process.env.appName, notfctnData)
+                                                })
                                                 return res.json({ code: code.created, message: msg.reviewAdded, data: data })
                                             })
                                         }
@@ -709,7 +726,7 @@ function getNearByRestaurant(req, res) {
 function followUser(req, res) {
     let obj = util.decodeToken(req.headers['authorization']),
         uid = req.params.userId
-    userModel.findByIdAndUpdate({ _id: uid }, { $addToSet: { follower: obj.id } }, (err, result) => {
+    userModel.findByIdAndUpdate({ _id: uid }, { $addToSet: { follower: obj.id } }, { new: true }, (err, result) => {
         if (err) {
             return res.json({ code: code.ineternalError, message: msg.internalServerError })
         }
@@ -726,8 +743,10 @@ function followUser(req, res) {
                     model.sender = obj.id
                     model.receiver = [uid]
                     model.notificationType = ntfctnType.follow
+                    let message = `${obj.name} started following you.`;
 
                     if (data.follower.indexOf(uid) != -1) {
+                        message = `${obj.name} followed you back.`
                         model.notificationType = ntfctnType.followedBack
                     }
                     model.save((err, response) => {
@@ -735,6 +754,11 @@ function followUser(req, res) {
                             return res.json({ code: code.ineternalError, message: msg.internalServerError })
                         }
                         else {
+                            let notfctnData = {
+                                title: process.env.appName,
+                                message: message
+                            }
+                            fcm.sendMessage(result.fcmToken, message, process.env.appName, notfctnData)
                             return res.json({ code: code.ok, message: msg.followed })
                         }
                     })
@@ -891,7 +915,16 @@ function likeUnlikeReview(req, res) {
                 model.restId = result.restId;
                 model.receiver = [result.userId];
 
-                model.save().then((response) => {
+                model.save().then(async (response) => {
+                    let user = await userModel.findById({ _id: result.userId }).select('fcmToken').then((data) => {
+                        return data
+                    })
+                    let message = `${obj.name} liked your review`
+                    let notfctnData = {
+                        title: process.env.appName,
+                        message: message
+                    }
+                    fcm.sendMessage(user.fcmToken, message, process.env.appName, notfctnData)
                     return res.json({ code: code.ok, message: msg.likedReview })
                 })
             })
