@@ -332,22 +332,28 @@ function addReview(req, res) {
                                             model.restId = req.body.restId;
                                             model.receiver = result.follower;
                                             let receiverTokens;
+                                            console.log("printing followers",result.follower)
                                             userModel.find({ _id: { $in: result.follower } }).select('fcmToken').then((tokens) => {
                                                 if (tokens.length > 0) {
                                                     receiverTokens = tokens
+                                                }else{
+                                                  receiverTokens=[]
                                                 }
+                                                console.log("printing tokens");
+                                                console.log(receiverTokens)
+                                                let notfctnData = model
+                                                model.save().then(async (response) => {
+                                                    let obj = await util.decodeToken(req.headers['authorization'])
+                                                    let message = `${obj.name} posted new review.`
+                                                    receiverTokens.map((token) => {
+                                                        fcm.sendMessage(token.fcmToken, message, process.env.appName, notfctnData)
+                                                    })
+                                                    return res.json({ code: code.created, message: msg.reviewAdded, data: data })
+                                                })
                                             }).catch((err) => {
                                                 return res.json({ code: code.internalError, message: msg.internalServerError })
                                             })
-                                            let notfctnData = model
-                                            model.save().then((response) => {
-                                                let obj = util.decodeToken(req.headers['authorization'])
-                                                let message = `${obj.name} posted new review.`
-                                                receiverTokens.map((token) => {
-                                                    fcm.sendMessage(token.fcmToken, message, process.env.appName, notfctnData)
-                                                })
-                                                return res.json({ code: code.created, message: msg.reviewAdded, data: data })
-                                            })
+
                                         }
                                     })
 

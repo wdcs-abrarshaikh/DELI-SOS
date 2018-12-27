@@ -90,12 +90,6 @@ function getNearByRestaurant(req, res) {
     service.getNearByRestaurant(req, res)
 }
 
-<<<<<<< HEAD
-function getRestaurant(req,res){
-    service.getRestaurant(req,res)
-}
-
-=======
 function followUser(req, res) {
     service.followUser(req, res)
 }
@@ -159,7 +153,7 @@ function logout(req,res){
 function shareReview(req,res){
     service.shareReview(req,res)
 }
->>>>>>> 9f34894b36ad8c4804ebbfa4e9c6ef5b6aa2eedb
+
 module.exports = {
     signup,
     login,
@@ -183,9 +177,6 @@ module.exports = {
     changePassword,
     getRestaurantList,
     getNearByRestaurant,
-<<<<<<< HEAD
-    getRestaurant
-=======
     followUser,
     getFollowingList,
     getFollowerList,
@@ -202,5 +193,4 @@ module.exports = {
     getNotificationList,
     logout,
     shareReview
->>>>>>> 9f34894b36ad8c4804ebbfa4e9c6ef5b6aa2eedb
 }
