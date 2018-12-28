@@ -1,6 +1,8 @@
 var jwt = require('jsonwebtoken')
 var code = require('../constants').http_codes;
 var msg = require('../constants').messages;
+var util = require('../app util/util')
+var userModel = require('../schema/user')
 
 function validateSignUp(req, res, next) {
     if (req.body.name && req.body.password && req.body.email && req.body.deviceId && req.body.deviceType && req.body.fcmToken) {
@@ -57,6 +59,7 @@ function validateLogin(req, res, next) {
         return res.json({ code: code.badRequest, message: msg.invalidBody })
     }
 }
+
 function validateSocialLogin(req, res, next) {
     if (req.body.name && req.body.socialId && req.body.deviceId && req.body.deviceType && req.body.fcmToken && req.body.latitude && req.body.longitude) {
         let name = req.body.name.trim(),
@@ -83,6 +86,7 @@ function validateSocialLogin(req, res, next) {
         return res.json({ code: code.badRequest, message: msg.invalidBody })
     }
 }
+
 async function verifyUserToken(req, res, next) {
     let token = req.headers['authorization']
 
@@ -91,7 +95,17 @@ async function verifyUserToken(req, res, next) {
             return res.json({ code: code.badRequest, message: msg.invalidToken })
         }
         else {
-            next();
+            let obj = util.decodeToken(token)
+            userModel.findOne({ $and: [{ _id: obj.id }, { blackListedTokens: { $in: token } }] }).then((data) => {
+                if (data) {
+                    return res.json({ code: code.badRequest, message: msg.tokenExpired })
+                }
+                else {
+                    next();
+                }
+            }).catch((err) => {
+                return res.json({ code: code.internalError, message: msg.internalServerError })
+            })
         }
     })
 }
@@ -128,6 +142,7 @@ async function validateBody(req, res, next) {
         next();
     }
 }
+
 function validateRestaurant(req, res, next) {
     let rest = req.body
     if (rest.name && rest.description && rest.latitude &&
@@ -157,6 +172,7 @@ function validateRestaurant(req, res, next) {
     }
     else { return res.json({ code: code.badRequest, message: msg.invalidBody }) }
 }
+
 function validateReview(req, res, next) {
     let data = req.body
     if (data.restId && data.userId && data.content && data.likePlace && data.rating && data.improvementArea) {
@@ -239,14 +255,6 @@ function validateUpload(req, res, next) {
     }
 }
 
-function validateContactUs(req,res,next){
-    if(req.body.content && req.body.contactNo){
-        next()
-    }
-    else{
-        return res.json({ code: code.badRequest, message: msg.invalidBody })
-    }
-}
 module.exports = {
     validateSignUp,
     validateLogin,
@@ -259,6 +267,5 @@ module.exports = {
     validateChangePassword,
     validateUserId,
     validateChangeLocation,
-    validateUpload,
-    validateContactUs
+    validateUpload
 }

@@ -47,6 +47,7 @@ async function createAdmin(req, res) {
 
 //this is a login function of admin. it returns token which expires in 1hr and result:id,mail and role
 async function authenticateAdmin(req, res) {
+    
     let data = req.body;
     await userModel.findOne({ email: data.email, role: role.ADMIN }, (err, result) => {
         if (err) {
@@ -270,7 +271,6 @@ async function deleteRestaurant(req, res) {
 // }
 function uploadPhoto(req, res) {
     req.newFile_name = [];
-
     util.upload(req, res, async function (err) {
         if (err) {
             return res.json({ code: code.badRequest, message: err })
@@ -644,8 +644,8 @@ async function deletePrivacyPolicy(req, res) {
 }
 
 async function getContactRequest(req, res) {
-    aboutModel.findOne({ $and: [{ status: status.active }, { type: Type.contact }] })
-        .populate({ path: 'createdBy', select : 'name email' }).exec((err, data) => {
+    aboutModel.find({ $and: [{ status: status.active }, { type: Type.contact }] })
+        .exec((err, data) => {
             if (err) {
                 return res.json({ code: code.internalError, message: msg.internalServerError })
             }

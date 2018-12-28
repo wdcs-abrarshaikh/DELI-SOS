@@ -7,7 +7,6 @@ var path = require('path')
 var multer = require('multer');
 var storage = multer.diskStorage({
     destination: function (req, file, callback) {
-
         callback(null, './img');
     },
     filename: function (req, file, callback) {
@@ -46,10 +45,11 @@ function validatePassword(data) {
 function generateToken(data, secret) {
     let obj = {
         id: data._id,
+        name: data.name,
         email: data.email,
         role: data.role
     }
-    return jwt.sign(obj, secret, { expiresIn: '24hr' })
+    return jwt.sign(obj, secret, { expiresIn: '720hr' })
 }
 
 function decodeToken(token) {
@@ -102,13 +102,13 @@ function sendEMail(receiverid, data) {
 }
 
 function checkFileType(file, callback) {
-    const fileTypes = /jpeg|jpg|png|gif/;
+    const fileTypes = /jpeg|jpg|png|gif|pdf/;
     const extName = fileTypes.test(path.extname(file.originalname).toLocaleLowerCase());
     if (extName) {
         return callback(null, true);
     }
     else {
-        callback('Error:Images only!')
+        callback('Error:Images and pdf only!')
     }
 }
 

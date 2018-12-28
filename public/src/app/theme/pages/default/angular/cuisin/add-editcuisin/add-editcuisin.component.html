@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <h4 class="modal-title">{{ isAdd ? 'Add' : isView ? 'View' : 'Edit'}} Cuisin</h4>  
+  <h4 class="modal-title">{{ isAdd ? 'Add' : isView ? 'View' : 'Edit'}} Cuisine</h4>  
   <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
     <span aria-hidden="true">&times;</span>
   </button>
@@ -7,7 +7,7 @@
 <div class="modal-body">
 <form [formGroup]="cuisinForm" (ngSubmit)="addCuisins()">
             <div class="form-group">
-                <label for="name">Cuisin Name</label>
+                <label for="name">Cuisine Name</label>
                 <input type="text" formControlName="name"  class="form-control" [(ngModel)]="name" [ngClass]="{'is-invalid':submitted && f.name.errors}" />
                <div *ngIf="submitted && f.name.errors" class="lbl-err">
                <div *ngIf=" f.name.errors.required ">Name is required</div>
@@ -17,7 +17,7 @@
              </div>
 
              <div class="form-group">
-             <label>Cuisin Images:</label><br>
+             <label>Cuisine  Images:</label><br>
              <img  [src]="image" class="rounded mb-3" width="50%" height=auto/> &nbsp;&nbsp;<br>
              <label class="btn-bs-file btn btn-ls btn-info" style="margin-top:6px" text-align="center" *ngIf="!isView" >image
              <input type="file" formControlName="image" style="display: none" (change)="uploadImage($event)" [ngClass]="{'is-invalid':submitted && f.image.errors}"/> </label>     

@@ -62,7 +62,11 @@ messages = {
     aboutUsUpdated: "About us updated successfully",
     restReqDeclined: "Restaurant approval rejected succssfully",
     alreadyUploadPhotos: "Sorry, you already post photos for this restaurant",
-    contactReqSent: "Contact request sent to the admin."
+    contactReqSent: "Contact request sent to the admin.",
+    likedReview: "Review successfully liked",
+    unlikedReview: "Review successfully unliked",
+    loggedout:'Loggedout successfully',
+    tokenExpired:'Token expired'
 }
 
 roles = {
@@ -106,6 +110,13 @@ Type = {
     contact: 'Contact_Us'
 }
 
+notificationsTypes = {
+    reviewPosted: 'reviewPosted',
+    reviewLiked: 'reviewLiked',
+    follow: 'follow',
+    followedBack: 'followedBack'
+}
+
 module.exports = {
     http_codes,
     messages,
@@ -114,5 +125,6 @@ module.exports = {
     status,
     criteria,
     mealTypes,
-    Type
+    Type,
+    notificationsTypes
 }

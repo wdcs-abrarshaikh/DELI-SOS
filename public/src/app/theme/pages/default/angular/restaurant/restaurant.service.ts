@@ -73,10 +73,10 @@ export class RestaurantService {
 
     // }
     uploadPic(pic: any) {
-      
+      console.log(pic)
         let formData = new FormData();
         pic.map(async (res) => {
-          
+           console.log(res)
             formData.append('img', res);
 
         })
