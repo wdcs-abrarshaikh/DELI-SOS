@@ -652,6 +652,7 @@ function changePassword(req, res) {
 
 function getNearByRestaurant(req, res) {
     userModel.findOne({ _id: req.params.userId, status: status.active }, (err, data) => {
+      console.log(data.location)
         if (err) {
             return res.json({ code: code.internalError, message: msg.internalServerError })
         } else if (!data) {
@@ -662,10 +663,10 @@ function getNearByRestaurant(req, res) {
                     $geoNear: {
                         near: { type: data.location.type, coordinates: [data.location.coordinates[0], data.location.coordinates[1]] },
                         distanceField: "dist.calculated",
-                        maxDistance: 100000,
+                        maxDistance: 10000,
                         key: 'location',
                         query: { status: status.active },
-                        num: 5, spherical: true
+                        spherical: true
                     }
                 }, {
                     $project: {
@@ -693,12 +694,13 @@ function getNearByRestaurant(req, res) {
 
                     }
                 }], (err, response) => {
+                  console.log(response.length)
                     if (err) {
                         return res.json({ code: code.internalError, message: msg.internalServerError })
                     } else {
                         let marker = [];
                         let recommendation = []
-
+                        let counter =1
                         let modifyed_response = response.map(async (response_res) => {
                             let obj = Object.assign({}, response_res);
                             delete obj.mealOffers;
@@ -717,7 +719,11 @@ function getNearByRestaurant(req, res) {
                             });
 
                             marker.push(obj);
-                            recommendation.push(response_res);
+                            if(counter < 6){
+                                recommendation.push(response_res);
+                                counter++;
+                            }
+
 
                         });
                         recommendation = recommendation.slice(0, 10)
@@ -974,7 +980,7 @@ function filterRestaurants(req, res) {
                 else if (loc) {
                     let final = response.map(function (data) {
                         data._id.distance = util.calculateDistance(loc.location.coordinates[1], loc.location.coordinates[0],
-                            data._id.location.coordinates[1], data._id.location.coordinates[0], "K") * 1000;
+                            data._id.location.coordinates[1], data._id.location.coordinates[0], "K") * 100;
                         var totalRatings = 0;
                         let reviews_details = data._id.reviews.filter(function (result) {
                             if (result.status == status.active) {
