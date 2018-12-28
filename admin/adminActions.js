@@ -38,6 +38,10 @@ function addRestaurant(req, res) {
     service.addRestaurant(req, res)
 }
 
+// function getAllRestaurant(req, res) {
+//     service.getAllRestaurant(req, res)
+// }
+
 function getRestaurantDetails(req, res) {
     service.getRestaurantDetails(req, res)
 }
@@ -204,5 +208,6 @@ module.exports = {
     getCuisinList,
     deleteCuisin,
     updateCuisin,
-    deleteRestaurantReq
+    deleteRestaurantReq,
+    // getAllRestaurant
 }

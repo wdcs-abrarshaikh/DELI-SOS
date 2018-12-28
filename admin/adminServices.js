@@ -9,6 +9,7 @@ var role = require('../constants').roles;
 var status = require('../constants').status;
 var validate = require('./adminValidator');
 var cloudinary = require('cloudinary')
+MongoClient = require('mongodb').MongoClient,
 cloudinary.config({
     cloud_name: process.env.cloudinary_name,
     api_key: process.env.cloudinary_key,
@@ -213,13 +214,14 @@ async function getRestaurantDetails(req, res) {
 }
 
 async function getRestaurantList(req, res) {
+    console.log("get restatfsadgfa")
     restModel.find({ status: status.active }, (err, result) => {
         if (err) {
             //console.log("error", err)
             res.json({ code: code.internalError, message: msg.internalServerError })
         }
         else {
-            res.json({ code: code.ok, message: msg.ok, data: result })
+           res.json({ code: code.ok, message: msg.ok, data: result })
         }
     })
 }
@@ -791,8 +793,45 @@ async function deleteRestaurantReq(req, res) {
         } else { return res.json({ code: code.ok, msg: msg.restReqDeclined }) }
     });
 
-
 }
+
+// async function getAllRestaurant(req, res) {
+//    MongoClient.connect("mongodb://localhost/", function(err, db) {
+//         if (err) throw err;
+//         var dbo = db.db("getdata");
+//         dbo.collection("restaurants").find({},{ projection: { geometry: 1, name: 1, rating: 1 ,_id:0} }).toArray(function(err, result) {
+//             if(err){
+//                 return res.json({ code: code.internalError, message: msg.internalError })
+//             }else{
+//           result.map((data)=>{
+//                    req.body.location = {
+//                         type: "Point",
+//                         coordinates: [data.geometry[0].location.lng, data.geometry[0].location.lat]
+//                      }
+//                     req.body.name=data.name
+//                     req.body.rating=data.rating
+//                     let rest = new restModel(req.body)
+//                     rest.status = status.active;
+//                     rest.openTime='10:00 AM'
+//                     rest.closeTime='8:00 PM'
+//                     rest.menu='default.jpg',
+//                     rest.description="good"
+//                     rest.save((err, data1) => {
+//                         if(err){
+//                             return res.json({ code: code.internalError, message: msg.internalError })
+//                         }else{
+//                             return data1
+//                         }
+//                    })
+//                })
+//               return  res.json({ code: code.created, message: msg.restAddSucessfully})
+//             }
+//        });
+//        db.close();
+//       });
+ 
+// }
+
 
 
 module.exports = {
@@ -836,5 +875,6 @@ module.exports = {
     getCuisinList,
     deleteCuisin,
     updateCuisin,
-    deleteRestaurantReq
+    deleteRestaurantReq,
+    // getAllRestaurant
 }

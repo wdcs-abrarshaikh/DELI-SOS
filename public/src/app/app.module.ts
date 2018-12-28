@@ -22,6 +22,8 @@ import { ToastrModule } from 'ngx-toastr';
 import { ForgotEmailComponent } from './forgot-email/forgot-email.component';
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { InputsModule } from '@progress/kendo-angular-inputs';
+
 
 
 // import { ImagesPipe } from './images.pipe';
@@ -50,7 +52,8 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
     ToastrModule.forRoot(),
     OwlDateTimeModule,
     OwlNativeDateTimeModule ,
-    Ng4LoadingSpinnerModule.forRoot()
+    Ng4LoadingSpinnerModule.forRoot(),
+    InputsModule
 
   ],
   providers: [ScriptLoaderService],
