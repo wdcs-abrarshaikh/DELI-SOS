@@ -34,7 +34,7 @@ export class CuisinComponent implements OnInit {
     private cuisinService: CuisinService,
     private _script: ScriptLoaderService,
     private spinnerService:Ng4LoadingSpinnerService) {
-      this.spinnerService.show();
+      // this.spinnerService.show();
       this.cuisinService.getCuisins().subscribe((data: any) => {
        this.cuisinsList = data.cuisinsList.data
        this.spinnerService.hide();
@@ -66,7 +66,7 @@ export class CuisinComponent implements OnInit {
 
   // All User Display Method
   getCuisinList() {
-    this.spinnerService.show();
+    // this.spinnerService.show();
     this.cuisinService.getAllCuisins().subscribe((response: any) => {
     this.cuisinsList = response.data;
     this.spinnerService.hide();

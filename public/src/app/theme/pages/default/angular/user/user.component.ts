@@ -36,7 +36,7 @@ export class UserComponent implements OnInit, AfterViewInit {
     private userService: UserService,
     private _script: ScriptLoaderService,
     private spinnerService: Ng4LoadingSpinnerService) {
-      this.spinnerService.show();
+      // this.spinnerService.show();
     this.userService.getUsers().subscribe((data: any) => {
       this.usersList = data.usersList.data
       this.spinnerService.hide();
@@ -77,7 +77,7 @@ export class UserComponent implements OnInit, AfterViewInit {
 
   // All User Display Method
   getUserList() {
-    this.spinnerService.show();
+    // this.spinnerService.show();
    this.userService.getAllUsers().subscribe((response: any) => {
     
       // console.log("all data here display")

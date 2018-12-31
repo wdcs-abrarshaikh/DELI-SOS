@@ -53,24 +53,24 @@ export class IndexComponent implements OnInit, AfterViewInit {
     }
     usersList:Array<any>;
     getUserList() {
-        this.spinnerService.show();
         this.indexService.getAllUsers().subscribe((response: any) => {
            this.usersList = response.data;
-           this.spinnerService.hide();
         });
     }
    restaurantList:Array<any>;
    getRestaurant(){
        this.indexService.getAllRestaurant().subscribe((response:any)=>{
            this.restaurantList=response.data
+           this.spinnerService.hide();
+
        })
    }
 
     getAllRequest() {
-        this.spinnerService.show();
+        // this.spinnerService.show();
         this.indexService.getAllRequest().subscribe((response: any) => {
             this.restList = response.data
-            this.spinnerService.hide();
+            // this.spinnerService.hide();
             
             
         })

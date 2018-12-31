@@ -54,6 +54,7 @@ export class PrivacyPolicyComponent implements OnInit {
         this.privacyPolicyLists = data.privacyPolicyLists;
         this.initialprivacyPolicyLists = this.privacyPolicyLists;
       }
+      this.spinnerService.hide()
     })
   }
 
@@ -114,7 +115,7 @@ export class PrivacyPolicyComponent implements OnInit {
   }
 
   getAllPrivacyPolicy() {
-    this.spinnerService.show();
+    // this.spinnerService.show();
     this.privacyPolicyService.getAllPrivacyPolicy().subscribe((response: any) => {
       this.spinnerService.hide();
       this.privacyPolicyService.setPrivacyPolicy(response.data);
@@ -122,7 +123,7 @@ export class PrivacyPolicyComponent implements OnInit {
   }
 
   getPrivacyPolicyList() {
-    this.spinnerService.show();
+    // this.spinnerService.show();
     this.privacyPolicyService.getAllPrivacyPolicy().subscribe((response: any) => {
       this.spinnerService.hide();
       if (response.data !== null) {

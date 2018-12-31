@@ -32,7 +32,7 @@ export class ProfileComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private toastService: ToastrService,
     private spinnerService: Ng4LoadingSpinnerService) {
-      this.spinnerService.show();
+      // this.spinnerService.show();
     this.profileService.getProfile().subscribe((data: any) => {
       this.id = data.data._id
       this.name = data.data.name

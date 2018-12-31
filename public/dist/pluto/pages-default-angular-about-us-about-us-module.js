@@ -7,7 +7,7 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".btn-add {\n    border-radius: 1.1rem;\n    padding: 1.0rem 1.65rem;\n    font-size: 1.25rem;\n    line-height: .6;\n    color: white;\n    border-color: #e95e37;\n    margin-left: 88%;\n    margin-bottom: 16px;\n    background: linear-gradient(to right, #e44216, #f7b733);\n}\n\n.header{\n    font-size: 3.15rem;\n    padding: 1.30rem 4.65rem;\n    text-align: center;\n}\n\n.btn-edit{\n    color:white;\n    width:80px;\n    background: #2e85a0;\n       border-radius: 25%;\n    opacity: 1;\n}\n\n.btn-edit:hover{opacity: 1;}\n\n.btn-edit:active {\n  background-color: #3e8e41;\n  box-shadow: 0 5px #666;\n  -webkit-transform: translateY(4px);\n          transform: translateY(4px);\n}\n\n.btn-delete{\n    color:white;\n    width:80px;\n    background: #a73a08;\n    opacity: 1;\n    border-radius: 25%;\n}\n\n.btn-delete:hover{opacity: 1;}\n\n.btn-save{\n    color:white;\n    width:80px;\n    background: #49a558;\n     border-radius: 25%;\n    opacity: 1;\n}\n\n.btn-save:hover{opacity: 1;}\n\n.btn-save:active {\n  background-color: #509952;\n  -webkit-transform: translateY(4px);\n          transform: translateY(4px);\n}\n\n.lbl-err {\n    color: red;\n }\n\n.banner-image {\n    /* height: 85px; */\n    width: 130px;\n    margin-left: 122px;\n }\n\n.btn-del{\n    padding: 1.25rem 1.65rem;\n    font-size: 1.25rem;\n    line-height: 1.5;\n    color:white;\n    margin-right:45px;\n    background: #a73a08;\n\n }\n\n:host app-ngx-editor /deep/ .ngx-editor-textarea {\n    height:500px !important;\n }\n\n#commonCms{\n    padding-top: 5%; \n    padding-right: 7%;\n    padding-left: 7%;\n }\n\n#customBtns{\n     float: right;\n     margin-right:10%;\n     padding: 5px;\n }\n\n.mrgRight5{\n     margin-right: 8px;\n }\n\n.ngx-editor-textarea1 {\n    height:300px !important;\n \n }"
+module.exports = ".btn-add {\n    border-radius: 1.1rem;\n    padding: 1.0rem 1.65rem;\n    font-size: 1.25rem;\n    line-height: .6;\n    color: white;\n    border-color: #e95e37;\n    margin-left: 88%;\n    margin-bottom: 16px;\n    background: linear-gradient(to right, #e44216, #f7b733);\n}\n\n.header{\n    font-size: 3.15rem;\n    padding: 1.30rem 4.65rem;\n    text-align: center;\n}\n\n.btn-edit{\n    color:white;\n    width:80px;\n    background: #2e85a0;\n       border-radius: 25%;\n    opacity: 1;\n}\n\n.btn-edit:hover{opacity: 1;}\n\n.btn-edit:active {\n  background-color: #3e8e41;\n  box-shadow: 0 5px #666;\n  -webkit-transform: translateY(4px);\n          transform: translateY(4px);\n}\n\n.btn-delete{\n    color:white;\n    width:80px;\n    background: #a73a08;\n    opacity: 1;\n    border-radius: 25%;\n}\n\n.btn-delete:hover{opacity: 1;}\n\n.btn-save{\n    color:white;\n    width:80px;\n    background: #49a558;\n     border-radius: 25%;\n    opacity: 1;\n}\n\n.btn-save:hover{opacity: 1;}\n\n.btn-save:active {\n  background-color: #509952;\n  -webkit-transform: translateY(4px);\n          transform: translateY(4px);\n}\n\n.lbl-err {\n    color: red;\n }\n\n.banner-image {\n    /* height: 85px; */\n    width: 130px;\n    margin-left: 122px;\n }\n\n.btn-del{\n    padding: 1.25rem 1.65rem;\n    font-size: 1.25rem;\n    line-height: 1.5;\n    color:white;\n    margin-right:45px;\n    background: #a73a08;\n\n }\n\n:host app-ngx-editor /deep/ .ngx-editor-textarea {\n    height:500px !important;\n    color:black\n }\n\n#commonCms{\n    padding-top: 5%; \n    padding-right: 7%;\n    padding-left: 7%;\n }\n\n#customBtns{\n     float: right;\n     margin-right:10%;\n     padding: 5px;\n }\n\n.mrgRight5{\n     margin-right: 8px;\n }\n\n.ngx-editor-textarea1 {\n    height:300px !important;\n \n }"
 
 /***/ }),
 
@@ -80,7 +80,9 @@ var AboutUsComponent = /** @class */ (function () {
             minHeight: '10rem',
             placeholder: 'Type something. Test the Editor... ヽ(^。^)丿'
         };
+        this.spinnerService.show();
         this.aboutUsService.getAboutus().subscribe(function (data) {
+            _this.spinnerService.hide();
             if (data.aboutUsList == null) {
                 _this.aboutUsList = data.aboutUsList;
                 _this.initialaboutusList = _this.aboutUsList;
@@ -120,9 +122,10 @@ var AboutUsComponent = /** @class */ (function () {
     };
     AboutUsComponent.prototype.getAllAboutus = function () {
         var _this = this;
+        this.spinnerService.show();
         this.aboutUsService.getAllAboutus().subscribe(function (response) {
-            console.log(response);
             _this.aboutUsService.setAboutus(response.data);
+            _this.spinnerService.hide();
         });
     };
     AboutUsComponent.prototype.validateForm = function () {
@@ -503,6 +506,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ "./node_modules/@ng-bootstrap/ng-bootstrap/fesm5/ng-bootstrap.js");
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ng4-loading-spinner */ "./node_modules/ng4-loading-spinner/ng4-loading-spinner.umd.js");
+/* harmony import */ var ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_7__);
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -519,14 +524,16 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
 var AddAboutUsComponent = /** @class */ (function () {
-    function AddAboutUsComponent(activeModal, _router, _formBuilder, modalService, aboutUsService, toastService) {
+    function AddAboutUsComponent(activeModal, _router, _formBuilder, modalService, aboutUsService, toastService, spinnerService) {
         this.activeModal = activeModal;
         this._router = _router;
         this._formBuilder = _formBuilder;
         this.modalService = modalService;
         this.aboutUsService = aboutUsService;
         this.toastService = toastService;
+        this.spinnerService = spinnerService;
         this.loading = false;
         this.submitted = false;
         this.editorConfig = {
@@ -558,7 +565,9 @@ var AddAboutUsComponent = /** @class */ (function () {
     };
     AddAboutUsComponent.prototype.getAllAboutus = function () {
         var _this = this;
+        this.spinnerService.show();
         this.aboutUsService.getAllAboutus().subscribe(function (response) {
+            _this.spinnerService.hide();
             _this.aboutUsService.setAboutus(response.data);
         });
     };
@@ -619,7 +628,8 @@ var AddAboutUsComponent = /** @class */ (function () {
             _angular_forms__WEBPACK_IMPORTED_MODULE_3__["FormBuilder"],
             _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_5__["NgbModal"],
             _about_us_service__WEBPACK_IMPORTED_MODULE_1__["AboutUsService"],
-            ngx_toastr__WEBPACK_IMPORTED_MODULE_4__["ToastrService"]])
+            ngx_toastr__WEBPACK_IMPORTED_MODULE_4__["ToastrService"],
+            ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_7__["Ng4LoadingSpinnerService"]])
     ], AddAboutUsComponent);
     return AddAboutUsComponent;
 }());

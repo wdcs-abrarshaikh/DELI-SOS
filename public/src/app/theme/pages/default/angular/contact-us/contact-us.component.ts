@@ -23,7 +23,7 @@ export class ContactUsComponent implements OnInit {
     private contactUsService: ContactUsService,
     private location: Location,
     private spinnerService: Ng4LoadingSpinnerService) {
-     this.spinnerService.show();
+    //  this.spinnerService.show();
     this.contactUsService.getAllContactRequest().subscribe((response: any) => {
       this.contactUsList = response.data
       this.spinnerService.hide();
@@ -41,7 +41,7 @@ export class ContactUsComponent implements OnInit {
   }
 
   getAllContactRequest() {
-    this.spinnerService.show();
+    // this.spinnerService.show();
     this.contactUsService.getAllContactRequest().subscribe((response: any) => {
       this.contactUsList = response.data
       this.spinnerService.hide();

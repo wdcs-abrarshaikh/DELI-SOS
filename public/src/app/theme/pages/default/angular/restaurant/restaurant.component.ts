@@ -34,10 +34,11 @@ export class RestaurantComponent implements OnInit, AfterViewInit {
     private restaurantService: RestaurantService,
     private _script: ScriptLoaderService,
     private spinnerService:Ng4LoadingSpinnerService) {
-      this.spinnerService.show();
+      // this.spinnerService.show();
     this.restaurantService.getRestaurant().subscribe((data: any) => {
-      this.spinnerService.hide();
       this.RestaurantList = data.RestautantList.data
+      this.spinnerService.hide();
+
       
     });
   }

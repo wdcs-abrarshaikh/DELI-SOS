@@ -1518,7 +1518,7 @@ var ForgotEmailComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\nbody{\n\tmargin:0;\n\t\n}\n.lbl-err {\n    color: red; \n\t}\n.size{\n       text-align: center;\n       width:100%;\n\t   display: flex;\n\t   justify-content: center;\n\t   align-items: center;\n\t   height: auto;\n\t   flex-direction: column;\n\t   -webkit-user-select: none;\n\t      -moz-user-select: none;\n\t       -ms-user-select: none;\n\t           user-select: none;\n\t   padding-top: 2rem;\n    }\n.btn-forgot{\n        color: white;\n        background-color: #e97121;\n        padding: .85rem 2rem;\n\t\tfont-size: 1rem;\n\t\tfont-weight: 100;\n\t\tfont-family: monospace;\n\t\t/* border-radius: 60px; */\n\t\tborder-color: #e97121;\n\t\twidth: 50%;\n\t\ttext-align: center;\n\t\tfloat: center;\n\t\tcursor: pointer;\n\t\tborder: none;\n\t\toutline: none;\n\t\tbox-shadow: 0 2px 2px 0 rgba(0,0,0,0.15);\n\t\ttransition: box-shadow 0.15s ease;\n    }\n.btn-login:hover{\n\t\tbox-shadow: 0 8px 16px 0 rgba(0,0,0,0.15);\n\t}\n.checkbox{\n        border-color: white;\n        color:#575962;\n    }\n.cen{\n        -ms-grid-row-align: center;\n            align-self: center;\n    }\n.app-logo{\n\t\theight:250px;\n\t\twidth:250px;\n\t\tbackground-position: center;\n\t\tbackground-repeat: no-repeat;\n\t\tbackground-size: contain;\n\t\tbackground-image: url(\"deli_sos_app_mark.png\");\n\t\t-webkit-transform-origin: bottom;\n\t\t        transform-origin: bottom;\n\t\t-webkit-animation: app-logo-intro-anim 0.35s ease;\n\t\t        animation: app-logo-intro-anim 0.35s ease;\n\t}\n@-webkit-keyframes app-logo-intro-anim{\n\t\t0%{\n\t\t\t-webkit-transform: scale(0,0);\n\t\t\t        transform: scale(0,0);\n\t\t}\n\t\t100%{\n\t\t\t-webkit-transform: scale(1,1);\n\t\t\t        transform: scale(1,1);\n\t\t}\n\t}\n@keyframes app-logo-intro-anim{\n\t\t0%{\n\t\t\t-webkit-transform: scale(0,0);\n\t\t\t        transform: scale(0,0);\n\t\t}\n\t\t100%{\n\t\t\t-webkit-transform: scale(1,1);\n\t\t\t        transform: scale(1,1);\n\t\t}\n\t}\n.size h1{\n\t\tfont-family: 'Changa One', cursive;\n\t\tfont-size: 24pt;\n\t\tfont-weight: 400;\n\t\tcolor: #212121;\n    }\n.top{\n        background-image: url(\"bg-3.jpg\");\n         background-size: cover;\n         height:100vh;\n         width:100%;\n         background-position: center;\n         background-repeat: no-repeat;\n     }\n    "
+module.exports = "\nbody{\n\tmargin:0;\n\t\n}\n.lbl-err {\n    color: red; \n\t}\n.size{\n       text-align: center;\n       width:100%;\n\t   display: flex;\n\t   justify-content: center;\n\t   align-items: center;\n\t   height: auto;\n\t   flex-direction: column;\n\t   -webkit-user-select: none;\n\t      -moz-user-select: none;\n\t       -ms-user-select: none;\n\t           user-select: none;\n\t   padding-top: 2rem;\n    }\n.btn-forgot{\n        color: white;\n        background-color: #e97121;\n        padding: .85rem 2rem;\n\t\tfont-size: 1rem;\n\t\tfont-weight: 100;\n\t\tfont-family: monospace;\n\t\t/* border-radius: 60px; */\n\t\tborder-color: #e97121;\n\t\twidth: 50%;\n\t\ttext-align: center;\n\t\tfloat: center;\n\t\tcursor: pointer;\n\t\tborder: none;\n\t\toutline: none;\n\t\tbox-shadow: 0 2px 2px 0 rgba(0,0,0,0.15);\n\t\ttransition: box-shadow 0.15s ease;\n    }\n.btn-login:hover{\n\t\tbox-shadow: 0 8px 16px 0 rgba(0,0,0,0.15);\n\t}\n.checkbox{\n        border-color: white;\n        color:#575962;\n    }\n.cen{\n        -ms-grid-row-align: center;\n            align-self: center;\n    }\n.app-logo{\n\t\theight:250px;\n\t\twidth:250px;\n\t\tbackground-position: center;\n\t\tbackground-repeat: no-repeat;\n\t\tbackground-size: contain;\n\t\tbackground-image: url(\"deli_sos_app_mark.png\");\n\t\t-webkit-transform-origin: bottom;\n\t\t        transform-origin: bottom;\n\t\t-webkit-animation: app-logo-intro-anim 0.35s ease;\n\t\t        animation: app-logo-intro-anim 0.35s ease;\n\t}\n@-webkit-keyframes app-logo-intro-anim{\n\t\t0%{\n\t\t\t-webkit-transform: scale(0,0);\n\t\t\t        transform: scale(0,0);\n\t\t}\n\t\t100%{\n\t\t\t-webkit-transform: scale(1,1);\n\t\t\t        transform: scale(1,1);\n\t\t}\n\t}\n@keyframes app-logo-intro-anim{\n\t\t0%{\n\t\t\t-webkit-transform: scale(0,0);\n\t\t\t        transform: scale(0,0);\n\t\t}\n\t\t100%{\n\t\t\t-webkit-transform: scale(1,1);\n\t\t\t        transform: scale(1,1);\n\t\t}\n\t}\n.size h1{\n\t\tfont-family: 'Changa One', cursive;\n\t\tfont-size: 24pt;\n\t\tfont-weight: 400;\n\t\tcolor: #212121;\n    }\n.top{\n        background-image: url(\"bg-3.jpg\");\n         background-size: cover;\n         height:100vh;\n         width:100%;\n         background-position: center;\n         background-repeat: no-repeat;\n\t }\n.form-control:focus {\n\t\tborder-color: lightslategrey;\n\t\tcolor: #575962;\n\t\tbox-shadow: none;\n\t}\n    "
 
 /***/ }),
 
@@ -1598,7 +1598,6 @@ var ForgotPasswordComponent = /** @class */ (function () {
     ForgotPasswordComponent.prototype.forgotPassword = function () {
         var _this = this;
         this.forgotPasswordService.post(this.forgotPasswordForm.value).subscribe(function (response) {
-            console.log(response);
             if (response['code'] == 200) {
                 sweetalert2__WEBPACK_IMPORTED_MODULE_5___default()({
                     position: 'center',
@@ -1774,7 +1773,7 @@ var Helpers = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\nbody{\n\tmargin:0;\n\t\n}\n.lbl-err {\n    color: red; \n\t}\n.size{\n       text-align: center;\n       width:100%;\n\t   display: flex;\n\t   justify-content: center;\n\t   align-items: center;\n\t   height: auto;\n\t   flex-direction: column;\n\t   -webkit-user-select: none;\n\t      -moz-user-select: none;\n\t       -ms-user-select: none;\n\t           user-select: none;\n\t   padding-top: 2rem;\n    }\n.btn-login{\n        color: white; background-color: #e97121;\t\n        padding: .50rem 1rem;\n\t\tfont-size: 1.5rem;\n\t\tfont-weight: 400;\n\t\tfont-family: monospace;\n\t\t/* border-radius: 60px; */\n\t\tborder-color: #e97121;\n\t\twidth: 50%;\n\t\ttext-align: center;\n\t\tfloat: center;\n\t\tcursor: pointer;\n\t\tborder: none;\n\t\toutline: none;\n\t\tbox-shadow: 0 2px 2px 0 rgba(0,0,0,0.15);\n\t\ttransition: box-shadow 0.15s ease;\n    }\n.btn-login:hover{\n\t\tbox-shadow: 0 8px 16px 0 rgba(0,0,0,0.15);\n\t}\n.checkbox{\n        border-color: white;\n        color:#575962;\n    }\n.cen{\n        -ms-grid-row-align: center;\n            align-self: center;\n    }\n.app-logo{\n\t\theight:250px;\n\t\twidth:250px;\n\t\tbackground-position: center;\n\t\tbackground-repeat: no-repeat;\n\t\tbackground-size: contain;\n\t\tbackground-image: url(\"deli_sos_app_mark.png\");\n\t\t-webkit-transform-origin: bottom;\n\t\t        transform-origin: bottom;\n\t\t-webkit-animation: app-logo-intro-anim 0.35s ease;\n\t\t        animation: app-logo-intro-anim 0.35s ease;\n\t}\n@-webkit-keyframes app-logo-intro-anim{\n\t\t0%{\n\t\t\t-webkit-transform: scale(0,0);\n\t\t\t        transform: scale(0,0);\n\t\t}\n\t\t100%{\n\t\t\t-webkit-transform: scale(1,1);\n\t\t\t        transform: scale(1,1);\n\t\t}\n\t}\n@keyframes app-logo-intro-anim{\n\t\t0%{\n\t\t\t-webkit-transform: scale(0,0);\n\t\t\t        transform: scale(0,0);\n\t\t}\n\t\t100%{\n\t\t\t-webkit-transform: scale(1,1);\n\t\t\t        transform: scale(1,1);\n\t\t}\n\t}\n.size h1{\n\t\tfont-family: 'Changa One', cursive;\n\t\tfont-size: 24pt;\n\t\tfont-weight: 400;\n\t\tcolor: #212121;\n    }\n.style{\n        background-size: cover;\n        height:100vh;\n        width:100%;\n        background-position: center;\n        background-repeat: no-repeat;\n    }\n.top{\n        background-image: url(\"bg-3.jpg\");\n         background-size: cover;\n         height:100vh;\n         width:100%;\n         background-position: center;\n         background-repeat: no-repeat;\n     }\n"
+module.exports = "\nbody{\n\tmargin:0;\n\t\n}\n.lbl-err {\n    color: red; \n\t}\n.size{\n       text-align: center;\n       width:100%;\n\t   display: flex;\n\t   justify-content: center;\n\t   align-items: center;\n\t   height: auto;\n\t   flex-direction: column;\n\t   -webkit-user-select: none;\n\t      -moz-user-select: none;\n\t       -ms-user-select: none;\n\t           user-select: none;\n\t   padding-top: 2rem;\n    }\n.btn-login{\n        color: white; background-color: #e97121;\t\n        padding: .50rem 1rem;\n\t\tfont-size: 1.5rem;\n\t\tfont-weight: 400;\n\t\tfont-family: monospace;\n\t\t/* border-radius: 60px; */\n\t\tborder-color: #e97121;\n\t\twidth: 50%;\n\t\ttext-align: center;\n\t\tfloat: center;\n\t\tcursor: pointer;\n\t\tborder: none;\n\t\toutline: none;\n\t\tbox-shadow: 0 2px 2px 0 rgba(0,0,0,0.15);\n\t\ttransition: box-shadow 0.15s ease;\n    }\n.btn-login:hover{\n\t\tbox-shadow: 0 8px 16px 0 rgba(0,0,0,0.15);\n\t}\n.checkbox{\n        border-color: white;\n        color:#575962;\n    }\n.cen{\n        -ms-grid-row-align: center;\n            align-self: center;\n    }\n.app-logo{\n\t\theight:250px;\n\t\twidth:250px;\n\t\tbackground-position: center;\n\t\tbackground-repeat: no-repeat;\n\t\tbackground-size: contain;\n\t\tbackground-image: url(\"deli_sos_app_mark.png\");\n\t\t-webkit-transform-origin: bottom;\n\t\t        transform-origin: bottom;\n\t\t-webkit-animation: app-logo-intro-anim 0.35s ease;\n\t\t        animation: app-logo-intro-anim 0.35s ease;\n\t}\n@-webkit-keyframes app-logo-intro-anim{\n\t\t0%{\n\t\t\t-webkit-transform: scale(0,0);\n\t\t\t        transform: scale(0,0);\n\t\t}\n\t\t100%{\n\t\t\t-webkit-transform: scale(1,1);\n\t\t\t        transform: scale(1,1);\n\t\t}\n\t}\n@keyframes app-logo-intro-anim{\n\t\t0%{\n\t\t\t-webkit-transform: scale(0,0);\n\t\t\t        transform: scale(0,0);\n\t\t}\n\t\t100%{\n\t\t\t-webkit-transform: scale(1,1);\n\t\t\t        transform: scale(1,1);\n\t\t}\n\t}\n.size h1{\n\t\tfont-family: 'Changa One', cursive;\n\t\tfont-size: 24pt;\n\t\tfont-weight: 400;\n\t\tcolor: #212121;\n    }\n.style{\n        background-size: cover;\n        height:100vh;\n        width:100%;\n        background-position: center;\n        background-repeat: no-repeat;\n    }\n.top{\n        background-image: url(\"bg-3.jpg\");\n         background-size: cover;\n         height:100vh;\n         width:100%;\n         background-position: center;\n         background-repeat: no-repeat;\n\t }\n.form-control:focus {\n\t\tborder-color: lightslategrey;\n\t\tcolor: #575962;\n\t\tbox-shadow: none;\n\t}\n"
 
 /***/ }),
 
@@ -1845,21 +1844,21 @@ var LoginComponent = /** @class */ (function () {
         if (this.loginForm.invalid) {
             return;
         }
-        this.spinnerService.show();
     };
     LoginComponent.prototype.signIn = function () {
         var _this = this;
         this._loginService.post(this.loginForm.value).subscribe(function (response) {
-            _this.spinnerService.hide();
             if (response['code'] == 200) {
+                _this.spinnerService.hide();
                 _this.toastService.success(response.message);
                 localStorage.setItem('_token', JSON.stringify(response.token));
                 localStorage.setItem('_id', JSON.stringify(response.data._id));
+                _this.spinnerService.show();
                 _this._router.navigate(['/index']);
             }
             else {
-                _this.toastService.error(response.message);
                 _this.spinnerService.hide();
+                _this.toastService.error(response.message);
             }
         }, function (error) {
             _this.spinnerService.hide();
@@ -1952,7 +1951,7 @@ var LoginService = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".m-aside-menu .m-menu__nav .m-menu__item>.m-menu__heading:hover, .m-aside-menu .m-menu__nav .m-menu__item>.m-menu__link:hover {\n    background:#dd600c;\n}\n.menu__nav .m-menu__item>.m-menu__link:hover {\n    background: sandybrown;\n}\n.m-menu__link:hover{\n    background: sandybrown;\n}\n.m-menu__item.m-menu__item--active a{\n    transition: background-color .3s;\n    background-color:sandybrown;\n }\n.m-aside-menu .m-menu__nav .m-menu__item>.m-menu__link:hover {\n    text-decoration: none;\n    cursor: pointer;\n    background: sandybrown;\n }\n.m-menu__link{\n    color:white; \n    /* font-weight:500; */\n    font-size: 1.2rem;\n    position: relative;\n    display: flex;\n    align-items: center;\n    font-weight: bold !important;\n }\na:hover {\n    color: white;\n    text-decoration: underline;\n}\n.m-menu__link-text {\n    display: contents !important;\n    font-weight: bold !important;\n    color:white\n}\n.m-menu__nav img {\n    margin-right: 10px;\n}\n.m-menu__nav i.fa, i.fas, i.fa, i.far {\n    font-size: 18px;\n    width:32px;\n}"
+module.exports = ".m-aside-menu .m-menu__nav .m-menu__item>.m-menu__heading:hover, .m-aside-menu .m-menu__nav .m-menu__item>.m-menu__link:hover {\n    background:#dd600c;\n}\n.menu__nav .m-menu__item>.m-menu__link:hover {\n    background: sandybrown;\n}\n.m-menu__link:hover{\n    background: sandybrown;\n}\n.m-menu__item.m-menu__item--active a{\n    transition: background-color .3s;\n    background-color:sandybrown;\n }\n.m-aside-menu .m-menu__nav .m-menu__item>.m-menu__link:hover {\n    text-decoration: none;\n    cursor: pointer;\n    background: sandybrown;\n }\n.m-menu__link{\n    color:white; \n    /* font-weight:500; */\n    font-size: 1.2rem;\n    position: relative;\n    display: flex;\n    align-items: center;\n    font-weight: bold !important;\n }\na:hover {\n    color: white;\n    text-decoration: underline;\n}\n.m-menu__link-text {\n    display: contents !important;\n    font-weight: bold !important;\n    color:white\n}\n.m-menu__nav img {\n    margin-right: 10px;\n}\n.m-menu__item .fa, .m-menu__item .fas, .m-menu__item .far {\n    color:white;\n    font-size: 18px;\n    width:32px;\n}\n.m-menu__item{\n    color:white; \n    font-size: 1.2rem;\n    padding:10px\n    \n}\n"
 
 /***/ }),
 
@@ -1963,7 +1962,7 @@ module.exports = ".m-aside-menu .m-menu__nav .m-menu__item>.m-menu__heading:hove
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!-- BEGIN: Left Aside -->\n<div class=\"t1\">\n<app-header-nav></app-header-nav>\n<button class=\"m-aside-left-close  m-aside-left-close--skin-dark\" id=\"m_aside_left_close_btn\" appunwraptag=\"\"><i class=\"la la-close\"></i></button>\n<div id=\"m_aside_left\" class=\"m-grid__item\tm-aside-left  m-aside-left--skin-dark\">\n\t<!-- BEGIN: Aside Menu -->\n\t<div id=\"m_ver_menu\" class=\"m-aside-menu  m-aside-menu--skin-dark m-aside-menu--submenu-skin-dark\" m-menu-vertical=\"1\"\n\t m-menu-scrollable=\"1\" m-menu-dropdown-timeout=\"500\" style=\"background: linear-gradient(rgb(236, 151, 39), #e97121); \">\n\t\t<ul class=\"m-menu__nav  m-menu__nav--dropdown-submenu-arrow\">\n\t\t\n\t\t\t<li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\" aria-haspopup=\"true\"><a\n\t\t\t\trouterLink=\"/index\" class=\"m-menu__link\"><i class=\"fas flaticon-line-graph\"></i>Dashboard\n\t\t\t\t\t\t</a>\n\t\t\t</li>\n\t\t\n\t\t\t<li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\" aria-haspopup=\"true\"><a\n\t\t\t\trouterLink=\"/admin/restaurant\" class=\"m-menu__link\"><img src=\"./assets/demo/default/media/img/logo/restaurant.png\" width=\"20px\"/>Restaurants\n\t\t\t\t\t </a>\n\t\t   </li>\n\n\t\t\t<li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\" aria-haspopup=\"true\"><a\n\t\t\t\t routerLink=\"/admin/cuisin\" class=\"m-menu__link\" ><img src=\"./assets/demo/default/media/img/logo/cuisin.png\" width=\"20px\"/>Cuisines</a>\n\t\t\t</li>\n\t\t\n\t\t\t\n\t\t\t<li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\" aria-haspopup=\"true\"><a\n\t\t\t\trouterLink=\"/admin/getUserList\" class=\"m-menu__link\"><i class=\"fa fa-users\"></i>Users </a>\n            \t \n\t\t   </li>\n\n\t\t   <li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\" aria-haspopup=\"true\"><a\n\t\t\trouterLink=\"/admin/about-us\" class=\"m-menu__link\" ><i class=\"far fa-building\"></i>About Us </a>\n\t\t\t\t  \n\t       </li>\n   \n\t\t   \t\t\n\t\t\t<li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\" aria-haspopup=\"true\"><a\n\t\t\t\trouterLink=\"/admin/contact-us\" class=\"m-menu__link\" ><i class=\"fas fa-envelope-open\"></i>Contact Us   </a>\n\t\t\t\t\t\n\t\t   </li>\n\n\t\t\t<li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\"aria-haspopup=\"true\">\n\t\t\t<a routerLink=\"/admin/privacy-policy\" class=\"m-menu__link\" ><i class=\"far flaticon-settings\"></i>Privacy Policy</a>\n\t\t\t\n\t\t\t</li>\n\t\t\t\n\n\t<!----  <li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\"\n\t   aria-haspopup=\"true\"><a routerLink=\"/admin/terms-conditions\" class=\"m-menu__link\"><i class=\"m-menu__link-icon flaticon-settings\"></i><span\n\t\t\t   class=\"m-menu__link-text\">Terms & Conditions\n\t\t\t  </span></a>\n\t  </li>\n\n\n\t  <li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\"\n\t  aria-haspopup=\"true\"><a routerLink=\"/admin/notifications\" class=\"m-menu__link\"><i class=\"m-menu__link-icon flaticon-settings\"></i><span\n\t\t\t  class=\"m-menu__link-text\">Notifications\n\t\t\t </span></a>\n\t </li>\n\n\t -->\n\t\t\t\n\t\t\t\t\t</ul>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t\n"
+module.exports = "<!-- BEGIN: Left Aside -->\n<div class=\"t1\">\n<app-header-nav></app-header-nav>\n<button class=\"m-aside-left-close  m-aside-left-close--skin-dark\" id=\"m_aside_left_close_btn\" appunwraptag=\"\"><i class=\"la la-close\"></i></button>\n<div id=\"m_aside_left\" class=\"m-grid__item\tm-aside-left  m-aside-left--skin-dark\">\n\t<!-- BEGIN: Aside Menu -->\n\t<div id=\"m_ver_menu\" class=\"m-aside-menu  m-aside-menu--skin-dark m-aside-menu--submenu-skin-dark\" m-menu-vertical=\"1\"\n\t m-menu-scrollable=\"1\" m-menu-dropdown-timeout=\"500\" style=\"background: linear-gradient(rgb(236, 151, 39), #e97121); \">\n\t\t<ul class=\"m-menu__nav  m-menu__nav--dropdown-submenu-arrow\">\n\t\t\n\t\t\t<li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\" aria-haspopup=\"true\"><a\n\t\t\t\t(click)=\"moveToIndex()\" class=\"m-menu__link\"><i class=\"fas flaticon-line-graph\"></i>Dashboard\n\t\t\t\t\t\t</a>\n\t\t\t</li>\n\t\t\n\t\t\t<li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\" aria-haspopup=\"true\"><a\n\t\t\t\t(click)=\"moveToRestaurant()\" class=\"m-menu__link\"><img src=\"./assets/demo/default/media/img/logo/restaurant.png\" width=\"20px\"/>Restaurants\n\t\t\t\t\t </a>\n\t\t   </li>\n\n\t\t\t<li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\" aria-haspopup=\"true\"><a\n\t\t\t\t(click)=\"moveToCuisin()\" class=\"m-menu__link\" ><img src=\"./assets/demo/default/media/img/logo/cuisin.png\" width=\"20px\"/>Cuisines</a>\n\t\t\t</li>\n\t\t\n\t\t\t\n\t\t\t<li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\" aria-haspopup=\"true\"><a\n\t\t\t\t(click)=\"moveToUser()\" class=\"m-menu__link\"><i class=\"fa fa-users\"></i>Users </a>\n            \t \n\t\t   </li>\n\n\t\t   <li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\" aria-haspopup=\"true\"><a\n\t\t\t(click)=\"moveToAboutus()\" class=\"m-menu__link\" ><i class=\"far fa-building\"></i>About Us </a>\n\t\t\t\t  \n\t       </li>\n   \n\t\t   \t\t\n\t\t\t<li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\" aria-haspopup=\"true\"><a\n\t\t\t\t(click)=\"moveToContactus()\" class=\"m-menu__link\" ><i class=\"fas fa-envelope-open\"></i>Contact Us   </a>\n\t\t\t\t\t\n\t\t   </li>\n\n\t\t\t<li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\"aria-haspopup=\"true\">\n\t\t\t<a (click)=\"moveToPrivacy()\" class=\"m-menu__link\" ><i class=\"far flaticon-settings\"></i>Privacy Policy</a>\n\t\t\t\n\t\t\t</li>\n\t\t\t\n\n\t<!----  <li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\"\n\t   aria-haspopup=\"true\"><a routerLink=\"/admin/terms-conditions\" class=\"m-menu__link\"><i class=\"m-menu__link-icon flaticon-settings\"></i><span\n\t\t\t   class=\"m-menu__link-text\">Terms & Conditions\n\t\t\t  </span></a>\n\t  </li>\n\n\n\t  <li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\"\n\t  aria-haspopup=\"true\"><a routerLink=\"/admin/notifications\" class=\"m-menu__link\"><i class=\"m-menu__link-icon flaticon-settings\"></i><span\n\t\t\t  class=\"m-menu__link-text\">Notifications\n\t\t\t </span></a>\n\t </li>\n\n\t -->\n\t\t\t\n\t\t\t\t\t</ul>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t\n"
 
 /***/ }),
 
@@ -1978,6 +1977,9 @@ module.exports = "<!-- BEGIN: Left Aside -->\n<div class=\"t1\">\n<app-header-na
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AsideNavComponent", function() { return AsideNavComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ng4-loading-spinner */ "./node_modules/ng4-loading-spinner/ng4-loading-spinner.umd.js");
+/* harmony import */ var ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1988,13 +1990,45 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
+
+
 var AsideNavComponent = /** @class */ (function () {
-    function AsideNavComponent() {
+    function AsideNavComponent(spinnerService, _router) {
+        this.spinnerService = spinnerService;
+        this._router = _router;
     }
     AsideNavComponent.prototype.ngOnInit = function () {
     };
     AsideNavComponent.prototype.ngAfterViewInit = function () {
         mLayout.initAside();
+    };
+    AsideNavComponent.prototype.moveToIndex = function () {
+        this.spinnerService.show();
+        this._router.navigate(['/index']);
+    };
+    AsideNavComponent.prototype.moveToRestaurant = function () {
+        this.spinnerService.show();
+        this._router.navigate(['/admin/restaurant']);
+    };
+    AsideNavComponent.prototype.moveToCuisin = function () {
+        this.spinnerService.show();
+        this._router.navigate(['/admin/cuisines']);
+    };
+    AsideNavComponent.prototype.moveToUser = function () {
+        this.spinnerService.show();
+        this._router.navigate(['/admin/getUserList']);
+    };
+    AsideNavComponent.prototype.moveToAboutus = function () {
+        this.spinnerService.show();
+        this._router.navigate(['/admin/about-us']);
+    };
+    AsideNavComponent.prototype.moveToContactus = function () {
+        this.spinnerService.show();
+        this._router.navigate(['/admin/contact-us']);
+    };
+    AsideNavComponent.prototype.moveToPrivacy = function () {
+        this.spinnerService.show();
+        this._router.navigate(['/admin/privacy-policy']);
     };
     AsideNavComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -2003,7 +2037,8 @@ var AsideNavComponent = /** @class */ (function () {
             styles: [__webpack_require__(/*! ./aside-nav.component.css */ "./src/app/theme/layouts/aside-nav/aside-nav.component.css")],
             encapsulation: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewEncapsulation"].None,
         }),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_1__["Ng4LoadingSpinnerService"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"]])
     ], AsideNavComponent);
     return AsideNavComponent;
 }());
@@ -2163,7 +2198,7 @@ var HeaderNavComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "img.m--img-rounded.m--marginless {\n    margin-left: 95%!important;\n    margin-top: -6%!important;\n    cursor: pointer !important;\n    width:50px !important;\n    height:50px !important;\n}\n\n.img-circle{\n    vertical-align: middle;\n    border-style: none;\n    float: right;\n    border-radius: 50%;\n    /* height: 80px; */\n    /* background: url(\"user.jpeg\") */\n}\n\n.name{\n    float:right;\n    font-size:30px;\n    margin-top: 20px;\n    margin-right: 10px\n}\n\nh3{\n    color:white;\n    text-align: center;\n    margin-left: 5px;\n    margin-top:20px;\n    font-size: 30px;\n    cursor: pointer;\n}\n\n.label{\n    font-style: bold;\n    text-align: right\n}\n\n.user{\n    color:#fc4a1a;\n    font-weight: 500;\n    font :bold;\n    font-size: 25px\n}\n\n.m1{\n    text-align: right;\n    margin-left: 90%;\n    margin-right: 5px;\n  \n}\n\n.image{\n    vertical-align: middle;\n    border-style: none;\n    float: right;\n    height: 60px;\n    width:60px;\n    border-radius: 50%\n }\n\n.m-nav__link.m-dropdown__toggle.pic_nm {\n    display: table;\n    padding: 10px;\n    float: right;\n    cursor: pointer;\n}\n\n.pic_nm span {\n    display: table-cell;\n    vertical-align: middle;\n    font-size: 20px;\n}\n\n.m-nav .m-nav__item>.m-nav__link .m-nav__link-icon {\n    color: #fc4a1a;\n}\n\n.m-nav .m-nav__item>.m-nav__link .m-nav__link-text {\n    color: #fc4a1a\n}\n\n.m-nav__link:hover{\n    background-color:none;\n}\n\n.m-nav .m-nav__item:hover:not(.m-nav__item--disabled)>.m-nav__link .m-nav__link-text {\n    color: #fd7e14;\n }\n\n.m-nav .m-nav__item:hover:not(.m-nav__item--disabled)>.m-nav__link .m-nav__link-icon {\n    color: #fd7e14;\n }\n\n.a1{\n    color: white;\n    text-decoration: none;\n    background-color: transparent;\n    -webkit-text-decoration-skip: objects;\n}\n\n.a1:hover {\n    color: white;\n \n}\n\n.m-dropdown__wrapper .m-dropdown__arrow{\n    color: #fff !important;\n    right: 61px!important;\n}"
+module.exports = "img.m--img-rounded.m--marginless {\n    margin-left: 95%!important;\n    margin-top: -6%!important;\n    cursor: pointer !important;\n    width:50px !important;\n    height:50px !important;\n}\n\n.img-circle{\n    vertical-align: middle;\n    border-style: none;\n    float: right;\n    border-radius: 50%;\n    /* height: 80px; */\n    /* background: url(\"user.jpeg\") */\n}\n\n.name{\n    float:right;\n    font-size:30px;\n    margin-top: 20px;\n    margin-right: 10px\n}\n\nh3{\n    color:white;\n    text-align: center;\n    margin-left: 5px;\n    margin-top:20px;\n    font-size: 30px;\n    cursor: pointer;\n}\n\n.label{\n    font-style: bold;\n    text-align: right\n}\n\n.user{\n    color:#fc4a1a;\n    font-weight: 500;\n    font :bold;\n    font-size: 25px\n}\n\n.m1{\n    text-align: right;\n    margin-left: 90%;\n    margin-right: 5px;\n  \n}\n\n.image{\n    vertical-align: middle;\n    border-style: none;\n    float: right;\n    height: 60px;\n    width:60px;\n    border-radius: 50%\n }\n\n.m-nav__link.m-dropdown__toggle.pic_nm {\n    display: table;\n    padding: 10px;\n    float: right;\n    cursor: pointer;\n}\n\n.pic_nm span {\n    display: table-cell;\n    vertical-align: middle;\n    font-size: 20px;\n}\n\n.m-nav .m-nav__item>.m-nav__link .m-nav__link-icon {\n    color: #fc4a1a;\n}\n\n.m-nav .m-nav__item>.m-nav__link .m-nav__link-text {\n    color: #fc4a1a\n}\n\n.m-nav__link:hover{\n    background-color:none;\n}\n\n.m-nav .m-nav__item:hover:not(.m-nav__item--disabled)>.m-nav__link .m-nav__link-text {\n    color: #fd7e14;\n }\n\n.m-nav .m-nav__item:hover:not(.m-nav__item--disabled)>.m-nav__link .m-nav__link-icon {\n    color: #fd7e14;\n }\n\n.a1{\n    color: white;\n    text-decoration: none;\n    background-color: transparent;\n    -webkit-text-decoration-skip: objects;\n}\n\n.a1:hover {\n    color: white;\n \n}\n\n.m-dropdown__wrapper .m-dropdown__arrow{\n    color: #fff !important;\n    right: 61px!important;\n}\n\n.font {\n    padding-right: 20px;\n}"
 
 /***/ }),
 
@@ -2600,7 +2635,7 @@ var routes = [
                 "loadChildren": "./pages/default/angular/contact-us/contact-us.module#ContactUsModule"
             },
             {
-                "path": "admin/cuisin",
+                "path": "admin/cuisines",
                 "loadChildren": "./pages/default/angular/cuisin/cuisin.module#CuisinModule"
             }
         ]
@@ -2768,7 +2803,7 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /root/parallels/vishal_project/DELI-SOS/public/src/main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! /home/codezeros/Desktop/DELI-SOS/public/src/main.ts */"./src/main.ts");
 
 
 /***/ })

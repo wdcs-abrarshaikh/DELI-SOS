@@ -7,7 +7,7 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".lbl-err{\n    color: red;\n}\n.btn-delete{\n    color:white;\n    width:80px;\n    background: #a73a08;\n    opacity: 1.5;\n    border-radius: 25%;\n}\n.btn-save{\n    color:white;\n    width:80px;\n    background: #49a558;\n     border-radius: 25%;\n    opacity: 1.5;\n}\n.btn:disabled {\n    opacity: .65;\n}"
+module.exports = ".lbl-err{\n    color: red;\n}\n.btn-delete{\n    color:white;\n    width:80px;\n    background: #a73a08;\n    opacity: 1.5;\n    border-radius: 25%;\n}\n.btn-save{\n    color:white;\n    width:80px;\n    background: #49a558;\n     border-radius: 25%;\n    opacity: 1.5;\n}\n.btn:disabled {\n    opacity: .65;\n}\n:host app-ngx-editor .fa {\n    color:#000 !important;\n }\n.ngx-editor-button i.fa, .ngx-editor-button i.fas, .ngx-editor-button i.fa, .ngx-editor-button i.far {\n    color: inherit;\n    font-size: 18px;\n    width:32px;\n}"
 
 /***/ }),
 
@@ -305,7 +305,9 @@ var PrivacyPolicyComponent = /** @class */ (function () {
     };
     PrivacyPolicyComponent.prototype.getAllPrivacyPolicy = function () {
         var _this = this;
+        this.spinnerService.show();
         this.privacyPolicyService.getAllPrivacyPolicy().subscribe(function (response) {
+            _this.spinnerService.hide();
             _this.privacyPolicyService.setPrivacyPolicy(response.data);
         });
     };

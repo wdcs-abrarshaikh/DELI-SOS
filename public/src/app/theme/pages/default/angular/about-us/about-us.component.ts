@@ -43,9 +43,8 @@ export class AboutUsComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private aboutUsService: AboutUsService,
     private spinnerService: Ng4LoadingSpinnerService) {
-      this.spinnerService.show();
+      // this.spinnerService.show();
     this.aboutUsService.getAboutus().subscribe((data: any) => {
-      this.spinnerService.hide();
       if (data.aboutUsList == null) {
         this.aboutUsList = data.aboutUsList
         this.initialaboutusList = this.aboutUsList;
@@ -54,7 +53,7 @@ export class AboutUsComponent implements OnInit {
         this.id = data.aboutUsList._id;
         this.initialaboutusList = this.aboutUsList;
       }
-
+      this.spinnerService.hide();
     })
   }
 
@@ -72,7 +71,7 @@ export class AboutUsComponent implements OnInit {
   }
 
   getAboutusList() {
-    this.spinnerService.show();
+    // this.spinnerService.show();
     this.aboutUsService.getAllAboutus().subscribe((response: any) => {
       this.spinnerService.hide();
       if (response.data == null) {
@@ -85,7 +84,7 @@ export class AboutUsComponent implements OnInit {
     });
   }
   getAllAboutus() {
-    this.spinnerService.show();
+    // this.spinnerService.show();
     this.aboutUsService.getAllAboutus().subscribe((response: any) => {
      this.aboutUsService.setAboutus(response.data);
       this.spinnerService.hide();
