@@ -178,6 +178,9 @@ userRouter.route('/contactUs')
     })
 
 
+
+
+
 userRouter.route('/getNotificationList/:userId')
     .get([validate.verifyUserToken], (req, res) => {
         actions.getNotificationList(req, res)
@@ -192,5 +195,13 @@ userRouter.route('/shareReview/:reviewId/:restId')
     .get((req, res) => {
         actions.shareReview(req, res)
     })
+
+
+
+//  userRouter.route('/getAllRestaurant')
+//     .get([validate.verifyUserToken],(req, res) => {
+//       actions.getAllRestaurant(req, res)
+//   })
+
 
 module.exports = userRouter;

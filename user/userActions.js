@@ -154,6 +154,10 @@ function shareReview(req,res){
     service.shareReview(req,res)
 }
 
+// function getAllRestaurant(req, res) {
+//     service.getAllRestaurant(req, res)
+// }
+
 module.exports = {
     signup,
     login,
@@ -192,5 +196,7 @@ module.exports = {
     contactUs,
     getNotificationList,
     logout,
-    shareReview
+    shareReview,
+    // getAllRestaurant
 }
+

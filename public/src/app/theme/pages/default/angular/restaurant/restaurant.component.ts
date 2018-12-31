@@ -74,6 +74,21 @@ export class RestaurantComponent implements OnInit, AfterViewInit {
     });
     return array_val;
   }
+
+ 
+ async convertTime12to24(time12h) {
+      const [time, modifier] = time12h.split(' ');
+      let [hours, minutes] = time.split(':');
+      if (hours === '12') {
+        hours = '00';
+      }
+     if (modifier === 'PM') {
+        hours = parseInt(hours, 10) + 12;
+      }
+     return hours + ':' + minutes;
+    }
+
+  
   async open(content, type) {
 
     if (!content) {
@@ -81,7 +96,6 @@ export class RestaurantComponent implements OnInit, AfterViewInit {
     } else {
        this.isAdd = false
    }
-  
     const modalRef = this.modalService.open(AddEditRestaurantComponent);
     let arr_value: any = [false, false, false, false];
     modalRef.componentInstance.id = content ? content._id : "";
@@ -89,8 +103,8 @@ export class RestaurantComponent implements OnInit, AfterViewInit {
     modalRef.componentInstance.description = content ? content.description : "";
     modalRef.componentInstance.latitude = content ? content.location.coordinates[1] : "";
     modalRef.componentInstance.longitude = content ? content.location.coordinates[0] : "";
-    modalRef.componentInstance.openTime = content ? content.openTime : "";
-    modalRef.componentInstance.closeTime = content ? content.closeTime : "";
+    modalRef.componentInstance.openTime = content ? await this.convertTime12to24(content.openTime) : "";
+    modalRef.componentInstance.closeTime = content ? await this.convertTime12to24(content.closeTime) : "";
     modalRef.componentInstance.contactNumber = content ? content.contactNumber : "";
     modalRef.componentInstance.website = content ? content.website : "";
     modalRef.componentInstance.perPersonCost = content ? content.perPersonCost : "";

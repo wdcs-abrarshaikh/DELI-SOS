@@ -3,7 +3,7 @@ import { URL } from './../../../../../app.service';
 import { Injectable, EventEmitter } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { map, catchError } from "rxjs/operators";
-import { Observable, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 
 
 

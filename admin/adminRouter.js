@@ -47,6 +47,13 @@ adminRouter.route('/addRestaurant')
     .post([validate.verifyAdminToken, validate.validateRestaurant], (req, res) => {
         action.addRestaurant(req, res)
     })
+    
+//  adminRouter.route('/getAllRestaurant')
+//       .get((req, res) => {
+//         action.getAllRestaurant(req, res)
+//     })
+
+
 
 adminRouter.route('/getRestaurantDetails/:id')
     .get([validate.verifyAdminToken], (req, res) => {

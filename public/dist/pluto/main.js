@@ -346,6 +346,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ng4-loading-spinner */ "./node_modules/ng4-loading-spinner/ng4-loading-spinner.umd.js");
 /* harmony import */ var ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_17___default = /*#__PURE__*/__webpack_require__.n(ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_17__);
 /* harmony import */ var ng_pick_datetime__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ng-pick-datetime */ "./node_modules/ng-pick-datetime/picker.js");
+/* harmony import */ var _progress_kendo_angular_inputs__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! @progress/kendo-angular-inputs */ "./node_modules/@progress/kendo-angular-inputs/dist/es/index.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -356,6 +357,7 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 // import { AuthGuard } from './auth/_guards/auth.guard';
 // import { AuthService } from './auth/_services/authentication.service';
 // import { BannerModule } from './theme/pages/default/angular/banner/banner.module';
+
 
 
 
@@ -403,7 +405,8 @@ var AppModule = /** @class */ (function () {
                 ngx_toastr__WEBPACK_IMPORTED_MODULE_15__["ToastrModule"].forRoot(),
                 ng_pick_datetime__WEBPACK_IMPORTED_MODULE_18__["OwlDateTimeModule"],
                 ng_pick_datetime__WEBPACK_IMPORTED_MODULE_18__["OwlNativeDateTimeModule"],
-                ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_17__["Ng4LoadingSpinnerModule"].forRoot()
+                ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_17__["Ng4LoadingSpinnerModule"].forRoot(),
+                _progress_kendo_angular_inputs__WEBPACK_IMPORTED_MODULE_19__["InputsModule"]
             ],
             providers: [_services_script_loader_service__WEBPACK_IMPORTED_MODULE_1__["ScriptLoaderService"]],
             bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_11__["AppComponent"]],
@@ -428,7 +431,8 @@ var AppModule = /** @class */ (function () {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "URL", function() { return URL; });
 var URL = "http://66.70.179.133:8080/";
-// export const URL:string = "http://192.168.0.136:8080/";
+// export const URL:string="http://66.70.179.133:8080/";
+// export const URL:string = "http://localhost:8080/";
 
 
 /***/ }),
