@@ -1,4 +1,4 @@
-import { ContactUsComponent,NgbdModalContent } from './contact-us.component';
+import { ContactUsComponent } from './contact-us.component';
 import { DefaultComponent } from './../../default.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
