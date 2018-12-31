@@ -50,7 +50,7 @@
 		</thead>
 
 		<tbody>
-			<tr *ngFor="let Rest of restList ; let i=index">
+			<tr *ngFor="let Rest of restList ; let i=index" ng-cloak>
 				<td>{{i+1}}</td>
 				<td>{{Rest.name}}</td>
 				<td><span class="m-badge  m-badge--wide">{{Rest.status}}</span></td>
