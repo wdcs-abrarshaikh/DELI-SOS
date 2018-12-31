@@ -78,6 +78,7 @@
  }
  :host app-ngx-editor /deep/ .ngx-editor-textarea {
     height:500px !important;
+    color:black
  } 
 
  #commonCms{

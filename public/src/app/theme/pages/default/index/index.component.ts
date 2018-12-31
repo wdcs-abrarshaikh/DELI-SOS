@@ -100,7 +100,7 @@ export class IndexComponent implements OnInit, AfterViewInit {
                 swal({
                   position: 'center',
                   type: 'success',
-                  title: response['message'],
+                  title: 'Approved',
                   showConfirmButton: false,
                   timer: 1500
                 })
@@ -118,15 +118,13 @@ export class IndexComponent implements OnInit, AfterViewInit {
     }
    
     Reject(id){
-        console.log("in delete ",id)
         this.indexService.rejectRestaurant(id).subscribe((response:any)=>{
-            console.log(response)
-            this.getAllRequest()
+           this.getAllRequest()
             if (response['code'] ==200 ) {
                 swal({
                   position: 'center',
-                  type: 'success',
-                  title: response['msg'],
+                  type: 'error',
+                  title: 'Rejected',
                   showConfirmButton: false,
                   timer: 1500
                 })

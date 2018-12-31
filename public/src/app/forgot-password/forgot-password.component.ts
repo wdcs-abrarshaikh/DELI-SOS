@@ -40,8 +40,7 @@ export class ForgotPasswordComponent implements OnInit {
 
    forgotPassword() {
      this.forgotPasswordService.post(this.forgotPasswordForm.value).subscribe((response: any) => {
-       console.log(response)
-       if (response['code'] == 200) {
+     if (response['code'] == 200) {
         swal({
           position: 'center',
           type: 'success',

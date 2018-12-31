@@ -34,9 +34,10 @@ export class CuisinComponent implements OnInit {
     private cuisinService: CuisinService,
     private _script: ScriptLoaderService,
     private spinnerService:Ng4LoadingSpinnerService) {
-
-    this.cuisinService.getCuisins().subscribe((data: any) => {
+      this.spinnerService.show();
+      this.cuisinService.getCuisins().subscribe((data: any) => {
        this.cuisinsList = data.cuisinsList.data
+       this.spinnerService.hide();
     });
   }
   ngAfterViewInit() {
@@ -49,8 +50,7 @@ export class CuisinComponent implements OnInit {
     this.getCuisinList();
   }
   open(content) {
-    console.log("in view")
-    if (!content) {
+   if (!content) {
       this.isAdd = true
     } else {
       this.isAdd = false
@@ -74,9 +74,9 @@ export class CuisinComponent implements OnInit {
   }
 
   viewCuisines(cuisin){
-    console.log(cuisin)
-    this.modalReference = this.modalService.open(cuisin);
+   this.modalReference = this.modalService.open(cuisin);
   }
+
   delete(id) {
    swal({
       title: 'Are you sure?',

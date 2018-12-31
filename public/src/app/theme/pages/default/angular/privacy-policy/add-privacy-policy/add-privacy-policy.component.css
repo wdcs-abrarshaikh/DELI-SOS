@@ -18,3 +18,11 @@
 .btn:disabled {
     opacity: .65;
 }
+:host app-ngx-editor .fa {
+    color:#000 !important;
+ }  
+ .ngx-editor-button i.fa, .ngx-editor-button i.fas, .ngx-editor-button i.fa, .ngx-editor-button i.far {
+    color: inherit;
+    font-size: 18px;
+    width:32px;
+}

@@ -43,7 +43,9 @@ export class AboutUsComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private aboutUsService: AboutUsService,
     private spinnerService: Ng4LoadingSpinnerService) {
+      this.spinnerService.show();
     this.aboutUsService.getAboutus().subscribe((data: any) => {
+      this.spinnerService.hide();
       if (data.aboutUsList == null) {
         this.aboutUsList = data.aboutUsList
         this.initialaboutusList = this.aboutUsList;
@@ -83,9 +85,10 @@ export class AboutUsComponent implements OnInit {
     });
   }
   getAllAboutus() {
+    this.spinnerService.show();
     this.aboutUsService.getAllAboutus().subscribe((response: any) => {
-      console.log(response)
-      this.aboutUsService.setAboutus(response.data);
+     this.aboutUsService.setAboutus(response.data);
+      this.spinnerService.hide();
     })
   }
   validateForm() {

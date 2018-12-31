@@ -36,7 +36,7 @@ export class AsideNavComponent implements OnInit, AfterViewInit {
     }
     moveToCuisin(){
         this.spinnerService.show();
-        this._router.navigate(['/admin/cuisin']);
+        this._router.navigate(['/admin/cuisines']);
     }
     moveToUser(){
         this.spinnerService.show();

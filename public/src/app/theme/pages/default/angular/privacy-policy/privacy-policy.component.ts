@@ -114,7 +114,9 @@ export class PrivacyPolicyComponent implements OnInit {
   }
 
   getAllPrivacyPolicy() {
+    this.spinnerService.show();
     this.privacyPolicyService.getAllPrivacyPolicy().subscribe((response: any) => {
+      this.spinnerService.hide();
       this.privacyPolicyService.setPrivacyPolicy(response.data);
     })
   }

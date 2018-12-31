@@ -16,7 +16,7 @@
         <td>{{user.name}}</td>
         <td>{{user.email}}</td>
         <td>{{user.contactNumber}}</td>
-        <td  data-toggle="m-tooltip" data-placement="top" title="{{user.content}}">{{user.content.substr(0,100)}} <a style="color:blue" *ngIf="user.content.length>100" >...read more</a></td>
+        <td  data-toggle="m-tooltip" data-placement="top" title="{{user.content}}">{{user.content.substr(0,100)}} <a style="color:blue;width:10%" *ngIf="user.content.length>100" >. . . . . . . .</a></td>
      </tr>
   </tbody>
 </table>

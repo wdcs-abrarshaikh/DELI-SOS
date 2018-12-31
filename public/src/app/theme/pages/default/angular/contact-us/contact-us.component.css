@@ -58,3 +58,9 @@ table.dataTable thead th.sorting,
 .tooltip{
     color:black
 }
+
+.m-menu__nav i.fa, i.fas, i.fa, i.far {
+    color: black;
+    font-size: 18px;
+    width:32px;
+}

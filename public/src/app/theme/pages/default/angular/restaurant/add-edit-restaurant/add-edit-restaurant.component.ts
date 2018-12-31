@@ -362,7 +362,7 @@ export class AddEditRestaurantComponent implements OnInit {
             swal({
               position: 'center',
               type: 'success',
-              title: data['message'],
+              title: 'Updated successfully',
               showConfirmButton: false,
               timer: 1500
             })
@@ -381,7 +381,7 @@ export class AddEditRestaurantComponent implements OnInit {
   }
 
   getAllRestaurant() {
-    this.restaurantService.getAllRestaurant().subscribe((response: any) => {
+  this.restaurantService.getAllRestaurant().subscribe((response: any) => {
       this.restaurantService.setRestaurant(response);
     })
   }

@@ -36,9 +36,10 @@ export class UserComponent implements OnInit, AfterViewInit {
     private userService: UserService,
     private _script: ScriptLoaderService,
     private spinnerService: Ng4LoadingSpinnerService) {
-
+      this.spinnerService.show();
     this.userService.getUsers().subscribe((data: any) => {
       this.usersList = data.usersList.data
+      this.spinnerService.hide();
     });
   }
   ngAfterViewInit() {
@@ -137,8 +138,6 @@ export class UserComponent implements OnInit, AfterViewInit {
       return true;
     }
   }
-
-
 
 }
 

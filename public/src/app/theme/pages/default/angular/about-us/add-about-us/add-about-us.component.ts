@@ -38,7 +38,8 @@ export class AddAboutUsComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private modalService: NgbModal,
     private aboutUsService: AboutUsService,
-    private toastService: ToastrService) { }
+    private toastService: ToastrService,
+    private spinnerService: Ng4LoadingSpinnerService) { }
 
   ngOnInit() {
     this.buildAboutForm();
@@ -56,7 +57,9 @@ export class AddAboutUsComponent implements OnInit {
   }
 
   getAllAboutus() {
+    this.spinnerService.show();
     this.aboutUsService.getAllAboutus().subscribe((response: any) => {
+      this.spinnerService.hide();
       this.aboutUsService.setAboutus(response.data);
     })
   }

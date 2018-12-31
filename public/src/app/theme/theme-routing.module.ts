@@ -40,7 +40,7 @@ const routes: Routes = [
                 "loadChildren":"./pages/default/angular/contact-us/contact-us.module#ContactUsModule"
             },
             {
-                "path":"admin/cuisin",
+                "path":"admin/cuisines",
                 "loadChildren":"./pages/default/angular/cuisin/cuisin.module#CuisinModule"
             }
         ]
