@@ -54,6 +54,10 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+function _window() {
+    // return the global native browser window object
+    return window;
+}
 var ContactUsComponent = /** @class */ (function () {
     function ContactUsComponent(_router, _script, contactUsService, location, spinnerService) {
         var _this = this;
@@ -70,10 +74,25 @@ var ContactUsComponent = /** @class */ (function () {
         });
     }
     ContactUsComponent.prototype.ngAfterViewInit = function () {
-        this._script.loadScripts('app-contact-us', ['assets/vendors/custom/datatables/datatables.bundle.js',
-            'assets/demo/default/custom/crud/datatables/basic/paginations.js']);
+        //app-contact-us
+        var scripts = [];
+        if (!_window().isScriptLoadedUsermgmt) {
+            scripts = ['assets/vendors/custom/datatables/datatables.bundle.js'];
+        }
+        var that = this;
+        this.spinnerService.show();
+        this._script.loadScripts('app-contact-us', scripts).then(function () {
+            _window().isScriptLoadedUsermgmt = true;
+            that._script.loadScripts('app-contact-us', ['assets/demo/default/custom/crud/datatables/basic/paginations.js']);
+            that.spinnerService.hide();
+        });
     };
     ContactUsComponent.prototype.ngOnInit = function () {
+        _window().my = _window().my || {};
+        _window().my.usermgmt = _window().my.usermgmt || {};
+        if (typeof (_window().isScriptLoadedUsermgmt) == "undefined") {
+            _window().isScriptLoadedUsermgmt = false;
+        }
         this.getAllContactRequest();
     };
     ContactUsComponent.prototype.getAllContactRequest = function () {

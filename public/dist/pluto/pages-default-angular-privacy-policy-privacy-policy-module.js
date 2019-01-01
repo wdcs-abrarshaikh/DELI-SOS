@@ -7,7 +7,7 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".lbl-err{\n    color: red;\n}\n.btn-delete{\n    color:white;\n    width:80px;\n    background: #a73a08;\n    opacity: 1.5;\n    border-radius: 25%;\n}\n.btn-save{\n    color:white;\n    width:80px;\n    background: #49a558;\n     border-radius: 25%;\n    opacity: 1.5;\n}\n.btn:disabled {\n    opacity: .65;\n}\n:host app-ngx-editor .fa {\n    color:#000 !important;\n }\n.ngx-editor-button i.fa, .ngx-editor-button i.fas, .ngx-editor-button i.fa, .ngx-editor-button i.far {\n    color: inherit;\n    font-size: 18px;\n    width:32px;\n}"
+module.exports = ".lbl-err{\n    color: red;\n}\n.btn-delete{\n    color:white;\n    width:80px;\n    background: #a73a08;\n    opacity: 1.5;\n    border-radius: 25%;\n}\n.btn-save{\n    color:white;\n    width:80px;\n    background: #49a558;\n     border-radius: 25%;\n    opacity: 1.5;\n}\n.btn:disabled {\n    opacity: .65;\n}\n:host app-ngx-editor .fa {\n    color:#000 !important;\n }\n.ngx-editor-button i.fa, .ngx-editor-button i.fas, .ngx-editor-button i.fa, .ngx-editor-button i.far {\n    color: inherit;\n    font-size: 18px;\n    width:32px;\n}\n.ngx-toolbar[_ngcontent-c5] {\n    background-color: #f5f5f5;\n    font-size: .8rem;\n    padding: .2rem;\n    border: 1px solid #ddd;\n}"
 
 /***/ }),
 
@@ -240,6 +240,7 @@ var PrivacyPolicyComponent = /** @class */ (function () {
             },
         };
         this.privacyPolicyService.getPrivacyPolicy().subscribe(function (data) {
+            _this.spinnerService.show();
             if (data.privacyPolicyLists !== null) {
                 _this.privacyPolicyLists = data.privacyPolicyLists.content;
                 _this.initialprivacyPolicyLists = _this.privacyPolicyLists;
@@ -249,6 +250,7 @@ var PrivacyPolicyComponent = /** @class */ (function () {
                 _this.privacyPolicyLists = data.privacyPolicyLists;
                 _this.initialprivacyPolicyLists = _this.privacyPolicyLists;
             }
+            _this.spinnerService.hide();
         });
     }
     PrivacyPolicyComponent.prototype.ngOnInit = function () {
@@ -307,15 +309,14 @@ var PrivacyPolicyComponent = /** @class */ (function () {
         var _this = this;
         this.spinnerService.show();
         this.privacyPolicyService.getAllPrivacyPolicy().subscribe(function (response) {
-            _this.spinnerService.hide();
             _this.privacyPolicyService.setPrivacyPolicy(response.data);
+            _this.spinnerService.hide();
         });
     };
     PrivacyPolicyComponent.prototype.getPrivacyPolicyList = function () {
         var _this = this;
         this.spinnerService.show();
         this.privacyPolicyService.getAllPrivacyPolicy().subscribe(function (response) {
-            _this.spinnerService.hide();
             if (response.data !== null) {
                 _this.privacyPolicyLists = response.data.content;
                 _this.initialprivacyPolicyLists = _this.privacyPolicyLists;
@@ -324,6 +325,7 @@ var PrivacyPolicyComponent = /** @class */ (function () {
             else {
                 _this.initialprivacyPolicyLists = response.data;
             }
+            _this.spinnerService.hide();
         });
     };
     Object.defineProperty(PrivacyPolicyComponent.prototype, "f", {

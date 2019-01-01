@@ -270,6 +270,10 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+function _window() {
+    // return the global native browser window object
+    return window;
+}
 var UserComponent = /** @class */ (function () {
     function UserComponent(modalService, location, toastService, _formBuilder, userService, _script, spinnerService) {
         var _this = this;
@@ -291,10 +295,24 @@ var UserComponent = /** @class */ (function () {
         });
     }
     UserComponent.prototype.ngAfterViewInit = function () {
-        this._script.loadScripts('app-user', ['assets/vendors/custom/datatables/datatables.bundle.js',
-            'assets/demo/default/custom/crud/datatables/basic/paginations.js']);
+        var scripts = [];
+        if (!_window().isScriptLoadedUsermgmt) {
+            scripts = ['assets/vendors/custom/datatables/datatables.bundle.js'];
+        }
+        var that = this;
+        this.spinnerService.show();
+        this._script.loadScripts('app-user', scripts).then(function () {
+            _window().isScriptLoadedUsermgmt = true;
+            that._script.loadScripts('app-user', ['assets/demo/default/custom/crud/datatables/basic/paginations.js']);
+            that.spinnerService.hide();
+        });
     };
     UserComponent.prototype.ngOnInit = function () {
+        _window().my = _window().my || {};
+        _window().my.usermgmt = _window().my.usermgmt || {};
+        if (typeof (_window().isScriptLoadedUsermgmt) == "undefined") {
+            _window().isScriptLoadedUsermgmt = false;
+        }
         this.getUserList();
     };
     UserComponent.prototype.open = function (content, type) {
@@ -327,7 +345,6 @@ var UserComponent = /** @class */ (function () {
         var _this = this;
         this.spinnerService.show();
         this.userService.getAllUsers().subscribe(function (response) {
-            // console.log("all data here display")
             _this.usersList = response.data;
             _this.spinnerService.hide();
         });

@@ -80,9 +80,8 @@ var AboutUsComponent = /** @class */ (function () {
             minHeight: '10rem',
             placeholder: 'Type something. Test the Editor... ヽ(^。^)丿'
         };
-        this.spinnerService.show();
+        // this.spinnerService.show();
         this.aboutUsService.getAboutus().subscribe(function (data) {
-            _this.spinnerService.hide();
             if (data.aboutUsList == null) {
                 _this.aboutUsList = data.aboutUsList;
                 _this.initialaboutusList = _this.aboutUsList;
@@ -92,6 +91,7 @@ var AboutUsComponent = /** @class */ (function () {
                 _this.id = data.aboutUsList._id;
                 _this.initialaboutusList = _this.aboutUsList;
             }
+            _this.spinnerService.hide();
         });
     }
     AboutUsComponent.prototype.ngOnInit = function () {
@@ -109,7 +109,6 @@ var AboutUsComponent = /** @class */ (function () {
         var _this = this;
         this.spinnerService.show();
         this.aboutUsService.getAllAboutus().subscribe(function (response) {
-            _this.spinnerService.hide();
             if (response.data == null) {
                 _this.initialaboutusList = response.data;
             }
@@ -118,6 +117,7 @@ var AboutUsComponent = /** @class */ (function () {
                 _this.initialaboutusList = _this.aboutUsList;
                 _this.id = response.data._id;
             }
+            _this.spinnerService.hide();
         });
     };
     AboutUsComponent.prototype.getAllAboutus = function () {

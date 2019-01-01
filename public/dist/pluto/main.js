@@ -254,7 +254,7 @@ var AppRoutingModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!-- begin::Page loader -->\n<!-- <div class=\"m-page-loader m-page-loader--base m-page-loader--non-block\" style=\"margin-left: -80px; margin-top: -20px;  background:rgb(255, 248, 224)\"> -->\n   \n \n   \n   <!-- <div class=\"m-blockui\"> -->\n     <ng4-loading-spinner> </ng4-loading-spinner>\n    <!-- <span>Please wait...</span> -->\n   \n \n<!-- <ng4-loading-spinner> </ng4-loading-spinner> -->\n<!-- end::Page loader -->\n<!-- begin:: Page -->\n<router-outlet></router-outlet>\n\n<!-- end:: Page -->\n<!-- <app-quick-sidebar></app-quick-sidebar> -->\n<!-- <app-scroll-top></app-scroll-top> -->\n<!-- <app-tooltips></app-tooltips> -->\n<!--begin::Base Scripts -->\n<!--end::Base Scripts -->\n<!--begin::Page Vendors -->\n<!--end::Page Vendors -->\n<!--begin::Page Snippets -->\n<!--end::Page Snippets -->"
+module.exports = "<!-- begin::Page loader -->\n<!-- <div class=\"m-page-loader m-page-loader--base m-page-loader--non-block\" style=\"margin-left: -80px; margin-top: -20px;  background:rgb(255, 248, 224)\"> -->\n   \n \n   \n   <!-- <div class=\"m-blockui\"> -->\n     <ng4-loading-spinner> </ng4-loading-spinner>\n    <!-- <span>Please wait...</span> -->\n   \n \n<!-- <ng4-loading-spinner> </ng4-loading-spinner> -->\n<!-- end::Page loader -->\n<!-- begin:: Page -->\n<router-outlet ng-cloak></router-outlet>\n\n<!-- end:: Page -->\n<!-- <app-quick-sidebar></app-quick-sidebar> -->\n<!-- <app-scroll-top></app-scroll-top> -->\n<!-- <app-tooltips></app-tooltips> -->\n<!--begin::Base Scripts -->\n<!--end::Base Scripts -->\n<!--begin::Page Vendors -->\n<!--end::Page Vendors -->\n<!--begin::Page Snippets -->\n<!--end::Page Snippets -->"
 
 /***/ }),
 
@@ -394,6 +394,7 @@ var AppModule = /** @class */ (function () {
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_4__["BrowserModule"],
                 _angular_forms__WEBPACK_IMPORTED_MODULE_7__["FormsModule"],
+                ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_17__["Ng4LoadingSpinnerModule"].forRoot(),
                 _angular_forms__WEBPACK_IMPORTED_MODULE_7__["ReactiveFormsModule"],
                 _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_6__["BrowserAnimationsModule"],
                 _app_routing_module__WEBPACK_IMPORTED_MODULE_10__["AppRoutingModule"],
@@ -405,7 +406,7 @@ var AppModule = /** @class */ (function () {
                 ngx_toastr__WEBPACK_IMPORTED_MODULE_15__["ToastrModule"].forRoot(),
                 ng_pick_datetime__WEBPACK_IMPORTED_MODULE_18__["OwlDateTimeModule"],
                 ng_pick_datetime__WEBPACK_IMPORTED_MODULE_18__["OwlNativeDateTimeModule"],
-                ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_17__["Ng4LoadingSpinnerModule"].forRoot(),
+                // Ng4LoadingSpinnerModule.forRoot(),
                 _progress_kendo_angular_inputs__WEBPACK_IMPORTED_MODULE_19__["InputsModule"]
             ],
             providers: [_services_script_loader_service__WEBPACK_IMPORTED_MODULE_1__["ScriptLoaderService"]],
@@ -510,6 +511,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 /* harmony import */ var _services_user_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../_services/user.service */ "./src/app/auth/_services/user.service.ts");
 /* harmony import */ var ngx_toastr__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ngx-toastr */ "./node_modules/ngx-toastr/fesm5/ngx-toastr.js");
+/* harmony import */ var ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ng4-loading-spinner */ "./node_modules/ng4-loading-spinner/ng4-loading-spinner.umd.js");
+/* harmony import */ var ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_5__);
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -524,18 +527,22 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
 var AuthGuard = /** @class */ (function () {
-    function AuthGuard(_router, _userService, _authService, toastService) {
+    function AuthGuard(_router, _userService, _authService, toastService, spinnerService) {
         this._router = _router;
         this._userService = _userService;
         this._authService = _authService;
         this.toastService = toastService;
+        this.spinnerService = spinnerService;
     }
     AuthGuard.prototype.canActivate = function (route, state) {
         var _this = this;
         var currentUser = JSON.parse(localStorage.getItem('_token'));
         if (currentUser) {
+            this.spinnerService.show();
             this._authService.verify().subscribe(function (data) {
+                _this.spinnerService.hide();
                 if (data['code'] == 400) {
                     _this._router.navigate(['/login']);
                     _this.toastService.success(data['message']);
@@ -550,7 +557,7 @@ var AuthGuard = /** @class */ (function () {
     };
     AuthGuard = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])(),
-        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"], _services_user_service__WEBPACK_IMPORTED_MODULE_3__["UserService"], _services_authentication_service__WEBPACK_IMPORTED_MODULE_0__["AuthenticationService"], ngx_toastr__WEBPACK_IMPORTED_MODULE_4__["ToastrService"]])
+        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"], _services_user_service__WEBPACK_IMPORTED_MODULE_3__["UserService"], _services_authentication_service__WEBPACK_IMPORTED_MODULE_0__["AuthenticationService"], ngx_toastr__WEBPACK_IMPORTED_MODULE_4__["ToastrService"], ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_5__["Ng4LoadingSpinnerService"]])
     ], AuthGuard);
     return AuthGuard;
 }());
@@ -1597,7 +1604,9 @@ var ForgotPasswordComponent = /** @class */ (function () {
     });
     ForgotPasswordComponent.prototype.forgotPassword = function () {
         var _this = this;
+        this.spinnerService.show();
         this.forgotPasswordService.post(this.forgotPasswordForm.value).subscribe(function (response) {
+            _this.spinnerService.hide();
             if (response['code'] == 200) {
                 sweetalert2__WEBPACK_IMPORTED_MODULE_5___default()({
                     position: 'center',
@@ -1607,9 +1616,9 @@ var ForgotPasswordComponent = /** @class */ (function () {
                     timer: 1500
                 });
                 _this.router.navigate(['/forgotemail']);
-                _this.spinnerService.hide();
             }
             else {
+                _this.spinnerService.hide();
                 sweetalert2__WEBPACK_IMPORTED_MODULE_5___default()({
                     type: 'error',
                     text: response['message']
@@ -1847,6 +1856,7 @@ var LoginComponent = /** @class */ (function () {
     };
     LoginComponent.prototype.signIn = function () {
         var _this = this;
+        this.spinnerService.show();
         this._loginService.post(this.loginForm.value).subscribe(function (response) {
             if (response['code'] == 200) {
                 _this.spinnerService.hide();
@@ -1951,7 +1961,7 @@ var LoginService = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".m-aside-menu .m-menu__nav .m-menu__item>.m-menu__heading:hover, .m-aside-menu .m-menu__nav .m-menu__item>.m-menu__link:hover {\n    background:#dd600c;\n}\n.menu__nav .m-menu__item>.m-menu__link:hover {\n    background: sandybrown;\n}\n.m-menu__link:hover{\n    background: sandybrown;\n}\n.m-menu__item.m-menu__item--active a{\n    transition: background-color .3s;\n    background-color:sandybrown;\n }\n.m-aside-menu .m-menu__nav .m-menu__item>.m-menu__link:hover {\n    text-decoration: none;\n    cursor: pointer;\n    background: sandybrown;\n }\n.m-menu__link{\n    color:white; \n    /* font-weight:500; */\n    font-size: 1.2rem;\n    position: relative;\n    display: flex;\n    align-items: center;\n    font-weight: bold !important;\n }\na:hover {\n    color: white;\n    text-decoration: underline;\n}\n.m-menu__link-text {\n    display: contents !important;\n    font-weight: bold !important;\n    color:white\n}\n.m-menu__nav img {\n    margin-right: 10px;\n}\n.m-menu__item .fa, .m-menu__item .fas, .m-menu__item .far {\n    color:white;\n    font-size: 18px;\n    width:32px;\n}\n.m-menu__item{\n    color:white; \n    font-size: 1.2rem;\n    padding:10px\n    \n}\n"
+module.exports = ".m-aside-menu .m-menu__nav .m-menu__item>.m-menu__heading:hover, .m-aside-menu .m-menu__nav .m-menu__item>.m-menu__link:hover {\n    background:#dd600c;\n}\n.menu__nav .m-menu__item>.m-menu__link:hover {\n    background: sandybrown;\n}\n.m-menu__link:hover{\n    background: sandybrown;\n}\n.m-menu__item.m-menu__item--active a{\n    transition: background-color .3s;\n    background-color:sandybrown;\n }\n.m-aside-menu .m-menu__nav .m-menu__item>.m-menu__link:hover {\n    text-decoration: none;\n    cursor: pointer;\n    background: sandybrown;\n }\n.m-menu__link{\n    color:white; \n    /* font-weight:500; */\n    font-size: 1.2rem;\n    position: relative;\n    display: flex;\n    align-items: center;\n    font-weight: bold !important;\n }\na:hover {\n    color: white;\n    text-decoration: underline;\n}\n.m-menu__link-text {\n    display: contents !important;\n    font-weight: bold !important;\n    color:white\n}\n.m-menu__nav img {\n    margin-right: 10px;\n}\n.m-menu__item .fa, .m-menu__item .fas, .m-menu__item .far {\n    color:white;\n    font-size: 18px;\n    width:32px;\n}\n.fa-users:before {\n    color:white;\n    content: \"\\f0c0\";\n}\n.fa-dashboard:before {\n    color:white;\n    content: \"\\f0e4\";\n}\n.fa-phone:before {\n    color:white;\n    content: \"\\f095\";\n}\n\n"
 
 /***/ }),
 
@@ -1962,7 +1972,7 @@ module.exports = ".m-aside-menu .m-menu__nav .m-menu__item>.m-menu__heading:hove
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!-- BEGIN: Left Aside -->\n<div class=\"t1\">\n<app-header-nav></app-header-nav>\n<button class=\"m-aside-left-close  m-aside-left-close--skin-dark\" id=\"m_aside_left_close_btn\" appunwraptag=\"\"><i class=\"la la-close\"></i></button>\n<div id=\"m_aside_left\" class=\"m-grid__item\tm-aside-left  m-aside-left--skin-dark\">\n\t<!-- BEGIN: Aside Menu -->\n\t<div id=\"m_ver_menu\" class=\"m-aside-menu  m-aside-menu--skin-dark m-aside-menu--submenu-skin-dark\" m-menu-vertical=\"1\"\n\t m-menu-scrollable=\"1\" m-menu-dropdown-timeout=\"500\" style=\"background: linear-gradient(rgb(236, 151, 39), #e97121); \">\n\t\t<ul class=\"m-menu__nav  m-menu__nav--dropdown-submenu-arrow\">\n\t\t\n\t\t\t<li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\" aria-haspopup=\"true\"><a\n\t\t\t\t(click)=\"moveToIndex()\" class=\"m-menu__link\"><i class=\"fas flaticon-line-graph\"></i>Dashboard\n\t\t\t\t\t\t</a>\n\t\t\t</li>\n\t\t\n\t\t\t<li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\" aria-haspopup=\"true\"><a\n\t\t\t\t(click)=\"moveToRestaurant()\" class=\"m-menu__link\"><img src=\"./assets/demo/default/media/img/logo/restaurant.png\" width=\"20px\"/>Restaurants\n\t\t\t\t\t </a>\n\t\t   </li>\n\n\t\t\t<li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\" aria-haspopup=\"true\"><a\n\t\t\t\t(click)=\"moveToCuisin()\" class=\"m-menu__link\" ><img src=\"./assets/demo/default/media/img/logo/cuisin.png\" width=\"20px\"/>Cuisines</a>\n\t\t\t</li>\n\t\t\n\t\t\t\n\t\t\t<li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\" aria-haspopup=\"true\"><a\n\t\t\t\t(click)=\"moveToUser()\" class=\"m-menu__link\"><i class=\"fa fa-users\"></i>Users </a>\n            \t \n\t\t   </li>\n\n\t\t   <li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\" aria-haspopup=\"true\"><a\n\t\t\t(click)=\"moveToAboutus()\" class=\"m-menu__link\" ><i class=\"far fa-building\"></i>About Us </a>\n\t\t\t\t  \n\t       </li>\n   \n\t\t   \t\t\n\t\t\t<li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\" aria-haspopup=\"true\"><a\n\t\t\t\t(click)=\"moveToContactus()\" class=\"m-menu__link\" ><i class=\"fas fa-envelope-open\"></i>Contact Us   </a>\n\t\t\t\t\t\n\t\t   </li>\n\n\t\t\t<li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\"aria-haspopup=\"true\">\n\t\t\t<a (click)=\"moveToPrivacy()\" class=\"m-menu__link\" ><i class=\"far flaticon-settings\"></i>Privacy Policy</a>\n\t\t\t\n\t\t\t</li>\n\t\t\t\n\n\t<!----  <li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\"\n\t   aria-haspopup=\"true\"><a routerLink=\"/admin/terms-conditions\" class=\"m-menu__link\"><i class=\"m-menu__link-icon flaticon-settings\"></i><span\n\t\t\t   class=\"m-menu__link-text\">Terms & Conditions\n\t\t\t  </span></a>\n\t  </li>\n\n\n\t  <li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\"\n\t  aria-haspopup=\"true\"><a routerLink=\"/admin/notifications\" class=\"m-menu__link\"><i class=\"m-menu__link-icon flaticon-settings\"></i><span\n\t\t\t  class=\"m-menu__link-text\">Notifications\n\t\t\t </span></a>\n\t </li>\n\n\t -->\n\t\t\t\n\t\t\t\t\t</ul>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t\n"
+module.exports = "<!-- BEGIN: Left Aside -->\n<div class=\"t1\">\n<app-header-nav></app-header-nav>\n<button class=\"m-aside-left-close  m-aside-left-close--skin-dark\" id=\"m_aside_left_close_btn\" appunwraptag=\"\"><i class=\"la la-close\"></i></button>\n<div id=\"m_aside_left\" class=\"m-grid__item\tm-aside-left  m-aside-left--skin-dark\">\n\t<!-- BEGIN: Aside Menu -->\n\t<div id=\"m_ver_menu\" class=\"m-aside-menu  m-aside-menu--skin-dark m-aside-menu--submenu-skin-dark\" m-menu-vertical=\"1\"\n\t m-menu-scrollable=\"1\" m-menu-dropdown-timeout=\"500\" style=\"background: linear-gradient(rgb(236, 151, 39), #e97121); \">\n\t\t<ul class=\"m-menu__nav  m-menu__nav--dropdown-submenu-arrow\">\n\t\t\n\t\t\t<li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\" aria-haspopup=\"true\"><a\n\t\t\t\trouterLink=\"/index\" class=\"m-menu__link\"><i class=\"fa fa-dashboard\"></i>Dashboard\n\t\t\t\t\t\t</a>\n\t\t\t</li>\n\t\t\n\t\t\t<li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\" aria-haspopup=\"true\"><a\n\t\t\t\trouterLink=\"/admin/restaurant\" class=\"m-menu__link\"><img src=\"./assets/demo/default/media/img/logo/restaurant.png\" width=\"20px\"/>Restaurants\n\t\t\t\t\t </a>\n\t\t   </li>\n\n\t\t\t<li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\" aria-haspopup=\"true\"><a\n\t\t\t\t routerLink=\"/admin/cuisines\" class=\"m-menu__link\" ><img src=\"./assets/demo/default/media/img/logo/cuisin.png\" width=\"20px\"/>Cuisines</a>\n\t\t\t</li>\n\t\t\n\t\t\t\n\t\t\t<li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\" aria-haspopup=\"true\"><a\n\t\t\t\trouterLink=\"/admin/getUserList\" class=\"m-menu__link\"><i class=\"fa fa-users\"></i>Users </a>\n            \t \n\t\t   </li>\n\n\t\t   <li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\" aria-haspopup=\"true\"><a\n\t\t\trouterLink=\"/admin/about-us\" class=\"m-menu__link\" ><i class=\"far fa-building\"></i>About Us </a>\n\t\t\t\t  \n\t       </li>\n   \n\t\t   \t\t\n\t\t\t<li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\" aria-haspopup=\"true\"><a\n\t\t\t\trouterLink=\"/admin/contact-us\" class=\"m-menu__link\" ><i class=\"fa fa-phone\"></i>Contact Us </a>\n\t\t\t\t\t\n\t\t   </li>\n\n\t\t\t<li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\"aria-haspopup=\"true\">\n\t\t\t<a routerLink=\"/admin/privacy-policy\" class=\"m-menu__link\" ><i class=\"fas fa-envelope-open\"></i>Privacy Policy</a>\n\t\t\t\n\t\t\t</li>\n\t\t\t\n\n\t<!----  <li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\"\n\t   aria-haspopup=\"true\"><a routerLink=\"/admin/terms-conditions\" class=\"m-menu__link\"><i class=\"m-menu__link-icon flaticon-settings\"></i><span\n\t\t\t   class=\"m-menu__link-text\">Terms & Conditions\n\t\t\t  </span></a>\n\t  </li>\n\n\n\t  <li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\"\n\t  aria-haspopup=\"true\"><a routerLink=\"/admin/notifications\" class=\"m-menu__link\"><i class=\"m-menu__link-icon flaticon-settings\"></i><span\n\t\t\t  class=\"m-menu__link-text\">Notifications\n\t\t\t </span></a>\n\t </li>\n\n\t -->\n\t\t\t\n\t\t\t\t\t</ul>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t\n"
 
 /***/ }),
 
@@ -1977,9 +1987,6 @@ module.exports = "<!-- BEGIN: Left Aside -->\n<div class=\"t1\">\n<app-header-na
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AsideNavComponent", function() { return AsideNavComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ng4-loading-spinner */ "./node_modules/ng4-loading-spinner/ng4-loading-spinner.umd.js");
-/* harmony import */ var ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1990,45 +1997,13 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
-
-
 var AsideNavComponent = /** @class */ (function () {
-    function AsideNavComponent(spinnerService, _router) {
-        this.spinnerService = spinnerService;
-        this._router = _router;
+    function AsideNavComponent() {
     }
     AsideNavComponent.prototype.ngOnInit = function () {
     };
     AsideNavComponent.prototype.ngAfterViewInit = function () {
         mLayout.initAside();
-    };
-    AsideNavComponent.prototype.moveToIndex = function () {
-        this.spinnerService.show();
-        this._router.navigate(['/index']);
-    };
-    AsideNavComponent.prototype.moveToRestaurant = function () {
-        this.spinnerService.show();
-        this._router.navigate(['/admin/restaurant']);
-    };
-    AsideNavComponent.prototype.moveToCuisin = function () {
-        this.spinnerService.show();
-        this._router.navigate(['/admin/cuisines']);
-    };
-    AsideNavComponent.prototype.moveToUser = function () {
-        this.spinnerService.show();
-        this._router.navigate(['/admin/getUserList']);
-    };
-    AsideNavComponent.prototype.moveToAboutus = function () {
-        this.spinnerService.show();
-        this._router.navigate(['/admin/about-us']);
-    };
-    AsideNavComponent.prototype.moveToContactus = function () {
-        this.spinnerService.show();
-        this._router.navigate(['/admin/contact-us']);
-    };
-    AsideNavComponent.prototype.moveToPrivacy = function () {
-        this.spinnerService.show();
-        this._router.navigate(['/admin/privacy-policy']);
     };
     AsideNavComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -2037,8 +2012,7 @@ var AsideNavComponent = /** @class */ (function () {
             styles: [__webpack_require__(/*! ./aside-nav.component.css */ "./src/app/theme/layouts/aside-nav/aside-nav.component.css")],
             encapsulation: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewEncapsulation"].None,
         }),
-        __metadata("design:paramtypes", [ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_1__["Ng4LoadingSpinnerService"],
-            _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"]])
+        __metadata("design:paramtypes", [])
     ], AsideNavComponent);
     return AsideNavComponent;
 }());
@@ -2664,7 +2638,7 @@ var ThemeRoutingModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n\n<app-header-nav></app-header-nav> \n\n<router-outlet></router-outlet> <!-- end:: Body -->\n"
+module.exports = "\n \n<app-header-nav></app-header-nav> \n\n<router-outlet></router-outlet> <!-- end:: Body -->\n"
 
 /***/ }),
 
@@ -2682,6 +2656,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 /* harmony import */ var _helpers__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../helpers */ "./src/app/helpers.ts");
 /* harmony import */ var _services_script_loader_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../_services/script-loader.service */ "./src/app/_services/script-loader.service.ts");
+/* harmony import */ var ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ng4-loading-spinner */ "./node_modules/ng4-loading-spinner/ng4-loading-spinner.umd.js");
+/* harmony import */ var ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_4__);
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2695,18 +2671,22 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
 var ThemeComponent = /** @class */ (function () {
-    function ThemeComponent(_script, _router) {
+    function ThemeComponent(_script, _router, spinnerService) {
         this._script = _script;
         this._router = _router;
+        this.spinnerService = spinnerService;
     }
     ThemeComponent.prototype.ngOnInit = function () {
-        var _this = this;
+        var that = this;
+        this.spinnerService.show();
         this._script.loadScripts('body', ['assets/vendors/base/vendors.bundle.js', 'assets/demo/default/base/scripts.bundle.js'], true)
             .then(function (result) {
+            that.spinnerService.hide();
             _helpers__WEBPACK_IMPORTED_MODULE_2__["Helpers"].setLoading(false);
             // optional js to be loaded once
-            _this._script.loadScripts('head', ['assets/vendors/custom/fullcalendar/fullcalendar.bundle.js'], true);
+            // this._script.loadScripts('head', ['assets/vendors/custom/fullcalendar/fullcalendar.bundle.js'], true);
         });
         this._router.events.subscribe(function (route) {
             if (route instanceof _angular_router__WEBPACK_IMPORTED_MODULE_1__["NavigationStart"]) {
@@ -2734,7 +2714,7 @@ var ThemeComponent = /** @class */ (function () {
             selector: ".m-grid.m-grid--hor.m-grid--root.m-page",
             template: __webpack_require__(/*! ./theme.component.html */ "./src/app/theme/theme.component.html"),
         }),
-        __metadata("design:paramtypes", [_services_script_loader_service__WEBPACK_IMPORTED_MODULE_3__["ScriptLoaderService"], _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"]])
+        __metadata("design:paramtypes", [_services_script_loader_service__WEBPACK_IMPORTED_MODULE_3__["ScriptLoaderService"], _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"], ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_4__["Ng4LoadingSpinnerService"]])
     ], ThemeComponent);
     return ThemeComponent;
 }());
@@ -2803,7 +2783,7 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /home/codezeros/Desktop/DELI-SOS/public/src/main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! /root/parallels/vishal_project/DELI-SOS/public/src/main.ts */"./src/main.ts");
 
 
 /***/ })
