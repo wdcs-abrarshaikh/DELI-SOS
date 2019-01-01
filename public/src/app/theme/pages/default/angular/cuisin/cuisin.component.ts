@@ -19,6 +19,7 @@ function _window(): any {
 @Component({
   selector: 'app-cuisin',
   templateUrl: './cuisin.component.html',
+  
   styleUrls: ['./cuisin.component.css'],
   encapsulation: ViewEncapsulation.None
 })
@@ -49,13 +50,16 @@ export class CuisinComponent implements OnInit {
     let scripts = [];
     if (!_window().isScriptLoadedUsermgmt) {
       scripts = ['assets/vendors/custom/datatables/datatables.bundle.js'];
+      
     }
 
     let that = this;
+    this.spinnerService.show();
     this._script.loadScripts('app-cuisin',
         scripts).then(function(){
           _window().isScriptLoadedUsermgmt = true;
           that._script.loadScripts('app-cuisin', ['assets/demo/default/custom/crud/datatables/basic/paginations.js']);
+          this.spinnerService.hide();
         });
 
     // this._script.loadScripts('app-cuisin',

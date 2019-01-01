@@ -44,10 +44,12 @@ export class ContactUsComponent implements OnInit {
       scripts = ['assets/vendors/custom/datatables/datatables.bundle.js'];
     }
     let that = this;
+    this.spinnerService.show();
     this._script.loadScripts('app-contact-us',
         scripts).then(function(){
           _window().isScriptLoadedUsermgmt = true;
           that._script.loadScripts('app-contact-us', ['assets/demo/default/custom/crud/datatables/basic/paginations.js']);
+          this.spinnerService.hide();
         });
 
   }

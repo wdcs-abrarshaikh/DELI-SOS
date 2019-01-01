@@ -55,10 +55,13 @@ export class RestaurantComponent implements OnInit, AfterViewInit {
           scripts = ['assets/vendors/custom/datatables/datatables.bundle.js'];
         }
         let that = this;
+        this.spinnerService.show();
         this._script.loadScripts('app-restaurant',
             scripts).then(function(){
+              
               _window().isScriptLoadedUsermgmt = true;
               that._script.loadScripts('app-restaurant', ['assets/demo/default/custom/crud/datatables/basic/paginations.js']);
+              this.spinnerService.hide();
             });
 
   }

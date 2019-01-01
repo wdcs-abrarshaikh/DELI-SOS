@@ -53,10 +53,13 @@ export class UserComponent implements OnInit, AfterViewInit {
     }
 
     let that = this;
+    this.spinnerService.show();
     this._script.loadScripts('app-user',
         scripts).then(function(){
+          
           _window().isScriptLoadedUsermgmt = true;
           that._script.loadScripts('app-user', ['assets/demo/default/custom/crud/datatables/basic/paginations.js']);
+          this.spinnerService.hide();
         });
   }
 
