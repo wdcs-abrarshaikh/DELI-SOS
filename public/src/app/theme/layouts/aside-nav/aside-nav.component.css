@@ -44,9 +44,17 @@
     font-size: 18px;
     width:32px;
 }
-.m-menu__item{
-    color:white; 
-    font-size: 1.2rem;
-    padding:10px
-    
+.fa-users:before {
+    color:white;
+    content: "\f0c0";
 }
+
+.fa-dashboard:before {
+    color:white;
+    content: "\f0e4";
+}
+.fa-phone:before {
+    color:white;
+    content: "\f095";
+}
+

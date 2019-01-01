@@ -92,3 +92,9 @@ table.dataTable thead th.sorting,
     outline-color:white
 
 }
+.m-portlet__head-text .fa-users:before {
+    color:black;
+    content: "\f0c0";
+}
+
+

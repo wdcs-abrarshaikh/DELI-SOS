@@ -11,6 +11,11 @@ import swal from 'sweetalert2'
 import { AddEditRestaurantComponent } from './add-edit-restaurant/add-edit-restaurant.component';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 
+function _window(): any {
+  // return the global native browser window object
+  return window;
+}
+
 @Component({
   selector: 'app-restaurant',
   templateUrl: './restaurant.component.html',
@@ -34,7 +39,7 @@ export class RestaurantComponent implements OnInit, AfterViewInit {
     private restaurantService: RestaurantService,
     private _script: ScriptLoaderService,
     private spinnerService:Ng4LoadingSpinnerService) {
-      // this.spinnerService.show();
+      this.spinnerService.show();
     this.restaurantService.getRestaurant().subscribe((data: any) => {
       this.RestaurantList = data.RestautantList.data
       this.spinnerService.hide();
@@ -44,13 +49,28 @@ export class RestaurantComponent implements OnInit, AfterViewInit {
   }
   
   ngAfterViewInit() {
-    this._script.loadScripts('app-restaurant',
-      ['assets/vendors/custom/datatables/datatables.bundle.js',
-        'assets/demo/default/custom/crud/datatables/basic/paginations.js']);
+    
+        let scripts = [];
+        if (!_window().isScriptLoadedUsermgmt) {
+          scripts = ['assets/vendors/custom/datatables/datatables.bundle.js'];
+        }
+        let that = this;
+        this._script.loadScripts('app-restaurant',
+            scripts).then(function(){
+              _window().isScriptLoadedUsermgmt = true;
+              that._script.loadScripts('app-restaurant', ['assets/demo/default/custom/crud/datatables/basic/paginations.js']);
+            });
+
   }
 
 
   ngOnInit() {
+    _window().my = _window().my || {};
+    _window().my.usermgmt = _window().my.usermgmt || {};
+    if (typeof (_window().isScriptLoadedUsermgmt) == "undefined"){
+      _window().isScriptLoadedUsermgmt = false;
+    }
+    
     this.getRestaurantList();
   }
   getRestaurantList() {

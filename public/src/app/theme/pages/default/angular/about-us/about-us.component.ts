@@ -71,20 +71,20 @@ export class AboutUsComponent implements OnInit {
   }
 
   getAboutusList() {
-    // this.spinnerService.show();
+    this.spinnerService.show();
     this.aboutUsService.getAllAboutus().subscribe((response: any) => {
-      this.spinnerService.hide();
-      if (response.data == null) {
+     if (response.data == null) {
         this.initialaboutusList = response.data;
       } else {
         this.aboutUsList = response.data.content
         this.initialaboutusList = this.aboutUsList;
         this.id = response.data._id
       }
+      this.spinnerService.hide();
     });
   }
   getAllAboutus() {
-    // this.spinnerService.show();
+    this.spinnerService.show();
     this.aboutUsService.getAllAboutus().subscribe((response: any) => {
      this.aboutUsService.setAboutus(response.data);
       this.spinnerService.hide();

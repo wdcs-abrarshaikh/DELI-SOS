@@ -39,7 +39,9 @@ export class ForgotPasswordComponent implements OnInit {
       }
 
    forgotPassword() {
+    this.spinnerService.show();
      this.forgotPasswordService.post(this.forgotPasswordForm.value).subscribe((response: any) => {
+      this.spinnerService.hide();
      if (response['code'] == 200) {
         swal({
           position: 'center',
@@ -49,8 +51,9 @@ export class ForgotPasswordComponent implements OnInit {
           timer: 1500
         })
         this.router.navigate(['/forgotemail']);
-        this.spinnerService.hide();
+       
      } else {
+      this.spinnerService.hide();
         swal({
           type: 'error',
           text: response['message']

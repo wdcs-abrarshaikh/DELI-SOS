@@ -9,38 +9,38 @@
 		<ul class="m-menu__nav  m-menu__nav--dropdown-submenu-arrow">
 		
 			<li class="m-menu__item" routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true"><a
-				(click)="moveToIndex()" class="m-menu__link"><i class="fas flaticon-line-graph"></i>Dashboard
+				routerLink="/index" class="m-menu__link"><i class="fa fa-dashboard"></i>Dashboard
 						</a>
 			</li>
 		
 			<li class="m-menu__item" routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true"><a
-				(click)="moveToRestaurant()" class="m-menu__link"><img src="./assets/demo/default/media/img/logo/restaurant.png" width="20px"/>Restaurants
+				routerLink="/admin/restaurant" class="m-menu__link"><img src="./assets/demo/default/media/img/logo/restaurant.png" width="20px"/>Restaurants
 					 </a>
 		   </li>
 
 			<li class="m-menu__item" routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true"><a
-				(click)="moveToCuisin()" class="m-menu__link" ><img src="./assets/demo/default/media/img/logo/cuisin.png" width="20px"/>Cuisines</a>
+				 routerLink="/admin/cuisines" class="m-menu__link" ><img src="./assets/demo/default/media/img/logo/cuisin.png" width="20px"/>Cuisines</a>
 			</li>
 		
 			
 			<li class="m-menu__item" routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true"><a
-				(click)="moveToUser()" class="m-menu__link"><i class="fa fa-users"></i>Users </a>
+				routerLink="/admin/getUserList" class="m-menu__link"><i class="fa fa-users"></i>Users </a>
             	 
 		   </li>
 
 		   <li class="m-menu__item" routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true"><a
-			(click)="moveToAboutus()" class="m-menu__link" ><i class="far fa-building"></i>About Us </a>
+			routerLink="/admin/about-us" class="m-menu__link" ><i class="far fa-building"></i>About Us </a>
 				  
 	       </li>
    
 		   		
 			<li class="m-menu__item" routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true"><a
-				(click)="moveToContactus()" class="m-menu__link" ><i class="fas fa-envelope-open"></i>Contact Us   </a>
+				routerLink="/admin/contact-us" class="m-menu__link" ><i class="fa fa-phone"></i>Contact Us </a>
 					
 		   </li>
 
 			<li class="m-menu__item" routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }"aria-haspopup="true">
-			<a (click)="moveToPrivacy()" class="m-menu__link" ><i class="far flaticon-settings"></i>Privacy Policy</a>
+			<a routerLink="/admin/privacy-policy" class="m-menu__link" ><i class="fas fa-envelope-open"></i>Privacy Policy</a>
 			
 			</li>
 			

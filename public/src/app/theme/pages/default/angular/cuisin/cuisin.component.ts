@@ -11,6 +11,10 @@ import { AddEditcuisinComponent } from './add-editcuisin/add-editcuisin.componen
 import swal from 'sweetalert2'
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 
+function _window(): any {
+  // return the global native browser window object
+  return window;
+}
 
 @Component({
   selector: 'app-cuisin',
@@ -34,19 +38,38 @@ export class CuisinComponent implements OnInit {
     private cuisinService: CuisinService,
     private _script: ScriptLoaderService,
     private spinnerService:Ng4LoadingSpinnerService) {
-      // this.spinnerService.show();
+      this.spinnerService.show();
       this.cuisinService.getCuisins().subscribe((data: any) => {
        this.cuisinsList = data.cuisinsList.data
        this.spinnerService.hide();
     });
   }
   ngAfterViewInit() {
+
+    let scripts = [];
+    if (!_window().isScriptLoadedUsermgmt) {
+      scripts = ['assets/vendors/custom/datatables/datatables.bundle.js'];
+    }
+
+    let that = this;
     this._script.loadScripts('app-cuisin',
-      ['assets/vendors/custom/datatables/datatables.bundle.js',
-        'assets/demo/default/custom/crud/datatables/basic/paginations.js']);
+        scripts).then(function(){
+          _window().isScriptLoadedUsermgmt = true;
+          that._script.loadScripts('app-cuisin', ['assets/demo/default/custom/crud/datatables/basic/paginations.js']);
+        });
+
+    // this._script.loadScripts('app-cuisin',
+    //   ['assets/vendors/custom/datatables/datatables.bundle.js',
+    //     'assets/demo/default/custom/crud/datatables/basic/paginations.js']);
   }
 
   ngOnInit() {
+    _window().my = _window().my || {};
+    _window().my.usermgmt = _window().my.usermgmt || {};
+    if (typeof (_window().isScriptLoadedUsermgmt) == "undefined"){
+      _window().isScriptLoadedUsermgmt = false;
+    }
+
     this.getCuisinList();
   }
   open(content) {
@@ -61,12 +84,12 @@ export class CuisinComponent implements OnInit {
     modalRef.componentInstance.name = content ? content.name : "";
     modalRef.componentInstance.image=content ? content.image:"";
     modalRef.componentInstance.isAdd = this.isAdd;
-    // modalRef.componentInstance.isView = this.isView;
+ 
   }
 
   // All User Display Method
   getCuisinList() {
-    // this.spinnerService.show();
+    this.spinnerService.show();
     this.cuisinService.getAllCuisins().subscribe((response: any) => {
     this.cuisinsList = response.data;
     this.spinnerService.hide();

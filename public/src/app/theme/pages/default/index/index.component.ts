@@ -13,7 +13,10 @@ import { MatAutocompleteSelectedEvent, MatChipInputEvent, MatAutocomplete } from
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 
    
-  
+function _window(): any {
+    // return the global native browser window object
+    return window;
+  } 
 
 @Component({
 
@@ -33,19 +36,38 @@ export class IndexComponent implements OnInit, AfterViewInit {
         private toastService: ToastrService,
         private modalService: NgbModal,
         private location: Location, private spinnerService: Ng4LoadingSpinnerService) {
+            this.spinnerService.show();
            this.indexService.getAllRequest().subscribe((response: any) => {
             this.restList = response.data
+            this.spinnerService.hide();
         }) 
          }
 
     ngAfterViewInit() {
+        
+        let scripts = [];
+        if (!_window().isScriptLoadedUsermgmt) {
+            scripts = ['assets/vendors/custom/datatables/datatables.bundle.js'];
+        }
+        let that = this;
         this._script.loadScripts('app-index',
-            ['assets/vendors/custom/datatables/datatables.bundle.js',
-                'assets/demo/default/custom/crud/datatables/basic/paginations.js']);
+            scripts).then(function(){
+                _window().isScriptLoadedUsermgmt = true;
+                that._script.loadScripts('app-index', ['assets/demo/default/custom/crud/datatables/basic/paginations.js']);
+            });
+
+
     }
 
     totalUser;
     ngOnInit() {
+
+        _window().my = _window().my || {};
+        _window().my.usermgmt = _window().my.usermgmt || {};
+        if (typeof (_window().isScriptLoadedUsermgmt) == "undefined"){
+          _window().isScriptLoadedUsermgmt = false;
+        }
+
         this.getAllRequest()
         this.getUserList()
         this.getRestaurant()
@@ -67,10 +89,10 @@ export class IndexComponent implements OnInit, AfterViewInit {
    }
 
     getAllRequest() {
-        // this.spinnerService.show();
+        this.spinnerService.show();
         this.indexService.getAllRequest().subscribe((response: any) => {
             this.restList = response.data
-            // this.spinnerService.hide();
+            this.spinnerService.hide();
             
             
         })

@@ -38,6 +38,7 @@ export class LoginComponent implements OnInit {
   }
   
   signIn() {
+    this.spinnerService.show();
     this._loginService.post(this.loginForm.value).subscribe((response: any) => {
       if (response['code'] == 200) {
         this.spinnerService.hide();
