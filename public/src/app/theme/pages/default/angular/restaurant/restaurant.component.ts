@@ -61,7 +61,7 @@ export class RestaurantComponent implements OnInit, AfterViewInit {
               
               _window().isScriptLoadedUsermgmt = true;
               that._script.loadScripts('app-restaurant', ['assets/demo/default/custom/crud/datatables/basic/paginations.js']);
-              this.spinnerService.hide();
+              that.spinnerService.hide();
             });
 
   }

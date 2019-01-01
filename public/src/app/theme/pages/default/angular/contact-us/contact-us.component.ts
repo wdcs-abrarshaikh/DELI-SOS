@@ -49,7 +49,7 @@ export class ContactUsComponent implements OnInit {
         scripts).then(function(){
           _window().isScriptLoadedUsermgmt = true;
           that._script.loadScripts('app-contact-us', ['assets/demo/default/custom/crud/datatables/basic/paginations.js']);
-          this.spinnerService.hide();
+          that.spinnerService.hide();
         });
 
   }

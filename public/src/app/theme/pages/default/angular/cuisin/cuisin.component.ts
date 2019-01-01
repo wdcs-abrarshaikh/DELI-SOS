@@ -59,7 +59,7 @@ export class CuisinComponent implements OnInit {
         scripts).then(function(){
           _window().isScriptLoadedUsermgmt = true;
           that._script.loadScripts('app-cuisin', ['assets/demo/default/custom/crud/datatables/basic/paginations.js']);
-          this.spinnerService.hide();
+          that.spinnerService.hide();
         });
 
     // this._script.loadScripts('app-cuisin',

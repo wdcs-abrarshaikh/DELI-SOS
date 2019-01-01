@@ -53,7 +53,7 @@ export class IndexComponent implements OnInit, AfterViewInit {
         this.spinnerService.show();
         this._script.loadScripts('app-index',
             scripts).then(function(){
-                this.spinnerService.hide();
+                that.spinnerService.hide();
                 _window().isScriptLoadedUsermgmt = true;
                 that._script.loadScripts('app-index', ['assets/demo/default/custom/crud/datatables/basic/paginations.js']);
             });
