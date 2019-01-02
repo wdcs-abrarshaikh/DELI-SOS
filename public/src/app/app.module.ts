@@ -49,7 +49,10 @@ import { InputsModule } from '@progress/kendo-angular-inputs';
     HttpClientModule,
     LayoutModule,
     AuthModule,
-    ToastrModule.forRoot(),
+    ToastrModule.forRoot({
+      timeOut:3000,
+      preventDuplicates:true
+    }),
     OwlDateTimeModule,
     OwlNativeDateTimeModule ,
     Ng4LoadingSpinnerModule.forRoot(),

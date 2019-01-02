@@ -28,35 +28,27 @@ export class ContactUsComponent implements OnInit {
     private contactUsService: ContactUsService,
     private location: Location,
     private spinnerService: Ng4LoadingSpinnerService) {
-     this.spinnerService.show();
-    this.contactUsService.getAllContactRequest().subscribe((response: any) => {
+     this.contactUsService.getAllContactRequest().subscribe((response: any) => {
       this.contactUsList = response.data
-      this.spinnerService.hide();
     })
   }
 
   ngAfterViewInit() {
-
-    
-    //app-contact-us
-    let scripts = [];
+   let scripts = [];
     if (!_window().isScriptLoadedUsermgmt) {
       scripts = ['assets/vendors/custom/datatables/datatables.bundle.js'];
     }
     let that = this;
-    this.spinnerService.show();
     this._script.loadScripts('app-contact-us',
         scripts).then(function(){
           _window().isScriptLoadedUsermgmt = true;
           that._script.loadScripts('app-contact-us', ['assets/demo/default/custom/crud/datatables/basic/paginations.js']);
-          that.spinnerService.hide();
         });
 
   }
 
   ngOnInit() {
-
-    _window().my = _window().my || {};
+  _window().my = _window().my || {};
     _window().my.usermgmt = _window().my.usermgmt || {};
     if (typeof (_window().isScriptLoadedUsermgmt) == "undefined"){
       _window().isScriptLoadedUsermgmt = false;

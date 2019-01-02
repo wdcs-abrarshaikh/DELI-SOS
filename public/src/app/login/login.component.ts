@@ -34,19 +34,14 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.invalid) {
           return;
     }
-
-  }
-  
-  signIn() {
     this.spinnerService.show();
     this._loginService.post(this.loginForm.value).subscribe((response: any) => {
       if (response['code'] == 200) {
-        this.spinnerService.hide();
        this.toastService.success(response.message);
        localStorage.setItem('_token', JSON.stringify(response.token))
         localStorage.setItem('_id', JSON.stringify(response.data._id));
-        this.spinnerService.show();
-        this._router.navigate(['/index']);
+       this._router.navigate(['/index']);
+        this.spinnerService.hide();
       }
       else{
         this.spinnerService.hide();
@@ -57,8 +52,9 @@ export class LoginComponent implements OnInit {
       this.spinnerService.hide();
       console.log('error' + error);
     });
-
   }
+  
+
 
   buildLoginForm() {
     this.loginForm = this._formBuilder.group({

@@ -40,11 +40,9 @@ export class UserComponent implements OnInit, AfterViewInit {
     private userService: UserService,
     private _script: ScriptLoaderService,
     private spinnerService: Ng4LoadingSpinnerService) {
-      this.spinnerService.show();
-       this.userService.getUsers().subscribe((data: any) => {
+      this.userService.getUsers().subscribe((data: any) => {
       this.usersList = data.usersList.data
-      this.spinnerService.hide();
-    });
+   });
   }
   ngAfterViewInit() {
     let scripts = [];
@@ -53,14 +51,11 @@ export class UserComponent implements OnInit, AfterViewInit {
     }
 
     let that = this;
-    this.spinnerService.show();
-    this._script.loadScripts('app-user',
+   this._script.loadScripts('app-user',
         scripts).then(function(){
-          
-          _window().isScriptLoadedUsermgmt = true;
+         _window().isScriptLoadedUsermgmt = true;
           that._script.loadScripts('app-user', ['assets/demo/default/custom/crud/datatables/basic/paginations.js']);
-          that.spinnerService.hide();
-        });
+       });
   }
 
   ngOnInit() {

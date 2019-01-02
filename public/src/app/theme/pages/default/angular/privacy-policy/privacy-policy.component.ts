@@ -46,7 +46,6 @@ export class PrivacyPolicyComponent implements OnInit {
     private privacyPolicyService: PrivacyPolicyService,
     private spinnerService: Ng4LoadingSpinnerService) {
     this.privacyPolicyService.getPrivacyPolicy().subscribe((data: any) => {
-      this.spinnerService.show()
       if (data.privacyPolicyLists !== null) {
         this.privacyPolicyLists = data.privacyPolicyLists.content;
         this.initialprivacyPolicyLists = this.privacyPolicyLists;
@@ -55,8 +54,7 @@ export class PrivacyPolicyComponent implements OnInit {
         this.privacyPolicyLists = data.privacyPolicyLists;
         this.initialprivacyPolicyLists = this.privacyPolicyLists;
       }
-      this.spinnerService.hide()
-    })
+   })
   }
 
   ngOnInit() {
@@ -116,11 +114,9 @@ export class PrivacyPolicyComponent implements OnInit {
   }
 
   getAllPrivacyPolicy() {
-    this.spinnerService.show();
     this.privacyPolicyService.getAllPrivacyPolicy().subscribe((response: any) => {
      this.privacyPolicyService.setPrivacyPolicy(response.data);
-     this.spinnerService.hide();
-    })
+   })
   }
 
   getPrivacyPolicyList() {

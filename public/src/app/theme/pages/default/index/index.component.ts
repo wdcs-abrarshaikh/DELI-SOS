@@ -36,11 +36,9 @@ export class IndexComponent implements OnInit, AfterViewInit {
         private toastService: ToastrService,
         private modalService: NgbModal,
         private location: Location, private spinnerService: Ng4LoadingSpinnerService) {
-            this.spinnerService.show();
-           this.indexService.getAllRequest().subscribe((response: any) => {
+        this.indexService.getAllRequest().subscribe((response: any) => {
             this.restList = response.data
-            this.spinnerService.hide();
-        }) 
+       }) 
          }
 
     ngAfterViewInit() {
@@ -50,11 +48,9 @@ export class IndexComponent implements OnInit, AfterViewInit {
             scripts = ['assets/vendors/custom/datatables/datatables.bundle.js'];
         }
         let that = this;
-        this.spinnerService.show();
         this._script.loadScripts('app-index',
             scripts).then(function(){
-                that.spinnerService.hide();
-                _window().isScriptLoadedUsermgmt = true;
+               _window().isScriptLoadedUsermgmt = true;
                 that._script.loadScripts('app-index', ['assets/demo/default/custom/crud/datatables/basic/paginations.js']);
             });
 
@@ -76,28 +72,28 @@ export class IndexComponent implements OnInit, AfterViewInit {
       
     }
     usersList:Array<any>;
+
     getUserList() {
+        this.spinnerService.show();
         this.indexService.getAllUsers().subscribe((response: any) => {
            this.usersList = response.data;
-        });
-    }
+       });
+      }
+
    restaurantList:Array<any>;
    getRestaurant(){
+    this.spinnerService.show();
        this.indexService.getAllRestaurant().subscribe((response:any)=>{
            this.restaurantList=response.data
-           this.spinnerService.hide();
-
        })
    }
 
     getAllRequest() {
         this.spinnerService.show();
-        this.indexService.getAllRequest().subscribe((response: any) => {
+         this.indexService.getAllRequest().subscribe((response: any) => {
             this.restList = response.data
             this.spinnerService.hide();
-            
-            
-        })
+       })
     }
     open(content) {
         const modalRef = this.modalService.open(ViewrestaurantComponent);

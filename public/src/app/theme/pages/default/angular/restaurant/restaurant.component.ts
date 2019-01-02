@@ -39,13 +39,9 @@ export class RestaurantComponent implements OnInit, AfterViewInit {
     private restaurantService: RestaurantService,
     private _script: ScriptLoaderService,
     private spinnerService:Ng4LoadingSpinnerService) {
-      this.spinnerService.show();
-    this.restaurantService.getRestaurant().subscribe((data: any) => {
+     this.restaurantService.getRestaurant().subscribe((data: any) => {
       this.RestaurantList = data.RestautantList.data
-      this.spinnerService.hide();
-
-      
-    });
+ });
   }
   
   ngAfterViewInit() {
@@ -55,14 +51,12 @@ export class RestaurantComponent implements OnInit, AfterViewInit {
           scripts = ['assets/vendors/custom/datatables/datatables.bundle.js'];
         }
         let that = this;
-        this.spinnerService.show();
         this._script.loadScripts('app-restaurant',
             scripts).then(function(){
               
               _window().isScriptLoadedUsermgmt = true;
               that._script.loadScripts('app-restaurant', ['assets/demo/default/custom/crud/datatables/basic/paginations.js']);
-              that.spinnerService.hide();
-            });
+          });
 
   }
 
@@ -76,6 +70,7 @@ export class RestaurantComponent implements OnInit, AfterViewInit {
     
     this.getRestaurantList();
   }
+  
   getRestaurantList() {
     this.spinnerService.show();
     this.restaurantService.getAllRestaurant().subscribe((response: any) => {

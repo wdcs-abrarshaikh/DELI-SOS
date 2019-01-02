@@ -3,7 +3,7 @@ import { ToastrService } from 'ngx-toastr';
 import { FormBuilder, FormArray, FormGroup, Validators, FormControl } from '@angular/forms';
 import { Message, Password } from 'primeng/primeng';
 import { CuisinService } from './cuisin.service';
-import { Component, OnInit, Output, EventEmitter, Input, AfterViewInit ,ViewEncapsulation} from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input, AfterViewInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -19,7 +19,7 @@ function _window(): any {
 @Component({
   selector: 'app-cuisin',
   templateUrl: './cuisin.component.html',
-  
+
   styleUrls: ['./cuisin.component.css'],
   encapsulation: ViewEncapsulation.None
 })
@@ -29,7 +29,7 @@ export class CuisinComponent implements OnInit {
   cuisinsList: Array<any>;
   cuisinForm: FormGroup;
   loading = false;
-  image:Array<any>;
+  image: Array<any>;
   submitted = false;
   isView: boolean = false;
   constructor(private modalService: NgbModal,
@@ -38,74 +38,66 @@ export class CuisinComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private cuisinService: CuisinService,
     private _script: ScriptLoaderService,
-    private spinnerService:Ng4LoadingSpinnerService) {
-      this.spinnerService.show();
-      this.cuisinService.getCuisins().subscribe((data: any) => {
-       this.cuisinsList = data.cuisinsList.data
-       this.spinnerService.hide();
+    private spinnerService: Ng4LoadingSpinnerService) {
+    this.cuisinService.getCuisins().subscribe((data: any) => {
+      this.cuisinsList = data.cuisinsList.data
     });
   }
   ngAfterViewInit() {
-
     let scripts = [];
     if (!_window().isScriptLoadedUsermgmt) {
       scripts = ['assets/vendors/custom/datatables/datatables.bundle.js'];
-      
+
     }
-
     let that = this;
-    this.spinnerService.show();
     this._script.loadScripts('app-cuisin',
-        scripts).then(function(){
-          _window().isScriptLoadedUsermgmt = true;
-          that._script.loadScripts('app-cuisin', ['assets/demo/default/custom/crud/datatables/basic/paginations.js']);
-          that.spinnerService.hide();
-        });
+      scripts).then(function () {
+        _window().isScriptLoadedUsermgmt = true;
+        that._script.loadScripts('app-cuisin', ['assets/demo/default/custom/crud/datatables/basic/paginations.js']);
+      });
 
-    // this._script.loadScripts('app-cuisin',
-    //   ['assets/vendors/custom/datatables/datatables.bundle.js',
-    //     'assets/demo/default/custom/crud/datatables/basic/paginations.js']);
   }
 
   ngOnInit() {
     _window().my = _window().my || {};
     _window().my.usermgmt = _window().my.usermgmt || {};
-    if (typeof (_window().isScriptLoadedUsermgmt) == "undefined"){
+    if (typeof (_window().isScriptLoadedUsermgmt) == "undefined") {
       _window().isScriptLoadedUsermgmt = false;
     }
 
     this.getCuisinList();
   }
+
   open(content) {
-   if (!content) {
+    if (!content) {
       this.isAdd = true
     } else {
       this.isAdd = false
-    
-      }
-   const modalRef = this.modalService.open(AddEditcuisinComponent);
+
+    }
+    const modalRef = this.modalService.open(AddEditcuisinComponent);
     modalRef.componentInstance.id = content ? content._id : "";
     modalRef.componentInstance.name = content ? content.name : "";
-    modalRef.componentInstance.image=content ? content.image:"";
+    modalRef.componentInstance.image = content ? content.image : "";
     modalRef.componentInstance.isAdd = this.isAdd;
- 
+
   }
 
   // All User Display Method
   getCuisinList() {
     this.spinnerService.show();
     this.cuisinService.getAllCuisins().subscribe((response: any) => {
-    this.cuisinsList = response.data;
-    this.spinnerService.hide();
+      this.cuisinsList = response.data;
+      this.spinnerService.hide();
     });
   }
 
-  viewCuisines(cuisin){
-   this.modalReference = this.modalService.open(cuisin);
+  viewCuisines(cuisin) {
+    this.modalReference = this.modalService.open(cuisin);
   }
 
   delete(id) {
-   swal({
+    swal({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",
       type: 'warning',
@@ -115,33 +107,34 @@ export class CuisinComponent implements OnInit {
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.value) {
-       this.cuisinService.deleteCuisin(id).subscribe(
+        this.cuisinService.deleteCuisin(id).subscribe(
           data => {
-         this.getCuisinList();
-         if(data['code']==200){
-          swal(
-            'Deleted!',
-            'Your file has been deleted.',
-            'success'
-          )
-        }else{
-          swal({
-            type: 'error',
-            text: data['message']
-          })
-        }},error=>{
-          swal({
-            type: 'error',
-            text: error['message']
-          })
-        });
-    
+            this.getCuisinList();
+            if (data['code'] == 200) {
+              swal(
+                'Deleted!',
+                'Your file has been deleted.',
+                'success'
+              )
+            } else {
+              swal({
+                type: 'error',
+                text: data['message']
+              })
+            }
+          }, error => {
+            swal({
+              type: 'error',
+              text: error['message']
+            })
+          });
+
       }
     })
-  
+
   }
 
- 
+
   validateForm() {
     if (this.cuisinForm.valid) {
       return false;
