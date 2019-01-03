@@ -4,6 +4,7 @@ import { Injectable, EventEmitter } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { map, catchError } from "rxjs/operators";
 import { Observable, throwError } from 'rxjs';
+import { error } from '@angular/compiler/src/util';
 
 
 @Injectable({
@@ -41,7 +42,7 @@ export class UserService {
         return this.http.get(URL + 'admin/getUserList', { headers: this.getHeaderWithToken() })
             .pipe(
                 map((res: Response) => { return res })
-            );
+            )
     }
 
     editUser(user: any, id: any) {

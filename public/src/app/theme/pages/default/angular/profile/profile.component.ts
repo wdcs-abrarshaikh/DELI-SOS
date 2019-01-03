@@ -48,7 +48,7 @@ export class ProfileComponent implements OnInit {
   }
   buildProfileForm() {
     this.profileForm = this._formBuilder.group({
-      name: ['', [Validators.required,Validators.pattern(/^(?!\s*$).+/)]],
+      name: ['', [Validators.required,Validators.pattern(/^(?!\s*$).+/),Validators.maxLength(30)]],
       profilePicture: [''],
     });
   }
@@ -80,7 +80,7 @@ export class ProfileComponent implements OnInit {
         swal({
           position: 'center',
           type: 'success',
-          title: response['message'],
+          title:'Updated Successfully',
           showConfirmButton: false,
           timer: 1500
         })

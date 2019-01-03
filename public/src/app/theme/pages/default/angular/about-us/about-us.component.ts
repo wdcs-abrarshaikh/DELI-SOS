@@ -109,10 +109,10 @@ export class AboutUsComponent implements OnInit {
             if (data['code'] == 200) {
               swal({
                 position: 'center',
-                type: 'success',
-                title: data['message'],
-                showConfirmButton: false,
-                timer: 1500
+              type: 'success',
+              title:'Updated Successfully',
+              showConfirmButton: false,
+              timer: 1500
               })
             } else {
               swal({
@@ -150,8 +150,8 @@ export class AboutUsComponent implements OnInit {
       text: "You won't be able to revert this!",
       type: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
+      confirmButtonColor: '#49a558',
+      cancelButtonColor: '#a73a08',
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.value) {

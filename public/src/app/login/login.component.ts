@@ -41,16 +41,14 @@ export class LoginComponent implements OnInit {
        localStorage.setItem('_token', JSON.stringify(response.token))
         localStorage.setItem('_id', JSON.stringify(response.data._id));
        this._router.navigate(['/index']);
-        this.spinnerService.hide();
       }
       else{
         this.spinnerService.hide();
         this.toastService.error(response.message);
-       
       }
     }, error => {
       this.spinnerService.hide();
-      console.log('error' + error);
+       console.log('error' + error);
     });
   }
   

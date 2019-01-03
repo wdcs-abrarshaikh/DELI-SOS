@@ -362,7 +362,7 @@ export class AddEditRestaurantComponent implements OnInit {
             swal({
               position: 'center',
               type: 'success',
-              title: 'Updated successfully',
+              title:'Updated Successfully',
               showConfirmButton: false,
               timer: 1500
             })

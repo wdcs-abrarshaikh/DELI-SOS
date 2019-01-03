@@ -101,7 +101,7 @@ export class AddEditUserComponent implements OnInit {
             swal({
               position: 'center',
               type: 'success',
-              title: data['message'],
+              title:'Updated Successfully',
               showConfirmButton: false,
               timer: 1500
             })
