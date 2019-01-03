@@ -20,7 +20,7 @@ export class ThemeComponent implements OnInit {
 	}
 	ngOnInit() {
 		let that = this;
-		this.spinnerService.show();
+		// this.spinnerService.show();
 		this._script.loadScripts('body', ['assets/vendors/base/vendors.bundle.js', 'assets/demo/default/base/scripts.bundle.js'], true)
 			.then(result => {
 				Helpers.setLoading(false);
