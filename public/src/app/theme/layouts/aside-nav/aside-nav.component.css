@@ -26,6 +26,7 @@
     align-items: center;
     font-weight: bold !important;
  }
+ 
  a:hover {
     color: white;
     text-decoration: underline;
@@ -38,7 +39,22 @@
 .m-menu__nav img {
     margin-right: 10px;
 }
-.m-menu__nav i.fa, i.fas, i.fa, i.far {
+.m-menu__item .fa, .m-menu__item .fas, .m-menu__item .far {
+    color:white;
     font-size: 18px;
     width:32px;
 }
+.fa-users:before {
+    color:white;
+    content: "\f0c0";
+}
+
+.fa-dashboard:before {
+    color:white;
+    content: "\f0e4";
+}
+.fa-phone:before {
+    color:white;
+    content: "\f095";
+}
+

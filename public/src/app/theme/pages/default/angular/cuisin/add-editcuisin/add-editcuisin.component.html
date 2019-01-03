@@ -19,8 +19,10 @@
              <div class="form-group">
              <label>Cuisine  Images:</label><br>
              <img  [src]="image" class="rounded mb-3" width="50%" height=auto/> &nbsp;&nbsp;<br>
-             <label class="btn-bs-file btn btn-ls btn-info" style="margin-top:6px" text-align="center" *ngIf="!isView" >image
-             <input type="file" formControlName="image" style="display: none" (change)="uploadImage($event)" [ngClass]="{'is-invalid':submitted && f.image.errors}"/> </label>     
+             <label class="btn-bs-file btn btn-ls btn-info" style="margin-top:6px" text-align="center" *ngIf="!isView && isAdd" >image
+             <input type="file" formControlName="image" style="display: none" (change)="uploadImage($event)" [ngClass]="{'is-invalid':submitted && f.image.errors}"/> </label>  
+             <label class="btn-bs-file btn btn-ls btn-info" style="margin-top:6px" text-align="center" *ngIf="!isView && !isAdd" >Edit Image
+                <input type="file" formControlName="image" style="display: none" (change)="uploadImage($event)" [ngClass]="{'is-invalid':submitted && f.image.errors}"/> </label>        
              <div *ngIf="submitted && f.image.errors" class="lbl-err">
                 <div *ngIf="f.image.errors.required">image is required</div>
                </div>

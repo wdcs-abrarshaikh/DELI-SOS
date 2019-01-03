@@ -7,7 +7,7 @@
     <tr>
       <td style="font-weight: bold; width:10%;">Sr.</td>
       <td style="font-weight: bold; width: 40%;">Restaurant Name</td>
-      <td style="font-weight: bold; width: 20%;">status</td>
+      <th style="width:20%"> &nbsp;&nbsp;&nbsp;Status</th>
       <th style="width:20%;"> &nbsp; Action</th>
     </tr>
   </thead>
@@ -56,12 +56,12 @@
 
             <div class="form-group">
               <label>Open Time</label>
-              <input class="form-control m-input" type="time" [(ngModel)]="list.openTime" disabled />
+              <input class="form-control m-input"  [(ngModel)]="list.openTime" disabled />
             </div><br>
 
             <div class="form-group">
               <label for="time">Close Time</label>
-              <input class="form-control m-input" type="time" [(ngModel)]="list.closeTime" disabled />
+              <input class="form-control m-input" [(ngModel)]="list.closeTime" disabled />
             </div><br>
 
 

@@ -43,6 +43,7 @@ export class AboutUsComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private aboutUsService: AboutUsService,
     private spinnerService: Ng4LoadingSpinnerService) {
+   
     this.aboutUsService.getAboutus().subscribe((data: any) => {
       if (data.aboutUsList == null) {
         this.aboutUsList = data.aboutUsList
@@ -52,7 +53,6 @@ export class AboutUsComponent implements OnInit {
         this.id = data.aboutUsList._id;
         this.initialaboutusList = this.aboutUsList;
       }
-
     })
   }
 
@@ -60,8 +60,8 @@ export class AboutUsComponent implements OnInit {
     this.buildAboutusForm();
     this.getAboutusList();
     this.getAllAboutus();
+ }
 
-  }
   buildAboutusForm() {
     this.aboutUsForm = this._formBuilder.group({
       id: '',
@@ -72,21 +72,21 @@ export class AboutUsComponent implements OnInit {
   getAboutusList() {
     this.spinnerService.show();
     this.aboutUsService.getAllAboutus().subscribe((response: any) => {
-      this.spinnerService.hide();
-      if (response.data == null) {
+     if (response.data == null) {
         this.initialaboutusList = response.data;
       } else {
         this.aboutUsList = response.data.content
         this.initialaboutusList = this.aboutUsList;
         this.id = response.data._id
       }
+      this.spinnerService.hide();
     });
   }
+
   getAllAboutus() {
-    this.aboutUsService.getAllAboutus().subscribe((response: any) => {
-      console.log(response)
-      this.aboutUsService.setAboutus(response.data);
-    })
+   this.aboutUsService.getAllAboutus().subscribe((response: any) => {
+     this.aboutUsService.setAboutus(response.data);
+   })
   }
   validateForm() {
     if (this.aboutUsForm.valid) {

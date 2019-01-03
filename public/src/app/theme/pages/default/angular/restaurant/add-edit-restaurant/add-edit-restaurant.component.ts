@@ -93,8 +93,8 @@ export class AddEditRestaurantComponent implements OnInit {
       openTime: [, Validators.required],
       closeTime: ['', Validators.required],
       restaurantImages: [''],
-      contactNumber: ['',[ Validators.required,Validators.pattern(/^[+]?\d{8,14}$/)]],
-      website: ['',[Validators.required,Validators.pattern(/^(?!\s*$).+/)]],
+      contactNumber: ['',[ Validators.required,Validators.pattern(/^[+]*([(]{0,1}[0-9]{1,4}[)]{0,1})?[-\s\./0-9]{8,14}[0-9]$/)]],
+      website: ['',[Validators.required,Validators.pattern(/^((ftp|http|https):\/\/)?(www.)?(?!.*(ftp|http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+((\/)[\w#]+)*(\/\w+\?[a-zA-Z0-9_]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?$/)]],
       menuImages: [''],
       mealOffers: this._formBuilder.array(this.arr_value),
       perPersonCost: ['', [Validators.required, Validators.pattern(/^([1-9][0-9]*)$/)]],
@@ -362,7 +362,7 @@ export class AddEditRestaurantComponent implements OnInit {
             swal({
               position: 'center',
               type: 'success',
-              title: data['message'],
+              title: 'Updated successfully',
               showConfirmButton: false,
               timer: 1500
             })
@@ -381,7 +381,7 @@ export class AddEditRestaurantComponent implements OnInit {
   }
 
   getAllRestaurant() {
-    this.restaurantService.getAllRestaurant().subscribe((response: any) => {
+  this.restaurantService.getAllRestaurant().subscribe((response: any) => {
       this.restaurantService.setRestaurant(response);
     })
   }

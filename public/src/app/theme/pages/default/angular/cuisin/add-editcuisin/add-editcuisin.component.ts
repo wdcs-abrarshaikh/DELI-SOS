@@ -61,7 +61,7 @@ export class AddEditcuisinComponent implements OnInit {
 
   async uploadImage(images) {
     let files = images.target.files;
-    return new Promise((resolve, reject) => {
+      return new Promise((resolve, reject) => {
       this.cuisinService.uploadPic(files).subscribe((data) => {
        this.image= data.data[0]
      resolve(data.data)
@@ -134,7 +134,8 @@ export class AddEditcuisinComponent implements OnInit {
   }
 
   getAllCuisin() {
-    this.cuisinService.getAllCuisins().subscribe((response: any) => {
+   
+     this.cuisinService.getAllCuisins().subscribe((response: any) => {
       this.cuisinService.setCuisins(response);
     })
   }

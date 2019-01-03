@@ -11,6 +11,11 @@ import swal from 'sweetalert2'
 import { AddEditRestaurantComponent } from './add-edit-restaurant/add-edit-restaurant.component';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 
+function _window(): any {
+  // return the global native browser window object
+  return window;
+}
+
 @Component({
   selector: 'app-restaurant',
   templateUrl: './restaurant.component.html',
@@ -34,22 +39,38 @@ export class RestaurantComponent implements OnInit, AfterViewInit {
     private restaurantService: RestaurantService,
     private _script: ScriptLoaderService,
     private spinnerService:Ng4LoadingSpinnerService) {
-
-    this.restaurantService.getRestaurant().subscribe((data: any) => {
+     this.restaurantService.getRestaurant().subscribe((data: any) => {
       this.RestaurantList = data.RestautantList.data
-    });
+ });
   }
   
   ngAfterViewInit() {
-    this._script.loadScripts('app-restaurant',
-      ['assets/vendors/custom/datatables/datatables.bundle.js',
-        'assets/demo/default/custom/crud/datatables/basic/paginations.js']);
+    
+        let scripts = [];
+        if (!_window().isScriptLoadedUsermgmt) {
+          scripts = ['assets/vendors/custom/datatables/datatables.bundle.js'];
+        }
+        let that = this;
+        this._script.loadScripts('app-restaurant',
+            scripts).then(function(){
+              
+              _window().isScriptLoadedUsermgmt = true;
+              that._script.loadScripts('app-restaurant', ['assets/demo/default/custom/crud/datatables/basic/paginations.js']);
+          });
+
   }
 
 
   ngOnInit() {
+    _window().my = _window().my || {};
+    _window().my.usermgmt = _window().my.usermgmt || {};
+    if (typeof (_window().isScriptLoadedUsermgmt) == "undefined"){
+      _window().isScriptLoadedUsermgmt = false;
+    }
+    
     this.getRestaurantList();
   }
+  
   getRestaurantList() {
     this.spinnerService.show();
     this.restaurantService.getAllRestaurant().subscribe((response: any) => {
@@ -74,6 +95,21 @@ export class RestaurantComponent implements OnInit, AfterViewInit {
     });
     return array_val;
   }
+
+ 
+ async convertTime12to24(time12h) {
+      const [time, modifier] = time12h.split(' ');
+      let [hours, minutes] = time.split(':');
+      if (hours === '12') {
+        hours = '00';
+      }
+     if (modifier === 'PM') {
+        hours = parseInt(hours, 10) + 12;
+      }
+     return hours + ':' + minutes;
+    }
+
+  
   async open(content, type) {
 
     if (!content) {
@@ -81,7 +117,6 @@ export class RestaurantComponent implements OnInit, AfterViewInit {
     } else {
        this.isAdd = false
    }
-  
     const modalRef = this.modalService.open(AddEditRestaurantComponent);
     let arr_value: any = [false, false, false, false];
     modalRef.componentInstance.id = content ? content._id : "";
@@ -89,8 +124,8 @@ export class RestaurantComponent implements OnInit, AfterViewInit {
     modalRef.componentInstance.description = content ? content.description : "";
     modalRef.componentInstance.latitude = content ? content.location.coordinates[1] : "";
     modalRef.componentInstance.longitude = content ? content.location.coordinates[0] : "";
-    modalRef.componentInstance.openTime = content ? content.openTime : "";
-    modalRef.componentInstance.closeTime = content ? content.closeTime : "";
+    modalRef.componentInstance.openTime = content ? await this.convertTime12to24(content.openTime) : "";
+    modalRef.componentInstance.closeTime = content ? await this.convertTime12to24(content.closeTime) : "";
     modalRef.componentInstance.contactNumber = content ? content.contactNumber : "";
     modalRef.componentInstance.website = content ? content.website : "";
     modalRef.componentInstance.perPersonCost = content ? content.perPersonCost : "";

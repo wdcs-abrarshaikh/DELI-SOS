@@ -7,6 +7,7 @@ import { Location } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import swal from 'sweetalert2'
+import { balancePreviousStylesIntoKeyframes } from '@angular/animations/browser/src/util';
 
 @Component({
   selector: 'app-add-privacy-policy',
@@ -23,6 +24,7 @@ export class AddPrivacyPolicyComponent implements OnInit {
   submitted = false;
   isAdd: boolean;
   editorConfig = {
+    
     editable: true,
     spellcheck: true,
     height: '30rem',

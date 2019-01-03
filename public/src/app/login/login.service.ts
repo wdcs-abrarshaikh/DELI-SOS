@@ -7,7 +7,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 })
 export class LoginService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { } 
+  
   getHeaderWithToken() {
     let headers = new HttpHeaders()
     headers = headers.set('Content-Type', 'application/json')
@@ -20,12 +21,6 @@ export class LoginService {
         return res
       });
   }
-
-  // get(obj:any){
-  //   return this.http.get(URL + 'user/login', obj)
-  //     .map((res) =>  res);
-
-  // }
 
 
 }

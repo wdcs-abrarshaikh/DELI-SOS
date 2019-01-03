@@ -11,6 +11,10 @@ import { ScriptLoaderService } from '../../../../../_services/script-loader.serv
 import swal from 'sweetalert2'
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 
+function _window(): any {
+  // return the global native browser window object
+  return window;
+}
 
 @Component({
   selector: 'app-user',
@@ -36,18 +40,32 @@ export class UserComponent implements OnInit, AfterViewInit {
     private userService: UserService,
     private _script: ScriptLoaderService,
     private spinnerService: Ng4LoadingSpinnerService) {
-
-    this.userService.getUsers().subscribe((data: any) => {
+      this.userService.getUsers().subscribe((data: any) => {
       this.usersList = data.usersList.data
-    });
+   });
   }
   ngAfterViewInit() {
-    this._script.loadScripts('app-user',
-      ['assets/vendors/custom/datatables/datatables.bundle.js',
-        'assets/demo/default/custom/crud/datatables/basic/paginations.js']);
+    let scripts = [];
+    if (!_window().isScriptLoadedUsermgmt) {
+      scripts = ['assets/vendors/custom/datatables/datatables.bundle.js'];
+    }
+
+    let that = this;
+   this._script.loadScripts('app-user',
+        scripts).then(function(){
+         _window().isScriptLoadedUsermgmt = true;
+          that._script.loadScripts('app-user', ['assets/demo/default/custom/crud/datatables/basic/paginations.js']);
+       });
   }
 
   ngOnInit() {
+    
+    _window().my = _window().my || {};
+    _window().my.usermgmt = _window().my.usermgmt || {};
+    if (typeof (_window().isScriptLoadedUsermgmt) == "undefined"){
+      _window().isScriptLoadedUsermgmt = false;
+    }
+
    this.getUserList();
   }
   open(content, type) {
@@ -78,9 +96,7 @@ export class UserComponent implements OnInit, AfterViewInit {
   getUserList() {
     this.spinnerService.show();
    this.userService.getAllUsers().subscribe((response: any) => {
-    
-      // console.log("all data here display")
-      this.usersList = response.data;
+     this.usersList = response.data;
       this.spinnerService.hide();
     });
   }
@@ -137,8 +153,6 @@ export class UserComponent implements OnInit, AfterViewInit {
       return true;
     }
   }
-
-
 
 }
 

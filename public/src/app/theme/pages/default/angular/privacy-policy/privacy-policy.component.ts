@@ -54,7 +54,7 @@ export class PrivacyPolicyComponent implements OnInit {
         this.privacyPolicyLists = data.privacyPolicyLists;
         this.initialprivacyPolicyLists = this.privacyPolicyLists;
       }
-    })
+   })
   }
 
   ngOnInit() {
@@ -115,21 +115,21 @@ export class PrivacyPolicyComponent implements OnInit {
 
   getAllPrivacyPolicy() {
     this.privacyPolicyService.getAllPrivacyPolicy().subscribe((response: any) => {
-      this.privacyPolicyService.setPrivacyPolicy(response.data);
-    })
+     this.privacyPolicyService.setPrivacyPolicy(response.data);
+   })
   }
 
   getPrivacyPolicyList() {
     this.spinnerService.show();
     this.privacyPolicyService.getAllPrivacyPolicy().subscribe((response: any) => {
-      this.spinnerService.hide();
-      if (response.data !== null) {
+    if (response.data !== null) {
         this.privacyPolicyLists = response.data.content;
         this.initialprivacyPolicyLists = this.privacyPolicyLists;
         this.id = response.data._id;
       } else {
         this.initialprivacyPolicyLists = response.data;
       }
+      this.spinnerService.hide();
     })
   }
 

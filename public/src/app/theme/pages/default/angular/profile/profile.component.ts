@@ -2,7 +2,6 @@ import { ProfileService } from './profile.service';
 import { LoginService } from './../../../../../login/login.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormControl, FormGroup, FormArray } from '@angular/forms';
-import { map } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 import swal from 'sweetalert2'
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';

@@ -51,6 +51,7 @@
         class="lbl-err">openTime is required.</p>
     </div><br>
 
+
     <div class="form-group">
       <label for="time">Close Time</label>
       <input class="form-control m-input" type="time" formControlName="closeTime" [(ngModel)]="closeTime">
@@ -75,9 +76,7 @@
     <div class="form-group">
       <label>Contact Number</label>
       <input class="form-control m-input" type="tel" formControlName="contactNumber" [(ngModel)]="contactNumber">
-      <p *ngIf="RestaurantForm.controls.contactNumber.errors?.required && (RestaurantForm.controls.contactNumber.dirty || RestaurantForm.controls.contactNumber.touched)"
-        class="lbl-err">Contact Number is required.</p>
-      <p *ngIf="RestaurantForm.controls.contactNumber.errors?.pattern && (RestaurantForm.controls.contactNumber.dirty || RestaurantForm.controls.contactNumber.touched)"
+      <p *ngIf="RestaurantForm.controls.contactNumber.errors?.pattern"
         class="lbl-err"> Enter Valid ContactNumber.</p>
 
     </div>
@@ -85,9 +84,7 @@
     <div class="form-group">
       <label>Website</label>
       <input class="form-control m-input" type="text" formControlName="website" [(ngModel)]="website">
-      <p *ngIf="RestaurantForm.controls.website.errors?.required &&   (RestaurantForm.controls.website.dirty || RestaurantForm.controls.website.touched)"
-        class="lbl-err">Website is required.</p>
-      <p *ngIf="RestaurantForm.controls.website.errors?.pattern " class="lbl-err">Website is required.</p>
+     <p *ngIf="RestaurantForm.controls.website.errors?.pattern " class="lbl-err">Website is required.</p>
 
     </div>
 

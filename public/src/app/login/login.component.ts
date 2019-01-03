@@ -34,28 +34,27 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.invalid) {
           return;
     }
-   this.spinnerService.show();
-  }
-  
-  signIn() {
+    this.spinnerService.show();
     this._loginService.post(this.loginForm.value).subscribe((response: any) => {
-      this.spinnerService.hide();
       if (response['code'] == 200) {
        this.toastService.success(response.message);
        localStorage.setItem('_token', JSON.stringify(response.token))
         localStorage.setItem('_id', JSON.stringify(response.data._id));
-        this._router.navigate(['/index']);
+       this._router.navigate(['/index']);
+        this.spinnerService.hide();
       }
       else{
-        this.toastService.error(response.message);
         this.spinnerService.hide();
+        this.toastService.error(response.message);
+       
       }
     }, error => {
       this.spinnerService.hide();
       console.log('error' + error);
     });
-
   }
+  
+
 
   buildLoginForm() {
     this.loginForm = this._formBuilder.group({

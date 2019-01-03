@@ -1,4 +1,4 @@
-import { ContactUsComponent, NgbdModalContent } from './contact-us.component';
+import { ContactUsComponent} from './contact-us.component';
 import { ContactUsService } from './contact-us.service';
 import { ContactUsRoutingModule } from './contact-us.routing';
 import { NgModule } from '@angular/core';
@@ -9,7 +9,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DefaultComponent } from '../../default.component';
 import { LayoutModule } from '../../../../layouts/layout.module';
 import { DataTablesModule } from 'angular-datatables';
-// import { ScriptLoaderService } from './_services/script-loader.service';
 
 const routes: Routes = [
 	{
@@ -36,10 +35,10 @@ const routes: Routes = [
 
 	],
 
-	exports: [ContactUsComponent, NgbdModalContent],
-	declarations: [ContactUsComponent, NgbdModalContent],
+	exports: [ContactUsComponent],
+	declarations: [ContactUsComponent],
 	providers: [ContactUsService],
-	entryComponents: [NgbdModalContent]
+	entryComponents: []
 
 })
 export class ContactUsModule {

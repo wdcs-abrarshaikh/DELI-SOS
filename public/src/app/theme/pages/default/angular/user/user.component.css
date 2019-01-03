@@ -100,15 +100,15 @@ table.dataTable thead th.sorting,
    }
    .fa-eye:before {
     content: "\f06e";
-    color: royalblue;
+    color: dimgrey;
 }
 .fa-edit:before, .fa-pencil-square-o:before {
     content: "\f044";
-    color: green;
+    color: dimgrey;
 }
 .fa-trash-alt:before {
     content: "\f2ed";
-    color: red;
+    color: dimgrey;
 }
 .btn-save {
     color: white;
@@ -123,4 +123,11 @@ table.dataTable thead th.sorting,
     background: #a73a08;
     opacity: 1.5;
     border-radius: 25%;
+}
+.form-control:focus {
+    border-color: lightslategrey;
+    color: #575962;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border-radius: 0%
 }

@@ -177,13 +177,10 @@ userRouter.route('/contactUs')
         actions.contactUs(req, res)
     })
 
-<<<<<<< HEAD
-userRouter.route('/getRestaurant')
-    .get( (req, res) => {
-        actions.getRestaurant(req, res)
-});
 
-=======
+
+
+
 userRouter.route('/getNotificationList/:userId')
     .get([validate.verifyUserToken], (req, res) => {
         actions.getNotificationList(req, res)
@@ -198,5 +195,13 @@ userRouter.route('/shareReview/:reviewId/:restId')
     .get((req, res) => {
         actions.shareReview(req, res)
     })
->>>>>>> 9f34894b36ad8c4804ebbfa4e9c6ef5b6aa2eedb
+
+
+
+//  userRouter.route('/getAllRestaurant')
+//     .get([validate.verifyUserToken],(req, res) => {
+//       actions.getAllRestaurant(req, res)
+//   })
+
+
 module.exports = userRouter;

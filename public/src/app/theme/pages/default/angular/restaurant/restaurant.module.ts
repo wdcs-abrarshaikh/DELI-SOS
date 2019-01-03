@@ -11,6 +11,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {DefaultComponent} from '../../default.component';
 import {LayoutModule} from '../../../../layouts/layout.module';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { DataTablesModule } from 'angular-datatables';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import * as $ from 'jquery';
@@ -70,6 +71,7 @@ const routes: Routes = [
 
 @NgModule({
 	imports: [
+		DateInputsModule,
 		CommonModule, 
 		RestaurantRoutingModule,
 		LayoutModule,
