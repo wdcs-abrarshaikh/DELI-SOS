@@ -147,7 +147,7 @@ function validateRestaurant(req, res, next) {
     let rest = req.body
     if (rest.name && rest.description && rest.latitude &&
         rest.longitude && rest.cuisinOffered && rest.openTime &&
-        rest.closeTime && rest.menu) {
+        rest.closeTime) {
 
         let name = rest.name.trim(),
             description = rest.description.trim(),
