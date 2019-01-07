@@ -58,7 +58,6 @@ export class AddPrivacyPolicyComponent implements OnInit {
   getAllPrivacyPolicy() {
     this.privacyPolicyService.getAllPrivacyPolicy().subscribe((response: any) => {
       this.privacyPolicyService.setPrivacyPolicy(response.data);
-
     })
   }
 
@@ -74,7 +73,7 @@ export class AddPrivacyPolicyComponent implements OnInit {
             swal({
               position: 'center',
               type: 'success',
-              title: data['message'],
+              title: 'Added Successfully',
               showConfirmButton: false,
               timer: 1500
             })

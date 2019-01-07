@@ -337,7 +337,7 @@ export class AddEditRestaurantComponent implements OnInit {
             swal({
               position: 'center',
               type: 'success',
-              title: data['message'],
+              title: 'Added Successfully',
               showConfirmButton: false,
               timer: 1500
             })
@@ -353,6 +353,7 @@ export class AddEditRestaurantComponent implements OnInit {
           this.toastService.error(error['message']);
         });
     } else {
+     
     this.restaurantService.editRestaurant(addObj, this.id).subscribe(
         data => {
        
@@ -390,7 +391,7 @@ export class AddEditRestaurantComponent implements OnInit {
     if (this.RestaurantForm.valid) {
       return false;
     } else {
-      return true;
+     return true;
     }
   }
 

@@ -109,3 +109,8 @@
  .btn-outline-dark {
    border-color:none;
 }
+.form-control {
+    font-family: sans-serif,Arial;
+    border-radius: 0;
+    /* border-radius: .25rem; */
+}

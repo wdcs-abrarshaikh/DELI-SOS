@@ -104,18 +104,7 @@ export class UserComponent implements OnInit, AfterViewInit {
       this.spinnerService.hide();
     }, error => {
        console.log(error)
-      // this.spinnerService.show();
-      // if (error.status == 0) {
-      //   this.spinnerService.hide();
-      //   swal({
-      //     type: 'error',
-      //     title: 'Oops...',
-      //     text: 'Something went wrong!',
-      //     showConfirmButton: false,
-      //     timer: 1500
-      //   })
-      // }
-    }
+      }
     )
   }
 
@@ -141,7 +130,7 @@ export class UserComponent implements OnInit, AfterViewInit {
             if (data['code'] == 200) {
               swal(
                 'Deleted!',
-                'Your file has been deleted.',
+                 data['message'],
                 'success'
               )
             } else {
@@ -156,9 +145,7 @@ export class UserComponent implements OnInit, AfterViewInit {
               text: error['message']
             })
           });
-
-
-      }
+       }
     })
 
   }

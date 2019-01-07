@@ -134,6 +134,7 @@ export class AboutUsComponent implements OnInit {
   get f() {
     return this.aboutUsForm.controls;
   }
+  
   onSubmit() {
     this.submitted = true;
     if (this.aboutUsForm.invalid) {
