@@ -37,7 +37,7 @@
                         <div class="form-group m-form__group row m-auto">
                             <label for="example-text-input" class="col-3 col-form-label pr_l">Name</label>
                             <div class="col-9">
-                                <input class="form-control m-input cus_inp" type="text" formControlName="name"  maxlength="30"
+                                <input class="form-control m-input cus_inp" type="text" formControlName="name"  maxlength="20"
                                     [(ngModel)]="name">
                                 <p *ngIf="profileForm.controls.name.errors?.required && (profileForm.controls.name.dirty || profileForm.controls.name.touched)"
                                     class="lbl-err">Name is required.</p>

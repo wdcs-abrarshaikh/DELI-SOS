@@ -109,11 +109,11 @@ export class CuisinComponent implements OnInit {
       if (result.value) {
         this.cuisinService.deleteCuisin(id).subscribe(
           data => {
-            this.getCuisinList();
+           this.getCuisinList();
             if (data['code'] == 200) {
               swal(
                 'Deleted!',
-                'Your file has been deleted.',
+                 data['data'],
                 'success'
               )
             } else {

@@ -63,7 +63,15 @@ export class AddEditcuisinComponent implements OnInit {
     let files = images.target.files;
       return new Promise((resolve, reject) => {
       this.cuisinService.uploadPic(files).subscribe((data) => {
-       this.image= data.data[0]
+       if(data.code==400){
+          swal({
+            type: 'error',
+            text: 'Invalid input'
+          })
+        }else{
+          this.image= data.data[0]
+        }
+     
      resolve(data.data)
       });
     })
@@ -89,7 +97,7 @@ export class AddEditcuisinComponent implements OnInit {
             swal({
               position: 'center',
               type: 'success',
-              title: data['msg'],
+              title: 'Added Successfully',
               showConfirmButton: false,
               timer: 1500
             })
@@ -97,12 +105,12 @@ export class AddEditcuisinComponent implements OnInit {
           } else {
             swal({
               type: 'error',
-              text: data['msg']
+              text: data['message']
             })
           }
         },
        error => {
-        this.toastService.error(error['message']);
+        this.toastService.error(error['msg']);
        });
     }
    else {

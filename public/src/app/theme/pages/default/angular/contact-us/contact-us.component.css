@@ -71,3 +71,8 @@ table.dataTable thead th.sorting,
     box-shadow: none;
     border-radius: 0%
 }
+.form-control {
+    font-family: sans-serif,Arial;
+    border-radius: 0;
+    /* border-radius: .25rem; */
+}
