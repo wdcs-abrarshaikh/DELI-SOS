@@ -1,4 +1,4 @@
-var userModel = require('../schema/user');
+﻿var userModel = require('../schema/user');
 var restModel = require('../schema/restaurant');
 var reviewModel = require('../schema/review');
 var aboutModel = require('../schema/about_Privacy');
@@ -1080,16 +1080,17 @@ function getNotificationList(req, res) {
     })
 }
 
-function logout(req, res) {
-    let obj = util.decodeToken(req.headers['authorization'])
-    userModel.findByIdAndUpdate({ _id: obj.id }, { $push: { blackListedTokens: req.headers['authorization'] } })
-        .then((data) => {
-            if (data) {
-                return res.json({ code: code.ok, message: msg.loggedout })
-            }
-        }).catch((err) => {
-            return res.json({ code: code.internalError, message: msg.internalServerError })
-        })
+
+async function logout(req, res) {
+	console.log('printing on logout');
+    let obj = await util.decodeToken(req.headers['authorization'])
+	console.log(obj)
+    userModel.update({ _id: obj.id }, { $set:{"fcmToken":"a","deviceId":"a","deviceType":""}})
+    .then(data=>{
+console.log(data)
+       return userModel.update({ _id: obj.id },{$push:{ blackListedTokens: req.headers['authorization'] }})
+    }).then(result=>res.json({ code: code.ok, message: msg.loggedout}))
+    .catch(err=>res.json({ code: code.internalError, message: msg.internalServerError }))
 }
 
 function shareReview(req, res) {

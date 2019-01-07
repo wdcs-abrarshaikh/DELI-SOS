@@ -1,4 +1,4 @@
-var userRouter = require('express').Router();
+﻿var userRouter = require('express').Router();
 var validate = require('./userValidator')
 var actions = require('./userActions')
 
@@ -188,6 +188,7 @@ userRouter.route('/getNotificationList/:userId')
 
 userRouter.route('/logout')
     .get([validate.verifyUserToken], (req, res) => {
+console.log('/searchFollowing/:name')
         actions.logout(req, res)
     })
 

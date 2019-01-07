@@ -1,4 +1,4 @@
-var jwt = require('jsonwebtoken')
+﻿var jwt = require('jsonwebtoken')
 var code = require('../constants').http_codes;
 var msg = require('../constants').messages;
 var util = require('../app util/util')
@@ -88,28 +88,78 @@ function validateSocialLogin(req, res, next) {
 }
 
 async function verifyUserToken(req, res, next) {
+    console.log('Point one')
     let token = req.headers['authorization']
-
-    await jwt.verify(token, process.env.user_secret, (err) => {
+    console.log({token},"press=============",process.env.user_secret)
+    jwt.verify(token, process.env.user_secret, async (err) => {
         if (err) {
-            return res.json({ code: code.badRequest, message: msg.invalidToken })
-        }
-        else {
-            let obj = util.decodeToken(token)
-            userModel.findOne({ $and: [{ _id: obj.id }, { blackListedTokens: { $in: token } }] }).then((data) => {
+            console.log('Point one err', err)
+            return res.json({
+                code: code.badRequest,
+                message: msg.invalidToken
+            })
+        } else {
+            console.log('Point one else')
+            let obj = await util.decodeToken(token)
+            userModel.findOne({
+                $and: [{
+                    _id: obj.id
+                }, {
+                    blackListedTokens: {
+                        $in: token
+                    }
+                }]
+            }).then((data) => {
                 if (data) {
-                    return res.json({ code: code.badRequest, message: msg.tokenExpired })
-                }
-                else {
+                    console.log('Point two')
+                    return res.json({
+                        code: code.badRequest,
+                        message: msg.tokenExpired
+                    })
+                } else {
+                    console.log('Point one next')
                     next();
                 }
             }).catch((err) => {
+                console.log('Point one catch')
+                return res.json({
+                    code: code.internalError,
+                    message: msg.internalServerError
+                })
+            })
+        }
+    })
+}
+/*
+async function verifyUserToken(req, res, next) {
+	console.log('Point one')
+    let token = req.headers['authorization']
+
+   jwt.verify(token, process.env.user_secret, async (err) => {
+        if (err) {
+console.log('Point one err',err)
+            return res.json({ code: code.badRequest, message: msg.invalidToken })
+        }
+        else {
+console.log('Point one else')
+            let obj = await util.decodeToken(token)
+            userModel.findOne({ $and: [{ _id: obj.id }, { blackListedTokens: { $in: token } }] }).then((data) => {
+                if (data) {
+console.log('Point two')
+                    return res.json({ code: code.badRequest, message: msg.tokenExpired })
+                }
+                else {
+console.log('Point one next')
+                    next();
+                }
+            }).catch((err) => {
+console.log('Point one catch')
                 return res.json({ code: code.internalError, message: msg.internalServerError })
             })
         }
     })
 }
-
+*/
 async function validateBody(req, res, next) {
     let data = req.body
     let flag = false
