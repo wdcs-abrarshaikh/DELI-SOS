@@ -5,7 +5,8 @@ http_codes = {
     notFound: 404,
     ok: 200,
     notImplemented: 501,
-    forbidden: 403
+    forbidden: 403,
+    unAuthorized:401
 }
 
 messages = {

@@ -111,6 +111,7 @@ function isEmpty(arr) {
 
 function validateRestaurant(req, res, next) {
     let rest = req.body
+console.log(req.body)
     if (rest.name && rest.description && rest.latitude &&
         rest.longitude && rest.cuisinOffered && rest.openTime &&
         rest.closeTime && rest.menu) {
@@ -122,16 +123,18 @@ function validateRestaurant(req, res, next) {
             len = rest.cuisinOffered;
             cusinlen = len.length;
         if (cusinlen == 0) {
+console.log("cuisin length")
             return res.json({ code: code.badRequest, message: msg.invalidBody })
         }
         if (name && description && openTime && closeTime) {
             next();
         }
         else {
+console.log("1====")
             return res.json({ code: code.badRequest, message: msg.invalidBody })
         }
     }
-    else { return res.json({ code: code.badRequest, message: msg.invalidBody }) }
+    else { console.log("2=======");return res.json({ code: code.badRequest, message: msg.invalidBody }) }
 
 }
 

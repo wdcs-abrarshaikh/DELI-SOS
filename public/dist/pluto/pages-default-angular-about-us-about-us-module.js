@@ -7,7 +7,7 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".btn-add {\n    border-radius: 1.1rem;\n    padding: 1.0rem 1.65rem;\n    font-size: 1.25rem;\n    line-height: .6;\n    color: white;\n    border-color: #e95e37;\n    margin-left: 88%;\n    margin-bottom: 16px;\n    background: linear-gradient(to right, #e44216, #f7b733);\n}\n\n.header{\n    font-size: 3.15rem;\n    padding: 1.30rem 4.65rem;\n    text-align: center;\n}\n\n.btn-edit{\n    color:white;\n    width:80px;\n    background: #2e85a0;\n       border-radius: 25%;\n    opacity: 1;\n}\n\n.btn-edit:hover{opacity: 1;}\n\n.btn-edit:active {\n  background-color: #3e8e41;\n  box-shadow: 0 5px #666;\n  -webkit-transform: translateY(4px);\n          transform: translateY(4px);\n}\n\n.btn-delete{\n    color:white;\n    width:80px;\n    background: #a73a08;\n    opacity: 1;\n    border-radius: 25%;\n}\n\n.btn-delete:hover{opacity: 1;}\n\n.btn-save{\n    color:white;\n    width:80px;\n    background: #49a558;\n     border-radius: 25%;\n    opacity: 1;\n}\n\n.btn-save:hover{opacity: 1;}\n\n.btn-save:active {\n  background-color: #509952;\n  -webkit-transform: translateY(4px);\n          transform: translateY(4px);\n}\n\n.lbl-err {\n    color: red;\n }\n\n.banner-image {\n    /* height: 85px; */\n    width: 130px;\n    margin-left: 122px;\n }\n\n.btn-del{\n    padding: 1.25rem 1.65rem;\n    font-size: 1.25rem;\n    line-height: 1.5;\n    color:white;\n    margin-right:45px;\n    background: #a73a08;\n\n }\n\n:host app-ngx-editor /deep/ .ngx-editor-textarea {\n    height:500px !important;\n    color:black\n }\n\n#commonCms{\n    padding-top: 5%; \n    padding-right: 7%;\n    padding-left: 7%;\n }\n\n#customBtns{\n     float: right;\n     margin-right:10%;\n     padding: 5px;\n }\n\n.mrgRight5{\n     margin-right: 8px;\n }\n\n.ngx-editor-textarea1 {\n    height:300px !important;\n \n }"
+module.exports = ".btn-add {\n    border-radius: 1.1rem;\n    padding: 1.0rem 1.65rem;\n    font-size: 1.25rem;\n    line-height: .6;\n    color: white;\n    border-color: #e95e37;\n    margin-left: 88%;\n    margin-bottom: 16px;\n    background: linear-gradient(to right, #e44216, #f7b733);\n}\n\n.header{\n    font-size: 3.15rem;\n    padding: 1.30rem 4.65rem;\n    text-align: center;\n}\n\n.btn-edit{\n    color:white;\n    width:80px;\n    background: #2e85a0;\n    border-radius: 25%;\n    opacity: 1;\n}\n\n.btn-edit:hover{opacity: 1;}\n\n.btn-edit:active {\n  background-color: #3e8e41;\n  box-shadow: 0 5px #666;\n  -webkit-transform: translateY(4px);\n          transform: translateY(4px);\n}\n\n.btn-delete{\n    color:white;\n    width:80px;\n    background: #a73a08;\n    opacity: 1;\n    border-radius: 25%;\n}\n\n.btn-delete:hover{opacity: 1;}\n\n.btn-save{\n    color:white;\n    width:80px;\n    background: #49a558;\n     border-radius: 25%;\n    opacity: 1;\n}\n\n.btn-save:hover{opacity: 1;}\n\n.btn-save:active {\n  background-color: #509952;\n  -webkit-transform: translateY(4px);\n          transform: translateY(4px);\n}\n\n.lbl-err {\n    color: red;\n }\n\n.banner-image {\n    /* height: 85px; */\n    width: 130px;\n    margin-left: 122px;\n }\n\n.btn-del{\n    padding: 1.25rem 1.65rem;\n    font-size: 1.25rem;\n    line-height: 1.5;\n    color:white;\n    margin-right:45px;\n    background: #a73a08;\n\n }\n\n:host app-ngx-editor /deep/ .ngx-editor-textarea {\n    height:500px !important;\n    color:black\n }\n\n#commonCms{\n    padding-top: 5%; \n    padding-right: 7%;\n    padding-left: 7%;\n }\n\n#customBtns{\n     float: right;\n     margin-right:10%;\n     padding: 5px;\n }\n\n.mrgRight5{\n     margin-right: 8px;\n }\n\n.ngx-editor-textarea1 {\n    height:300px !important;\n \n }"
 
 /***/ }),
 
@@ -80,9 +80,7 @@ var AboutUsComponent = /** @class */ (function () {
             minHeight: '10rem',
             placeholder: 'Type something. Test the Editor... ヽ(^。^)丿'
         };
-        this.spinnerService.show();
         this.aboutUsService.getAboutus().subscribe(function (data) {
-            _this.spinnerService.hide();
             if (data.aboutUsList == null) {
                 _this.aboutUsList = data.aboutUsList;
                 _this.initialaboutusList = _this.aboutUsList;
@@ -109,7 +107,6 @@ var AboutUsComponent = /** @class */ (function () {
         var _this = this;
         this.spinnerService.show();
         this.aboutUsService.getAllAboutus().subscribe(function (response) {
-            _this.spinnerService.hide();
             if (response.data == null) {
                 _this.initialaboutusList = response.data;
             }
@@ -118,14 +115,13 @@ var AboutUsComponent = /** @class */ (function () {
                 _this.initialaboutusList = _this.aboutUsList;
                 _this.id = response.data._id;
             }
+            _this.spinnerService.hide();
         });
     };
     AboutUsComponent.prototype.getAllAboutus = function () {
         var _this = this;
-        this.spinnerService.show();
         this.aboutUsService.getAllAboutus().subscribe(function (response) {
             _this.aboutUsService.setAboutus(response.data);
-            _this.spinnerService.hide();
         });
     };
     AboutUsComponent.prototype.validateForm = function () {
@@ -150,7 +146,7 @@ var AboutUsComponent = /** @class */ (function () {
                         sweetalert2__WEBPACK_IMPORTED_MODULE_6___default()({
                             position: 'center',
                             type: 'success',
-                            title: data['message'],
+                            title: 'Updated Successfully',
                             showConfirmButton: false,
                             timer: 1500
                         });
@@ -191,8 +187,8 @@ var AboutUsComponent = /** @class */ (function () {
             text: "You won't be able to revert this!",
             type: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
+            confirmButtonColor: '#49a558',
+            cancelButtonColor: '#a73a08',
             confirmButtonText: 'Yes, delete it!'
         }).then(function (result) {
             if (result.value) {

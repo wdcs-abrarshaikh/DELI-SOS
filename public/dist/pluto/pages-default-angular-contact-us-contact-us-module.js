@@ -7,7 +7,7 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n.header{\n    font-size: 3.15rem;\n    padding: 1.30rem 4.65rem;\n    text-align: center;\n}\n.dataTables_wrapper .pagination .page-item.active>.page-link {\n    background: linear-gradient(45deg, #fc4a1a, #f7b733) !important;\n    color: #fff;\n }\n.dataTables_wrapper .pagination .page-item:hover>.page-link {\n    background: linear-gradient(45deg, #fc4a1a, #f7b733) !important;\n    color: #fff;\n }\n.dataTables_wrapper .dataTables_paginate .paginate_button:hover {\n    color: white !important;\n    border: 1px solid #f1d7a2;\n    background-color:#f1d7a2;\n    background:#f1d7a2\n}\n.container-fluid {\n    width: 85%;\n    padding-right: 15px;\n    padding-left: 15px;\n    margin-right: auto;\n    margin-left: auto;\n}\n.btn.m-btn--hover-brand:hover, .btn.m-btn--hover-brand:focus, .btn.m-btn--hover-brand:active{\n    background: linear-gradient(45deg, #fc4a1a, #f7b733) !important;\n    border: none;\n }\n.m-body .m-content {\n    padding: 30px 30px;\n     /* float: center; */\n    margin-left: 140px;\n    /* padding: 0px; */\n}\ntable.dataTable thead th.sorting,\n   table.dataTable thead th.sorting_asc,\n   table.dataTable thead th.sorting_desc {\n   background: none;\n   padding: 7px 8px;\n   }\n.btn.m-btn--hover-brand:hover, .btn.m-btn--hover-brand:focus, .btn.m-btn--hover-brand:active{\n    background: linear-gradient(45deg, #fc4a1a, #f7b733) !important;\n    border: none;\n }\n.form-control:focus {\n    border-color: lightslategrey;\n    color: #575962;\n    box-shadow: none;\n}\n.tooltip{\n    color:black\n}\n.m-menu__nav i.fa, i.fas, i.fa, i.far {\n    color: black;\n    font-size: 18px;\n    width:32px;\n}\n"
+module.exports = "\n.header{\n    font-size: 3.15rem;\n    padding: 1.30rem 4.65rem;\n    text-align: center;\n}\n.dataTables_wrapper .pagination .page-item.active>.page-link {\n    background: linear-gradient(45deg, #fc4a1a, #f7b733) !important;\n    color: #fff;\n }\n.dataTables_wrapper .pagination .page-item:hover>.page-link {\n    background: linear-gradient(45deg, #fc4a1a, #f7b733) !important;\n    color: #fff;\n }\n.dataTables_wrapper .dataTables_paginate .paginate_button:hover {\n    color: white !important;\n    border: 1px solid #f1d7a2;\n    background-color:#f1d7a2;\n    background:#f1d7a2\n}\n.container-fluid {\n    width: 85%;\n    padding-right: 15px;\n    padding-left: 15px;\n    margin-right: auto;\n    margin-left: auto;\n}\n.btn.m-btn--hover-brand:hover, .btn.m-btn--hover-brand:focus, .btn.m-btn--hover-brand:active{\n    background: linear-gradient(45deg, #fc4a1a, #f7b733) !important;\n    border: none;\n }\n.m-body .m-content {\n    padding: 30px 30px;\n     /* float: center; */\n    margin-left: 140px;\n    /* padding: 0px; */\n}\ntable.dataTable thead th.sorting,\n   table.dataTable thead th.sorting_asc,\n   table.dataTable thead th.sorting_desc {\n   background: none;\n   padding: 7px 8px;\n   }\n.btn.m-btn--hover-brand:hover, .btn.m-btn--hover-brand:focus, .btn.m-btn--hover-brand:active{\n    background: linear-gradient(45deg, #fc4a1a, #f7b733) !important;\n    border: none;\n }\n.form-control:focus {\n    border-color: lightslategrey;\n    color: #575962;\n    box-shadow: none;\n}\n.tooltip{\n    color:black\n}\n.m-menu__nav i.fa, i.fas, i.fa, i.far {\n    color: black;\n    font-size: 18px;\n    width:32px;\n}\n.form-control:focus {\n    border-color: lightslategrey;\n    color: #575962;\n    box-shadow: none;\n    border-radius: 0%\n}\n"
 
 /***/ }),
 
@@ -54,6 +54,10 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+function _window() {
+    // return the global native browser window object
+    return window;
+}
 var ContactUsComponent = /** @class */ (function () {
     function ContactUsComponent(_router, _script, contactUsService, location, spinnerService) {
         var _this = this;
@@ -63,17 +67,27 @@ var ContactUsComponent = /** @class */ (function () {
         this.location = location;
         this.spinnerService = spinnerService;
         this.isView = false;
-        this.spinnerService.show();
         this.contactUsService.getAllContactRequest().subscribe(function (response) {
             _this.contactUsList = response.data;
-            _this.spinnerService.hide();
         });
     }
     ContactUsComponent.prototype.ngAfterViewInit = function () {
-        this._script.loadScripts('app-contact-us', ['assets/vendors/custom/datatables/datatables.bundle.js',
-            'assets/demo/default/custom/crud/datatables/basic/paginations.js']);
+        var scripts = [];
+        if (!_window().isScriptLoadedUsermgmt) {
+            scripts = ['assets/vendors/custom/datatables/datatables.bundle.js'];
+        }
+        var that = this;
+        this._script.loadScripts('app-contact-us', scripts).then(function () {
+            _window().isScriptLoadedUsermgmt = true;
+            that._script.loadScripts('app-contact-us', ['assets/demo/default/custom/crud/datatables/basic/paginations.js']);
+        });
     };
     ContactUsComponent.prototype.ngOnInit = function () {
+        _window().my = _window().my || {};
+        _window().my.usermgmt = _window().my.usermgmt || {};
+        if (typeof (_window().isScriptLoadedUsermgmt) == "undefined") {
+            _window().isScriptLoadedUsermgmt = false;
+        }
         this.getAllContactRequest();
     };
     ContactUsComponent.prototype.getAllContactRequest = function () {
