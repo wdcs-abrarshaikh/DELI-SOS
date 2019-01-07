@@ -92,13 +92,13 @@ async function verifyUserToken(req, res, next) {
 
     await jwt.verify(token, process.env.user_secret, (err) => {
         if (err) {
-            return res.json({ code: code.badRequest, message: msg.invalidToken })
+            return res.json({ code: code.unAuthorized, message: msg.invalidToken })
         }
         else {
             let obj = util.decodeToken(token)
             userModel.findOne({ $and: [{ _id: obj.id }, { blackListedTokens: { $in: token } }] }).then((data) => {
                 if (data) {
-                    return res.json({ code: code.badRequest, message: msg.tokenExpired })
+                    return res.json({ code: code.unAuthorized, message: msg.tokenExpired })
                 }
                 else {
                     next();
