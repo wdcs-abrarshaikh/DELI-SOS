@@ -42,6 +42,7 @@ export class AddAboutUsComponent implements OnInit {
     private spinnerService: Ng4LoadingSpinnerService) { }
 
   ngOnInit() {
+    
     this.buildAboutForm();
     this.getAllAboutus();
   }
@@ -76,7 +77,7 @@ export class AddAboutUsComponent implements OnInit {
             swal({
               position: 'center',
               type: 'success',
-              title: data['message'],
+              title: 'Added Successfully',
               showConfirmButton: false,
               timer: 1500
             })

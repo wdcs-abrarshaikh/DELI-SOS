@@ -48,7 +48,7 @@ export class ProfileComponent implements OnInit {
   }
   buildProfileForm() {
     this.profileForm = this._formBuilder.group({
-      name: ['', [Validators.required,Validators.pattern(/^(?!\s*$).+/),Validators.maxLength(30)]],
+      name: ['', [Validators.required,Validators.pattern(/^(?!\s*$).+/),Validators.maxLength(20)]],
       profilePicture: [''],
     });
   }
@@ -58,8 +58,15 @@ export class ProfileComponent implements OnInit {
     let files = images.target.files;
     return new Promise((resolve, reject) => {
       this.profileService.uploadPic(files).subscribe((data) => {
-        this.profilesList = data.data[0]
-        resolve(data.data)
+      if(data.code==400){
+          swal({
+            type: 'error',
+            text: 'Invalid input'
+          })
+        }else{
+          this.profilesList= data.data[0]
+        }
+       resolve(data.data)
       });
     })
 

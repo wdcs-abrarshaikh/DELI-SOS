@@ -61,9 +61,8 @@ ngOnInit()  {
     localStorage.removeItem('_token');
     localStorage.removeItem('_id');
     this.router.navigate(['/login']);
-
-
-  }
+ }
+  
 ngAfterViewInit()  {
 
 

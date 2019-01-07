@@ -150,12 +150,12 @@
     </div>
   </form>
 
-  <div class="modal-footer" *ngIf="!isAdd">
+  <div class="modal-footer" >
     <button type="submit" class="btn btn-save" (click)="addRestaurant()">Save</button>&nbsp;&nbsp;
     <button type="button" class="btn btn-delete" (click)="activeModal.close('Close click')">Cancel</button>
   </div>
-  <div class="modal-footer" *ngIf="isAdd">
+  <!-- <div class="modal-footer" *ngIf="isAdd">
     <button type="submit" class="btn btn-save" (click)="addRestaurant()" [disabled]="validateForm()">Save</button>&nbsp;&nbsp;
     <button type="button" class="btn btn-delete" (click)="activeModal.close('Close click')">Cancel</button>
-  </div>
+  </div> -->
 </div>

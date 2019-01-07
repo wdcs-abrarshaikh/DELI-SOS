@@ -76,7 +76,7 @@ export class AddEditUserComponent implements OnInit {
             swal({
               position: 'center',
               type: 'success',
-              title: data['message'],
+              title: 'Added Successfully',
               showConfirmButton: false,
               timer: 1500
             })

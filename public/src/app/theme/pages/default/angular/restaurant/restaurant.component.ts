@@ -159,7 +159,7 @@ export class RestaurantComponent implements OnInit, AfterViewInit {
             if(data['code']==200){
               swal(
                 'Deleted!',
-                'Your file has been deleted.',
+               data['message'],
                 'success'
               )
             }else{
@@ -173,8 +173,7 @@ export class RestaurantComponent implements OnInit, AfterViewInit {
                 text: error['message']
               })
             });
-
-      }
+        }
     })
 
   }
