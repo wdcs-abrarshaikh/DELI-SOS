@@ -104,7 +104,7 @@ var AddEditUserComponent = /** @class */ (function () {
                     sweetalert2__WEBPACK_IMPORTED_MODULE_6___default()({
                         position: 'center',
                         type: 'success',
-                        title: data['message'],
+                        title: 'Added Successfully',
                         showConfirmButton: false,
                         timer: 1500
                     });
@@ -214,7 +214,7 @@ var AddEditUserComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n.btn-add {\n    border-radius: 1.1rem;\n    padding: 1.0rem 1.65rem;\n    font-size: 1.25rem;\n    line-height: .6;\n    color: white;\n    border-color: #e95e37;\n    margin-left: 88%;\n    margin-bottom: 16px;\n    background: linear-gradient(to right, #fc4a1a, #f7b733);\n}\n.lbl-err {\n    color: red;\n    /* position: inherit;\n    font-size: 14px;\n    bottom: -18px; */\n }\n.header{\n    font-size: 3.15rem;\n    padding: 1.25rem 4.65rem;\n    text-align: center;\n   }\n.btn-edit{\n         border:none;\n        color:gray;\n        background-color: transparent;\n      }\n.btn-delete{\n       border:none;\n        color:gray;\n        background-color: transparent;\n    }\n.btn-view{\n        border:none;\n        color:gray;\n        background-color: transparent;\n       \n    }\n.banner-image {\n        /* height: 85px; */\n        width: 130px;\n        margin-left: 122px;\n}\n.btn-del{\n    padding: 1.25rem 1.65rem;\n    font-size: 1.25rem;\n    line-height: 1.5;\n    color:white;\n    margin-right:45px;\n background-color: transparent;\n background: #a73a08;\n    border-color: #a73a08;\n}\ntable.dataTable thead th.sorting,\n   table.dataTable thead th.sorting_asc,\n   table.dataTable thead th.sorting_desc {\n   background: none;\n   padding: 7px 8px;\n   }\n.dataTables_wrapper .pagination .page-item.active>.page-link {\n    background: linear-gradient(45deg, #fc4a1a, #f7b733) !important;\n    color: #fff;\n }\n.dataTables_wrapper .pagination .page-item:hover>.page-link {\n    background: linear-gradient(45deg, #fc4a1a, #f7b733) !important;\n    color: #fff;\n }\n.btn.m-btn--hover-brand:hover{\n    background: linear-gradient(45deg, #fc4a1a, #f7b733) !important;\n    border: none;\n }\n.btn.m-btn--hover-brand:not(.btn-secondary):not(.btn-outline-light) i {\n    background: linear-gradient(45deg, #fc4a1a, #f7b733) !important;\n }\n.dataTables_wrapper .dataTables_paginate .paginate_button:hover {\n    color: white !important;\n    border: 1px solid #f1d7a2;\n    background-color:#f1d7a2;\n    background:#f1d7a2\n}\n.container-fluid {\n    width: 85%;\n    padding-right: 15px;\n    padding-left: 15px;\n    margin-right: auto;\n    margin-left: auto;\n}\n.btn.m-btn--hover-brand:hover, .btn.m-btn--hover-brand:focus, .btn.m-btn--hover-brand:active{\n    background: linear-gradient(45deg, #fc4a1a, #f7b733) !important;\n    border: none;\n }\n.m-badge {\n    background:linear-gradient(45deg, #fc4a1a, #f7b733) !important;\n    color:white;\n    font-weight: bold !important;\n   }\n.fa-eye:before {\n    content: \"\\f06e\";\n    color: dimgrey;\n}\n.fa-edit:before, .fa-pencil-square-o:before {\n    content: \"\\f044\";\n    color: dimgrey;\n}\n.fa-trash-alt:before {\n    content: \"\\f2ed\";\n    color: dimgrey;\n}\n.btn-save {\n    color: white;\n    width: 80px;\n    background: #49a558;\n    border-radius: 25%;\n    opacity: 1.5;\n}\n.btn-delete{\n    color: white;\n    width: 80px;\n    background: #a73a08;\n    opacity: 1.5;\n    border-radius: 25%;\n}\n.form-control:focus {\n    border-color: lightslategrey;\n    color: #575962;\n    box-shadow: none;\n    border-radius: 0%\n}"
+module.exports = "\n.btn-add {\n    border-radius: 1.1rem;\n    padding: 1.0rem 1.65rem;\n    font-size: 1.25rem;\n    line-height: .6;\n    color: white;\n    border-color: #e95e37;\n    margin-left: 88%;\n    margin-bottom: 16px;\n    background: linear-gradient(to right, #fc4a1a, #f7b733);\n}\n.lbl-err {\n    color: red;\n    /* position: inherit;\n    font-size: 14px;\n    bottom: -18px; */\n }\n.header{\n    font-size: 3.15rem;\n    padding: 1.25rem 4.65rem;\n    text-align: center;\n   }\n.btn-edit{\n         border:none;\n        color:gray;\n        background-color: transparent;\n      }\n.btn-delete{\n       border:none;\n        color:gray;\n        background-color: transparent;\n    }\n.btn-view{\n        border:none;\n        color:gray;\n        background-color: transparent;\n       \n    }\n.banner-image {\n        /* height: 85px; */\n        width: 130px;\n        margin-left: 122px;\n}\n.btn-del{\n    padding: 1.25rem 1.65rem;\n    font-size: 1.25rem;\n    line-height: 1.5;\n    color:white;\n    margin-right:45px;\n background-color: transparent;\n background: #a73a08;\n    border-color: #a73a08;\n}\ntable.dataTable thead th.sorting,\n   table.dataTable thead th.sorting_asc,\n   table.dataTable thead th.sorting_desc {\n   background: none;\n   padding: 7px 8px;\n   }\n.dataTables_wrapper .pagination .page-item.active>.page-link {\n    background: linear-gradient(45deg, #fc4a1a, #f7b733) !important;\n    color: #fff;\n }\n.dataTables_wrapper .pagination .page-item:hover>.page-link {\n    background: linear-gradient(45deg, #fc4a1a, #f7b733) !important;\n    color: #fff;\n }\n.btn.m-btn--hover-brand:hover{\n    background: linear-gradient(45deg, #fc4a1a, #f7b733) !important;\n    border: none;\n }\n.btn.m-btn--hover-brand:not(.btn-secondary):not(.btn-outline-light) i {\n    background: linear-gradient(45deg, #fc4a1a, #f7b733) !important;\n }\n.dataTables_wrapper .dataTables_paginate .paginate_button:hover {\n    color: white !important;\n    border: 1px solid #f1d7a2;\n    background-color:#f1d7a2;\n    background:#f1d7a2\n}\n.container-fluid {\n    width: 85%;\n    padding-right: 15px;\n    padding-left: 15px;\n    margin-right: auto;\n    margin-left: auto;\n}\n.btn.m-btn--hover-brand:hover, .btn.m-btn--hover-brand:focus, .btn.m-btn--hover-brand:active{\n    background: linear-gradient(45deg, #fc4a1a, #f7b733) !important;\n    border: none;\n }\n.m-badge {\n    background:linear-gradient(45deg, #fc4a1a, #f7b733) !important;\n    color:white;\n    font-weight: bold !important;\n   }\n.fa-eye:before {\n    content: \"\\f06e\";\n    color: dimgrey;\n}\n.fa-edit:before, .fa-pencil-square-o:before {\n    content: \"\\f044\";\n    color: dimgrey;\n}\n.fa-trash-alt:before {\n    content: \"\\f2ed\";\n    color: dimgrey;\n}\n.btn-save {\n    color: white;\n    width: 80px;\n    background: #49a558;\n    border-radius: 25%;\n    opacity: 1.5;\n}\n.btn-delete{\n    color: white;\n    width: 80px;\n    background: #a73a08;\n    opacity: 1.5;\n    border-radius: 25%;\n}\n.form-control:focus {\n    border-color: lightslategrey;\n    color: #575962;\n    box-shadow: none;\n    border-radius: 0%\n}\n.form-control {\n    font-family: sans-serif,Arial;\n    border-radius: 0;\n    /* border-radius: .25rem; */\n}"
 
 /***/ }),
 
@@ -348,17 +348,6 @@ var UserComponent = /** @class */ (function () {
             _this.spinnerService.hide();
         }, function (error) {
             console.log(error);
-            // this.spinnerService.show();
-            // if (error.status == 0) {
-            //   this.spinnerService.hide();
-            //   swal({
-            //     type: 'error',
-            //     title: 'Oops...',
-            //     text: 'Something went wrong!',
-            //     showConfirmButton: false,
-            //     timer: 1500
-            //   })
-            // }
         });
     };
     UserComponent.prototype.viewUser = function (user) {
@@ -380,7 +369,7 @@ var UserComponent = /** @class */ (function () {
                 _this.userService.deleteUser(id).subscribe(function (data) {
                     _this.getUserList();
                     if (data['code'] == 200) {
-                        sweetalert2__WEBPACK_IMPORTED_MODULE_9___default()('Deleted!', 'Your file has been deleted.', 'success');
+                        sweetalert2__WEBPACK_IMPORTED_MODULE_9___default()('Deleted!', data['message'], 'success');
                     }
                     else {
                         sweetalert2__WEBPACK_IMPORTED_MODULE_9___default()({

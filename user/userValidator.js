@@ -88,44 +88,23 @@ function validateSocialLogin(req, res, next) {
 }
 
 async function verifyUserToken(req, res, next) {
-    console.log('Point one')
     let token = req.headers['authorization']
-    console.log({token},"press=============",process.env.user_secret)
-    jwt.verify(token, process.env.user_secret, async (err) => {
+
+    await jwt.verify(token, process.env.user_secret, (err) => {
         if (err) {
-            console.log('Point one err', err)
-            return res.json({
-                code: code.badRequest,
-                message: msg.invalidToken
-            })
-        } else {
-            console.log('Point one else')
-            let obj = await util.decodeToken(token)
-            userModel.findOne({
-                $and: [{
-                    _id: obj.id
-                }, {
-                    blackListedTokens: {
-                        $in: token
-                    }
-                }]
-            }).then((data) => {
+            return res.json({ code: code.unAuthorized, message: msg.invalidToken })
+        }
+        else {
+            let obj = util.decodeToken(token)
+            userModel.findOne({ $and: [{ _id: obj.id }, { blackListedTokens: { $in: token } }] }).then((data) => {
                 if (data) {
-                    console.log('Point two')
-                    return res.json({
-                        code: code.badRequest,
-                        message: msg.tokenExpired
-                    })
-                } else {
-                    console.log('Point one next')
+                    return res.json({ code: code.unAuthorized, message: msg.tokenExpired })
+                }
+                else {
                     next();
                 }
             }).catch((err) => {
-                console.log('Point one catch')
-                return res.json({
-                    code: code.internalError,
-                    message: msg.internalServerError
-                })
+                return res.json({ code: code.internalError, message: msg.internalServerError })
             })
         }
     })
