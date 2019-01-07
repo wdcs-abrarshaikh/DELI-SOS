@@ -960,6 +960,7 @@ function filterRestaurants(req, res) {
             res.json({ code: code.internalError, message: msg.internalServerError })
         }
         else {
+            console.log("skdfjha",response)
             let obj = util.decodeToken(req.headers['authorization'])
             userModel.findOne({ _id: obj.id }).select('location').exec((err, loc) => {
                 if (err) {
@@ -1003,6 +1004,7 @@ function searchRestaurants(req, res) {
         }
         else {
             let obj = util.decodeToken(req.headers['authorization'])
+            console.log('dasdf',response)
             userModel.findOne({ _id: obj.id }).select('location').exec((err, loc) => {
                 if (err) {
                     res.json({ code: code.internalError, message: msg.internalServerError })
@@ -1011,19 +1013,19 @@ function searchRestaurants(req, res) {
                     var final = response.map(function (data) {
                         data._id.distance = util.calculateDistance(loc.location.coordinates[1], loc.location.coordinates[0],
                             data._id.location.coordinates[1], data._id.location.coordinates[0], "K") * 1000;
-                        // var totalRatings = 0;
-                        // let reviews_details = data._id.reviews.filter(function (result) {
-                        //     if (result.status == status.active) {
-                        //         totalRatings += result.rating
-                        //         return result
-                        //     }
-                        // })
-                        // if (reviews_details.length > 0) {
-                        //     data._id.ratings = totalRatings / reviews_details.length
-                        // }
-                        // else {
-                        //     data._id.ratings = 0
-                        // }
+                        var totalRatings = 0;
+                        let reviews_details = data._id.reviews.filter(function (result) {
+                            if (result.status == status.active) {
+                                totalRatings += result.rating
+                                return result
+                            }
+                        })
+                        if (reviews_details.length > 0) {
+                            data._id.ratings = totalRatings / reviews_details.length
+                        }
+                        else {
+                            data._id.ratings = 0
+                        }
                         delete data._id.location;
                         delete data._id.reviews;
                         return data;

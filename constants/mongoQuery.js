@@ -312,14 +312,14 @@ function filterRestaurant(data, flag) {
                     ]
                 }
             },
-            {
-                $lookup: {
-                    foreignField: '_id',
-                    localField: 'reviews',
-                    from: schmaName.reviews,
-                    as: 'reviews_details'
-                }
-            },
+            // {
+            //     $lookup: {
+            //         foreignField: '_id',
+            //         localField: 'reviews',
+            //         from: schmaName.reviews,
+            //         as: 'reviews_details'
+            //     }
+            // },
             {
                 $group: {
                     _id: {
@@ -327,7 +327,7 @@ function filterRestaurant(data, flag) {
                         name: '$name',
                         cuisins: '$cuisinOffered',
                         location: '$location',
-                        reviews: '$reviews_details'
+                        reviews: '$reviews'
                     }
                 }
             }
@@ -352,14 +352,14 @@ function filterRestaurant(data, flag) {
                     ]
                 }
             },
-            {
-                $lookup: {
-                    foreignField: '_id',
-                    localField: 'reviews',
-                    from: schmaName.reviews,
-                    as: 'reviews_details'
-                }
-            },
+            // {
+            //     $lookup: {
+            //         foreignField: '_id',
+            //         localField: 'reviews',
+            //         from: schmaName.reviews,
+            //         as: 'reviews_details'
+            //     }
+            // },
             {
                 $group: {
                     _id: {
@@ -367,7 +367,7 @@ function filterRestaurant(data, flag) {
                         name: '$name',
                         cuisins: '$cuisinOffered',
                         location: '$location',
-                        reviews: '$reviews_details'
+                        reviews: '$reviews'
                     }
                 }
             }
@@ -395,7 +395,7 @@ function searchRestaurants(name) {
 
             }
         },
-        {
+        /*{
             $lookup: {
                 foreignField: '_id',
                 localField: 'reviews',
@@ -414,7 +414,7 @@ function searchRestaurants(name) {
             $addFields: {
                 "ratings": { $avg: '$reviews_details.rating' },
             }
-        },
+        },*/
         {
             $group: {
                 _id: {
@@ -422,8 +422,9 @@ function searchRestaurants(name) {
                     name: '$name',
                     cuisins: '$cuisinOffered',
                     location: '$location',
-                    reviews: '$reviews_details',
-                    ratings: '$ratings'
+                    reviews: '$reviews',
+                    //reviews: '$reviews_details',
+                    //ratings: '$ratings'
                 }
             }
         }
