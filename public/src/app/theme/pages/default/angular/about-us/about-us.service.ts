@@ -29,12 +29,14 @@ export class AboutUsService {
         headers = headers.set('Content-Type', 'application/json')
         return headers;
     }
+
     addAboutus(about: any) {
      return this.http.post<any>(URL + 'admin/addAboutUs', about, { headers: this.getHeaderWithToken() })
             .pipe(
                 map((res: Response) => { return res }),
             );
     }
+    
     getAllAboutus() {
         return this.http.get(URL + 'admin/aboutUsList', { headers: this.getHeaderWithToken() })
             .pipe(

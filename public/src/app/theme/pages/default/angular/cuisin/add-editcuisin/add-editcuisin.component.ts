@@ -115,7 +115,7 @@ export class AddEditcuisinComponent implements OnInit {
             swal({
               position: 'center',
               type: 'success',
-              title:'updated successfully',
+              title:'Updated Successfully',
               showConfirmButton: false,
               timer: 1500
             })

@@ -10,7 +10,7 @@ declare let mLayout: any;
 @Component({
 	selector: ".m-grid.m-grid--hor.m-grid--root.m-page",
 	templateUrl: "./theme.component.html",
-	// encapsulation: ViewEncapsulation.None,
+	encapsulation: ViewEncapsulation.None,
 })
 export class ThemeComponent implements OnInit {
 
@@ -23,7 +23,6 @@ export class ThemeComponent implements OnInit {
 		// this.spinnerService.show();
 		this._script.loadScripts('body', ['assets/vendors/base/vendors.bundle.js', 'assets/demo/default/base/scripts.bundle.js'], true)
 			.then(result => {
-				// that.spinnerService.hide();
 				Helpers.setLoading(false);
 				// optional js to be loaded once
 				// this._script.loadScripts('head', ['assets/vendors/custom/fullcalendar/fullcalendar.bundle.js'], true);

@@ -21,7 +21,7 @@
     color:white;
     width:80px;
     background: #2e85a0;
-       border-radius: 25%;
+    border-radius: 25%;
     opacity: 1;
 }
 .btn-edit:hover{opacity: 1;}

@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { ThemeComponent } from './theme.component';
 import { Routes, RouterModule } from '@angular/router';
 import {AuthGuard} from "../auth/_guards/auth.guard";
-// import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
+
 
 const routes: Routes = [
     {

@@ -22,6 +22,7 @@ var upload = multer({
         console.log(file)
         checkFileType(file,callback)
     }
+    
 }).array('img', 5);
 
 cloudinary.config({

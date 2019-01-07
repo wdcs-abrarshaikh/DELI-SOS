@@ -84,7 +84,7 @@ export class PrivacyPolicyComponent implements OnInit {
               swal({
                 position: 'center',
                 type: 'success',
-                title: data['message'],
+                title:'Updated Successfully',
                 showConfirmButton: false,
                 timer: 1500
               })
@@ -151,8 +151,8 @@ export class PrivacyPolicyComponent implements OnInit {
       text: "You won't be able to revert this!",
       type: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
+      confirmButtonColor: '#49a558',
+      cancelButtonColor: '#a73a08',
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.value) {

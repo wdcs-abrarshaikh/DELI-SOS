@@ -1,3 +1,4 @@
+
 import { AddEditUserComponent } from './add-edit-user/add-edit-user.component';
 import { Message, Password } from 'primeng/primeng';
 import { UserService } from './user.service';
@@ -10,6 +11,8 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ScriptLoaderService } from '../../../../../_services/script-loader.service';
 import swal from 'sweetalert2'
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
+import { error } from '@angular/compiler/src/util';
+import { errorObject } from 'rxjs/internal-compatibility';
 
 function _window(): any {
   // return the global native browser window object
@@ -39,10 +42,11 @@ export class UserComponent implements OnInit, AfterViewInit {
     private _formBuilder: FormBuilder,
     private userService: UserService,
     private _script: ScriptLoaderService,
-    private spinnerService: Ng4LoadingSpinnerService) {
-      this.userService.getUsers().subscribe((data: any) => {
+    private spinnerService: Ng4LoadingSpinnerService,
+    private router: Router) {
+    this.userService.getUsers().subscribe((data: any) => {
       this.usersList = data.usersList.data
-   });
+    });
   }
   ngAfterViewInit() {
     let scripts = [];
@@ -51,22 +55,22 @@ export class UserComponent implements OnInit, AfterViewInit {
     }
 
     let that = this;
-   this._script.loadScripts('app-user',
-        scripts).then(function(){
-         _window().isScriptLoadedUsermgmt = true;
-          that._script.loadScripts('app-user', ['assets/demo/default/custom/crud/datatables/basic/paginations.js']);
-       });
+    this._script.loadScripts('app-user',
+      scripts).then(function () {
+        _window().isScriptLoadedUsermgmt = true;
+        that._script.loadScripts('app-user', ['assets/demo/default/custom/crud/datatables/basic/paginations.js']);
+      });
   }
 
   ngOnInit() {
-    
+
     _window().my = _window().my || {};
     _window().my.usermgmt = _window().my.usermgmt || {};
-    if (typeof (_window().isScriptLoadedUsermgmt) == "undefined"){
+    if (typeof (_window().isScriptLoadedUsermgmt) == "undefined") {
       _window().isScriptLoadedUsermgmt = false;
     }
 
-   this.getUserList();
+    this.getUserList();
   }
   open(content, type) {
     if (!content) {
@@ -95,10 +99,24 @@ export class UserComponent implements OnInit, AfterViewInit {
   // All User Display Method
   getUserList() {
     this.spinnerService.show();
-   this.userService.getAllUsers().subscribe((response: any) => {
-     this.usersList = response.data;
+    this.userService.getAllUsers().subscribe((response: any) => {
+      this.usersList = response.data;
       this.spinnerService.hide();
-    });
+    }, error => {
+       console.log(error)
+      // this.spinnerService.show();
+      // if (error.status == 0) {
+      //   this.spinnerService.hide();
+      //   swal({
+      //     type: 'error',
+      //     title: 'Oops...',
+      //     text: 'Something went wrong!',
+      //     showConfirmButton: false,
+      //     timer: 1500
+      //   })
+      // }
+    }
+    )
   }
 
   viewUser(user) {
@@ -106,14 +124,14 @@ export class UserComponent implements OnInit, AfterViewInit {
   }
 
   delete(id) {
-  
     swal({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",
       type: 'warning',
+      showConfirmButton: true,
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
+      confirmButtonColor: '#49a558',
+      cancelButtonColor: '#a73a08',
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.value) {

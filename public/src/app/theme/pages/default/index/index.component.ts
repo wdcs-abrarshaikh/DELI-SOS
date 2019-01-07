@@ -11,6 +11,7 @@ import { ScriptLoaderService } from './../../../../_services/script-loader.servi
 import { ViewrestaurantComponent } from './viewrestaurant/viewrestaurant.component';
 import { MatAutocompleteSelectedEvent, MatChipInputEvent, MatAutocomplete } from '@angular/material';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
+import { error } from 'util';
 
    
 function _window(): any {
@@ -77,7 +78,8 @@ export class IndexComponent implements OnInit, AfterViewInit {
         this.spinnerService.show();
         this.indexService.getAllUsers().subscribe((response: any) => {
            this.usersList = response.data;
-       });
+       })
+       
       }
 
    restaurantList:Array<any>;
