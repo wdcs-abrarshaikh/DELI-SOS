@@ -293,8 +293,9 @@ function showFavourites(id) {
 }
 
 function filterRestaurant(data, flag) {
-  console.log(data)
+    
     if (flag == true) {
+        console.log(data)
         return [
             {
                 $match: {
