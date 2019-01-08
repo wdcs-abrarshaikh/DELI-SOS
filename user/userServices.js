@@ -1035,7 +1035,6 @@ function searchRestaurants(req, res) {
                         if (data._id.distance <= 10000) {
                             return data;
                         }
-                        return data;
                     })
                     final.sort((a, b) => {
                         return (a._id['distance'] - b._id['distance'])
@@ -1045,7 +1044,7 @@ function searchRestaurants(req, res) {
                             return (b._id[sortBy] - a._id[sortBy])
                         })
                     }
-                    
+
                     return res.json({ code: code.ok, message: msg.ok, data: final })
                 }
             })
