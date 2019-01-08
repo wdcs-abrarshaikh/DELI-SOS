@@ -293,8 +293,9 @@ function showFavourites(id) {
 }
 
 function filterRestaurant(data, flag) {
-  console.log(data)
+
     if (flag == true) {
+        console.log(data)
         return [
             {
                 $match: {
@@ -314,6 +315,12 @@ function filterRestaurant(data, flag) {
                 }
             },
             {
+                "$unwind": {
+                    path: "$reviews",
+                    preserveNullAndEmptyArrays: true
+                }
+            },
+            {
                 $lookup: {
                     foreignField: '_id',
                     localField: 'reviews',
@@ -328,8 +335,9 @@ function filterRestaurant(data, flag) {
                         name: '$name',
                         cuisins: '$cuisinOffered',
                         location: '$location',
-                        reviews: '$reviews_details'
-                    }
+                        // reviews: '$reviews'
+                    },
+                    reviews: { $push: '$reviews_details' }
                 }
             }
         ]
@@ -364,6 +372,12 @@ function filterRestaurant(data, flag) {
                 }
             },
             {
+                "$unwind": {
+                    path: "$reviews",
+                    preserveNullAndEmptyArrays: true
+                }
+            },
+            {
                 $lookup: {
                     foreignField: '_id',
                     localField: 'reviews',
@@ -378,8 +392,9 @@ function filterRestaurant(data, flag) {
                         name: '$name',
                         cuisins: '$cuisinOffered',
                         location: '$location',
-                        reviews: '$reviews_details'
-                    }
+                        // reviews: '$reviews'
+                    },
+                    reviews: { $push: '$reviews_details' }
                 }
             }
         ]
@@ -407,6 +422,12 @@ function searchRestaurants(name) {
             }
         },
         {
+            "$unwind": {
+                path: "$reviews",
+                preserveNullAndEmptyArrays: true
+            }
+        },
+        {
             $lookup: {
                 foreignField: '_id',
                 localField: 'reviews',
@@ -414,18 +435,18 @@ function searchRestaurants(name) {
                 as: 'reviews_details'
             }
         },
-        {
-            $match: {
-                'reviews_details.status': {
-                    $eq: 'ACTIVE'
-                }
-            }
-        },
-        {
-            $addFields: {
-                "ratings": { $avg: '$reviews_details.rating' },
-            }
-        },
+        // {
+        //     $match: {
+        //         'reviews_details.status': {
+        //             $eq: 'ACTIVE'
+        //         }
+        //     }
+        // },
+        // {
+        //     $addFields: {
+        //         "ratings": { $avg: '$reviews_details.rating' },
+        //     }
+        // },
         {
             $group: {
                 _id: {
@@ -433,9 +454,8 @@ function searchRestaurants(name) {
                     name: '$name',
                     cuisins: '$cuisinOffered',
                     location: '$location',
-                    reviews: '$reviews_details',
-                    ratings: '$ratings'
-                }
+                },
+                reviews: { $push: '$reviews_details' }
             }
         }
 

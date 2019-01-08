@@ -980,22 +980,22 @@ function filterRestaurants(req, res) {
                 else if (loc) {
                     let final = response.map(function (data) {
                         data._id.distance = util.calculateDistance(loc.location.coordinates[1], loc.location.coordinates[0],
-                            data._id.location.coordinates[1], data._id.location.coordinates[0], "K") * 100;
+                            data._id.location.coordinates[1], data._id.location.coordinates[0], "K") * 1000;
                         var totalRatings = 0;
-                        let reviews_details = data._id.reviews.filter(function (result) {
-                            if (result.status == status.active) {
-                                totalRatings += result.rating
+                        if (data.reviews[0].length > 0) {
+                        let reviews_details = data.reviews.filter(function (result) {
+                            if (result[0].status == status.active) {
+                                totalRatings += result[0].rating
                                 return result
                             }
                         })
-                        if (reviews_details.length > 0) {
-                            data._id.ratings = totalRatings / reviews_details.length
-                        }
+                        data._id.ratings = totalRatings / reviews_details.length
+                    }
                         else {
                             data._id.ratings = 0
                         }
                         delete data._id.location;
-                        delete data._id.reviews;
+                        delete data.reviews;
                         return data;
                     })
                     res.json({ code: code.ok, message: msg.ok, data: final })
@@ -1020,24 +1020,25 @@ function searchRestaurants(req, res) {
                     res.json({ code: code.internalError, message: msg.internalServerError })
                 }
                 else if (loc) {
+
                     var final = response.map(function (data) {
                         data._id.distance = util.calculateDistance(loc.location.coordinates[1], loc.location.coordinates[0],
                             data._id.location.coordinates[1], data._id.location.coordinates[0], "K") * 1000;
-                        // var totalRatings = 0;
-                        // let reviews_details = data._id.reviews.filter(function (result) {
-                        //     if (result.status == status.active) {
-                        //         totalRatings += result.rating
-                        //         return result
-                        //     }
-                        // })
-                        // if (reviews_details.length > 0) {
-                        //     data._id.ratings = totalRatings / reviews_details.length
-                        // }
-                        // else {
-                        //     data._id.ratings = 0
-                        // }
+                        var totalRatings = 0;
+                        if (data.reviews[0].length > 0) {
+                            let reviews_details = data.reviews.filter(function (result) {
+                                if (result[0].status == status.active) {
+                                    totalRatings += result[0].rating
+                                    return result
+                                }
+                            })
+                            data._id.ratings = totalRatings / reviews_details.length
+                        }
+                        else {
+                            data._id.ratings = 0
+                        }
                         delete data._id.location;
-                        delete data._id.reviews;
+                        delete data.reviews;
                         return data;
                     })
                     if (sortBy) {
@@ -1045,7 +1046,7 @@ function searchRestaurants(req, res) {
                             return (b._id[sortBy] - a._id[sortBy])
                         })
                     }
-                    res.json({ code: code.ok, message: msg.ok, data: final })
+                    res.json({ code: code.ok, message: msg.ok, data: response })
                 }
             })
         }
