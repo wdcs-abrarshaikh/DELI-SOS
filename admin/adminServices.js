@@ -192,7 +192,7 @@ async function addRestaurant(req, res) {
     rest.createdBy = obj.id;
     rest.status = status.active;
     rest.save((err, data) => {
-        // console.log(err)
+        console.log(err)
         return (err) ? res.json({ code: code.internalError, message: msg.internalServerError }) :
             res.json({ code: code.created, message: msg.restAddSucessfully, data: data })
     })

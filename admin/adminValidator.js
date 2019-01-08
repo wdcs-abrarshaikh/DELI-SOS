@@ -1,6 +1,7 @@
 var jwt = require('jsonwebtoken')
 var code = require('../constants').http_codes;
 var msg = require('../constants').messages;
+var validate = require('../user/userValidator')
 
 function validateSignUp(req, res, next) {
     if (req.body.name && req.body.password && req.body.email) {
@@ -115,12 +116,16 @@ function validateRestaurant(req, res, next) {
         rest.longitude && rest.cuisinOffered && rest.openTime &&
         rest.closeTime && rest.menu) {
 
+        if (!validate.validateLatLong(parseFloat(req.body.longitude), parseFloat(req.body.latitude))) {
+            return res.json({ code: code.badRequest, message: msg.invalidLatLong })
+        }
+
         let name = rest.name.trim(),
             description = rest.description.trim(),
             openTime = rest.openTime.trim(),
             closeTime = rest.closeTime.trim(),
             len = rest.cuisinOffered;
-            cusinlen = len.length;
+        cusinlen = len.length;
         if (cusinlen == 0) {
             return res.json({ code: code.badRequest, message: msg.invalidBody })
         }
