@@ -115,7 +115,7 @@ function validateRestaurant(req, res, next) {
 console.log(req.body)
     if (rest.name && rest.description && rest.latitude &&
         rest.longitude && rest.cuisinOffered && rest.openTime &&
-        rest.closeTime && rest.menu) {
+        rest.closeTime) {
 
         if (!validate.validateLatLong(parseFloat(req.body.longitude), parseFloat(req.body.latitude))) {
             return res.json({ code: code.badRequest, message: msg.invalidLatLong })
