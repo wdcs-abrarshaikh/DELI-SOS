@@ -677,7 +677,7 @@ async function addCuisin(req, res) {
             if (err) {
                 return res.json({ code: code.internalError, message: msg.internalServerError })
                 // console.log("err in array updation ")
-            } else { return res.json({ code: code.ok, msg: msg.cuisinAdded }) }
+            } else { return res.json({ code: code.ok, message: msg.cuisinAdded }) }
         });
 }
 
@@ -708,10 +708,10 @@ async function searchCuisin(req, res) {
         }
     ]).exec((err, data) => {
         if (err) {
-            return res.json({ code: code.internalError, msg: msg.internalServerError })
+            return res.json({ code: code.internalError, message: msg.internalServerError })
         }
         else if (data.length == 0) {
-            return res.json({ code: code.notFound, msg: msg.noMatchFound })
+            return res.json({ code: code.notFound, message: msg.noMatchFound })
         }
         else {
             return res.json({ code: code.ok, message: msg.ok, data: data })
@@ -764,7 +764,7 @@ async function deleteCuisin(req, res) {
             if (err) {
                 return res.json({ code: code.internalError, message: msg.internalServerError })
             } else {
-                return res.json({ code: code.ok, data: msg.cuisinDeleted })
+                return res.json({ code: code.ok, message: msg.cuisinDeleted })
             }
         })
 }
@@ -775,7 +775,7 @@ async function updateCuisin(req, res) {
             if (err) {
                 return res.json({ code: code.internalError, message: msg.internalServerError })
             } else {
-                return res.json({ code: code.ok, msg: msg.cuisinUpdated, data: data })
+                return res.json({ code: code.ok, message: msg.cuisinUpdated, data: data })
             }
         })
 }
@@ -784,7 +784,7 @@ async function deleteRestaurantReq(req, res) {
     restModel.remove({ _id: req.params.id }, (err, data) => {
         if (err) {
             return res.json({ code: code.internalError, message: msg.internalServerError })
-        } else { return res.json({ code: code.ok, msg: msg.restReqDeclined }) }
+        } else { return res.json({ code: code.ok, message: msg.restReqDeclined }) }
     });
 
 

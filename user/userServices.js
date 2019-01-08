@@ -988,6 +988,9 @@ function filterRestaurants(req, res) {
                             return data;
                         }
                     })
+                    final.sort((a, b) => {
+                        return (a._id['distance'] - b._id['distance'])
+                    })
                     res.json({ code: code.ok, message: msg.ok, data: final })
                 }
             })
@@ -1033,6 +1036,9 @@ function searchRestaurants(req, res) {
                             return data;
                         }
                         return data;
+                    })
+                    final.sort((a, b) => {
+                        return (a._id['distance'] - b._id['distance'])
                     })
                     if (sortBy) {
                         final.sort((a, b) => {
