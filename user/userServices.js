@@ -997,15 +997,15 @@ function searchRestaurants(req, res) {
     let search = req.params.name
     let sortBy = req.query.sortBy
 
-    return restModel.aggregate(mongoQuery.searchRestaurants(search), (err, response) => {
+    restModel.aggregate(mongoQuery.searchRestaurants(search), (err, response) => {
         if (err) {
-            res.json({ code: code.internalError, message: msg.internalServerError })
+            return res.json({ code: code.internalError, message: msg.internalServerError })
         }
         else {
             let obj = util.decodeToken(req.headers['authorization'])
             userModel.findOne({ _id: obj.id }).select('location').exec((err, loc) => {
                 if (err) {
-                    res.json({ code: code.internalError, message: msg.internalServerError })
+                    return res.json({ code: code.internalError, message: msg.internalServerError })
                 }
                 else if (loc) {
 
@@ -1030,11 +1030,14 @@ function searchRestaurants(req, res) {
                         return data;
                     })
                     if (sortBy) {
+                        console.log('in sortBy')
                         final.sort((a, b) => {
+                            console.log(b._id[sortBy] - a._id[sortBy])
                             return (b._id[sortBy] - a._id[sortBy])
                         })
+                        console.log(final)
                     }
-                    res.json({ code: code.ok, message: msg.ok, data: response })
+                    return res.json({ code: code.ok, message: msg.ok, data: final })
                 }
             })
         }
