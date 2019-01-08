@@ -664,7 +664,7 @@ function getNearByRestaurant(req, res) {
                 }, {
                     $project: {
                         'location': 1, 'photos': 1, '_id': 1,
-                        'reviews': 1, 'name': 1, 'dist': 1, 'mealOffers': 1,'cuisinOffered':1
+                        'reviews': 1, 'name': 1, 'dist': 1, 'mealOffers': 1, 'cuisinOffered': 1
                     }
                 },
                 {
@@ -966,25 +966,27 @@ function filterRestaurants(req, res) {
                     res.json({ code: code.internalError, message: msg.internalServerError })
                 }
                 else if (loc) {
-                    let final = response.map(function (data) {
+                    let final = response.filter(function (data) {
                         data._id.distance = util.calculateDistance(loc.location.coordinates[1], loc.location.coordinates[0],
                             data._id.location.coordinates[1], data._id.location.coordinates[0], "K") * 1000;
                         var totalRatings = 0;
                         if (data.reviews[0].length > 0) {
-                        let reviews_details = data.reviews.filter(function (result) {
-                            if (result[0].status == status.active) {
-                                totalRatings += result[0].rating
-                                return result
-                            }
-                        })
-                        data._id.ratings = totalRatings / reviews_details.length
-                    }
+                            let reviews_details = data.reviews.filter(function (result) {
+                                if (result[0].status == status.active) {
+                                    totalRatings += result[0].rating
+                                    return result
+                                }
+                            })
+                            data._id.ratings = totalRatings / reviews_details.length
+                        }
                         else {
                             data._id.ratings = 0
                         }
                         delete data._id.location;
                         delete data.reviews;
-                        return data;
+                        if (data._id.distance <= 10000) {
+                            return data;
+                        }
                     })
                     res.json({ code: code.ok, message: msg.ok, data: final })
                 }
@@ -1009,7 +1011,7 @@ function searchRestaurants(req, res) {
                 }
                 else if (loc) {
 
-                    var final = response.map(function (data) {
+                    var final = response.filter(function (data) {
                         data._id.distance = util.calculateDistance(loc.location.coordinates[1], loc.location.coordinates[0],
                             data._id.location.coordinates[1], data._id.location.coordinates[0], "K") * 1000;
                         var totalRatings = 0;
@@ -1027,15 +1029,15 @@ function searchRestaurants(req, res) {
                         }
                         delete data._id.location;
                         delete data.reviews;
+                        if (data._id.distance <= 10000) {
+                            return data;
+                        }
                         return data;
                     })
                     if (sortBy) {
-                        console.log('in sortBy')
                         final.sort((a, b) => {
-                            console.log(b._id[sortBy] - a._id[sortBy])
                             return (b._id[sortBy] - a._id[sortBy])
                         })
-                        console.log(final)
                     }
                     return res.json({ code: code.ok, message: msg.ok, data: final })
                 }
