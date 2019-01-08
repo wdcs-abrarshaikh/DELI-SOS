@@ -671,7 +671,7 @@ function getNearByRestaurant(req, res) {
                 }, {
                     $project: {
                         'location': 1, 'photos': 1, '_id': 1,
-                        'reviews': 1, 'name': 1, 'dist': 1, 'mealOffers': 1
+                        'reviews': 1, 'name': 1, 'dist': 1, 'mealOffers': 1,'cuisinOffered':1
                     }
                 },
                 {
