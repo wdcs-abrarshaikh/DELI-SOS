@@ -716,12 +716,8 @@ async function searchCuisin(req, res) {
             return res.json({ code: code.internalError, message: msg.internalServerError })
         }
         else if (data.length == 0) {
-<<<<<<< HEAD
-            console.log("error----->",err)
-            return res.json({ code: code.notFound, msg: msg.noMatchFound })
-=======
-            return res.json({ code: code.notFound, message: msg.noMatchFound })
->>>>>>> bc44ad1b9e1e06404f9d8ccfc9afff7c154fe968
+      return res.json({ code: code.notFound, message: msg.noMatchFound })
+
         }
         else {
             return res.json({ code: code.ok, message: msg.ok, data: data })
