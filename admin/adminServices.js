@@ -652,6 +652,9 @@ async function getContactRequest(req, res) {
                 return res.json({ code: code.internalError, message: msg.internalServerError })
             }
             else {
+                data.sort((a, b) => {
+                    return (b._id['createdAt'] - a._id['createdAt'])
+                })
                 return res.json({ code: code.ok, message: msg.ok, data: data })
             }
         })
