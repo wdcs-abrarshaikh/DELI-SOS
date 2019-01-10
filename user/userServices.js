@@ -1073,6 +1073,7 @@ function contactUs(req, res) {
     let obj = util.decodeToken(req.headers['authorization'])
     data.createdBy = obj.id
     data.type = type.contact
+    data.createdAt = Date.now()
     let contactReq = new aboutModel(data)
     contactReq.save((err, result) => {
         if (err) {

@@ -531,6 +531,7 @@ async function addAboutUs(req, res) {
         if (data.length == 0) {
             let about = new aboutModel(req.body)
             about.type = "About_Us"
+            about.createdAt = Date.now()
             about.save((err, data) => {
                 if (err) {
                     // console.log("error", err)
@@ -595,6 +596,7 @@ async function addPrivacyPolicy(req, res) {
         if (data.length == 0) {
             let about = new aboutModel(req.body)
             about.type = "Privacy_Policy"
+            about.createdAt = Date.now()
             about.save((err, data) => {
 
                 return (err) ? res.json({ code: code.internalError, message: msg.internalServerError }) :
@@ -652,8 +654,10 @@ async function getContactRequest(req, res) {
                 return res.json({ code: code.internalError, message: msg.internalServerError })
             }
             else {
+                console.log("data",data)
                 data.sort((a, b) => {
-                    return (b._id['createdAt'] - a._id['createdAt'])
+                        // return new Date(b['createdAt']) - new Date(a['createdAt']);
+                        return b.createdAt - a.createdAt
                 })
                 return res.json({ code: code.ok, message: msg.ok, data: data })
             }
