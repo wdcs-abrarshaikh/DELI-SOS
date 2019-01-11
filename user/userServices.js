@@ -699,11 +699,17 @@ function getNearByRestaurant(req, res) {
                             obj.lat = obj.location.coordinates[1];
                             obj.long = obj.location.coordinates[0];
                             obj.photos = obj.photos[0];
+                            if (!obj.rating) {
+                                obj.rating = 0
+                            }
                             response_res.photos = response_res.photos[0];
                             delete obj.location;
                             delete response_res.location;
 
                             response_res.addedInFavourites = 0;
+                            if (!response_res.rating) {
+                                response_res.rating = 0
+                            }
                             data.favourites.some(function (favourite) {
                                 if (favourite.equals(response_res._id) == true) {
                                     response_res.addedInFavourites = 1;
