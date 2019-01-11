@@ -712,7 +712,8 @@ function getNearByRestaurant(req, res) {
                             delete response_res.location;
 
                             response_res.addedInFavourites = 0;
-                            data.favourites.some(function (favourite) {
+                           
+				 data.favourites.some(function (favourite) {
                                 if (favourite.equals(response_res._id) == true) {
                                     response_res.addedInFavourites = 1;
                                 }
