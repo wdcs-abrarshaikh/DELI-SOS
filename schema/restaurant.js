@@ -23,11 +23,19 @@ var restaurantSchema = new schema({
     mealOffers: { type: [{ type: String, enum: [meal.breakfast, meal.lunch, meal.dinner, meal.all] }], default: meal.all },
     photos: [{ type: String }],
     cuisinOffered:[String],
+<<<<<<< HEAD
     openTime: { type: String ,required: true},
     closeTime: { type: String,required: true},
     contactNumber: { type: Number },
     website: { type: String },
     menu: [{ type: String,required: true}],
+=======
+    openTime: { type: String, required: true },
+    closeTime: { type: String, required: true },
+    contactNumber: { type: Number,default:0 },
+    website: { type: String,default:''},
+    menu: [{ type: String}],
+>>>>>>> 978297d870a2397c11b8e9eb34e0d5870bf51f80
     photoByUser: [{
         userId: { type: mongoose.Schema.Types.ObjectId, ref: cnst.users },
         url: { type: String },
