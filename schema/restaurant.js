@@ -25,9 +25,9 @@ var restaurantSchema = new schema({
     cuisinOffered:[String],
     openTime: { type: String, required: true },
     closeTime: { type: String, required: true },
-    contactNumber: { type: Number },
-    website: { type: String },
-    menu: [{ type: String, required: true }],
+    contactNumber: { type: Number,default:0 },
+    website: { type: String,default:''},
+    menu: [{ type: String}],
     photoByUser: [{
         userId: { type: mongoose.Schema.Types.ObjectId, ref: cnst.users },
         url: { type: String },
