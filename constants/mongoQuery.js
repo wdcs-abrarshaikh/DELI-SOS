@@ -511,7 +511,7 @@ function notificationList(id) {
             $group: {
                 _id: {
                     notificationId: "$_id",
-                    createdAt: "$createdAt",
+                    createdAt: "$review_details.createdAt",
                     notificationType: "$notificationType",
                     senderId: { "$arrayElemAt": ["$sender_details._id", 0] },
                     senderName: { "$arrayElemAt": ["$sender_details.name", 0] },
