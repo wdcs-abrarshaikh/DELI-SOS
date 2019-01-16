@@ -1,4 +1,4 @@
-﻿var userModel = require('../schema/user');
+var userModel = require('../schema/user');
 var restModel = require('../schema/restaurant');
 var reviewModel = require('../schema/review');
 var aboutModel = require('../schema/about_Privacy');
@@ -332,28 +332,22 @@ function addReview(req, res) {
                                             model.restId = req.body.restId;
                                             model.receiver = result.follower;
                                             let receiverTokens;
-                                            console.log("printing followers",result.follower)
                                             userModel.find({ _id: { $in: result.follower } }).select('fcmToken').then((tokens) => {
                                                 if (tokens.length > 0) {
                                                     receiverTokens = tokens
-                                                }else{
-                                                  receiverTokens=[]
                                                 }
-                                                console.log("printing tokens");
-                                                console.log(receiverTokens)
-                                                let notfctnData = model
-                                                model.save().then(async (response) => {
-                                                    let obj = await util.decodeToken(req.headers['authorization'])
-                                                    let message = `${obj.name} posted new review.`
-                                                    receiverTokens.map((token) => {
-                                                        fcm.sendMessage(token.fcmToken, message, process.env.appName, notfctnData)
-                                                    })
-                                                    return res.json({ code: code.created, message: msg.reviewAdded, data: data })
-                                                })
                                             }).catch((err) => {
                                                 return res.json({ code: code.internalError, message: msg.internalServerError })
                                             })
-
+                                            let notfctnData = model
+                                            model.save().then((response) => {
+                                                let obj = util.decodeToken(req.headers['authorization'])
+                                                let message = `${obj.name} posted new review.`
+                                                receiverTokens.map((token) => {
+                                                    fcm.sendMessage(token.fcmToken, message, process.env.appName, notfctnData)
+                                                })
+                                                return res.json({ code: code.created, message: msg.reviewAdded, data: data })
+                                            })
                                         }
                                     })
 
@@ -652,7 +646,6 @@ function changePassword(req, res) {
 
 function getNearByRestaurant(req, res) {
     userModel.findOne({ _id: req.params.userId, status: status.active }, (err, data) => {
-      console.log(data.location)
         if (err) {
             return res.json({ code: code.internalError, message: msg.internalServerError })
         } else if (!data) {
@@ -666,7 +659,7 @@ function getNearByRestaurant(req, res) {
                         maxDistance: 10000,
                         key: 'location',
                         query: { status: status.active },
-                        spherical: true
+                         spherical: true
                     }
                 }, {
                     $project: {
@@ -694,40 +687,43 @@ function getNearByRestaurant(req, res) {
 
                     }
                 }], (err, response) => {
-                  console.log(response.length)
                     if (err) {
                         return res.json({ code: code.internalError, message: msg.internalServerError })
                     } else {
-                        let marker = [];
+                    
+			console.log(response.length);
+			    let marker = [];
                         let recommendation = []
-                        let counter =1
+
                         let modifyed_response = response.map(async (response_res) => {
                             let obj = Object.assign({}, response_res);
                             delete obj.mealOffers;
                             obj.lat = obj.location.coordinates[1];
                             obj.long = obj.location.coordinates[0];
                             obj.photos = obj.photos[0];
+        	                    if (!obj.rating) {
+                                obj.rating = 0
+                           }
                             response_res.photos = response_res.photos[0];
                             delete obj.location;
                             delete response_res.location;
 
                             response_res.addedInFavourites = 0;
-                           
-				 data.favourites.some(function (favourite) {
+                            if (!response_res.rating) {
+                                response_res.rating = 0
+                            }
+                            data.favourites.some(function (favourite) {
                                 if (favourite.equals(response_res._id) == true) {
                                     response_res.addedInFavourites = 1;
                                 }
                             });
-
+	
                             marker.push(obj);
-                            if(counter < 6){
-                                recommendation.push(response_res);
-                                counter++;
-                            }
-
+                            recommendation.push(response_res);
 
                         });
-                        recommendation = recommendation.slice(0, 10)
+	console.log({marker})        
+                recommendation = recommendation.slice(0, 10)
 
                         return res.json({ code: code.ok, marker, recommendation })
                     }
@@ -1094,17 +1090,16 @@ function getNotificationList(req, res) {
     })
 }
 
-
-async function logout(req, res) {
-	console.log('printing on logout');
-    let obj = await util.decodeToken(req.headers['authorization'])
-	console.log(obj)
-    userModel.update({ _id: obj.id }, { $set:{"fcmToken":"a","deviceId":"a","deviceType":""}})
-    .then(data=>{
-console.log(data)
-       return userModel.update({ _id: obj.id },{$push:{ blackListedTokens: req.headers['authorization'] }})
-    }).then(result=>res.json({ code: code.ok, message: msg.loggedout}))
-    .catch(err=>res.json({ code: code.internalError, message: msg.internalServerError }))
+function logout(req, res) {
+    let obj = util.decodeToken(req.headers['authorization'])
+    userModel.findByIdAndUpdate({ _id: obj.id }, { $push: { blackListedTokens: req.headers['authorization'] } })
+        .then((data) => {
+            if (data) {
+                return res.json({ code: code.ok, message: msg.loggedout })
+            }
+        }).catch((err) => {
+            return res.json({ code: code.internalError, message: msg.internalServerError })
+        })
 }
 
 function shareReview(req, res) {
