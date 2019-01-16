@@ -394,6 +394,7 @@ var AppModule = /** @class */ (function () {
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_4__["BrowserModule"],
                 _angular_forms__WEBPACK_IMPORTED_MODULE_7__["FormsModule"],
+                ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_17__["Ng4LoadingSpinnerModule"].forRoot(),
                 _angular_forms__WEBPACK_IMPORTED_MODULE_7__["ReactiveFormsModule"],
                 _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_6__["BrowserAnimationsModule"],
                 _app_routing_module__WEBPACK_IMPORTED_MODULE_10__["AppRoutingModule"],
@@ -408,7 +409,7 @@ var AppModule = /** @class */ (function () {
                 }),
                 ng_pick_datetime__WEBPACK_IMPORTED_MODULE_18__["OwlDateTimeModule"],
                 ng_pick_datetime__WEBPACK_IMPORTED_MODULE_18__["OwlNativeDateTimeModule"],
-                ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_17__["Ng4LoadingSpinnerModule"].forRoot(),
+                // Ng4LoadingSpinnerModule.forRoot(),
                 _progress_kendo_angular_inputs__WEBPACK_IMPORTED_MODULE_19__["InputsModule"]
             ],
             providers: [_services_script_loader_service__WEBPACK_IMPORTED_MODULE_1__["ScriptLoaderService"]],

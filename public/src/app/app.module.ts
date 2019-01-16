@@ -41,6 +41,7 @@ import { InputsModule } from '@progress/kendo-angular-inputs';
   imports: [
     BrowserModule,
     FormsModule,
+    Ng4LoadingSpinnerModule.forRoot(),
     ReactiveFormsModule,
     BrowserAnimationsModule,
     AppRoutingModule,
@@ -55,7 +56,7 @@ import { InputsModule } from '@progress/kendo-angular-inputs';
     }),
     OwlDateTimeModule,
     OwlNativeDateTimeModule ,
-    Ng4LoadingSpinnerModule.forRoot(),
+    // Ng4LoadingSpinnerModule.forRoot(),
     InputsModule
 
   ],
