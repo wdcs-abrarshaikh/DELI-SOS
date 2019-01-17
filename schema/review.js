@@ -13,7 +13,7 @@ var reviewSchema = new schema({
     improvementArea: [{ type: String, required: true }],
     status: { type: String, enum: [status.active, status.inactive], default: status.active },
     likedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: schmaName.users }],
-    createdAt: { type: Date,default:Date.now() }
+    createdAt: { type: Date }
 
 })
 module.exports = mongoose.model(schmaName.reviews, reviewSchema)
