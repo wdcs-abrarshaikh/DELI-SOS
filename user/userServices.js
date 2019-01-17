@@ -309,7 +309,7 @@ function addReview(req, res) {
                 }
                 else {
                     let review = new reviewModel(req.body)
-                    // review.createdAt = Date.now()
+                    review.createdAt = Date.now()
                     review.save((err, data) => {
                         if (err) {
                             rres.json({ code: code.internalError, message: msg.internalServerError })
