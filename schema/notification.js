@@ -23,7 +23,7 @@ var notificationSchema = new schema({
 
     receiver: [{ type: mongoose.Schema.Types.ObjectId, ref: schmaName.users, required: true }],
 
-    createdAt: { type: Date, default: Date.now() }
+    createdAt: { type: Date }
 })
 
 module.exports = mongoose.model(cnst.notifications, notificationSchema)
