@@ -496,22 +496,24 @@ function notificationList(id) {
         {
             $project: {
                 "_id": 1,
-                "createdAt": 1,
                 "notificationType": 1,
+                "createdAt":1,
                 "sender_details._id": 1,
                 "sender_details.name": 1,
                 "sender_details.profilePicture": 1,
                 "restaurant_details._id": 1,
                 "restaurant_details.name": 1,
                 "review_details._id": 1,
-                "review_details.content": 1
+                "review_details.content": 1,
+                "review_details.createdAt": 1
             }
         },
         {
             $group: {
                 _id: {
                     notificationId: "$_id",
-                    createdAt: "$review_details.createdAt",
+                    createdAt: '$createdAt',
+                    // createdAt: { "$arrayElemAt": ["$review_details.createdAt", 0] } ,
                     notificationType: "$notificationType",
                     senderId: { "$arrayElemAt": ["$sender_details._id", 0] },
                     senderName: { "$arrayElemAt": ["$sender_details.name", 0] },
