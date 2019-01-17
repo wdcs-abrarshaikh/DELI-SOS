@@ -312,7 +312,7 @@ function addReview(req, res) {
                     review.createdAt = Date.now()
                     review.save((err, data) => {
                         if (err) {
-                            rres.json({ code: code.internalError, message: msg.internalServerError })
+                            res.json({ code: code.internalError, message: msg.internalServerError })
                         }
                         else {
                             userModel.findByIdAndUpdate({ _id: req.body.userId }, { $push: { review: data._id } }, (err, result) => {
@@ -331,6 +331,7 @@ function addReview(req, res) {
                                             model.sender = req.body.userId;
                                             model.restId = req.body.restId;
                                             model.receiver = result.follower;
+                                            model.createdAt = Date.now()
                                             let receiverTokens;
                                             userModel.find({ _id: { $in: result.follower } }).select('fcmToken').then((tokens) => {
                                                 if (tokens.length > 0) {
@@ -753,6 +754,7 @@ function followUser(req, res) {
                     model.sender = obj.id
                     model.receiver = [uid]
                     model.notificationType = ntfctnType.follow
+                    model.createdAt = Date.now()
                     let message = `${obj.name} started following you.`;
 
                     if (data.follower.indexOf(uid) != -1) {
@@ -935,7 +937,7 @@ function likeUnlikeReview(req, res) {
                     model.sender = obj.id;
                     model.restId = result.restId;
                     model.receiver = [result.userId];
-
+                    model.createdAt = Date.now()
                     model.save().then(async (response) => {
                         let user = await userModel.findById({ _id: result.userId }).select('fcmToken').then((data) => {
                             return data
