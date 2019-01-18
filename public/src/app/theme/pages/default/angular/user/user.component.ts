@@ -2,7 +2,7 @@
 import { AddEditUserComponent } from './add-edit-user/add-edit-user.component';
 import { Message, Password } from 'primeng/primeng';
 import { UserService } from './user.service';
-import { Component, OnInit, Output, EventEmitter, Input, AfterViewInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input, AfterViewInit,OnDestroy, ViewEncapsulation,ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, Validators, FormControl, FormGroup, FormArray } from '@angular/forms';
 import { Location } from '@angular/common';
@@ -11,8 +11,9 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ScriptLoaderService } from '../../../../../_services/script-loader.service';
 import swal from 'sweetalert2'
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
-import { error } from '@angular/compiler/src/util';
-import { errorObject } from 'rxjs/internal-compatibility';
+import { Subject } from 'rxjs';
+import { DataTableDirective } from 'angular-datatables';
+
 
 function _window(): any {
   // return the global native browser window object
@@ -26,8 +27,7 @@ function _window(): any {
   encapsulation: ViewEncapsulation.None
 })
 
-export class UserComponent implements OnInit, AfterViewInit {
-  // usersDetail: any;
+export class UserComponent implements OnInit, AfterViewInit{
 
   modalReference: any;
   isAdd: boolean = false;
@@ -45,11 +45,12 @@ export class UserComponent implements OnInit, AfterViewInit {
     private spinnerService: Ng4LoadingSpinnerService,
     private router: Router) {
     this.userService.getUsers().subscribe((data: any) => {
-      this.usersList = data.usersList.data
-    });
+     this.usersList = data.usersList.data
+   });
   }
+
   ngAfterViewInit() {
-    let scripts = [];
+   let scripts = [];
     if (!_window().isScriptLoadedUsermgmt) {
       scripts = ['assets/vendors/custom/datatables/datatables.bundle.js'];
     }
@@ -60,11 +61,11 @@ export class UserComponent implements OnInit, AfterViewInit {
         _window().isScriptLoadedUsermgmt = true;
         that._script.loadScripts('app-user', ['assets/demo/default/custom/crud/datatables/basic/paginations.js']);
       });
+      
   }
 
   ngOnInit() {
-
-    _window().my = _window().my || {};
+   _window().my = _window().my || {};
     _window().my.usermgmt = _window().my.usermgmt || {};
     if (typeof (_window().isScriptLoadedUsermgmt) == "undefined") {
       _window().isScriptLoadedUsermgmt = false;
@@ -72,6 +73,7 @@ export class UserComponent implements OnInit, AfterViewInit {
 
     this.getUserList();
   }
+
   open(content, type) {
     if (!content) {
       this.isAdd = true
@@ -100,11 +102,9 @@ export class UserComponent implements OnInit, AfterViewInit {
   getUserList() {
     this.spinnerService.show();
     this.userService.getAllUsers().subscribe((response: any) => {
-      this.usersList = response.data;
-      this.spinnerService.hide();
-    }, error => {
-       console.log(error)
-      }
+     this.usersList = response.data;
+     this.spinnerService.hide();
+    }
     )
   }
 
@@ -127,7 +127,7 @@ export class UserComponent implements OnInit, AfterViewInit {
         this.userService.deleteUser(id).subscribe(
           data => {
             this.getUserList();
-            if (data['code'] == 200) {
+          if (data['code'] == 200) {
               swal(
                 'Deleted!',
                  data['message'],

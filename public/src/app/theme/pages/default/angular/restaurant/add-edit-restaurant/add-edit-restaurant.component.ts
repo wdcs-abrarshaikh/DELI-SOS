@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter, Input, AfterViewInit, ViewEnca
 import { ActivatedRoute, Router } from '@angular/router';
 import { RestaurantService } from '../restaurant.service';
 import * as $ from 'jquery';
+import { ScriptLoaderService } from'../../../../../../_services/script-loader.service';
 import { FormBuilder, Validators, FormControl, FormGroup, FormArray } from '@angular/forms';
 import { Location } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
@@ -14,12 +15,16 @@ import { map, startWith } from 'rxjs/operators';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 // import { timingSafeEqual } from 'crypto';
 
+function _window(): any {
+  // return the global native browser window object
+  return window;
+}
 @Component({
   selector: 'app-add-edit-restaurant',
   templateUrl: './add-edit-restaurant.component.html',
   styleUrls: ['./add-edit-restaurant.component.css']
 })
-export class AddEditRestaurantComponent implements OnInit {
+export class AddEditRestaurantComponent implements OnInit ,AfterViewInit{
 
   RestaurantList: Array<any>;
   RestaurantForm: FormGroup;
@@ -60,6 +65,7 @@ export class AddEditRestaurantComponent implements OnInit {
   constructor(public activeModal: NgbActiveModal,
     private _router: Router,
     private _formBuilder: FormBuilder,
+    private _script: ScriptLoaderService,
     private modalService: NgbModal,
     private restaurantService: RestaurantService,
     private toastService: ToastrService) {
@@ -68,6 +74,20 @@ export class AddEditRestaurantComponent implements OnInit {
     this.buildRestaurantForm();
   }
 
+  ngAfterViewInit() {
+   
+   let scripts = [];
+    if (!_window().isScriptLoadedUsermgmt) {
+      scripts = ['assets/vendors/custom/datatables/datatables.bundle.js'];
+    }
+    let that = this;
+    this._script.loadScripts('app-restaurant',
+        scripts).then(function(){
+         _window().isScriptLoadedUsermgmt = true;
+          that._script.loadScripts('app-restaurant', ['assets/demo/default/custom/crud/datatables/basic/paginations.js']);
+      });
+
+}
   get f() {
     return this.RestaurantForm.controls;
   }
@@ -88,16 +108,16 @@ export class AddEditRestaurantComponent implements OnInit {
     this.RestaurantForm = this._formBuilder.group({
       name: ['', [Validators.required,Validators.pattern(/^(?!\s*$).+/)]],
       description: ['', [Validators.required,Validators.pattern(/^(?!\s*$).+/)]],
-      latitude: ['', [Validators.required,Validators.pattern(/^(?!\s*$).+/)]],
-      longitude: ['',[Validators.required,Validators.pattern(/^(?!\s*$).+/)]],
+      latitude: ['', [Validators.required,Validators.pattern(/^[+,-]?[0-9]{1,2}(?:\.[0-9]{1,30})?$/)]],
+      longitude: ['',[Validators.required,Validators.pattern(/^[+,-]?[0-9]{1,3}(?:\.[0-9]{1,30})?$/)]],
       openTime: [, Validators.required],
       closeTime: ['', Validators.required],
       restaurantImages: [''],
-      contactNumber: ['',[ Validators.required,Validators.pattern(/^[+]*([(]{0,1}[0-9]{1,4}[)]{0,1})?[-\s\./0-9]{8,14}[0-9]$/)]],
-      website: ['',[Validators.required,Validators.pattern(/^((ftp|http|https):\/\/)?(www.)?(?!.*(ftp|http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+((\/)[\w#]+)*(\/\w+\?[a-zA-Z0-9_]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?$/)]],
+      contactNumber: ['',[Validators.pattern(/^[+]*([(]{0,1}[0-9]{1,4}[)]{0,1})?[-\s\./0-9]{8,14}[0-9]$/)]],
+      website: ['',Validators.pattern(/^((ftp|http|https):\/\/)?(www.)?(?!.*(ftp|http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+((\/)[\w#]+)*(\/\w+\?[a-zA-Z0-9_]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?$/)],
       menuImages: [''],
       mealOffers: this._formBuilder.array(this.arr_value),
-      perPersonCost: ['', [Validators.required, Validators.pattern(/^([1-9][0-9]*)$/)]],
+      perPersonCost: ['', [ Validators.pattern(/^([1-9][0-9]*)$/)]],
       cuisinOffered: ['',Validators.required]
     });
 
@@ -149,11 +169,9 @@ export class AddEditRestaurantComponent implements OnInit {
       }
 
     } else if (this.RestaurantForm.controls.cuisinOffered.value != "") {
-
-      this.restaurantService.serachCuisin(value.target.value).subscribe(async (data) => {
+   this.restaurantService.serachCuisin(value.target.value).subscribe(async (data) => {
         if (data['code'] == 200) {
           data['data'].map(async (values) => {
-
             if (this.CuisinList.indexOf(values.name) == -1) {
               this.CuisinList.push(values.name)
             }
@@ -329,11 +347,12 @@ export class AddEditRestaurantComponent implements OnInit {
       if (this.RestaurantForm.invalid) {
           return;
         }
+     
     await this.restaurantService.addRestaurant(addObj).subscribe(
         data => {
-          this.activeModal.dismiss();
+        this.activeModal.dismiss();
           this.getAllRestaurant();
-          if (data['code'] == 201) {
+         if (data['code'] == 201) {
             swal({
               position: 'center',
               type: 'success',
@@ -353,12 +372,11 @@ export class AddEditRestaurantComponent implements OnInit {
           this.toastService.error(error['message']);
         });
     } else {
-     
+    
     this.restaurantService.editRestaurant(addObj, this.id).subscribe(
         data => {
-       
-          this.getAllRestaurant();
-          this.activeModal.dismiss();
+        this.getAllRestaurant();
+        this.activeModal.dismiss();
           if (data['code'] == 200) {
             swal({
               position: 'center',
@@ -383,7 +401,8 @@ export class AddEditRestaurantComponent implements OnInit {
 
   getAllRestaurant() {
   this.restaurantService.getAllRestaurant().subscribe((response: any) => {
-      this.restaurantService.setRestaurant(response);
+    this.restaurantService.setRestaurant(response);
+    
     })
   }
 

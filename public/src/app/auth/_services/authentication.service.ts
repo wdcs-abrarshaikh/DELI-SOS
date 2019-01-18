@@ -26,8 +26,7 @@ export class AuthenticationService {
 		
 		return this.http.post(URL+'login', { headers: this.getHeaderWithToken() } )
 			.map(response => {
-				console.log('responsesss',response);
-				// login successful if there's a jwt token in the response
+			 	// login successful if there's a jwt token in the response
 				// let user = response.json();
 				// if (user && user.token) {
 				// 	// store user details and jwt token in local storage to keep user logged in between page refreshes

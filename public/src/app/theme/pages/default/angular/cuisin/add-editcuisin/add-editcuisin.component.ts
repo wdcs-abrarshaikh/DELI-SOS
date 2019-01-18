@@ -110,7 +110,7 @@ export class AddEditcuisinComponent implements OnInit {
           }
         },
        error => {
-        this.toastService.error(error['msg']);
+        this.toastService.error(error['message']);
        });
     }
    else {

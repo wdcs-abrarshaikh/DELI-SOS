@@ -40,13 +40,12 @@ export class RestaurantComponent implements OnInit, AfterViewInit {
     private _script: ScriptLoaderService,
     private spinnerService:Ng4LoadingSpinnerService) {
      this.restaurantService.getRestaurant().subscribe((data: any) => {
-      this.RestaurantList = data.RestautantList.data
- });
-  }
+     this.RestaurantList = data.RestautantList.data 
+     });
+    }
   
   ngAfterViewInit() {
-    
-        let scripts = [];
+       let scripts = [];
         if (!_window().isScriptLoadedUsermgmt) {
           scripts = ['assets/vendors/custom/datatables/datatables.bundle.js'];
         }
@@ -62,12 +61,12 @@ export class RestaurantComponent implements OnInit, AfterViewInit {
 
 
   ngOnInit() {
+   
     _window().my = _window().my || {};
     _window().my.usermgmt = _window().my.usermgmt || {};
     if (typeof (_window().isScriptLoadedUsermgmt) == "undefined"){
       _window().isScriptLoadedUsermgmt = false;
     }
-    
     this.getRestaurantList();
   }
   
@@ -78,7 +77,6 @@ export class RestaurantComponent implements OnInit, AfterViewInit {
       this.spinnerService.hide();
     });
   }
-
 
   mealOffers_arr: Array<any> = ["BREAKFAST", "LUNCH", "DINNER", "ALL"]
   async checkValue(arr) {
@@ -155,13 +153,13 @@ export class RestaurantComponent implements OnInit, AfterViewInit {
       if (result.value) {
         this.restaurantService.deleteRestaurant(id).subscribe(
           data => {
-            this.getRestaurantList();
-            if(data['code']==200){
+           if(data['code']==200){
               swal(
                 'Deleted!',
                data['message'],
                 'success'
               )
+              this.getRestaurantList();
             }else{
               swal({
                 type: 'error',

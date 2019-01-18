@@ -113,7 +113,7 @@ export class CuisinComponent implements OnInit {
             if (data['code'] == 200) {
               swal(
                 'Deleted!',
-                 data['data'],
+                 data['message'],
                 'success'
               )
             } else {

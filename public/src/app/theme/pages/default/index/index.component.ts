@@ -153,7 +153,7 @@ export class IndexComponent implements OnInit, AfterViewInit {
               } else {
                 swal({
                   type: 'error',
-                  text: response['msg']
+                  text: response['message']
                 })
                }
         })

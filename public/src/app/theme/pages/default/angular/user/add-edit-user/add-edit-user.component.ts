@@ -47,6 +47,7 @@ export class AddEditUserComponent implements OnInit {
   get f() {
     return this.userForm.controls;
   }
+  
   buildUserForm() {
     this.userForm = this._formBuilder.group({
       name: ['', [Validators.required, , Validators.pattern(/^(?=.{1,40}$)[a-zA-Z]+(?:[-' ][a-zA-Z]+)*$/)]],

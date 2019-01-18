@@ -56,8 +56,7 @@ export class CuisinService {
       
         return this.http.put<any>(URL + 'admin/deleteCuisin/' + id,{}, { headers: this.getHeaderWithToken() })
             .map((res: Response) => {
-                console.log(res)
-                return res
+               return res
             });
 
     }
