@@ -68,6 +68,7 @@ function authenticateUser(req, res) {
                         }
                     })
                     let { _id, name, location, locationVisible, email, role, profilePicture } = result
+			console.log(token);
                     result = { _id, name, location, locationVisible, email, role, profilePicture }
                     return res.json({ code: code.ok, message: msg.loggedIn, token: token, data: result })
                 }
@@ -344,9 +345,14 @@ function addReview(req, res) {
                                             model.save().then((response) => {
                                                 let obj = util.decodeToken(req.headers['authorization'])
                                                 let message = `${obj.name} posted new review.`
-                                                receiverTokens.map((token) => {
-                                                    fcm.sendMessage(token.fcmToken, message, process.env.appName, notfctnData)
-                                                })
+
+
+
+                                                if (receiverTokens) {
+                                                    receiverTokens.map((token) => {
+                                                        fcm.sendMessage(token.fcmToken, message, process.env.appName, notfctnData)
+                                                    })
+                                                }
                                                 return res.json({ code: code.created, message: msg.reviewAdded, data: data })
                                             })
                                         }

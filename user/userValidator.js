@@ -89,7 +89,7 @@ function validateSocialLogin(req, res, next) {
 
 async function verifyUserToken(req, res, next) {
     let token = req.headers['authorization']
-
+console.log("printing token",token)
     await jwt.verify(token, process.env.user_secret, (err) => {
         if (err) {
             return res.json({ code: code.unAuthorized, message: msg.invalidToken })
