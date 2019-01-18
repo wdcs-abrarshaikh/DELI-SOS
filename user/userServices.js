@@ -54,14 +54,14 @@ function authenticateUser(req, res) {
             else {
                 if (bcrypt.compareSync(data.password, result.password)) {
                     let token = util.generateToken(result, process.env.user_secret)
-                    let currentToken = result.activeToken
+                    // let currentToken = result.activeToken
                     let updation;
-                    if (currentToken) {
-                        updation = { $set: { activeToken: token }, $push: { blackListedTokens: currentToken } }
-                    }
-                    else {
+                    // if (currentToken) {
+                    //     updation = { $set: { activeToken: token }, $push: { blackListedTokens: currentToken } }
+                    // }
+                    // else {
                         updation = { $set: { activeToken: token } }
-                    }
+                    // }
                     userModel.update({ _id: result._id }, updation, (err, cb) => {
                         if (err) {
                             return res.json({ code: code.ineternalError, message: msg.internalServerError })
@@ -1100,7 +1100,7 @@ function getNotificationList(req, res) {
 
 function logout(req, res) {
     let obj = util.decodeToken(req.headers['authorization'])
-    userModel.findByIdAndUpdate({ _id: obj.id }, { $push: { blackListedTokens: req.headers['authorization'] } })
+    userModel.findByIdAndUpdate({ _id: obj.id }, { $set:{"fcmToken":'',"activeToken":'',"deviceId":""},$push: { blackListedTokens: req.headers['authorization'] } })
         .then((data) => {
             if (data) {
                 return res.json({ code: code.ok, message: msg.loggedout })
