@@ -13,7 +13,7 @@ messages = {
     emailAlreadyRegistered: 'Email already registered',
     internalServerError: 'Internal server error',
     registered: 'Successfully registered',
-    invalidEmailPass: 'Invalid email or password, Email_format:standard email format. Password_format: between 8 to 20 character with number and special character eg. Superm@n123',
+    invalidEmailPass: 'Invalid email or password, Email_format:standard email format. Password_format: Min 8 Alphanumeric required',
     adminNotFound: 'No such admin is registered',
     loggedIn: 'Successfully logged in',
     invalidPassword: 'Invalid password',
