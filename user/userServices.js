@@ -328,7 +328,7 @@ function addReview(req, res) {
                                         else {
                                             let model = new notificationModel()
                                             model.notificationType = ntfctnType.reviewPosted
-                                            model.reviewId = data._id;
+                                            model.reviewId = data_V3._id;
                                             model.sender = req.body.userId;
                                             model.restId = req.body.restId;
                                             model.receiver = result.follower;
@@ -350,7 +350,7 @@ function addReview(req, res) {
                                                         fcm.sendMessage(token.fcmToken, message, process.env.appName, notfctnData)
                                                     })
                                                 }
-                                                return res.json({ code: code.created, message: msg.reviewAdded, data: data })
+                                                return res.json({ code: code.created, message: msg.reviewAdded, data: data_V3 })
                                             })
                                             }).catch((err) => {
                                                 return res.json({ code: code.internalError, message: msg.internalServerError })
