@@ -297,7 +297,7 @@ function addReview(req, res) {
     userModel.findOne({ _id: req.body.userId }, (err, data_v1) => {
         if (err) {
             return res.json({ code: code.internalError, message: msg.internalServerError })
-        } else if (!data) {
+        } else if (!data_v1) {
             return res.json({ code: code.notFound, message: msg.userNotFound })
         }
         else {
@@ -305,7 +305,7 @@ function addReview(req, res) {
                 if (err) {
                     return res.json({ code: code.internalError, message: msg.internalServerError })
                 }
-                else if (!data) {
+                else if (!data_V2) {
                     return res.json({ code: code.notFound, message: msg.restNotFound })
                 }
                 else {
