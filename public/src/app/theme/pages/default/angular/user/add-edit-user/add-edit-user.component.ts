@@ -1,10 +1,10 @@
-import { Message, Password } from 'primeng/primeng';
+
 import { UserService } from '../user.service';
-import { Component, OnInit, Output, EventEmitter, Input, AfterViewInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit,  Input, } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder, Validators, FormControl, FormGroup, FormArray } from '@angular/forms';
-import { Location } from '@angular/common';
+import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import swal from 'sweetalert2'
@@ -17,10 +17,7 @@ import swal from 'sweetalert2'
 export class AddEditUserComponent implements OnInit {
 
   usersList: Array<any>;
-
-
   userForm: FormGroup;
-
   @Input() id;
   @Input() name;
   @Input() email;
@@ -37,6 +34,7 @@ export class AddEditUserComponent implements OnInit {
     private _router: Router,
     private _formBuilder: FormBuilder,
     private modalService: NgbModal,
+    private spinnerservice:Ng4LoadingSpinnerService,
     private userService: UserService,
     private toastService: ToastrService) { }
 
@@ -57,7 +55,6 @@ export class AddEditUserComponent implements OnInit {
       deviceType: ['', Validators.required],
       fcmToken: ['', Validators.required]
     });
-
   }
 
   addUsers() {
@@ -70,6 +67,7 @@ export class AddEditUserComponent implements OnInit {
       "fcmToken": this.userForm.controls['fcmToken'].value,
     }
     if (this.isAdd) {
+      this.spinnerservice.show();
       this.userService.addUser(addObj).subscribe(
         data => {
           this.getAllUser();
@@ -93,7 +91,7 @@ export class AddEditUserComponent implements OnInit {
           this.toastService.error(error['message']);
         });
     } else {
-
+      this.spinnerservice.show();
       this.userService.editUser(addObj, this.id).subscribe(
         data => {
           this.getAllUser();

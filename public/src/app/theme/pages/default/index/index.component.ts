@@ -1,17 +1,16 @@
 import  swal  from 'sweetalert2';
 import { IndexService } from './index.service';
-import { Component, OnInit, AfterViewInit, Input,ViewEncapsulation } from '@angular/core';
-import { Helpers } from '../../../../helpers';
+import { Component, OnInit, AfterViewInit, Input,ViewEncapsulation ,ViewChild} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder, Validators, FormControl, FormGroup, FormArray } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { Location } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap'
 import { ScriptLoaderService } from './../../../../_services/script-loader.service';
 import { ViewrestaurantComponent } from './viewrestaurant/viewrestaurant.component';
-import { MatAutocompleteSelectedEvent, MatChipInputEvent, MatAutocomplete } from '@angular/material';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
-import { error } from 'util';
+import { DataTableDirective } from 'angular-datatables';
+import { Subject } from 'rxjs/Subject';
 
    
 function _window(): any {
@@ -27,6 +26,11 @@ function _window(): any {
     encapsulation: ViewEncapsulation.None,
 })
 export class IndexComponent implements OnInit, AfterViewInit {
+    dtOptions: DataTables.Settings = {};
+    dtTrigger: Subject<any> = new Subject();
+    @ViewChild(DataTableDirective)
+    dtElement: DataTableDirective;
+
     restList: Array<any>;
     isView: boolean = false;
     constructor(
@@ -66,7 +70,12 @@ export class IndexComponent implements OnInit, AfterViewInit {
         if (typeof (_window().isScriptLoadedUsermgmt) == "undefined"){
           _window().isScriptLoadedUsermgmt = false;
         }
-
+        this.dtOptions = {
+            pagingType: 'full_numbers',
+            pageLength: 10,
+            processing: true,
+            stateSave: true
+          };
         this.getAllRequest()
         this.getUserList()
         this.getRestaurant()
@@ -93,9 +102,20 @@ export class IndexComponent implements OnInit, AfterViewInit {
     getAllRequest() {
         this.spinnerService.show();
          this.indexService.getAllRequest().subscribe((response: any) => {
-            this.restList = response.data
-            this.spinnerService.hide();
+          this.restList = response.data
+           this.dtTrigger.next();
+           this.spinnerService.hide();
        })
+    }
+    getAllRequest1() {
+        this.indexService.getAllRequest().subscribe((response: any) => {
+            this.restList = response.data
+            this.dtElement.dtInstance.then((dtInstance:DataTables.Api)=>{
+                dtInstance.destroy();
+                this.dtTrigger.next();
+                this.spinnerService.hide();
+              })
+          })
     }
     open(content) {
         const modalRef = this.modalService.open(ViewrestaurantComponent);
@@ -116,8 +136,9 @@ export class IndexComponent implements OnInit, AfterViewInit {
     }
 
     Approve(id) {
+        this.spinnerService.show();
        this.indexService.approveRestaurant(id).subscribe((response: any) => {
-            this.getAllRequest()
+            this.getAllRequest1()
             if (response['code'] ==200 ) {
                 swal({
                   position: 'center',
@@ -140,8 +161,9 @@ export class IndexComponent implements OnInit, AfterViewInit {
     }
    
     Reject(id){
+        this.spinnerService.show();
         this.indexService.rejectRestaurant(id).subscribe((response:any)=>{
-           this.getAllRequest()
+           this.getAllRequest1()
             if (response['code'] ==200 ) {
                 swal({
                   position: 'center',
