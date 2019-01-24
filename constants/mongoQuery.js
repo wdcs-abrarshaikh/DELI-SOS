@@ -408,7 +408,7 @@ function searchRestaurants(name) {
                 $and: [
                     {
                         $or: [{
-                            name: { $regex: '^' + name, $options: 'i' }
+                            name: { $regex: name, $options: 'i' }
                         },
                         {
                             cuisinOffered: { $elemMatch: { $regex: '^' + name, $options: 'i' } }

@@ -62475,7 +62475,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".x1{\n    color:red;\n    /* width:20px; */\n}"
+module.exports = ".x1{\n    color:red;\n    /* width:20px; */\n}\n.t1{\n    transition: none !important;\n}\n"
 
 /***/ }),
 
@@ -62486,7 +62486,7 @@ module.exports = ".x1{\n    color:red;\n    /* width:20px; */\n}"
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"modal-header\">\n  <h4 class=\"modal-title\">{{ isAdd ? 'Add' : 'Edit'}} Restaurant</h4>\n  <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"activeModal.dismiss('Cross click')\">\n    <span aria-hidden=\"true\">&times;</span>\n  </button>\n</div>\n<div class=\"modal-body\">\n  <form name=\"RestaurantForm\" [formGroup]=\"RestaurantForm\">\n    <div class=\"form-group\">\n      <label> Restaurant Name</label>\n      <input class=\"form-control m-input\" type=\"text\" formControlName=\"name\" [(ngModel)]=\"name\">\n      <p *ngIf=\"RestaurantForm.controls.name.errors?.required && (RestaurantForm.controls.name.dirty || RestaurantForm.controls.name.touched)\"\n        class=\"lbl-err\">Name is required.</p>\n      <p *ngIf=\"RestaurantForm.controls.name.errors?.pattern \" class=\"lbl-err\">Name is required.</p>\n    </div><br>\n\n\n    <div class=\"form-group\">\n      <label>Description</label>\n      <input class=\"form-control m-input\" type=\"text\" formControlName=\"description\" [(ngModel)]=\"description\">\n      <p *ngIf=\"RestaurantForm.controls.description.errors?.required &&  (RestaurantForm.controls.description.dirty || RestaurantForm.controls.description.touched)\"\n        class=\"lbl-err\">Description is required.</p>\n      <p *ngIf=\"RestaurantForm.controls.description.errors?.pattern \" class=\"lbl-err\">Description is required.</p>\n\n    </div><br>\n\n\n    <div class=\"form-group\">\n      <label>Latitude</label>\n      <input class=\"form-control m-input\" type=\"text\" formControlName=\"latitude\" [(ngModel)]=\"latitude\">\n      <p *ngIf=\"RestaurantForm.controls.latitude.errors?.required &&  (RestaurantForm.controls.latitude.dirty || RestaurantForm.controls.latitude.touched)\"\n        class=\"lbl-err\">Latitude is required.</p>\n      <p *ngIf=\"RestaurantForm.controls.latitude.errors?.pattern\" class=\"lbl-err\">Latitude is required.</p>\n\n    </div><br>\n\n    <div class=\"form-group\">\n      <label>Longitude</label>\n      <input class=\"form-control m-input\" type=\"text\" formControlName=\"longitude\" [(ngModel)]=\"longitude\">\n      <p *ngIf=\"RestaurantForm.controls.longitude.errors?.required && (RestaurantForm.controls.longitude.dirty || RestaurantForm.controls.longitude.touched) \"\n        class=\"lbl-err\">longitude is required.</p>\n      <p *ngIf=\"RestaurantForm.controls.longitude.errors?.pattern \" class=\"lbl-err\">longitude is required.</p>\n\n    </div><br>\n\n\n    <div class=\"form-group\">\n      <label>Open Time</label>\n      <input class=\"form-control m-input\" type=\"time\" formControlName=\"openTime\" [(ngModel)]=\"openTime\">\n      <p *ngIf=\"RestaurantForm.controls.openTime.errors?.required && (RestaurantForm.controls.openTime.dirty || RestaurantForm.controls.openTime.touched)\"\n        class=\"lbl-err\">openTime is required.</p>\n    </div><br>\n\n\n    <div class=\"form-group\">\n      <label for=\"time\">Close Time</label>\n      <input class=\"form-control m-input\" type=\"time\" formControlName=\"closeTime\" [(ngModel)]=\"closeTime\">\n      <p *ngIf=\"RestaurantForm.controls.closeTime.errors?.required && (RestaurantForm.controls.closeTime.dirty || RestaurantForm.controls.closeTime.touched)\"\n        class=\"lbl-err\">closeTime is required.</p>\n    </div><br>\n\n\n    <div class=\"form-group\">\n      <label>Meal Offers</label>\n      <fieldset>\n        <div *ngFor=\"let category of RestaurantForm.controls['mealOffers'].controls; let i = index\">\n          <input type=\"checkbox\" [formControl]=\"category\" (change)=\"mealoffer($event,i)\">&nbsp;\n          <label>{{ mealOffers_arr[i]}}</label>\n        </div>\n        <br>\n      </fieldset>\n    </div>\n\n\n\n    <div class=\"form-group\">\n      <label>Contact Number</label>\n      <input class=\"form-control m-input\" type=\"tel\" formControlName=\"contactNumber\" [(ngModel)]=\"contactNumber\">\n      <p *ngIf=\"RestaurantForm.controls.contactNumber.errors?.pattern\"\n        class=\"lbl-err\"> Enter Valid ContactNumber.</p>\n\n    </div>\n\n    <div class=\"form-group\">\n      <label>Website</label>\n      <input class=\"form-control m-input\" type=\"text\" formControlName=\"website\" [(ngModel)]=\"website\">\n     <p *ngIf=\"RestaurantForm.controls.website.errors?.pattern \" class=\"lbl-err\">Website is required.</p>\n\n    </div>\n\n\n    <div class=\"form-group\">\n      <label>Upload Menu Images:</label><br />\n      <div *ngFor=\"let url of menuImages ;let i=index\">\n        <img [src]=\"url\" class=\"rounded mb-3\" width=\"50\" height=\"50\">\n        <button class=\"btn btn-danger btn-xs\" *ngIf=\"!isView\" type=\"button\" style=\"margin-left:10%\" (click)=\"deleteImage(i,'menu')\">Delete</button>\n      </div>\n      <label class=\"btn-bs-file btn btn-ls btn-info\" style=\"margin-top:6px\" text-align=\"center\" *ngIf=\"!isView\">image\n        <input type=\"file\" formControlName=\"menuImages\" accept=\"image/*\" style=\"display: none\" multiple (change)=\"imageUploading($event,'menu')\">\n      </label>\n    </div>\n\n    <div class=\"form-group\">\n      <label>Per Person Cost</label>\n      <input class=\"form-control m-input\" type=\"Number\" formControlName=\"perPersonCost\" [(ngModel)]=\"perPersonCost\">\n      <p *ngIf=\"RestaurantForm.controls.perPersonCost.errors?.required && (RestaurantForm.controls.perPersonCost.dirty || RestaurantForm.controls.perPersonCost.touched)\"\n        class=\"lbl-err\">perPersonCost is required.</p>\n      <p *ngIf=\"RestaurantForm.controls.perPersonCost.errors?.pattern && (RestaurantForm.controls.perPersonCost.dirty || RestaurantForm.controls.perPersonCost.touched)\"\n        class=\"lbl-err\"> Invalid input. Please enter only numeric value .</p>\n    </div>\n\n\n    <div class=\"form-group\">\n      <label>Photos:</label><br />\n      <div *ngFor=\"let files of restaurantImages;let i=index\">\n        <img [src]=\"files\" class=\"rounded mb-3\" width=\"50\" height=\"50\">\n        <button class=\"btn btn-danger btn-xs\" *ngIf=\"!isView\" type=\"button\" style=\"margin-left:10%\" (click)=\"deleteImage(i,'restaurant')\">Delete</button>\n      </div>\n      <label class=\"btn-bs-file btn btn-ls btn-info\" *ngIf=\"!isView\" style=\"margin-top:6px\" text-align=\"center\">image\n        <input type=\"file\" formControlName=\"restaurantImages\" accept=\"image/*\" style=\"display: none\" multiple (change)=\"imageUploading($event,'restaurant')\">\n      </label>\n    </div>\n\n    <div class=\"form-group\">\n      <label>Cuisines:</label><br />\n      <mat-form-field class=\"example-chip-list\">\n        <mat-chip-list #chipList>\n          <mat-chip *ngFor=\"let cuisinValue of cuisinExist,let i =index\" [selectable]=\"selectable\" [removable]=\"removable\"\n            (removed)=\"remove(cuisinValue)\">\n            {{cuisinValue}}\n            <span *ngIf=\"cuisinValue && !isView\" (click)='removeItem(i)' style='color:blue'>&nbsp;&nbsp;x</span>\n          </mat-chip>\n          <input placeholder=\"search cuisin\" #valuesInput formControlName=\"cuisinOffered\" [matAutocomplete]=\"auto\"\n            [matChipInputFor]=\"chipList\" [matChipInputSeparatorKeyCodes]=\"separatorKeysCodes\" [matChipInputAddOnBlur]=\"addOnBlur\"\n            (matChipInputTokenEnd)=\"add($event)\" (keyup)='valueChange($event)' (focus)='focusOutFn($event)'>\n        </mat-chip-list>\n        <mat-autocomplete #auto=\"matAutocomplete\" (optionSelected)=\"selected($event)\">\n          <mat-option *ngFor=\"let values of CuisinList \" [value]=\"values\">\n            {{CuisinList}}\n          </mat-option>\n        </mat-autocomplete>\n      </mat-form-field>\n      <p *ngIf=\"RestaurantForm.controls.cuisinOffered.errors?.required && (RestaurantForm.controls.cuisinOffered.dirty || RestaurantForm.controls.cuisinOffered.touched)\"\n        class=\"lbl-err\"> cuisin is required.</p>\n      <ul class=\"qz\" [hidden]=\"CuisinList.length ==0\">\n        <li *ngFor=\"let values of CuisinList\" (click)='selectedValue(values)' style='margin-top:3px;'>\n          {{values}}\n        </li>\n      </ul>\n    </div>\n  </form>\n\n  <div class=\"modal-footer\" >\n    <button type=\"submit\" class=\"btn btn-save\" (click)=\"addRestaurant()\">Save</button>&nbsp;&nbsp;\n    <button type=\"button\" class=\"btn btn-delete\" (click)=\"activeModal.close('Close click')\">Cancel</button>\n  </div>\n  <!-- <div class=\"modal-footer\" *ngIf=\"isAdd\">\n    <button type=\"submit\" class=\"btn btn-save\" (click)=\"addRestaurant()\" [disabled]=\"validateForm()\">Save</button>&nbsp;&nbsp;\n    <button type=\"button\" class=\"btn btn-delete\" (click)=\"activeModal.close('Close click')\">Cancel</button>\n  </div> -->\n</div>"
+module.exports = "<div class=\"modal-header\">\n  <h4 class=\"modal-title\">{{ isAdd ? 'Add' : 'Edit'}} Restaurant</h4>\n  <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"activeModal.dismiss('Cross click')\">\n    <span aria-hidden=\"true\">&times;</span>\n  </button>\n</div>\n<div class=\"modal-body\">\n  <form name=\"RestaurantForm\" [formGroup]=\"RestaurantForm\">\n    <div class=\"form-group\">\n      <label> Restaurant Name</label>\n      <input class=\"form-control m-input\" type=\"text\" formControlName=\"name\" [(ngModel)]=\"name\">\n      <p *ngIf=\"RestaurantForm.controls.name.errors?.required && (RestaurantForm.controls.name.dirty || RestaurantForm.controls.name.touched)\"\n        class=\"lbl-err\">Name is required.</p>\n      <p *ngIf=\"RestaurantForm.controls.name.errors?.pattern \" class=\"lbl-err\">Enter valid name.</p>\n    </div><br>\n\n\n    <div class=\"form-group\">\n      <label>Description</label>\n      <input class=\"form-control m-input\" type=\"text\" formControlName=\"description\" [(ngModel)]=\"description\">\n      <p *ngIf=\"RestaurantForm.controls.description.errors?.required &&  (RestaurantForm.controls.description.dirty || RestaurantForm.controls.description.touched)\"\n        class=\"lbl-err\">Description is required.</p>\n      <p *ngIf=\"RestaurantForm.controls.description.errors?.pattern \" class=\"lbl-err\">Enter valid description.</p>\n\n    </div><br>\n\n\n    <div class=\"form-group\">\n      <label>Latitude</label>\n      <input class=\"form-control m-input\" type=\"text\" formControlName=\"latitude\" [(ngModel)]=\"latitude\">\n      <p *ngIf=\"RestaurantForm.controls.latitude.errors?.required &&  (RestaurantForm.controls.latitude.dirty || RestaurantForm.controls.latitude.touched)\"\n        class=\"lbl-err\">Latitude is required.</p>\n      <p *ngIf=\"RestaurantForm.controls.latitude.errors?.pattern\" class=\"lbl-err\">Enter valid Latitude.</p>\n\n    </div><br>\n\n    <div class=\"form-group\">\n      <label>Longitude</label>\n      <input class=\"form-control m-input\" type=\"text\" formControlName=\"longitude\" [(ngModel)]=\"longitude\">\n      <p *ngIf=\"RestaurantForm.controls.longitude.errors?.required && (RestaurantForm.controls.longitude.dirty || RestaurantForm.controls.longitude.touched) \"\n        class=\"lbl-err\">longitude is required.</p>\n      <p *ngIf=\"RestaurantForm.controls.longitude.errors?.pattern \" class=\"lbl-err\">Enter valid longitude.</p>\n\n    </div><br>\n\n\n    <div class=\"form-group\">\n      <label>Open Time</label>\n      <input class=\"form-control m-input\" type=\"time\" formControlName=\"openTime\" [(ngModel)]=\"openTime\">\n      <p *ngIf=\"RestaurantForm.controls.openTime.errors?.required && (RestaurantForm.controls.openTime.dirty || RestaurantForm.controls.openTime.touched)\"\n        class=\"lbl-err\">openTime is required.</p>\n    </div><br>\n\n\n    <div class=\"form-group\">\n      <label for=\"time\">Close Time</label>\n      <input class=\"form-control m-input\" type=\"time\" formControlName=\"closeTime\" [(ngModel)]=\"closeTime\">\n      <p *ngIf=\"RestaurantForm.controls.closeTime.errors?.required && (RestaurantForm.controls.closeTime.dirty || RestaurantForm.controls.closeTime.touched)\"\n        class=\"lbl-err\">closeTime is required.</p>\n    </div><br>\n\n\n    <div class=\"form-group\">\n      <label>Meal Offers</label>\n      <fieldset>\n        <div *ngFor=\"let category of RestaurantForm.controls['mealOffers'].controls; let i = index\">\n          <input type=\"checkbox\" [formControl]=\"category\" (change)=\"mealoffer($event,i)\">&nbsp;\n          <label>{{ mealOffers_arr[i]}}</label>\n        </div>\n        <br>\n      </fieldset>\n    </div>\n\n\n\n    <div class=\"form-group\">\n      <label>Contact Number</label>\n      <input class=\"form-control m-input\" type=\"tel\" formControlName=\"contactNumber\" [(ngModel)]=\"contactNumber\">\n      <p *ngIf=\"RestaurantForm.controls.contactNumber.errors?.pattern\"\n        class=\"lbl-err\"> Enter Valid ContactNumber.</p>\n\n    </div>\n\n    <div class=\"form-group\">\n      <label>Website</label>\n      <input class=\"form-control m-input\" type=\"text\" formControlName=\"website\" [(ngModel)]=\"website\">\n     <p *ngIf=\"RestaurantForm.controls.website.errors?.pattern \" class=\"lbl-err\">Website is required.</p>\n    </div>\n\n\n    <div class=\"form-group\">\n      <label>Upload Menu Images:</label><br />\n      <div *ngFor=\"let url of menuImages ;let i=index\">\n        <img [src]=\"url\" class=\"rounded mb-3\" width=\"50\" height=\"50\">\n        <button class=\"btn btn-danger btn-xs\" *ngIf=\"!isView\" type=\"button\" style=\"margin-left:10%\" (click)=\"deleteImage(i,'menu')\">Delete</button>\n      </div>\n      <label class=\"btn-bs-file btn btn-ls btn-info\" style=\"margin-top:6px\" text-align=\"center\" *ngIf=\"!isView\">image\n        <input type=\"file\" formControlName=\"menuImages\" accept=\"image/*\" style=\"display: none\" multiple (change)=\"imageUploading($event,'menu')\">\n      </label>\n    </div>\n\n    <div class=\"form-group\">\n      <label>Per Person Cost</label>\n      <input class=\"form-control m-input\" type=\"Number\" formControlName=\"perPersonCost\" [(ngModel)]=\"perPersonCost\">\n     <p *ngIf=\"RestaurantForm.controls.perPersonCost.errors?.pattern && (RestaurantForm.controls.perPersonCost.dirty || RestaurantForm.controls.perPersonCost.touched)\"\n        class=\"lbl-err\"> Invalid input. Please enter only numeric value .</p>\n    </div>\n\n\n    <div class=\"form-group\">\n      <label>Photos:</label><br />\n      <div *ngFor=\"let files of restaurantImages;let i=index\">\n        <img [src]=\"files\" class=\"rounded mb-3\" width=\"50\" height=\"50\">\n        <button class=\"btn btn-danger btn-xs\" *ngIf=\"!isView\" type=\"button\" style=\"margin-left:10%\" (click)=\"deleteImage(i,'restaurant')\">Delete</button>\n      </div>\n      <label class=\"btn-bs-file btn btn-ls btn-info\" *ngIf=\"!isView\" style=\"margin-top:6px\" text-align=\"center\">image\n        <input type=\"file\" formControlName=\"restaurantImages\" accept=\"image/*\" style=\"display: none\" multiple (change)=\"imageUploading($event,'restaurant')\">\n     </label>\n    </div>\n\n    <div class=\"form-group\">\n      <label>Cuisines:</label><br />\n      <mat-form-field class=\"example-chip-list\">\n        <mat-chip-list #chipList>\n          <mat-chip *ngFor=\"let cuisinValue of cuisinExist,let i =index\" [selectable]=\"selectable\" [removable]=\"removable\"\n            (removed)=\"remove(cuisinValue)\">\n            {{cuisinValue}}\n            <span *ngIf=\"cuisinValue && !isView\" (click)='removeItem(i)' style='color:blue'>&nbsp;&nbsp;x</span>\n          </mat-chip>\n          <input placeholder=\"search cuisin\" #valuesInput formControlName=\"cuisinOffered\" [matAutocomplete]=\"auto\"\n            [matChipInputFor]=\"chipList\" [matChipInputSeparatorKeyCodes]=\"separatorKeysCodes\" [matChipInputAddOnBlur]=\"addOnBlur\"\n            (matChipInputTokenEnd)=\"add($event)\" (keyup)='valueChange($event)' (focus)='focusOutFn($event)'>\n        </mat-chip-list>\n        <mat-autocomplete #auto=\"matAutocomplete\" (optionSelected)=\"selected($event)\">\n          <mat-option *ngFor=\"let values of CuisinList \" [value]=\"values\">\n            {{CuisinList}}\n          </mat-option>\n        </mat-autocomplete>\n      </mat-form-field>\n      <p *ngIf=\"RestaurantForm.controls.cuisinOffered.errors?.required && (RestaurantForm.controls.cuisinOffered.dirty || RestaurantForm.controls.cuisinOffered.touched)\"\n        class=\"lbl-err\"> cuisin is required.</p>\n      <ul class=\"qz\" [hidden]=\"CuisinList.length ==0\">\n        <li *ngFor=\"let values of CuisinList\" (click)='selectedValue(values)' style='margin-top:3px;'>\n          {{values}}\n        </li>\n      </ul>\n    </div>\n  </form>\n\n  <div class=\"modal-footer\" *ngIf=\"!isAdd\" >\n    <button type=\"submit\" class=\"btn btn-save\" (click)=\"addRestaurant()\">Save</button>&nbsp;&nbsp;\n    <button type=\"button\" class=\"btn btn-delete\" (click)=\"activeModal.close('Close click')\">Cancel</button>\n  </div>\n  <div class=\"modal-footer\" *ngIf=\"isAdd\">\n    <button type=\"submit\" class=\"btn btn-save\" (click)=\"addRestaurant()\" [disabled]=\"validateForm()\">Save</button>&nbsp;&nbsp;\n    <button type=\"button\" class=\"btn btn-delete\" (click)=\"activeModal.close('Close click')\">Cancel</button>\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -62500,18 +62500,21 @@ module.exports = "<div class=\"modal-header\">\n  <h4 class=\"modal-title\">{{ i
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AddEditRestaurantComponent", function() { return AddEditRestaurantComponent; });
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
-/* harmony import */ var _restaurant_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../restaurant.service */ "./src/app/theme/pages/default/angular/restaurant/restaurant.service.ts");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
-/* harmony import */ var ngx_toastr__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ngx-toastr */ "./node_modules/ngx-toastr/fesm5/ngx-toastr.js");
-/* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ "./node_modules/@ng-bootstrap/ng-bootstrap/fesm5/ng-bootstrap.js");
-/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
-/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_7__);
-/* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm5/material.es5.js");
-/* harmony import */ var _angular_cdk_keycodes__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @angular/cdk/keycodes */ "./node_modules/@angular/cdk/esm5/keycodes.es5.js");
+/* harmony import */ var ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ng4-loading-spinner */ "./node_modules/ng4-loading-spinner/ng4-loading-spinner.umd.js");
+/* harmony import */ var ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _restaurant_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../restaurant.service */ "./src/app/theme/pages/default/angular/restaurant/restaurant.service.ts");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _services_script_loader_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../../../../_services/script-loader.service */ "./src/app/_services/script-loader.service.ts");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var ngx_toastr__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ngx-toastr */ "./node_modules/ngx-toastr/fesm5/ngx-toastr.js");
+/* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ "./node_modules/@ng-bootstrap/ng-bootstrap/fesm5/ng-bootstrap.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm5/material.es5.js");
+/* harmony import */ var _angular_cdk_keycodes__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @angular/cdk/keycodes */ "./node_modules/@angular/cdk/esm5/keycodes.es5.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -62566,21 +62569,28 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
 
 
 
-// import { timingSafeEqual } from 'crypto';
+
+
+function _window() {
+    // return the global native browser window object
+    return window;
+}
 var AddEditRestaurantComponent = /** @class */ (function () {
-    function AddEditRestaurantComponent(activeModal, _router, _formBuilder, modalService, restaurantService, toastService) {
+    function AddEditRestaurantComponent(activeModal, _router, _formBuilder, _script, modalService, restaurantService, toastService, spinnerService) {
         this.activeModal = activeModal;
         this._router = _router;
         this._formBuilder = _formBuilder;
+        this._script = _script;
         this.modalService = modalService;
         this.restaurantService = restaurantService;
         this.toastService = toastService;
+        this.spinnerService = spinnerService;
         this.CuisinList = [];
         this.cuisinExist = [];
         this.selectable = true;
         this.removable = true;
         this.filteredValues = [];
-        this.separatorKeysCodes = [_angular_cdk_keycodes__WEBPACK_IMPORTED_MODULE_9__["ENTER"], _angular_cdk_keycodes__WEBPACK_IMPORTED_MODULE_9__["COMMA"]];
+        this.separatorKeysCodes = [_angular_cdk_keycodes__WEBPACK_IMPORTED_MODULE_11__["ENTER"], _angular_cdk_keycodes__WEBPACK_IMPORTED_MODULE_11__["COMMA"]];
         this.mealOffers_arr = ["BREAKFAST", "LUNCH", "DINNER", "ALL"];
         this.loading = false;
         this.submitted = false;
@@ -62592,6 +62602,17 @@ var AddEditRestaurantComponent = /** @class */ (function () {
     }
     AddEditRestaurantComponent.prototype.ngOnInit = function () {
         this.buildRestaurantForm();
+    };
+    AddEditRestaurantComponent.prototype.ngAfterViewInit = function () {
+        var scripts = [];
+        if (!_window().isScriptLoadedUsermgmt) {
+            scripts = ['assets/vendors/custom/datatables/datatables.bundle.js'];
+        }
+        var that = this;
+        this._script.loadScripts('app-restaurant', scripts).then(function () {
+            _window().isScriptLoadedUsermgmt = true;
+            that._script.loadScripts('app-restaurant', ['assets/demo/default/custom/crud/datatables/basic/paginations.js']);
+        });
     };
     Object.defineProperty(AddEditRestaurantComponent.prototype, "f", {
         get: function () {
@@ -62612,19 +62633,19 @@ var AddEditRestaurantComponent = /** @class */ (function () {
             this.arr_value = this.mealOffers;
         }
         this.RestaurantForm = this._formBuilder.group({
-            name: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_4__["Validators"].required, _angular_forms__WEBPACK_IMPORTED_MODULE_4__["Validators"].pattern(/^(?!\s*$).+/)]],
-            description: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_4__["Validators"].required, _angular_forms__WEBPACK_IMPORTED_MODULE_4__["Validators"].pattern(/^(?!\s*$).+/)]],
-            latitude: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_4__["Validators"].required, _angular_forms__WEBPACK_IMPORTED_MODULE_4__["Validators"].pattern(/^(?!\s*$).+/)]],
-            longitude: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_4__["Validators"].required, _angular_forms__WEBPACK_IMPORTED_MODULE_4__["Validators"].pattern(/^(?!\s*$).+/)]],
-            openTime: [, _angular_forms__WEBPACK_IMPORTED_MODULE_4__["Validators"].required],
-            closeTime: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_4__["Validators"].required],
+            name: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_6__["Validators"].required, _angular_forms__WEBPACK_IMPORTED_MODULE_6__["Validators"].pattern(/^(?!\s*$).+/)]],
+            description: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_6__["Validators"].required, _angular_forms__WEBPACK_IMPORTED_MODULE_6__["Validators"].pattern(/^(?!\s*$).+/)]],
+            latitude: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_6__["Validators"].required, _angular_forms__WEBPACK_IMPORTED_MODULE_6__["Validators"].pattern(/^[+,-]?[0-9]{1,2}(?:\.[0-9]{1,30})?$/)]],
+            longitude: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_6__["Validators"].required, _angular_forms__WEBPACK_IMPORTED_MODULE_6__["Validators"].pattern(/^[+,-]?[0-9]{1,3}(?:\.[0-9]{1,30})?$/)]],
+            openTime: [, _angular_forms__WEBPACK_IMPORTED_MODULE_6__["Validators"].required],
+            closeTime: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_6__["Validators"].required],
             restaurantImages: [''],
-            contactNumber: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_4__["Validators"].required, _angular_forms__WEBPACK_IMPORTED_MODULE_4__["Validators"].pattern(/^[+]*([(]{0,1}[0-9]{1,4}[)]{0,1})?[-\s\./0-9]{8,14}[0-9]$/)]],
-            website: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_4__["Validators"].required, _angular_forms__WEBPACK_IMPORTED_MODULE_4__["Validators"].pattern(/^((ftp|http|https):\/\/)?(www.)?(?!.*(ftp|http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+((\/)[\w#]+)*(\/\w+\?[a-zA-Z0-9_]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?$/)]],
+            contactNumber: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_6__["Validators"].pattern(/^[+]*([(]{0,1}[0-9]{1,4}[)]{0,1})?[-\s\./0-9]{8,14}[0-9]$/)]],
+            website: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_6__["Validators"].pattern(/^((ftp|http|https):\/\/)?(www.)?(?!.*(ftp|http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+((\/)[\w#]+)*(\/\w+\?[a-zA-Z0-9_]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?$/)],
             menuImages: [''],
             mealOffers: this._formBuilder.array(this.arr_value),
-            perPersonCost: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_4__["Validators"].required, _angular_forms__WEBPACK_IMPORTED_MODULE_4__["Validators"].pattern(/^([1-9][0-9]*)$/)]],
-            cuisinOffered: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_4__["Validators"].required]
+            perPersonCost: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_6__["Validators"].pattern(/^([1-9][0-9]*)$/)]],
+            cuisinOffered: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_6__["Validators"].required]
         });
     };
     AddEditRestaurantComponent.prototype.add = function (event) {
@@ -62647,8 +62668,8 @@ var AddEditRestaurantComponent = /** @class */ (function () {
         if (this.cuisinExist.indexOf(event) == -1)
             this.cuisinExist.push(event);
         this.valuesInput.nativeElement.value = '';
-        jquery__WEBPACK_IMPORTED_MODULE_3__('ul.qz li').hide();
-        jquery__WEBPACK_IMPORTED_MODULE_3__('ul.qz').hide();
+        jquery__WEBPACK_IMPORTED_MODULE_4__('ul.qz li').hide();
+        jquery__WEBPACK_IMPORTED_MODULE_4__('ul.qz').hide();
     };
     AddEditRestaurantComponent.prototype.focusOutFn = function (event) {
         this.CuisinList = [];
@@ -62658,8 +62679,8 @@ var AddEditRestaurantComponent = /** @class */ (function () {
     };
     AddEditRestaurantComponent.prototype.valueChange = function (value) {
         var _this = this;
-        jquery__WEBPACK_IMPORTED_MODULE_3__('ul.qz li').show();
-        jquery__WEBPACK_IMPORTED_MODULE_3__('ul.qz').show();
+        jquery__WEBPACK_IMPORTED_MODULE_4__('ul.qz li').show();
+        jquery__WEBPACK_IMPORTED_MODULE_4__('ul.qz').show();
         this.CuisinList = [];
         this.cuisinExist = this.cuisinExist ? this.cuisinExist : [];
         if (value.key == 'Enter' || value.key == ',') {
@@ -62873,11 +62894,12 @@ var AddEditRestaurantComponent = /** @class */ (function () {
                         if (this.RestaurantForm.invalid) {
                             return [2 /*return*/];
                         }
+                        this.spinnerService.show();
                         return [4 /*yield*/, this.restaurantService.addRestaurant(addObj).subscribe(function (data) {
                                 _this.activeModal.dismiss();
                                 _this.getAllRestaurant();
                                 if (data['code'] == 201) {
-                                    sweetalert2__WEBPACK_IMPORTED_MODULE_7___default()({
+                                    sweetalert2__WEBPACK_IMPORTED_MODULE_9___default()({
                                         position: 'center',
                                         type: 'success',
                                         title: 'Added Successfully',
@@ -62887,7 +62909,7 @@ var AddEditRestaurantComponent = /** @class */ (function () {
                                     _this.activeModal.dismiss();
                                 }
                                 else {
-                                    sweetalert2__WEBPACK_IMPORTED_MODULE_7___default()({
+                                    sweetalert2__WEBPACK_IMPORTED_MODULE_9___default()({
                                         type: 'error',
                                         text: data['message']
                                     });
@@ -62899,11 +62921,12 @@ var AddEditRestaurantComponent = /** @class */ (function () {
                         _c.sent();
                         return [3 /*break*/, 4];
                     case 3:
+                        this.spinnerService.show();
                         this.restaurantService.editRestaurant(addObj, this.id).subscribe(function (data) {
                             _this.getAllRestaurant();
                             _this.activeModal.dismiss();
                             if (data['code'] == 200) {
-                                sweetalert2__WEBPACK_IMPORTED_MODULE_7___default()({
+                                sweetalert2__WEBPACK_IMPORTED_MODULE_9___default()({
                                     position: 'center',
                                     type: 'success',
                                     title: 'Updated Successfully',
@@ -62913,7 +62936,7 @@ var AddEditRestaurantComponent = /** @class */ (function () {
                                 _this.activeModal.dismiss();
                             }
                             else {
-                                sweetalert2__WEBPACK_IMPORTED_MODULE_7___default()({
+                                sweetalert2__WEBPACK_IMPORTED_MODULE_9___default()({
                                     type: 'error',
                                     text: data['message']
                                 });
@@ -62942,77 +62965,79 @@ var AddEditRestaurantComponent = /** @class */ (function () {
         }
     };
     __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewChild"])('valuesInput'),
-        __metadata("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ElementRef"])
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])('valuesInput'),
+        __metadata("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_1__["ElementRef"])
     ], AddEditRestaurantComponent.prototype, "valuesInput", void 0);
     __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewChild"])('auto'),
-        __metadata("design:type", _angular_material__WEBPACK_IMPORTED_MODULE_8__["MatAutocomplete"])
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])('auto'),
+        __metadata("design:type", _angular_material__WEBPACK_IMPORTED_MODULE_10__["MatAutocomplete"])
     ], AddEditRestaurantComponent.prototype, "matAutocomplete", void 0);
     __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])(),
         __metadata("design:type", Object)
     ], AddEditRestaurantComponent.prototype, "name", void 0);
     __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])(),
         __metadata("design:type", Object)
     ], AddEditRestaurantComponent.prototype, "description", void 0);
     __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])(),
         __metadata("design:type", Object)
     ], AddEditRestaurantComponent.prototype, "latitude", void 0);
     __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])(),
         __metadata("design:type", Object)
     ], AddEditRestaurantComponent.prototype, "longitude", void 0);
     __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])(),
         __metadata("design:type", Object)
     ], AddEditRestaurantComponent.prototype, "photos", void 0);
     __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])(),
         __metadata("design:type", Object)
     ], AddEditRestaurantComponent.prototype, "openTime", void 0);
     __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])(),
         __metadata("design:type", Object)
     ], AddEditRestaurantComponent.prototype, "closeTime", void 0);
     __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])(),
         __metadata("design:type", Object)
     ], AddEditRestaurantComponent.prototype, "contactNumber", void 0);
     __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])(),
         __metadata("design:type", Object)
     ], AddEditRestaurantComponent.prototype, "website", void 0);
     __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])(),
         __metadata("design:type", Object)
     ], AddEditRestaurantComponent.prototype, "perPersonCost", void 0);
     __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])(),
         __metadata("design:type", Object)
     ], AddEditRestaurantComponent.prototype, "mealOffers", void 0);
     __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])(),
         __metadata("design:type", Object)
     ], AddEditRestaurantComponent.prototype, "menu", void 0);
     __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])(),
         __metadata("design:type", Object)
     ], AddEditRestaurantComponent.prototype, "cuisinOffered", void 0);
     AddEditRestaurantComponent = __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
             selector: 'app-add-edit-restaurant',
             template: __webpack_require__(/*! ./add-edit-restaurant.component.html */ "./src/app/theme/pages/default/angular/restaurant/add-edit-restaurant/add-edit-restaurant.component.html"),
             styles: [__webpack_require__(/*! ./add-edit-restaurant.component.css */ "./src/app/theme/pages/default/angular/restaurant/add-edit-restaurant/add-edit-restaurant.component.css")]
         }),
-        __metadata("design:paramtypes", [_ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_6__["NgbActiveModal"],
-            _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"],
-            _angular_forms__WEBPACK_IMPORTED_MODULE_4__["FormBuilder"],
-            _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_6__["NgbModal"],
-            _restaurant_service__WEBPACK_IMPORTED_MODULE_2__["RestaurantService"],
-            ngx_toastr__WEBPACK_IMPORTED_MODULE_5__["ToastrService"]])
+        __metadata("design:paramtypes", [_ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_8__["NgbActiveModal"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"],
+            _angular_forms__WEBPACK_IMPORTED_MODULE_6__["FormBuilder"],
+            _services_script_loader_service__WEBPACK_IMPORTED_MODULE_5__["ScriptLoaderService"],
+            _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_8__["NgbModal"],
+            _restaurant_service__WEBPACK_IMPORTED_MODULE_3__["RestaurantService"],
+            ngx_toastr__WEBPACK_IMPORTED_MODULE_7__["ToastrService"],
+            ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_0__["Ng4LoadingSpinnerService"]])
     ], AddEditRestaurantComponent);
     return AddEditRestaurantComponent;
 }());
@@ -63028,7 +63053,7 @@ var AddEditRestaurantComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".btn-add {\n    border-radius: 1.1rem;\n    padding: 1.0rem 1.65rem;\n    font-size: 1.25rem;\n    line-height: .6;\n    color: white;\n    border-color: #e95e37;\n    margin-left: 88%;\n    margin-bottom: 16px;\n    background: linear-gradient(to right, #fc4a1a, #f7b733);\n}\n.lbl-err {\n    color: red;\n }\n.btn-edit{\n       background-color: transparent;\n       border:none;\n       color:gray\n      }\n.btn-approve{\n        color:white;\n        background-color: transparent;\n        background: #029c16;\n        border-color:  #029c16;\n\n    }\n.btn-delete{\n       border:none;\n       background-color: transparent;\n       color:gray\n       \n    }\n.category-image {\n        /* height: 85px; */\n        width: 130px;\n        margin-left: 122px;\n}\n.btn-del{\n    padding: 1.25rem 1.65rem;\n    font-size: 1.25rem;\n    line-height: 1.5;\n    color:white;\n    margin-right:45px;\n     background-color: transparent;\n     background: #a73a08;\n    border-color: #a73a08;\n}\n.btn-bs-file btn btn-ls btn-info{\n    text-align: center;\n\n}\n.label {\n    font-weight: 500;\n}\n.header{\n    font-size: 3.15rem;\n    padding: 1.30rem 4.65rem;\n    text-align: center;\n   }\n.dataTables_wrapper .pagination .page-item.active>.page-link {\n    background: linear-gradient(45deg, #fc4a1a, #f7b733) !important;\n    color: #fff;\n }\n.dataTables_wrapper .pagination .page-item:hover>.page-link {\n    background: linear-gradient(45deg, #fc4a1a, #f7b733) !important;\n    color: #fff;\n }\n.btn-view{\n    background-color: transparent;\n    border:none;\n    color:gray\n }\n/* .rounded mb-3{\n       height: 50;\n       width: 50;\n   } */\n.btn.m-btn--hover-brand:hover, .btn.m-btn--hover-brand:focus, .btn.m-btn--hover-brand:active{\n    background: linear-gradient(45deg, #fc4a1a, #f7b733) !important;\n    border: none;\n }\n.example-chip-list {\n    width: 100%;\n  }\n.ul{\nbox-shadow: 0 4px 4px 0 rgba(0,0,0,0.1);\n}\n.li:hover{\nbackground: #fafafa;\n}\n.dataTables_wrapper .dataTables_paginate .paginate_button:hover {\n    color: white !important;\n    border: 1px solid #f1d7a2;\n    background-color:#f1d7a2;\n    background:#f1d7a2\n}\nul.qz{\n    list-style: none;\n    box-shadow: 0 4px 4px 0 rgba(0,0,0,0.1);\n    padding:20px;\n    border:1px solid #d4d4d4;\n\n}\nul.qz li{\n    font-size:14px;\n    padding:4px;\n    cursor: pointer;\n}\nul.qz li:hover{\n    background: #d4d4d4;\n}\n.container-fluid {\n    width: 85%;\n    padding-right: 15px;\n    padding-left: 15px;\n    margin-right: auto;\n    margin-left: auto;\n}\ntable.dataTable thead .sorting_asc {\n background-image: none;\n}\ntable.dataTable thead th.sorting,\n   table.dataTable thead th.sorting_asc,\n   table.dataTable thead th.sorting_desc {\n   background: none;\n   padding: 7px 8px;\n   }\n.m-badge {\n    background:linear-gradient(45deg, #fc4a1a, #f7b733) !important;\n    color:white;\n    font-weight: bold !important;\n   }\n.fa-eye:before {\n    content: \"\\f06e\";\n    color: dimgrey ;\n}\n.fa-edit:before, .fa-pencil-square-o:before {\n    content: \"\\f044\";\n    color: dimgrey;\n}\n.fa-trash-alt:before {\n    content: \"\\f2ed\";\n    color: dimgrey;\n}\n.btn-save {\n    color: white;\n    width: 80px;\n    background: #49a558;\n    border-radius: 25%;\n    opacity: 1.5;\n}\n.btn-delete{\n    color: white;\n    width: 80px;\n    background: #a73a08;\n    opacity: 1.5;\n    border-radius: 25%;\n}\n.form-control:focus {\n    border-color: lightslategrey;\n    color: #575962;\n    box-shadow: none;\n    border-radius: 0%\n}\n.form-control {\n    font-family: sans-serif,Arial;\n    border-radius: 0;\n    /* border-radius: .25rem; */\n}\n"
+module.exports = ".btn-add {\n    border-radius: 1.1rem;\n    padding: 1.0rem 1.65rem;\n    font-size: 1.25rem;\n    line-height: .6;\n    color: white;\n    border-color: #e95e37;\n    margin-left: 88%;\n    margin-bottom: 16px;\n    background: linear-gradient(to right, #fc4a1a, #f7b733);\n}\n.lbl-err {\n    color: red;\n }\n.btn-edit{\n       background-color: transparent;\n       border:none;\n       color:gray\n      }\n.btn-approve{\n        color:white;\n        background-color: transparent;\n        background: #029c16;\n        border-color:  #029c16;\n\n    }\n.btn-delete{\n       border:none;\n       background-color: transparent;\n       color:gray\n       \n    }\n.category-image {\n        /* height: 85px; */\n        width: 130px;\n        margin-left: 122px;\n}\n.btn-del{\n    padding: 1.25rem 1.65rem;\n    font-size: 1.25rem;\n    line-height: 1.5;\n    color:white;\n    margin-right:45px;\n     background-color: transparent;\n     background: #a73a08;\n    border-color: #a73a08;\n}\n.btn-bs-file btn btn-ls btn-info{\n    text-align: center;\n\n}\n.label {\n    font-weight: 500;\n}\n.header{\n    font-size: 2.25rem;\n    padding: 1.30rem 4.65rem;\n    text-align: center;\n   }\n.dataTables_wrapper .pagination .page-item.active>.page-link {\n    background: linear-gradient(45deg, #fc4a1a, #f7b733) !important;\n    color: #fff;\n }\n.dataTables_wrapper .pagination .page-item:hover>.page-link {\n    background: linear-gradient(45deg, #fc4a1a, #f7b733) !important;\n    color: #fff;\n }\n.btn-view{\n    background-color: transparent;\n    border:none;\n    color:gray\n }\n/* .rounded mb-3{\n       height: 50;\n       width: 50;\n   } */\n.btn.m-btn--hover-brand:hover, .btn.m-btn--hover-brand:focus, .btn.m-btn--hover-brand:active{\n    background: linear-gradient(45deg, #fc4a1a, #f7b733) !important;\n    border: none;\n }\n.example-chip-list {\n    width: 100%;\n  }\n.ul{\nbox-shadow: 0 4px 4px 0 rgba(0,0,0,0.1);\n}\n.li:hover{\nbackground: #fafafa;\n}\n.dataTables_wrapper .dataTables_paginate .paginate_button:hover {\n    color: white !important;\n    border: 1px solid #f1d7a2;\n    background-color:#f1d7a2;\n    background:#f1d7a2\n}\nul.qz{\n    list-style: none;\n    box-shadow: 0 4px 4px 0 rgba(0,0,0,0.1);\n    padding:20px;\n    border:1px solid #d4d4d4;\n\n}\nul.qz li{\n    font-size:14px;\n    padding:4px;\n    cursor: pointer;\n}\nul.qz li:hover{\n    background: #d4d4d4;\n}\n.container-fluid {\n    width: 85%;\n    padding-right: 15px;\n    padding-left: 15px;\n    margin-right: auto;\n    margin-left: auto;\n}\ntable.dataTable thead .sorting_asc {\n background-image: none;\n}\ntable.dataTable thead th.sorting,\n   table.dataTable thead th.sorting_asc,\n   table.dataTable thead th.sorting_desc {\n   background: none;\n   padding: 7px 8px;\n   }\n.m-badge {\n    background:linear-gradient(45deg, #fc4a1a, #f7b733) !important;\n    color:white;\n    font-weight: bold !important;\n   }\n.fa-eye:before {\n    content: \"\\f06e\";\n    color: dimgrey ;\n}\n.fa-edit:before, .fa-pencil-square-o:before {\n    content: \"\\f044\";\n    color: dimgrey;\n}\n.fa-trash-alt:before {\n    content: \"\\f2ed\";\n    color: dimgrey;\n}\n.btn-save {\n    color: white;\n    width: 80px;\n    background: #49a558;\n    border-radius: 25%;\n    opacity: 1.5;\n}\n.btn-delete{\n    color: white;\n    width: 80px;\n    background: #a73a08;\n    opacity: 1.5;\n    border-radius: 25%;\n}\n.form-control:focus {\n    border-color: lightslategrey;\n    color: #575962;\n    box-shadow: none;\n    border-radius: 0%\n}\n.form-control {\n    font-family: sans-serif,Arial;\n    border-radius: 0;\n    /* border-radius: .25rem; */\n}\n.t1{\n    transition: none !important;\n}\n\n"
 
 /***/ }),
 
@@ -63039,7 +63064,7 @@ module.exports = ".btn-add {\n    border-radius: 1.1rem;\n    padding: 1.0rem 1.
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<h2 class=\"header\">Restaurants</h2>\n<button class=\"btn-add\" (click)=\"open()\">Add</button>\n\n\n<table *ngIf=\"RestaurantList\" datatable class=\"table-bordered table-hover\">\n  <thead>\n    <tr>\n      <td style=\"font-weight: bold; width:10%;\">Sr.</td>\n      <td style=\"font-weight: bold; width: 40%;\">Restaurant Name</td>\n      <th style=\"width:20%\"> &nbsp;&nbsp;&nbsp;Status</th>\n      <th style=\"width:20%;\"> &nbsp; Action</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr *ngFor=\"let list of RestaurantList;let i=index\">\n      <td>{{i+1}}</td>\n      <td>{{list.name}}</td>\n      <td><span class=\"m-badge  m-badge--wide\">{{list.status}}</span></td>\n      <td>\n\n        <button type=\"button\" class=\"m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill\"\n          data-toggle=\"m-tooltip\" data-placement=\"top\" title=\"View\" (click)=\"viewRestaurant(restaurant)\">\n          <i class=\"fas fa-eye\"></i>\n        </button>\n\n        <ng-template #restaurant let-c=\"close\" let-d=\"dismiss\">\n          <div class=\"modal-header\">\n            <h4 class=\"modal-title\">View Restaurant</h4>\n            <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"d('Cross click')\">\n              <span aria-hidden=\"true\">&times;</span>\n            </button>\n          </div>\n          <div class=\"modal-body\">\n            <div class=\"form-group\">\n              <label> Restaurant Name</label>\n              <input class=\"form-control m-input\" type=\"text\" [(ngModel)]=\"list.name\" disabled />\n            </div><br>\n\n\n            <div class=\"form-group\">\n              <label>Description</label>\n              <input class=\"form-control m-input\" type=\"text\" [(ngModel)]=\"list.description\" disabled />\n            </div><br>\n\n\n            <div class=\"form-group\">\n              <label>Latitude</label>\n              <input class=\"form-control m-input\" type=\"text\" [(ngModel)]=\"list.location.coordinates[0]\" disabled />\n            </div><br>\n\n            <div class=\"form-group\">\n              <label>Longitude</label>\n              <input class=\"form-control m-input\" type=\"text\" [(ngModel)]=\"list.location.coordinates[1]\" disabled />\n            </div><br>\n\n\n            <div class=\"form-group\">\n              <label>Open Time</label>\n              <input class=\"form-control m-input\"  [(ngModel)]=\"list.openTime\" disabled />\n            </div><br>\n\n            <div class=\"form-group\">\n              <label for=\"time\">Close Time</label>\n              <input class=\"form-control m-input\" [(ngModel)]=\"list.closeTime\" disabled />\n            </div><br>\n\n\n            <div class=\"form-group\">\n              <label>Meal Offers</label>\n              <div *ngFor=\"let category of list.mealOffers; let i = index\">\n                <li> {{category}}</li>\n              </div>\n              <br>\n            </div>\n\n            <div class=\"form-group\">\n              <label>Contact Number</label>\n              <input class=\"form-control m-input\" type=\"tel\" [(ngModel)]=\"list.contactNumber\" disabled />\n            </div>\n\n            <div class=\"form-group\">\n              <label>Website</label>\n              <input class=\"form-control m-input\" type=\"text\" [(ngModel)]=\"list.website\" disabled />\n            </div>\n\n\n            <div class=\"form-group\">\n              <label>Upload Menu Images:</label><br />\n              <div *ngFor=\"let url of list.menu ;let i=index\">\n                <img [src]=\"url\" class=\"rounded mb-3\" width=\"50\" height=\"50\">\n              </div>\n            </div>\n\n            <div class=\"form-group\">\n              <label>Per Person Cost</label>\n              <input class=\"form-control m-input\" type=\"Number\" [(ngModel)]=\"list.perPersonCost\" disabled />\n            </div>\n\n\n            <div class=\"form-group\">\n              <label>Photos:</label><br />\n              <div *ngFor=\"let url of list.photos ;let i=index\">\n                <img [src]=\"url\" class=\"rounded mb-3\" width=\"50\" height=\"50\">\n              </div>\n            </div>\n\n            <div class=\"form-group\">\n              <label>Cuisines:</label><br />\n              <mat-form-field class=\"example-chip-list\">\n                <mat-chip-list #chipList>\n                  <mat-chip *ngFor=\"let cuisinValue of list.cuisinOffered,let i =index\" [selectable]=\"selectable\">\n                    {{cuisinValue}}\n                  </mat-chip>\n                </mat-chip-list>\n              </mat-form-field>\n            </div>\n          </div>\n        </ng-template>\n        &nbsp;&nbsp;\n\n\n        <button type=\"button\" class=\"m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill\"\n          data-toggle=\"m-tooltip\" data-placement=\"top\" title=\"Edit\" (click)=\"open(list,'edit')\">\n          <i class=\"fas fa-edit\"></i>\n        </button> &nbsp;&nbsp;\n        <button type=\"button\" class=\"m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill\"\n          data-toggle=\"m-tooltip\" data-placement=\"top\" title=\"Delete\" (click)=\"delete(list._id)\">\n          <i class=\"fas fa-trash-alt\"></i>\n        </button>\n      </td>\n    </tr>\n  </tbody>\n</table>\n<script>\n  $(document).ready(function () {\n    $('[data-toggle=\"m-tooltip\"]').tooltip();\n  });\n</script>"
+module.exports = "<h2 class=\"header\">Restaurants</h2>\n<button class=\"btn-add\" (click)=\"open()\">Add</button>\n\n\n<table class=\"table table-striped- table-bordered table-hover table-checkable\" datatable [dtOptions]=\"dtOptions\"\n[dtTrigger]=\"dtTrigger\">\n  <thead>\n    <tr>\n      <td style=\"font-weight: bold; width:10%;\">Sr.</td>\n      <td style=\"font-weight: bold; width: 40%;\">Restaurant Name</td>\n      <th style=\"width:20%\"> &nbsp;&nbsp;&nbsp;Status</th>\n      <th style=\"width:20%;\"> &nbsp; Action</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr  *ngFor=\"let list of RestaurantList;let i=index\">\n      <td >{{i+1}}</td>\n      <td>{{list.name}}</td>\n      <td><span class=\"m-badge  m-badge--wide\">{{list.status}}</span></td>\n      <td>\n       <button type=\"button\" class=\"m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill\"\n          data-toggle=\"m-tooltip\" data-placement=\"top\" title=\"View\" (click)=\"viewRestaurant(restaurant)\">\n          <i class=\"fas fa-eye\"></i>\n        </button>\n\n        <ng-template #restaurant let-c=\"close\" let-d=\"dismiss\">\n          <div class=\"modal-header\">\n            <h4 class=\"modal-title\">View Restaurant</h4>\n            <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"d('Cross click')\">\n              <span aria-hidden=\"true\">&times;</span>\n            </button>\n          </div>\n          <div class=\"modal-body\">\n            <div class=\"form-group\">\n              <label> Restaurant Name</label>\n              <input class=\"form-control m-input\" type=\"text\" [(ngModel)]=\"list.name\" disabled />\n            </div><br>\n\n\n            <div class=\"form-group\">\n              <label>Description</label>\n              <input class=\"form-control m-input\" type=\"text\" [(ngModel)]=\"list.description\" disabled />\n            </div><br>\n\n\n            <div class=\"form-group\">\n              <label>Latitude</label>\n              <input class=\"form-control m-input\" type=\"text\" [(ngModel)]=\"list.location.coordinates[0]\" disabled />\n            </div><br>\n\n            <div class=\"form-group\">\n              <label>Longitude</label>\n              <input class=\"form-control m-input\" type=\"text\" [(ngModel)]=\"list.location.coordinates[1]\" disabled />\n            </div><br>\n\n\n            <div class=\"form-group\">\n              <label>Open Time</label>\n              <input class=\"form-control m-input\"  [(ngModel)]=\"list.openTime\" disabled />\n            </div><br>\n\n            <div class=\"form-group\">\n              <label for=\"time\">Close Time</label>\n              <input class=\"form-control m-input\" [(ngModel)]=\"list.closeTime\" disabled />\n            </div><br>\n\n\n            <div class=\"form-group\">\n              <label>Meal Offers</label>\n              <div *ngFor=\"let category of list.mealOffers; let i = index\">\n                <li> {{category}}</li>\n              </div>\n              <br>\n            </div>\n\n            <div class=\"form-group\">\n              <label>Contact Number</label>\n              <input class=\"form-control m-input\" type=\"tel\" [(ngModel)]=\"list.contactNumber\" disabled />\n            </div>\n\n            <div class=\"form-group\">\n              <label>Website</label>\n              <input class=\"form-control m-input\" type=\"text\" [(ngModel)]=\"list.website\" disabled />\n            </div>\n\n\n            <div class=\"form-group\">\n              <label>Upload Menu Images:</label><br />\n              <div *ngFor=\"let url of list.menu ;let i=index\">\n                <img [src]=\"url\" *ngIf=\"url\" class=\"rounded mb-3\" width=\"50\" height=\"50\">\n              </div>\n            </div>\n\n            <div class=\"form-group\">\n              <label>Per Person Cost</label>\n              <input class=\"form-control m-input\" type=\"Number\" [(ngModel)]=\"list.perPersonCost\" disabled />\n            </div>\n\n\n            <div class=\"form-group\"> \n              <label>Photos:</label><br />\n              <div *ngFor=\"let url of list.photos ;let i=index\">\n                <img [src]=\"url\" *ngIf=\"url\" class=\"rounded mb-3\" width=\"50\" height=\"50\">\n              </div>\n            </div>\n\n            <div class=\"form-group\">\n              <label>Cuisines:</label><br />\n              <mat-form-field class=\"example-chip-list\">\n                <mat-chip-list #chipList>\n                  <mat-chip *ngFor=\"let cuisinValue of list.cuisinOffered,let i =index\" [selectable]=\"selectable\">\n                    {{cuisinValue}}\n                  </mat-chip>\n                </mat-chip-list>\n              </mat-form-field>\n            </div>\n          </div>\n        </ng-template>\n        &nbsp;&nbsp;\n\n\n        <button type=\"button\" class=\"m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill\"\n          data-toggle=\"m-tooltip\" data-placement=\"top\" title=\"Edit\" (click)=\"open(list,'edit')\">\n          <i class=\"fas fa-edit\"></i>\n        </button> &nbsp;&nbsp;\n        <button type=\"button\" class=\"m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill\"\n          data-toggle=\"m-tooltip\" data-placement=\"top\" title=\"Delete\" (click)=\"delete(list._id)\">\n          <i class=\"fas fa-trash-alt\"></i>\n        </button>\n      </td>\n    </tr>\n  </tbody>\n</table>\n<script>\n\n  $(document).ready(function () {\n    $('[data-toggle=\"m-tooltip\"]').tooltip();\n  });\n</script>"
 
 /***/ }),
 
@@ -63053,18 +63078,20 @@ module.exports = "<h2 class=\"header\">Restaurants</h2>\n<button class=\"btn-add
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RestaurantComponent", function() { return RestaurantComponent; });
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _restaurant_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./restaurant.service */ "./src/app/theme/pages/default/angular/restaurant/restaurant.service.ts");
-/* harmony import */ var _services_script_loader_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../_services/script-loader.service */ "./src/app/_services/script-loader.service.ts");
-/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
-/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
-/* harmony import */ var ngx_toastr__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ngx-toastr */ "./node_modules/ngx-toastr/fesm5/ngx-toastr.js");
-/* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ "./node_modules/@ng-bootstrap/ng-bootstrap/fesm5/ng-bootstrap.js");
-/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
-/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_7__);
-/* harmony import */ var _add_edit_restaurant_add_edit_restaurant_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./add-edit-restaurant/add-edit-restaurant.component */ "./src/app/theme/pages/default/angular/restaurant/add-edit-restaurant/add-edit-restaurant.component.ts");
-/* harmony import */ var ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ng4-loading-spinner */ "./node_modules/ng4-loading-spinner/ng4-loading-spinner.umd.js");
-/* harmony import */ var ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var angular_datatables__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! angular-datatables */ "./node_modules/angular-datatables/index.js");
+/* harmony import */ var rxjs_Subject__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! rxjs/Subject */ "./node_modules/rxjs-compat/_esm5/Subject.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _restaurant_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./restaurant.service */ "./src/app/theme/pages/default/angular/restaurant/restaurant.service.ts");
+/* harmony import */ var _services_script_loader_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../../../_services/script-loader.service */ "./src/app/_services/script-loader.service.ts");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
+/* harmony import */ var ngx_toastr__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ngx-toastr */ "./node_modules/ngx-toastr/fesm5/ngx-toastr.js");
+/* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ "./node_modules/@ng-bootstrap/ng-bootstrap/fesm5/ng-bootstrap.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var _add_edit_restaurant_add_edit_restaurant_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./add-edit-restaurant/add-edit-restaurant.component */ "./src/app/theme/pages/default/angular/restaurant/add-edit-restaurant/add-edit-restaurant.component.ts");
+/* harmony import */ var ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ng4-loading-spinner */ "./node_modules/ng4-loading-spinner/ng4-loading-spinner.umd.js");
+/* harmony import */ var ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_11__);
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -63119,6 +63146,8 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
 
 
 
+
+
 function _window() {
     // return the global native browser window object
     return window;
@@ -63133,12 +63162,19 @@ var RestaurantComponent = /** @class */ (function () {
         this.restaurantService = restaurantService;
         this._script = _script;
         this.spinnerService = spinnerService;
+        this.dtOptions = {};
+        this.dtTrigger = new rxjs_Subject__WEBPACK_IMPORTED_MODULE_1__["Subject"]();
         this.isAdd = false;
         this.isView = false;
         this.submitted = false;
         this.mealOffers_arr = ["BREAKFAST", "LUNCH", "DINNER", "ALL"];
         this.restaurantService.getRestaurant().subscribe(function (data) {
             _this.RestaurantList = data.RestautantList.data;
+            _this.dtElement.dtInstance.then(function (dtInstance) {
+                dtInstance.destroy();
+                _this.dtTrigger.next();
+                _this.spinnerService.hide();
+            });
         });
     }
     RestaurantComponent.prototype.ngAfterViewInit = function () {
@@ -63158,13 +63194,23 @@ var RestaurantComponent = /** @class */ (function () {
         if (typeof (_window().isScriptLoadedUsermgmt) == "undefined") {
             _window().isScriptLoadedUsermgmt = false;
         }
+        this.dtOptions = {
+            pagingType: 'full_numbers',
+            pageLength: 10,
+            processing: true,
+            stateSave: true
+        };
         this.getRestaurantList();
+    };
+    RestaurantComponent.prototype.ngOnDestroy = function () {
+        this.dtTrigger.unsubscribe();
     };
     RestaurantComponent.prototype.getRestaurantList = function () {
         var _this = this;
         this.spinnerService.show();
         this.restaurantService.getAllRestaurant().subscribe(function (response) {
             _this.RestaurantList = response.data;
+            _this.dtTrigger.next();
             _this.spinnerService.hide();
         });
     };
@@ -63228,7 +63274,7 @@ var RestaurantComponent = /** @class */ (function () {
                         else {
                             this.isAdd = false;
                         }
-                        modalRef = this.modalService.open(_add_edit_restaurant_add_edit_restaurant_component__WEBPACK_IMPORTED_MODULE_8__["AddEditRestaurantComponent"]);
+                        modalRef = this.modalService.open(_add_edit_restaurant_add_edit_restaurant_component__WEBPACK_IMPORTED_MODULE_10__["AddEditRestaurantComponent"]);
                         arr_value = [false, false, false, false];
                         modalRef.componentInstance.id = content ? content._id : "";
                         modalRef.componentInstance.name = content ? content.name : "";
@@ -63286,7 +63332,7 @@ var RestaurantComponent = /** @class */ (function () {
     };
     RestaurantComponent.prototype.delete = function (id) {
         var _this = this;
-        sweetalert2__WEBPACK_IMPORTED_MODULE_7___default()({
+        sweetalert2__WEBPACK_IMPORTED_MODULE_9___default()({
             title: 'Are you sure?',
             text: "You won't be able to revert this!",
             type: 'warning',
@@ -63296,19 +63342,27 @@ var RestaurantComponent = /** @class */ (function () {
             confirmButtonText: 'Yes, delete it!'
         }).then(function (result) {
             if (result.value) {
+                _this.spinnerService.show();
                 _this.restaurantService.deleteRestaurant(id).subscribe(function (data) {
-                    _this.getRestaurantList();
                     if (data['code'] == 200) {
-                        sweetalert2__WEBPACK_IMPORTED_MODULE_7___default()('Deleted!', data['message'], 'success');
+                        sweetalert2__WEBPACK_IMPORTED_MODULE_9___default()('Deleted!', data['message'], 'success');
+                        _this.restaurantService.getAllRestaurant().subscribe(function (response) {
+                            _this.RestaurantList = response.data;
+                            _this.dtElement.dtInstance.then(function (dtInstance) {
+                                dtInstance.destroy();
+                                _this.dtTrigger.next();
+                                _this.spinnerService.hide();
+                            });
+                        });
                     }
                     else {
-                        sweetalert2__WEBPACK_IMPORTED_MODULE_7___default()({
+                        sweetalert2__WEBPACK_IMPORTED_MODULE_9___default()({
                             type: 'error',
                             text: data['message']
                         });
                     }
                 }, function (error) {
-                    sweetalert2__WEBPACK_IMPORTED_MODULE_7___default()({
+                    sweetalert2__WEBPACK_IMPORTED_MODULE_9___default()({
                         type: 'error',
                         text: error['message']
                     });
@@ -63316,20 +63370,24 @@ var RestaurantComponent = /** @class */ (function () {
             }
         });
     };
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["ViewChild"])(angular_datatables__WEBPACK_IMPORTED_MODULE_0__["DataTableDirective"]),
+        __metadata("design:type", angular_datatables__WEBPACK_IMPORTED_MODULE_0__["DataTableDirective"])
+    ], RestaurantComponent.prototype, "dtElement", void 0);
     RestaurantComponent = __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["Component"])({
             selector: 'app-restaurant',
             template: __webpack_require__(/*! ./restaurant.component.html */ "./src/app/theme/pages/default/angular/restaurant/restaurant.component.html"),
             styles: [__webpack_require__(/*! ./restaurant.component.css */ "./src/app/theme/pages/default/angular/restaurant/restaurant.component.css")],
-            encapsulation: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewEncapsulation"].None
+            encapsulation: _angular_core__WEBPACK_IMPORTED_MODULE_2__["ViewEncapsulation"].None
         }),
-        __metadata("design:paramtypes", [_ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_6__["NgbModal"],
-            _angular_common__WEBPACK_IMPORTED_MODULE_4__["Location"],
-            ngx_toastr__WEBPACK_IMPORTED_MODULE_5__["ToastrService"],
-            _angular_forms__WEBPACK_IMPORTED_MODULE_3__["FormBuilder"],
-            _restaurant_service__WEBPACK_IMPORTED_MODULE_1__["RestaurantService"],
-            _services_script_loader_service__WEBPACK_IMPORTED_MODULE_2__["ScriptLoaderService"],
-            ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_9__["Ng4LoadingSpinnerService"]])
+        __metadata("design:paramtypes", [_ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_8__["NgbModal"],
+            _angular_common__WEBPACK_IMPORTED_MODULE_6__["Location"],
+            ngx_toastr__WEBPACK_IMPORTED_MODULE_7__["ToastrService"],
+            _angular_forms__WEBPACK_IMPORTED_MODULE_5__["FormBuilder"],
+            _restaurant_service__WEBPACK_IMPORTED_MODULE_3__["RestaurantService"],
+            _services_script_loader_service__WEBPACK_IMPORTED_MODULE_4__["ScriptLoaderService"],
+            ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_11__["Ng4LoadingSpinnerService"]])
     ], RestaurantComponent);
     return RestaurantComponent;
 }());
@@ -63618,11 +63676,9 @@ var RestaurantService = /** @class */ (function () {
     // }
     RestaurantService.prototype.uploadPic = function (pic) {
         var _this = this;
-        console.log(pic);
         var formData = new FormData();
         pic.map(function (res) { return __awaiter(_this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                console.log(res);
                 formData.append('img', res);
                 return [2 /*return*/];
             });
@@ -63630,10 +63686,8 @@ var RestaurantService = /** @class */ (function () {
         return this.http.post(_app_service__WEBPACK_IMPORTED_MODULE_1__["URL"] + 'admin/uploadPhoto', formData);
     };
     RestaurantService.prototype.serachCuisin = function (value) {
-        // console.log(value)
         return this.http.get(_app_service__WEBPACK_IMPORTED_MODULE_1__["URL"] + 'admin/searchCuisin?name=' + value, { headers: this.getHeaderWithToken() })
             .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["map"])(function (res) {
-            // console.log(res)
             return res;
         }));
     };

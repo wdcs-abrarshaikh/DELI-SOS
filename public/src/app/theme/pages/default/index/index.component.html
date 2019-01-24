@@ -39,7 +39,8 @@
 
 <div class="table1">
 	<h2 class="header1">Restaurants Awaiting Approval</h2>
-	<table datatable class="table-bordered table-hover" *ngIf="restList">
+	<table class="table table-striped- table-bordered table-hover table-checkable" datatable [dtOptions]="dtOptions"
+	[dtTrigger]="dtTrigger">
 		<thead>
 			<tr>
 				<td style="font-weight: bold; width: 10%">Sr.</td>

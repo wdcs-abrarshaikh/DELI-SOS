@@ -1,3 +1,5 @@
+import { DataTableDirective } from 'angular-datatables';
+import { Subject } from 'rxjs/Subject';
 import { Component, OnInit, Output, EventEmitter, Input, AfterViewInit, ViewEncapsulation, ElementRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RestaurantService } from './restaurant.service';
@@ -24,6 +26,10 @@ function _window(): any {
 })
 
 export class RestaurantComponent implements OnInit, AfterViewInit {
+  dtOptions: DataTables.Settings = {};
+  dtTrigger: Subject<any> = new Subject();
+  @ViewChild(DataTableDirective)
+  dtElement: DataTableDirective;
 
   modalReference: any;
   isAdd: boolean = false;
@@ -40,21 +46,24 @@ export class RestaurantComponent implements OnInit, AfterViewInit {
     private _script: ScriptLoaderService,
     private spinnerService:Ng4LoadingSpinnerService) {
      this.restaurantService.getRestaurant().subscribe((data: any) => {
-      this.RestaurantList = data.RestautantList.data
- });
-  }
+     this.RestaurantList = data.RestautantList.data 
+     this.dtElement.dtInstance.then((dtInstance:DataTables.Api)=>{
+       dtInstance.destroy();
+       this.dtTrigger.next();
+       this.spinnerService.hide();
+     })
+     });
+    }
   
   ngAfterViewInit() {
-    
-        let scripts = [];
+       let scripts = [];
         if (!_window().isScriptLoadedUsermgmt) {
           scripts = ['assets/vendors/custom/datatables/datatables.bundle.js'];
         }
         let that = this;
         this._script.loadScripts('app-restaurant',
             scripts).then(function(){
-              
-              _window().isScriptLoadedUsermgmt = true;
+             _window().isScriptLoadedUsermgmt = true;
               that._script.loadScripts('app-restaurant', ['assets/demo/default/custom/crud/datatables/basic/paginations.js']);
           });
 
@@ -62,23 +71,32 @@ export class RestaurantComponent implements OnInit, AfterViewInit {
 
 
   ngOnInit() {
-    _window().my = _window().my || {};
+  _window().my = _window().my || {};
     _window().my.usermgmt = _window().my.usermgmt || {};
     if (typeof (_window().isScriptLoadedUsermgmt) == "undefined"){
       _window().isScriptLoadedUsermgmt = false;
     }
-    
+    this.dtOptions = {
+      pagingType: 'full_numbers',
+      pageLength: 10,
+      processing: true,
+      stateSave: true
+    };
     this.getRestaurantList();
+  }
+
+  ngOnDestroy(): void {
+    this.dtTrigger.unsubscribe();
   }
   
   getRestaurantList() {
     this.spinnerService.show();
     this.restaurantService.getAllRestaurant().subscribe((response: any) => {
       this.RestaurantList = response.data;
+      this.dtTrigger.next();
       this.spinnerService.hide();
     });
   }
-
 
   mealOffers_arr: Array<any> = ["BREAKFAST", "LUNCH", "DINNER", "ALL"]
   async checkValue(arr) {
@@ -142,8 +160,7 @@ export class RestaurantComponent implements OnInit, AfterViewInit {
  }
 
   delete(id) {
-
-    swal({
+   swal({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",
       type: 'warning',
@@ -153,15 +170,23 @@ export class RestaurantComponent implements OnInit, AfterViewInit {
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.value) {
+        this.spinnerService.show();
         this.restaurantService.deleteRestaurant(id).subscribe(
           data => {
-            this.getRestaurantList();
-            if(data['code']==200){
+           if(data['code']==200){
               swal(
                 'Deleted!',
                data['message'],
                 'success'
               )
+              this.restaurantService.getAllRestaurant().subscribe((response: any) => {
+                this.RestaurantList = response.data;
+                this.dtElement.dtInstance.then((dtInstance:DataTables.Api)=>{
+                  dtInstance.destroy();
+                  this.dtTrigger.next();
+                  this.spinnerService.hide();
+                })
+              });
             }else{
               swal({
                 type: 'error',

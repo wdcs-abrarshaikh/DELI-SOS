@@ -7,7 +7,7 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".table1{\n    margin: 43px;\n}\n.btn1{\n    background: #f7b733;\n}\n.header{\n    font-size: 3.15rem;\n    padding: 1.30rem 4.65rem;\n    text-align: center;\n}\n.header1{\n  font-size: 3.15rem;\n  text-align: center;\n}\n.dataTables_wrapper .pagination .page-item.active>.page-link {\n    background: linear-gradient(45deg, #fc4a1a, #f7b733) !important;\n    color: #fff;\n }\n.dataTables_wrapper .pagination .page-item:hover>.page-link {\n    background: linear-gradient(45deg, #fc4a1a, #f7b733) !important;\n    color: #fff;\n }\n.dataTables_wrapper .dataTables_paginate .paginate_button:hover {\n    color: white !important;\n    border: 1px solid #f1d7a2;\n    background-color:#f1d7a2;\n    background:#f1d7a2\n}\n.container-fluid {\n    width: 85%;\n    padding-right: 15px;\n    padding-left: 15px;\n    margin-right: auto;\n    margin-left: auto;\n}\n.btn.m-btn--hover-brand:hover, .btn.m-btn--hover-brand:focus, .btn.m-btn--hover-brand:active{\n    background: linear-gradient(45deg, #fc4a1a, #f7b733) !important;\n    border: none;\n }\n.m-body .m-content {\n    padding: 30px 30px;\n     /* float: center; */\n    margin-left: 140px;\n    /* padding: 0px; */\n}\ntable.dataTable thead th.sorting,\n   table.dataTable thead th.sorting_asc,\n   table.dataTable thead th.sorting_desc {\n   background: none;\n   padding: 7px 8px;\n   }\n.f1{\n     width:60px;\n    color: dimgrey;\n }\n.fa-check:before {\n    content: \"\\f00c\";\n    color: dimgrey;\n}\n.btn.m-btn--hover-brand:hover, .btn.m-btn--hover-brand:focus, .btn.m-btn--hover-brand:active{\n    background: linear-gradient(45deg, #fc4a1a, #f7b733) !important;\n    border: none;\n }\n.fa-remove:before, .fa-close:before, .fa-times:before {\n    content: \"\\f00d\";\n    color: dimgrey;\n}\n.m-badge {\n    background:linear-gradient(45deg, #fc4a1a, #f7b733) !important;\n    color:white;\n    font-weight: bold !important;\n   }\n.badge-secondary {\n    color: black;\n    background-color: #ebedf2;\n    font-size: 100%;\n    padding: 7px;\n    border-radius: 20px;\n}\n.fa-eye:before {\n    content: \"\\f06e\";\n    color: dimgrey;\n}\n.form-control:focus {\n    border-color: lightslategrey;\n    color: #575962;\n    box-shadow: none;\n}\n.m-portlet__head-text:focus:hover{\n    outline-color:white\n\n}\n.m-portlet__head-text .fa-users:before {\n    color:black;\n    content: \"\\f0c0\";\n}\n.form-control {\n    font-family: sans-serif,Arial;\n    border-radius: 0;\n    /* border-radius: .25rem; */\n}\n\n\n"
+module.exports = ".table1{\n    margin: 43px;\n}\n.btn1{\n    background: #f7b733;\n}\n.header{\n    font-size: 2.25rem;\n    padding: 1.30rem 4.65rem;\n    text-align: center;\n}\n.header1{\n  font-size: 2.25rem;\n  text-align: center;\n}\n.dataTables_wrapper .pagination .page-item.active>.page-link {\n    background: linear-gradient(45deg, #fc4a1a, #f7b733) !important;\n    color: #fff;\n }\n.dataTables_wrapper .pagination .page-item:hover>.page-link {\n    background: linear-gradient(45deg, #fc4a1a, #f7b733) !important;\n    color: #fff;\n }\n.dataTables_wrapper .dataTables_paginate .paginate_button:hover {\n    color: white !important;\n    border: 1px solid #f1d7a2;\n    background-color:#f1d7a2;\n    background:#f1d7a2\n}\n.container-fluid {\n    width: 85%;\n    padding-right: 15px;\n    padding-left: 15px;\n    margin-right: auto;\n    margin-left: auto;\n}\n.btn.m-btn--hover-brand:hover, .btn.m-btn--hover-brand:focus, .btn.m-btn--hover-brand:active{\n    background: linear-gradient(45deg, #fc4a1a, #f7b733) !important;\n    border: none;\n }\n.m-body .m-content {\n    padding: 30px 30px;\n     /* float: center; */\n    margin-left: 140px;\n    /* padding: 0px; */\n}\ntable.dataTable thead th.sorting,\n   table.dataTable thead th.sorting_asc,\n   table.dataTable thead th.sorting_desc {\n   background: none;\n   padding: 7px 8px;\n   }\n.f1{\n     width:60px;\n    color: dimgrey;\n }\n.fa-check:before {\n    content: \"\\f00c\";\n    color: dimgrey;\n}\n.btn.m-btn--hover-brand:hover, .btn.m-btn--hover-brand:focus, .btn.m-btn--hover-brand:active{\n    background: linear-gradient(45deg, #fc4a1a, #f7b733) !important;\n    border: none;\n }\n.fa-remove:before, .fa-close:before, .fa-times:before {\n    content: \"\\f00d\";\n    color: dimgrey;\n}\n.m-badge {\n    background:linear-gradient(45deg, #fc4a1a, #f7b733) !important;\n    color:white;\n    font-weight: bold !important;\n   }\n.badge-secondary {\n    color: black;\n    background-color: #ebedf2;\n    font-size: 100%;\n    padding: 7px;\n    border-radius: 20px;\n}\n.fa-eye:before {\n    content: \"\\f06e\";\n    color: dimgrey;\n}\n.form-control:focus {\n    border-color: lightslategrey;\n    color: #575962;\n    box-shadow: none;\n}\n.m-portlet__head-text:focus:hover{\n    outline-color:white\n\n}\n.m-portlet__head-text .fa-users:before {\n    color:black;\n    content: \"\\f0c0\";\n}\n.form-control {\n    font-family: sans-serif,Arial;\n    border-radius: 0;\n    /* border-radius: .25rem; */\n}\n\n\n"
 
 /***/ }),
 
@@ -18,7 +18,7 @@ module.exports = ".table1{\n    margin: 43px;\n}\n.btn1{\n    background: #f7b73
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!-- BEGIN: Subheader -->\n<h2 class=\"header\">Dashboard</h2>\n\n<div class=\"m-content\">\n\t<!--Begin::Section-->\n\t<div class=\"row\">\n\t\t<div class=\"col-xl-5\">\n\t\t\t<!--begin:: Widgets/Top Products-->\n\t\t\t<div class=\"m-portlet m-portlet--bordered-semi m-portlet--full-height\">\n\t\t\t\t<div class=\"m-portlet__head\">\n\t\t\t\t\t<div class=\"m-portlet__head-caption\">\n\t\t\t\t\t\t<div class=\"m-portlet__head-title\">\n\t\t\t\t\t\t\t<h3 class=\"m-portlet__head-text\" routerLink='/admin/getUserList'><i class=\"fa fa-users\" width=\"100px\" style=\"color:black\" ></i> Users </h3><br>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<h3 class=\"m-portlet__head-caption\" style=\"color:black\">{{usersList}}</h3>\n\t\t\t\t</div>\n\n\t\t\t</div>\n\t\t\t<!--end:: Widgets/Top Products-->\n\t\t</div>\n    &nbsp; &nbsp; &nbsp; &nbsp;\n\t\t<div class=\"col-xl-5\">\n\t\t\t<div class=\"m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force\">\n\t\t\t\t<div class=\"m-portlet__head\">\n\t\t\t\t\t<div class=\"m-portlet__head-caption\">\n\t\t\t\t\t\t<div class=\"m-portlet__head-title\">\n\t\t\t\t\t\t\t<img src=\"./assets/demo/default/media/img/logo/restaurant.png\" width=\"30px\" style=\"background:black\" />\n\t\t\t\t\t\t\t<h3 class=\"m-portlet__head-text\" routerLink='/admin/restaurant'>&nbsp; Restaurants </h3>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<h3 class=\"m-portlet__head-caption\" style=\"color:black\">{{restaurantList}}</h3>\n\t\t\t\t</div>\n\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</div><br>\n\n<div class=\"table1\">\n\t<h2 class=\"header1\">Restaurants Awaiting Approval</h2>\n\t<table datatable class=\"table-bordered table-hover\" *ngIf=\"restList\">\n\t\t<thead>\n\t\t\t<tr>\n\t\t\t\t<td style=\"font-weight: bold; width: 10%\">Sr.</td>\n\t\t\t\t<td style=\"font-weight: bold; width: 40%;\">Restaurant Name</td>\n\t\t\t\t<th style=\"width:20%\"> &nbsp;&nbsp;&nbsp;Status</th>\n\t\t\t\t<th style=\" width: 20%;\"> &nbsp;Action</th>\n\t\t\t</tr>\n\t\t</thead>\n\n\t\t<tbody>\n\t\t\t<tr *ngFor=\"let Rest of restList ; let i=index\" ng-cloak>\n\t\t\t\t<td>{{i+1}}</td>\n\t\t\t\t<td>{{Rest.name}}</td>\n\t\t\t\t<td><span class=\"m-badge  m-badge--wide\">{{Rest.status}}</span></td>\n\t\t\t\t<td>\n\t\t\t\t\t<button type=\"button\" class=\"m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill\"\n\t\t\t\t\t data-toggle=\"m-tooltip\"  data-placement=\"top\" title=\"View\" (click)=\"open(Rest)\">\n\t\t\t\t\t\t<i class=\"fas fa-eye\"></i>\n\t\t\t\t\t</button>\n\t\t\t\t\t&nbsp;&nbsp;\n\n\t\t\t\t\t<button type=\"button\" class=\"m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill\"\n\t\t\t\t\t data-toggle=\"m-tooltip\"  data-placement=\"top\" title=\"Appove\" (click)=\" Approve(Rest._id) \">\n\t\t\t\t\t\t<i class=\"fa fa-check f1\"></i>\n\t\t\t\t\t</button> &nbsp;&nbsp;\n\n\t\t\t\t\t<button type=\"button\" class=\"m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill\"\n\t\t\t\t\t data-toggle=\"m-tooltip\"  data-placement=\"top\" title=\"Reject\"  (click)=\"Reject(Rest._id)\">\n\t\t\t\t\t\t<i class=\"fa fa-close \"></i>\n\t\t\t\t\t</button> &nbsp;&nbsp;\n\t\t\t\t</td>\n\n\t\t\t</tr>\n\t\t</tbody>\n\t</table>\n</div>\n<script>\n$(document).ready(function(){\n    $('[data-toggle=\"m-tooltip\"]').tooltip();   \n});\n</script>"
+module.exports = "<!-- BEGIN: Subheader -->\n<h2 class=\"header\">Dashboard</h2>\n\n<div class=\"m-content\">\n\t<!--Begin::Section-->\n\t<div class=\"row\">\n\t\t<div class=\"col-xl-5\">\n\t\t\t<!--begin:: Widgets/Top Products-->\n\t\t\t<div class=\"m-portlet m-portlet--bordered-semi m-portlet--full-height\">\n\t\t\t\t<div class=\"m-portlet__head\">\n\t\t\t\t\t<div class=\"m-portlet__head-caption\">\n\t\t\t\t\t\t<div class=\"m-portlet__head-title\">\n\t\t\t\t\t\t\t<h3 class=\"m-portlet__head-text\" routerLink='/admin/getUserList'><i class=\"fa fa-users\" width=\"100px\" style=\"color:black\" ></i> Users </h3><br>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<h3 class=\"m-portlet__head-caption\" style=\"color:black\">{{usersList}}</h3>\n\t\t\t\t</div>\n\n\t\t\t</div>\n\t\t\t<!--end:: Widgets/Top Products-->\n\t\t</div>\n    &nbsp; &nbsp; &nbsp; &nbsp;\n\t\t<div class=\"col-xl-5\">\n\t\t\t<div class=\"m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force\">\n\t\t\t\t<div class=\"m-portlet__head\">\n\t\t\t\t\t<div class=\"m-portlet__head-caption\">\n\t\t\t\t\t\t<div class=\"m-portlet__head-title\">\n\t\t\t\t\t\t\t<img src=\"./assets/demo/default/media/img/logo/restaurant.png\" width=\"30px\" style=\"background:black\" />\n\t\t\t\t\t\t\t<h3 class=\"m-portlet__head-text\" routerLink='/admin/restaurant'>&nbsp; Restaurants </h3>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<h3 class=\"m-portlet__head-caption\" style=\"color:black\">{{restaurantList}}</h3>\n\t\t\t\t</div>\n\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</div><br>\n\n<div class=\"table1\">\n\t<h2 class=\"header1\">Restaurants Awaiting Approval</h2>\n\t<table class=\"table table-striped- table-bordered table-hover table-checkable\" datatable [dtOptions]=\"dtOptions\"\n\t[dtTrigger]=\"dtTrigger\">\n\t\t<thead>\n\t\t\t<tr>\n\t\t\t\t<td style=\"font-weight: bold; width: 10%\">Sr.</td>\n\t\t\t\t<td style=\"font-weight: bold; width: 40%;\">Restaurant Name</td>\n\t\t\t\t<th style=\"width:20%\"> &nbsp;&nbsp;&nbsp;Status</th>\n\t\t\t\t<th style=\" width: 20%;\"> &nbsp;Action</th>\n\t\t\t</tr>\n\t\t</thead>\n\n\t\t<tbody>\n\t\t\t<tr *ngFor=\"let Rest of restList ; let i=index\" ng-cloak>\n\t\t\t\t<td>{{i+1}}</td>\n\t\t\t\t<td>{{Rest.name}}</td>\n\t\t\t\t<td><span class=\"m-badge  m-badge--wide\">{{Rest.status}}</span></td>\n\t\t\t\t<td>\n\t\t\t\t\t<button type=\"button\" class=\"m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill\"\n\t\t\t\t\t data-toggle=\"m-tooltip\"  data-placement=\"top\" title=\"View\" (click)=\"open(Rest)\">\n\t\t\t\t\t\t<i class=\"fas fa-eye\"></i>\n\t\t\t\t\t</button>\n\t\t\t\t\t&nbsp;&nbsp;\n\n\t\t\t\t\t<button type=\"button\" class=\"m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill\"\n\t\t\t\t\t data-toggle=\"m-tooltip\"  data-placement=\"top\" title=\"Appove\" (click)=\" Approve(Rest._id) \">\n\t\t\t\t\t\t<i class=\"fa fa-check f1\"></i>\n\t\t\t\t\t</button> &nbsp;&nbsp;\n\n\t\t\t\t\t<button type=\"button\" class=\"m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill\"\n\t\t\t\t\t data-toggle=\"m-tooltip\"  data-placement=\"top\" title=\"Reject\"  (click)=\"Reject(Rest._id)\">\n\t\t\t\t\t\t<i class=\"fa fa-close \"></i>\n\t\t\t\t\t</button> &nbsp;&nbsp;\n\t\t\t\t</td>\n\n\t\t\t</tr>\n\t\t</tbody>\n\t</table>\n</div>\n<script>\n$(document).ready(function(){\n    $('[data-toggle=\"m-tooltip\"]').tooltip();   \n});\n</script>"
 
 /***/ }),
 
@@ -45,6 +45,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _viewrestaurant_viewrestaurant_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./viewrestaurant/viewrestaurant.component */ "./src/app/theme/pages/default/index/viewrestaurant/viewrestaurant.component.ts");
 /* harmony import */ var ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ng4-loading-spinner */ "./node_modules/ng4-loading-spinner/ng4-loading-spinner.umd.js");
 /* harmony import */ var ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_10__);
+/* harmony import */ var angular_datatables__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! angular-datatables */ "./node_modules/angular-datatables/index.js");
+/* harmony import */ var rxjs_Subject__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! rxjs/Subject */ "./node_modules/rxjs-compat/_esm5/Subject.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -54,6 +56,8 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
+
 
 
 
@@ -80,6 +84,8 @@ var IndexComponent = /** @class */ (function () {
         this.modalService = modalService;
         this.location = location;
         this.spinnerService = spinnerService;
+        this.dtOptions = {};
+        this.dtTrigger = new rxjs_Subject__WEBPACK_IMPORTED_MODULE_12__["Subject"]();
         this.isView = false;
         this.indexService.getAllRequest().subscribe(function (response) {
             _this.restList = response.data;
@@ -102,6 +108,12 @@ var IndexComponent = /** @class */ (function () {
         if (typeof (_window().isScriptLoadedUsermgmt) == "undefined") {
             _window().isScriptLoadedUsermgmt = false;
         }
+        this.dtOptions = {
+            pagingType: 'full_numbers',
+            pageLength: 10,
+            processing: true,
+            stateSave: true
+        };
         this.getAllRequest();
         this.getUserList();
         this.getRestaurant();
@@ -125,7 +137,19 @@ var IndexComponent = /** @class */ (function () {
         this.spinnerService.show();
         this.indexService.getAllRequest().subscribe(function (response) {
             _this.restList = response.data;
+            _this.dtTrigger.next();
             _this.spinnerService.hide();
+        });
+    };
+    IndexComponent.prototype.getAllRequest1 = function () {
+        var _this = this;
+        this.indexService.getAllRequest().subscribe(function (response) {
+            _this.restList = response.data;
+            _this.dtElement.dtInstance.then(function (dtInstance) {
+                dtInstance.destroy();
+                _this.dtTrigger.next();
+                _this.spinnerService.hide();
+            });
         });
     };
     IndexComponent.prototype.open = function (content) {
@@ -147,8 +171,9 @@ var IndexComponent = /** @class */ (function () {
     };
     IndexComponent.prototype.Approve = function (id) {
         var _this = this;
+        this.spinnerService.show();
         this.indexService.approveRestaurant(id).subscribe(function (response) {
-            _this.getAllRequest();
+            _this.getAllRequest1();
             if (response['code'] == 200) {
                 sweetalert2__WEBPACK_IMPORTED_MODULE_0___default()({
                     position: 'center',
@@ -170,8 +195,9 @@ var IndexComponent = /** @class */ (function () {
     };
     IndexComponent.prototype.Reject = function (id) {
         var _this = this;
+        this.spinnerService.show();
         this.indexService.rejectRestaurant(id).subscribe(function (response) {
-            _this.getAllRequest();
+            _this.getAllRequest1();
             if (response['code'] == 200) {
                 sweetalert2__WEBPACK_IMPORTED_MODULE_0___default()({
                     position: 'center',
@@ -184,11 +210,15 @@ var IndexComponent = /** @class */ (function () {
             else {
                 sweetalert2__WEBPACK_IMPORTED_MODULE_0___default()({
                     type: 'error',
-                    text: response['msg']
+                    text: response['message']
                 });
             }
         });
     };
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["ViewChild"])(angular_datatables__WEBPACK_IMPORTED_MODULE_11__["DataTableDirective"]),
+        __metadata("design:type", angular_datatables__WEBPACK_IMPORTED_MODULE_11__["DataTableDirective"])
+    ], IndexComponent.prototype, "dtElement", void 0);
     IndexComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["Component"])({
             styles: [__webpack_require__(/*! ./index.component.css */ "./src/app/theme/pages/default/index/index.component.css")],

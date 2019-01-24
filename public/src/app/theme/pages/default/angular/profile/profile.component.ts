@@ -91,7 +91,6 @@ export class ProfileComponent implements OnInit {
           showConfirmButton: false,
           timer: 1500
         })
-     
       } else {
         swal({
           type: 'error',

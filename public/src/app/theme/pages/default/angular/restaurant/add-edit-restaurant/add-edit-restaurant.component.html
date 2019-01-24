@@ -11,7 +11,7 @@
       <input class="form-control m-input" type="text" formControlName="name" [(ngModel)]="name">
       <p *ngIf="RestaurantForm.controls.name.errors?.required && (RestaurantForm.controls.name.dirty || RestaurantForm.controls.name.touched)"
         class="lbl-err">Name is required.</p>
-      <p *ngIf="RestaurantForm.controls.name.errors?.pattern " class="lbl-err">Name is required.</p>
+      <p *ngIf="RestaurantForm.controls.name.errors?.pattern " class="lbl-err">Enter valid name.</p>
     </div><br>
 
 
@@ -20,7 +20,7 @@
       <input class="form-control m-input" type="text" formControlName="description" [(ngModel)]="description">
       <p *ngIf="RestaurantForm.controls.description.errors?.required &&  (RestaurantForm.controls.description.dirty || RestaurantForm.controls.description.touched)"
         class="lbl-err">Description is required.</p>
-      <p *ngIf="RestaurantForm.controls.description.errors?.pattern " class="lbl-err">Description is required.</p>
+      <p *ngIf="RestaurantForm.controls.description.errors?.pattern " class="lbl-err">Enter valid description.</p>
 
     </div><br>
 
@@ -30,7 +30,7 @@
       <input class="form-control m-input" type="text" formControlName="latitude" [(ngModel)]="latitude">
       <p *ngIf="RestaurantForm.controls.latitude.errors?.required &&  (RestaurantForm.controls.latitude.dirty || RestaurantForm.controls.latitude.touched)"
         class="lbl-err">Latitude is required.</p>
-      <p *ngIf="RestaurantForm.controls.latitude.errors?.pattern" class="lbl-err">Latitude is required.</p>
+      <p *ngIf="RestaurantForm.controls.latitude.errors?.pattern" class="lbl-err">Enter valid Latitude.</p>
 
     </div><br>
 
@@ -39,7 +39,7 @@
       <input class="form-control m-input" type="text" formControlName="longitude" [(ngModel)]="longitude">
       <p *ngIf="RestaurantForm.controls.longitude.errors?.required && (RestaurantForm.controls.longitude.dirty || RestaurantForm.controls.longitude.touched) "
         class="lbl-err">longitude is required.</p>
-      <p *ngIf="RestaurantForm.controls.longitude.errors?.pattern " class="lbl-err">longitude is required.</p>
+      <p *ngIf="RestaurantForm.controls.longitude.errors?.pattern " class="lbl-err">Enter valid longitude.</p>
 
     </div><br>
 
@@ -85,7 +85,6 @@
       <label>Website</label>
       <input class="form-control m-input" type="text" formControlName="website" [(ngModel)]="website">
      <p *ngIf="RestaurantForm.controls.website.errors?.pattern " class="lbl-err">Website is required.</p>
-
     </div>
 
 
@@ -103,9 +102,7 @@
     <div class="form-group">
       <label>Per Person Cost</label>
       <input class="form-control m-input" type="Number" formControlName="perPersonCost" [(ngModel)]="perPersonCost">
-      <p *ngIf="RestaurantForm.controls.perPersonCost.errors?.required && (RestaurantForm.controls.perPersonCost.dirty || RestaurantForm.controls.perPersonCost.touched)"
-        class="lbl-err">perPersonCost is required.</p>
-      <p *ngIf="RestaurantForm.controls.perPersonCost.errors?.pattern && (RestaurantForm.controls.perPersonCost.dirty || RestaurantForm.controls.perPersonCost.touched)"
+     <p *ngIf="RestaurantForm.controls.perPersonCost.errors?.pattern && (RestaurantForm.controls.perPersonCost.dirty || RestaurantForm.controls.perPersonCost.touched)"
         class="lbl-err"> Invalid input. Please enter only numeric value .</p>
     </div>
 
@@ -118,7 +115,7 @@
       </div>
       <label class="btn-bs-file btn btn-ls btn-info" *ngIf="!isView" style="margin-top:6px" text-align="center">image
         <input type="file" formControlName="restaurantImages" accept="image/*" style="display: none" multiple (change)="imageUploading($event,'restaurant')">
-      </label>
+     </label>
     </div>
 
     <div class="form-group">
@@ -150,12 +147,12 @@
     </div>
   </form>
 
-  <div class="modal-footer" >
+  <div class="modal-footer" *ngIf="!isAdd" >
     <button type="submit" class="btn btn-save" (click)="addRestaurant()">Save</button>&nbsp;&nbsp;
     <button type="button" class="btn btn-delete" (click)="activeModal.close('Close click')">Cancel</button>
   </div>
-  <!-- <div class="modal-footer" *ngIf="isAdd">
+  <div class="modal-footer" *ngIf="isAdd">
     <button type="submit" class="btn btn-save" (click)="addRestaurant()" [disabled]="validateForm()">Save</button>&nbsp;&nbsp;
     <button type="button" class="btn btn-delete" (click)="activeModal.close('Close click')">Cancel</button>
-  </div> -->
+  </div>
 </div>

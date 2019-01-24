@@ -21,8 +21,10 @@ export class RestaurantService {
     setRestaurant(data: any) {
         this.RestautantList.next({ RestautantList: data });
     }
+    
    getRestaurant(): Observable<any> {
-        return this.RestautantList.asObservable();
+   return this.RestautantList.asObservable();
+     
 
     }
    getHeaderWithToken() {
@@ -73,11 +75,9 @@ export class RestaurantService {
 
     // }
     uploadPic(pic: any) {
-      console.log(pic)
         let formData = new FormData();
         pic.map(async (res) => {
-           console.log(res)
-            formData.append('img', res);
+         formData.append('img', res);
 
         })
         return this.http.post<any>(URL + 'admin/uploadPhoto', formData);
@@ -85,12 +85,10 @@ export class RestaurantService {
     }
 
     serachCuisin(value:any){
-        // console.log(value)
-        return this.http.get(URL + 'admin/searchCuisin?name='+value, { headers: this.getHeaderWithToken() })
+       return this.http.get(URL + 'admin/searchCuisin?name='+value, { headers: this.getHeaderWithToken() })
         .pipe(
             map((res: Response) => { 
-                // console.log(res)
-                return res })
+               return res })
         );
     }
 
