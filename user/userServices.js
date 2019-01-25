@@ -677,8 +677,9 @@ function getNearByRestaurant(req, res) {
                         // maxDistance: 10000,
                         key: 'location',
                         query: { status: status.active },
-                        spherical: true
-                    }
+                        spherical: true,
+                        num:1000
+                }
                 }, {
                     $project: {
                         'location': 1, 'photos': 1, '_id': 1,
