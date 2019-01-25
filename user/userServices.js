@@ -664,10 +664,11 @@ function getNearByRestaurant(req, res) {
                     $geoNear: {
                         near: { type: data.location.type, coordinates: [data.location.coordinates[0], data.location.coordinates[1]] },
                         distanceField: "dist.calculated",
-                        maxDistance: 10000,
+                        // maxDistance: 10000,
                         key: 'location',
                         query: { status: status.active },
-                         spherical: true
+                        spherical: true,
+			num:1000
                     }
                 }, {
                     $project: {

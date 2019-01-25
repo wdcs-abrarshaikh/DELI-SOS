@@ -724,7 +724,6 @@ async function searchCuisin(req, res) {
         }
         else if (data.length == 0) {
       return res.json({ code: code.notFound, message: msg.noMatchFound })
-
         }
         else {
             return res.json({ code: code.ok, message: msg.ok, data: data })
