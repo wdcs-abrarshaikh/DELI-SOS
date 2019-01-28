@@ -76,15 +76,14 @@
     <div class="form-group">
       <label>Contact Number</label>
       <input class="form-control m-input" type="tel" formControlName="contactNumber" [(ngModel)]="contactNumber">
-      <p *ngIf="RestaurantForm.controls.contactNumber.errors?.pattern"
-        class="lbl-err"> Enter Valid ContactNumber.</p>
+      <p *ngIf="RestaurantForm.controls.contactNumber.errors?.pattern" class="lbl-err"> Enter Valid ContactNumber.</p>
 
     </div>
 
     <div class="form-group">
       <label>Website</label>
       <input class="form-control m-input" type="text" formControlName="website" [(ngModel)]="website">
-     <p *ngIf="RestaurantForm.controls.website.errors?.pattern " class="lbl-err">Website is required.</p>
+      <p *ngIf="RestaurantForm.controls.website.errors?.pattern " class="lbl-err">Website is required.</p>
     </div>
 
 
@@ -102,7 +101,7 @@
     <div class="form-group">
       <label>Per Person Cost</label>
       <input class="form-control m-input" type="Number" formControlName="perPersonCost" [(ngModel)]="perPersonCost">
-     <p *ngIf="RestaurantForm.controls.perPersonCost.errors?.pattern && (RestaurantForm.controls.perPersonCost.dirty || RestaurantForm.controls.perPersonCost.touched)"
+      <p *ngIf="RestaurantForm.controls.perPersonCost.errors?.pattern && (RestaurantForm.controls.perPersonCost.dirty || RestaurantForm.controls.perPersonCost.touched)"
         class="lbl-err"> Invalid input. Please enter only numeric value .</p>
     </div>
 
@@ -115,7 +114,7 @@
       </div>
       <label class="btn-bs-file btn btn-ls btn-info" *ngIf="!isView" style="margin-top:6px" text-align="center">image
         <input type="file" formControlName="restaurantImages" accept="image/*" style="display: none" multiple (change)="imageUploading($event,'restaurant')">
-     </label>
+      </label>
     </div>
 
     <div class="form-group">
@@ -147,7 +146,7 @@
     </div>
   </form>
 
-  <div class="modal-footer" *ngIf="!isAdd" >
+  <div class="modal-footer" *ngIf="!isAdd">
     <button type="submit" class="btn btn-save" (click)="addRestaurant()">Save</button>&nbsp;&nbsp;
     <button type="button" class="btn btn-delete" (click)="activeModal.close('Close click')">Cancel</button>
   </div>

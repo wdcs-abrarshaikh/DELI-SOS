@@ -14,20 +14,20 @@ import { Observable } from 'rxjs';
 
 export class RestaurantService {
     private RestautantList = new Subject<any>()
-   
+
     constructor(private http: HttpClient) {
 
     }
     setRestaurant(data: any) {
         this.RestautantList.next({ RestautantList: data });
     }
-    
-   getRestaurant(): Observable<any> {
-   return this.RestautantList.asObservable();
-     
+
+    getRestaurant(): Observable<any> {
+        return this.RestautantList.asObservable();
+
 
     }
-   getHeaderWithToken() {
+    getHeaderWithToken() {
         let headers = new HttpHeaders()
         let token = JSON.parse(localStorage.getItem('_token'))
         headers = headers.set('Authorization', token)
@@ -77,19 +77,20 @@ export class RestaurantService {
     uploadPic(pic: any) {
         let formData = new FormData();
         pic.map(async (res) => {
-         formData.append('img', res);
+            formData.append('img', res);
 
         })
         return this.http.post<any>(URL + 'admin/uploadPhoto', formData);
 
     }
 
-    serachCuisin(value:any){
-       return this.http.get(URL + 'admin/searchCuisin?name='+value, { headers: this.getHeaderWithToken() })
-        .pipe(
-            map((res: Response) => { 
-               return res })
-        );
+    serachCuisin(value: any) {
+        return this.http.get(URL + 'admin/searchCuisin?name=' + value, { headers: this.getHeaderWithToken() })
+            .pipe(
+                map((res: Response) => {
+                    return res
+                })
+            );
     }
 
 
