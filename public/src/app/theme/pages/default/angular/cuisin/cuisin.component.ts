@@ -2,7 +2,7 @@ import { ScriptLoaderService } from './../../../../../_services/script-loader.se
 import { ToastrService } from 'ngx-toastr';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { CuisinService } from './cuisin.service';
-import { Component, OnInit, AfterViewInit, ViewEncapsulation, ViewChild } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewEncapsulation, ViewChild, ElementRef } from '@angular/core';
 import { Location } from '@angular/common';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddEditcuisinComponent } from './add-editcuisin/add-editcuisin.component';
@@ -28,7 +28,7 @@ export class CuisinComponent implements OnInit {
   dtTrigger: Subject<any> = new Subject();
   @ViewChild(DataTableDirective)
   dtElement: DataTableDirective;
-
+  sorting : Boolean=true;
   modalReference: any;
   isAdd: boolean = false;
   cuisinsList: Array<any>;
@@ -69,7 +69,7 @@ export class CuisinComponent implements OnInit {
       });
 
   }
-
+ 
   ngOnInit() {
     _window().my = _window().my || {};
     _window().my.usermgmt = _window().my.usermgmt || {};
@@ -80,7 +80,7 @@ export class CuisinComponent implements OnInit {
       pagingType: 'full_numbers',
       pageLength: 10,
       processing: true,
-      stateSave: true
+      stateSave: true,
     };
     this.getCuisinList();
   }
@@ -90,7 +90,6 @@ export class CuisinComponent implements OnInit {
       this.isAdd = true
     } else {
       this.isAdd = false
-
     }
     const modalRef = this.modalService.open(AddEditcuisinComponent);
     modalRef.componentInstance.id = content ? content._id : "";
@@ -110,7 +109,7 @@ export class CuisinComponent implements OnInit {
     });
   }
 
-  viewCuisines(cuisin) {
+   viewCuisines(cuisin) {
     this.modalReference = this.modalService.open(cuisin);
   }
 

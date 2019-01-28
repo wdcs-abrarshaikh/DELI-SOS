@@ -44,42 +44,41 @@ export class RestaurantComponent implements OnInit, AfterViewInit {
     private _formBuilder: FormBuilder,
     private restaurantService: RestaurantService,
     private _script: ScriptLoaderService,
-    private spinnerService:Ng4LoadingSpinnerService) {
-     this.restaurantService.getRestaurant().subscribe((data: any) => {
-     this.RestaurantList = data.RestautantList.data 
-     this.dtElement.dtInstance.then((dtInstance:DataTables.Api)=>{
-       dtInstance.destroy();
-       this.dtTrigger.next();
-       this.spinnerService.hide();
-     })
-     });
-    }
-  
+    private spinnerService: Ng4LoadingSpinnerService) {
+    this.restaurantService.getRestaurant().subscribe((data: any) => {
+      this.RestaurantList = data.RestautantList.data
+      this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+        dtInstance.destroy();
+        this.dtTrigger.next();
+        this.spinnerService.hide();
+      })
+    });
+  }
+
   ngAfterViewInit() {
-       let scripts = [];
-        if (!_window().isScriptLoadedUsermgmt) {
-          scripts = ['assets/vendors/custom/datatables/datatables.bundle.js'];
-        }
-        let that = this;
-        this._script.loadScripts('app-restaurant',
-            scripts).then(function(){
-             _window().isScriptLoadedUsermgmt = true;
-              that._script.loadScripts('app-restaurant', ['assets/demo/default/custom/crud/datatables/basic/paginations.js']);
-          });
+    let scripts = [];
+    if (!_window().isScriptLoadedUsermgmt) {
+      scripts = ['assets/vendors/custom/datatables/datatables.bundle.js'];
+    }
+    let that = this;
+    this._script.loadScripts('app-restaurant',
+      scripts).then(function () {
+        _window().isScriptLoadedUsermgmt = true;
+        that._script.loadScripts('app-restaurant', ['assets/demo/default/custom/crud/datatables/basic/paginations.js']);
+      });
 
   }
 
 
   ngOnInit() {
-  _window().my = _window().my || {};
+    _window().my = _window().my || {};
     _window().my.usermgmt = _window().my.usermgmt || {};
-    if (typeof (_window().isScriptLoadedUsermgmt) == "undefined"){
+    if (typeof (_window().isScriptLoadedUsermgmt) == "undefined") {
       _window().isScriptLoadedUsermgmt = false;
     }
     this.dtOptions = {
       pagingType: 'full_numbers',
       pageLength: 10,
-      processing: true,
       stateSave: true
     };
     this.getRestaurantList();
@@ -88,7 +87,7 @@ export class RestaurantComponent implements OnInit, AfterViewInit {
   ngOnDestroy(): void {
     this.dtTrigger.unsubscribe();
   }
-  
+
   getRestaurantList() {
     this.spinnerService.show();
     this.restaurantService.getAllRestaurant().subscribe((response: any) => {
@@ -114,27 +113,27 @@ export class RestaurantComponent implements OnInit, AfterViewInit {
     return array_val;
   }
 
- 
- async convertTime12to24(time12h) {
-      const [time, modifier] = time12h.split(' ');
-      let [hours, minutes] = time.split(':');
-      if (hours === '12') {
-        hours = '00';
-      }
-     if (modifier === 'PM') {
-        hours = parseInt(hours, 10) + 12;
-      }
-     return hours + ':' + minutes;
-    }
 
-  
+  async convertTime12to24(time12h) {
+    const [time, modifier] = time12h.split(' ');
+    let [hours, minutes] = time.split(':');
+    if (hours === '12') {
+      hours = '00';
+    }
+    if (modifier === 'PM') {
+      hours = parseInt(hours, 10) + 12;
+    }
+    return hours + ':' + minutes;
+  }
+
+
   async open(content, type) {
 
     if (!content) {
       this.isAdd = true
     } else {
-       this.isAdd = false
-   }
+      this.isAdd = false
+    }
     const modalRef = this.modalService.open(AddEditRestaurantComponent);
     let arr_value: any = [false, false, false, false];
     modalRef.componentInstance.id = content ? content._id : "";
@@ -155,12 +154,12 @@ export class RestaurantComponent implements OnInit, AfterViewInit {
     modalRef.componentInstance.mealOffers = (content) ? await this.checkValue(content.mealOffers) : arr_value;
 
   }
-  viewRestaurant(restaurant){
-    this.modalReference=this.modalService.open(restaurant)
- }
+  viewRestaurant(restaurant) {
+    this.modalReference = this.modalService.open(restaurant)
+  }
 
   delete(id) {
-   swal({
+    swal({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",
       type: 'warning',
@@ -173,32 +172,33 @@ export class RestaurantComponent implements OnInit, AfterViewInit {
         this.spinnerService.show();
         this.restaurantService.deleteRestaurant(id).subscribe(
           data => {
-           if(data['code']==200){
+            if (data['code'] == 200) {
               swal(
                 'Deleted!',
-               data['message'],
+                data['message'],
                 'success'
               )
               this.restaurantService.getAllRestaurant().subscribe((response: any) => {
                 this.RestaurantList = response.data;
-                this.dtElement.dtInstance.then((dtInstance:DataTables.Api)=>{
+                this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
                   dtInstance.destroy();
                   this.dtTrigger.next();
                   this.spinnerService.hide();
                 })
               });
-            }else{
+            } else {
               swal({
                 type: 'error',
                 text: data['message']
               })
-            }},error=>{
-              swal({
-                type: 'error',
-                text: error['message']
-              })
-            });
-        }
+            }
+          }, error => {
+            swal({
+              type: 'error',
+              text: error['message']
+            })
+          });
+      }
     })
 
   }

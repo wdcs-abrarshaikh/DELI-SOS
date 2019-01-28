@@ -120,11 +120,14 @@ button.yellow_btn{
     padding: 30px 30px;
     margin-left: 23px;
 }
+.m-body .m-content {
+    padding: 30px 30px;
+    margin-left: 23px;
+}
 .m1[_ngcontent-c3] {
     padding: 30px 30px;
     margin-left: 23px;
 }
-
 .form-control {
     font-family: sans-serif,Arial;
     border-radius: 0;
