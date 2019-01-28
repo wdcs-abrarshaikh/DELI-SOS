@@ -192,7 +192,7 @@ async function addRestaurant(req, res) {
     rest.createdBy = obj.id;
     rest.status = status.active;
     rest.save((err, data) => {
-        // console.log(err)
+        console.log(err)
         return (err) ? res.json({ code: code.internalError, message: msg.internalServerError }) :
             res.json({ code: code.created, message: msg.restAddSucessfully, data: data })
     })
@@ -531,6 +531,7 @@ async function addAboutUs(req, res) {
         if (data.length == 0) {
             let about = new aboutModel(req.body)
             about.type = "About_Us"
+            about.createdAt = Date.now()
             about.save((err, data) => {
                 if (err) {
                     // console.log("error", err)
@@ -595,6 +596,7 @@ async function addPrivacyPolicy(req, res) {
         if (data.length == 0) {
             let about = new aboutModel(req.body)
             about.type = "Privacy_Policy"
+            about.createdAt = Date.now()
             about.save((err, data) => {
 
                 return (err) ? res.json({ code: code.internalError, message: msg.internalServerError }) :
@@ -652,6 +654,11 @@ async function getContactRequest(req, res) {
                 return res.json({ code: code.internalError, message: msg.internalServerError })
             }
             else {
+                console.log("data",data)
+                data.sort((a, b) => {
+                        // return new Date(b['createdAt']) - new Date(a['createdAt']);
+                        return b.createdAt - a.createdAt
+                })
                 return res.json({ code: code.ok, message: msg.ok, data: data })
             }
         })
@@ -680,7 +687,7 @@ async function addCuisin(req, res) {
             if (err) {
                 return res.json({ code: code.internalError, message: msg.internalServerError })
                 // console.log("err in array updation ")
-            } else { return res.json({ code: code.ok, msg: msg.cuisinAdded }) }
+            } else { return res.json({ code: code.ok, message: msg.cuisinAdded }) }
         });
 }
 
@@ -713,11 +720,10 @@ async function searchCuisin(req, res) {
         }
     ]).exec((err, data) => {
         if (err) {
-            return res.json({ code: code.internalError, msg: msg.internalServerError })
+            return res.json({ code: code.internalError, message: msg.internalServerError })
         }
         else if (data.length == 0) {
-            console.log("error----->",err)
-            return res.json({ code: code.notFound, msg: msg.noMatchFound })
+            return res.json({ code: code.notFound, message: msg.noMatchFound })
         }
         else {
             return res.json({ code: code.ok, message: msg.ok, data: data })
@@ -770,7 +776,7 @@ async function deleteCuisin(req, res) {
             if (err) {
                 return res.json({ code: code.internalError, message: msg.internalServerError })
             } else {
-                return res.json({ code: code.ok, data: msg.cuisinDeleted })
+                return res.json({ code: code.ok, message: msg.cuisinDeleted })
             }
         })
 }
@@ -781,7 +787,7 @@ async function updateCuisin(req, res) {
             if (err) {
                 return res.json({ code: code.internalError, message: msg.internalServerError })
             } else {
-                return res.json({ code: code.ok, msg: msg.cuisinUpdated, data: data })
+                return res.json({ code: code.ok, message: msg.cuisinUpdated, data: data })
             }
         })
 }
@@ -790,7 +796,7 @@ async function deleteRestaurantReq(req, res) {
     restModel.remove({ _id: req.params.id }, (err, data) => {
         if (err) {
             return res.json({ code: code.internalError, message: msg.internalServerError })
-        } else { return res.json({ code: code.ok, msg: msg.restReqDeclined }) }
+        } else { return res.json({ code: code.ok, message: msg.restReqDeclined }) }
     });
 
 }

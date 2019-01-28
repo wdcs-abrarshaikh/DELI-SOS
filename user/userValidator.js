@@ -267,5 +267,6 @@ module.exports = {
     validateChangePassword,
     validateUserId,
     validateChangeLocation,
-    validateUpload
+    validateUpload,
+    validateLatLong
 }
