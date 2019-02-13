@@ -743,10 +743,7 @@ function getNearByRestaurant(req, res) {
                             });
 
                             marker.push(obj);
-                            if (counter < 6) {
-                                recommendation.push(response_res);
-                                counter++;
-                            }
+                            recommendation.push(response_res);
 
 
                         });
