@@ -15,7 +15,7 @@ function validateSignUp(req, res, next) {
         if (!validateLatLong(parseFloat(req.body.longitude), parseFloat(req.body.latitude))) {
             return res.json({ code: code.badRequest, message: msg.invalidLatLong })
         }
-        if (name && email && password && deviceId && deviceType && fcmToken && latitude && longitude) {
+        if (name && email && password && deviceId && deviceType && fcmToken && req.body.latitude && req.body.longitude) {
             req.body.location = {
                 type: 'Point',
                 coordinates: [parseFloat(req.body.longitude), parseFloat(req.body.latitude)]
