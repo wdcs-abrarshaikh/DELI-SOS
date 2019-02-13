@@ -29,9 +29,15 @@ async function createUser(req, res) {
             user.role = role.USER
             user.password = bcrypt.hashSync(data.password, 11)
             user.save((err, data) => {
-                return (err) ?
-                    res.json({ code: code.ineternalError, message: msg.internalServerError }) :
-                    res.json({ code: code.created, message: msg.registered, data: data })
+                if (err) {
+                    return res.json({ code: code.ineternalError, message: msg.internalServerError })
+                }
+                else {
+                    let token = util.generateToken(data, process.env.user_secret)
+                    let { _id, name, location, locationVisible, email, role, profilePicture } = data
+                    data = { _id, name, location, locationVisible, email, role, profilePicture }
+                    return res.json({ code: code.created, message: msg.registered, token: token, data: data })
+                }
             });
         }
         else {
@@ -333,10 +339,16 @@ function addReview(req, res) {
                                             model.restId = req.body.restId;
                                             model.receiver = result.follower;
                                             model.createdAt = Date.now()
+
+                                            let receiverTokens;
+                                            console.log("printing followers", result.follower)
+
                                             userModel.find({ _id: { $in: result.follower } }).select('fcmToken').then((tokens) => {
                                             let receiverTokens;
                                                 if (tokens.length > 0) {
                                                     receiverTokens = tokens
+                                              } else {
+                                                    receiverTokens = []
                                                 }
 
                                                 let notfctnData = model
@@ -654,6 +666,7 @@ function changePassword(req, res) {
 
 function getNearByRestaurant(req, res) {
     userModel.findOne({ _id: req.params.userId, status: status.active }, (err, data) => {
+
         if (err) {
             return res.json({ code: code.internalError, message: msg.internalServerError })
         } else if (!data) {
@@ -668,7 +681,7 @@ function getNearByRestaurant(req, res) {
                         key: 'location',
                         query: { status: status.active },
                         spherical: true,
-			num:1000
+                       num: 1000
                     }
                 }, {
                     $project: {
@@ -696,6 +709,7 @@ function getNearByRestaurant(req, res) {
 
                     }
                 }], (err, response) => {
+
                     if (err) {
                         return res.json({ code: code.internalError, message: msg.internalServerError })
                     } else {
@@ -703,6 +717,7 @@ function getNearByRestaurant(req, res) {
 			console.log(response.length);
 			    let marker = [];
                         let recommendation = []
+                        let counter = 1
 
                         let modifyed_response = response.map(async (response_res) => {
                             let obj = Object.assign({}, response_res);
@@ -728,10 +743,10 @@ function getNearByRestaurant(req, res) {
                             });
 	
                             marker.push(obj);
-                            recommendation.push(response_res);
+			recommendation.push(response_res);
 
-                        });
-	console.log({marker})        
+                                               });
+	        
                 recommendation = recommendation.slice(0, 10)
 
                         return res.json({ code: code.ok, marker, recommendation })

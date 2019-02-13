@@ -2,6 +2,7 @@ swagger: "2.0"
 info:
   title: "DeliSOS"
   version: "1.0.0"
+# host: "66.70.179.133:8080"
 host: "66.70.179.133:8080"
 consumes:
 - "application/json"
@@ -36,6 +37,8 @@ paths:
                 - deviceId
                 - deviceType
                 - fcmToken
+                - latitude
+                - longitude
               properties:
                 name:
                     type: string
@@ -50,6 +53,12 @@ paths:
                     type: string
                 fcmToken:
                     type: string
+                latitude:
+                    type: string
+                    description: 'The value must be between -90 to 90'
+                longitude:
+                    type: string
+                    description: 'The value must be between -180 to 180'
         responses:
           "201":
             description: Sucessfully registered.

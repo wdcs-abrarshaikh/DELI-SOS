@@ -31,10 +31,10 @@ function sendMessage(to, message, title, data) {
   let updatedData = {receiver,createdAt,_id,notificationType,reviewId,sender,restId}
   updatedData.title = title;
   updatedData.body = message;
-  console.log("after change",updatedData)
+  //console.log("after change",updatedData)
 
     let modifyedResult = createModel(to, updatedData);
-    console.log({modifyedResult})
+    //console.log({modifyedResult})
 
     fcm.send(modifyedResult, function (err, response) {
         if (err) {
