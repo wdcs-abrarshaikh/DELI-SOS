@@ -434,7 +434,7 @@ function addPhotoByUser(req, res) {
     let data = req.body
     let condition = {
         _id: data.restId,
-        'photoByUser.userId': { $ne: data.userId }
+        //'photoByUser.userId': { $eq  : data.userId }
     }
     let newArray = []
     let obj = data.url.map(async (result) => {
@@ -449,18 +449,38 @@ function addPhotoByUser(req, res) {
     let update = {
         $addToSet: { photoByUser: newArray }
     }
-    return restModel.findOneAndUpdate(condition, update).then((result) => {
-        if (!result) {
-            res.json({ code: code.forbidden, message: msg.alreadyUploadPhotos })
+    restModel.findOne(condition).then((result) => {
+        let imageObjects = []
+        if (result.photoByUser.length > 0) {
+            imageObjects = result.photoByUser.filter((object) => {
+                if (object.userId == data.userId) {
+                    return object
+                }
+            })
+        }
+        console.log("len", imageObjects.length)
+        let totalLength = imageObjects.length + newArray.length
+        if (imageObjects.length < 5 && totalLength <= 5) {
+            restModel.findOneAndUpdate(condition, update).then((result) => {
+                if (!result) {
+                    return res.json({ code: code.forbidden, message: msg.alreadyUploadPhotos })
+                }
+                else {
+                    return res.json({ code: code.created, message: msg.imageUploaded })
+                }
+            }).catch((err) => {
+                if (err) {
+                    return res.json({ code: code.internalError, message: msg.internalServerError })
+                }
+            })
         }
         else {
-            res.json({ code: code.created, message: msg.imageUploaded })
+            return res.json({ code: code.forbidden, message: msg.alreadyUploadPhotos })
         }
     }).catch((err) => {
-        if (err) {
-            res.json({ code: code.internalError, message: msg.internalServerError })
-        }
+        return res.json({ code: code.internalError, message: msg.internalServerError })
     })
+
 }
 
 function deletePhotoByUser(req, res) {
