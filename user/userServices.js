@@ -744,8 +744,7 @@ function getNearByRestaurant(req, res) {
 	
                             marker.push(obj);
 			recommendation.push(response_res);
-
-                                               });
+                                            });
 	        
                 recommendation = recommendation.slice(0, 10)
 
