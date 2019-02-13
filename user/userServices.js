@@ -29,9 +29,15 @@ async function createUser(req, res) {
             user.role = role.USER
             user.password = bcrypt.hashSync(data.password, 11)
             user.save((err, data) => {
-                return (err) ?
-                    res.json({ code: code.ineternalError, message: msg.internalServerError }) :
-                    res.json({ code: code.created, message: msg.registered, data: data })
+                if (err) {
+                    return res.json({ code: code.ineternalError, message: msg.internalServerError })
+                }
+                else {
+                    let token = util.generateToken(data, process.env.user_secret)
+                    let { _id, name, location, locationVisible, email, role, profilePicture } = data
+                    data = { _id, name, location, locationVisible, email, role, profilePicture }
+                    return res.json({ code: code.created, message: msg.registered, token: token, data: data })
+                }
             });
         }
         else {
@@ -333,12 +339,12 @@ function addReview(req, res) {
                                             model.receiver = result.follower;
                                             model.createdAt = Date.now()
                                             let receiverTokens;
-                                            console.log("printing followers",result.follower)
+                                            console.log("printing followers", result.follower)
                                             userModel.find({ _id: { $in: result.follower } }).select('fcmToken').then((tokens) => {
                                                 if (tokens.length > 0) {
                                                     receiverTokens = tokens
-                                                }else{
-                                                  receiverTokens=[]
+                                                } else {
+                                                    receiverTokens = []
                                                 }
                                                 console.log("printing tokens");
                                                 console.log(receiverTokens)
@@ -663,7 +669,7 @@ function changePassword(req, res) {
 
 function getNearByRestaurant(req, res) {
     userModel.findOne({ _id: req.params.userId, status: status.active }, (err, data) => {
-      console.log(data.location)
+        console.log(data.location)
         if (err) {
             return res.json({ code: code.internalError, message: msg.internalServerError })
         } else if (!data) {
@@ -678,8 +684,8 @@ function getNearByRestaurant(req, res) {
                         key: 'location',
                         query: { status: status.active },
                         spherical: true,
-                        num:1000
-                }
+                        num: 1000
+                    }
                 }, {
                     $project: {
                         'location': 1, 'photos': 1, '_id': 1,
@@ -706,13 +712,13 @@ function getNearByRestaurant(req, res) {
 
                     }
                 }], (err, response) => {
-                  console.log(response.length)
+                    console.log(response.length)
                     if (err) {
                         return res.json({ code: code.internalError, message: msg.internalServerError })
                     } else {
                         let marker = [];
                         let recommendation = []
-                        let counter =1
+                        let counter = 1
                         let modifyed_response = response.map(async (response_res) => {
                             let obj = Object.assign({}, response_res);
                             delete obj.mealOffers;
@@ -737,7 +743,7 @@ function getNearByRestaurant(req, res) {
                             });
 
                             marker.push(obj);
-                            if(counter < 6){
+                            if (counter < 6) {
                                 recommendation.push(response_res);
                                 counter++;
                             }

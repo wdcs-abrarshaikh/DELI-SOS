@@ -46,7 +46,9 @@
                                 "name",
                                 "deviceId",
                                 "deviceType",
-                                "fcmToken"
+                                "fcmToken",
+                                "latitude",
+                                "longitude"
                             ],
                             "properties": {
                                 "name": {
@@ -67,6 +69,14 @@
                                 },
                                 "fcmToken": {
                                     "type": "string"
+                                },
+                                "latitude": {
+                                    "type": "string",
+                                    "description": "The value must be between -90 to 90"
+                                },
+                                "longitude": {
+                                    "type": "string",
+                                    "description": "The value must be between -180 to 180"
                                 }
                             }
                         }

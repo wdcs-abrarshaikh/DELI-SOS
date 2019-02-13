@@ -14,6 +14,10 @@ function validateSignUp(req, res, next) {
         fcmToken = req.body.fcmToken.trim();
 
         if (name && email && password && deviceId && deviceType && fcmToken) {
+            req.body.location = {
+                type: 'Point',
+                coordinates: [parseFloat(req.body.longitude), parseFloat(req.body.latitude)]
+            }
             next();
         }
         else {

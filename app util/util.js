@@ -39,11 +39,12 @@ function validateEmail(data) {
 }
 
 function validatePassword(data) {
-    let regex = /^(?=.*[A-z])(?=.*[0-9])(?=.*[@#$_-])\S{8,20}$/;
+    let regex = /^(?!\s*$).+/;
     return regex.test(data)
 }
 
 function generateToken(data, secret) {
+    console.log(data)
     let obj = {
         id: data._id,
         name: data.name,
