@@ -48,11 +48,9 @@ export class LoginComponent implements OnInit {
       }
     }, error => {
       this.spinnerService.hide();
-       console.log('error' + error);
+      this.toastService.error(error.message);
     });
   }
-  
-
 
   buildLoginForm() {
     this.loginForm = this._formBuilder.group({
@@ -61,4 +59,8 @@ export class LoginComponent implements OnInit {
 
     });
   }
+
+remember(){
+   console.log(this.loginForm.value)
+}
 }

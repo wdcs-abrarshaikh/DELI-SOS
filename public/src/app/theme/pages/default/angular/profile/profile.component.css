@@ -109,7 +109,7 @@ button.yellow_btn{
      font-weight: 600;
  }
  .header{
-    font-size: 3.15rem;
+    font-size: 2.25rem;
    padding: 1.30rem 4.65rem;
     text-align: center;
 }
@@ -117,6 +117,10 @@ button.yellow_btn{
     color: red;
 }
 .m1{
+    padding: 30px 30px;
+    margin-left: 23px;
+}
+.m-body .m-content {
     padding: 30px 30px;
     margin-left: 23px;
 }

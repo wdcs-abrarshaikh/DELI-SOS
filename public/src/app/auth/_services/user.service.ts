@@ -9,8 +9,7 @@ export class UserService {
 	}
 
 	verify() {
-		
-	  console.log("vertdsdsghdsghdsgh")
+	
 		return this.http.get('/admin/verifyToken', this.jwt()).map((response: Response) => response.json());
 	}
 
@@ -44,7 +43,6 @@ export class UserService {
 		// create authorization header with jwt token
 		let currentUser = JSON.parse(localStorage.getItem('_token'));
 		if (currentUser && currentUser.token) {
-			console.log(currentUser)
 			let headers = new Headers({'Authorization':JSON.parse(localStorage.getItem('_token')) });
 			return new RequestOptions({headers: headers});
 		}

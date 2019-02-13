@@ -1,3 +1,5 @@
+import { DataTableDirective } from 'angular-datatables';
+import { Subject } from 'rxjs/Subject';
 import { Component, OnInit, Output, EventEmitter, Input, AfterViewInit, ViewEncapsulation, ElementRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RestaurantService } from './restaurant.service';
@@ -24,6 +26,10 @@ function _window(): any {
 })
 
 export class RestaurantComponent implements OnInit, AfterViewInit {
+  dtOptions: DataTables.Settings = {};
+  dtTrigger: Subject<any> = new Subject();
+  @ViewChild(DataTableDirective)
+  dtElement: DataTableDirective;
 
   modalReference: any;
   isAdd: boolean = false;
@@ -38,25 +44,28 @@ export class RestaurantComponent implements OnInit, AfterViewInit {
     private _formBuilder: FormBuilder,
     private restaurantService: RestaurantService,
     private _script: ScriptLoaderService,
-    private spinnerService:Ng4LoadingSpinnerService) {
-     this.restaurantService.getRestaurant().subscribe((data: any) => {
+    private spinnerService: Ng4LoadingSpinnerService) {
+    this.restaurantService.getRestaurant().subscribe((data: any) => {
       this.RestaurantList = data.RestautantList.data
- });
+      this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+        dtInstance.destroy();
+        this.dtTrigger.next();
+        this.spinnerService.hide();
+      })
+    });
   }
-  
+
   ngAfterViewInit() {
-    
-        let scripts = [];
-        if (!_window().isScriptLoadedUsermgmt) {
-          scripts = ['assets/vendors/custom/datatables/datatables.bundle.js'];
-        }
-        let that = this;
-        this._script.loadScripts('app-restaurant',
-            scripts).then(function(){
-              
-              _window().isScriptLoadedUsermgmt = true;
-              that._script.loadScripts('app-restaurant', ['assets/demo/default/custom/crud/datatables/basic/paginations.js']);
-          });
+    let scripts = [];
+    if (!_window().isScriptLoadedUsermgmt) {
+      scripts = ['assets/vendors/custom/datatables/datatables.bundle.js'];
+    }
+    let that = this;
+    this._script.loadScripts('app-restaurant',
+      scripts).then(function () {
+        _window().isScriptLoadedUsermgmt = true;
+        that._script.loadScripts('app-restaurant', ['assets/demo/default/custom/crud/datatables/basic/paginations.js']);
+      });
 
   }
 
@@ -64,21 +73,29 @@ export class RestaurantComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     _window().my = _window().my || {};
     _window().my.usermgmt = _window().my.usermgmt || {};
-    if (typeof (_window().isScriptLoadedUsermgmt) == "undefined"){
+    if (typeof (_window().isScriptLoadedUsermgmt) == "undefined") {
       _window().isScriptLoadedUsermgmt = false;
     }
-    
+    this.dtOptions = {
+      pagingType: 'full_numbers',
+      pageLength: 10,
+      stateSave: true
+    };
     this.getRestaurantList();
   }
-  
+
+  ngOnDestroy(): void {
+    this.dtTrigger.unsubscribe();
+  }
+
   getRestaurantList() {
     this.spinnerService.show();
     this.restaurantService.getAllRestaurant().subscribe((response: any) => {
       this.RestaurantList = response.data;
+      this.dtTrigger.next();
       this.spinnerService.hide();
     });
   }
-
 
   mealOffers_arr: Array<any> = ["BREAKFAST", "LUNCH", "DINNER", "ALL"]
   async checkValue(arr) {
@@ -96,27 +113,27 @@ export class RestaurantComponent implements OnInit, AfterViewInit {
     return array_val;
   }
 
- 
- async convertTime12to24(time12h) {
-      const [time, modifier] = time12h.split(' ');
-      let [hours, minutes] = time.split(':');
-      if (hours === '12') {
-        hours = '00';
-      }
-     if (modifier === 'PM') {
-        hours = parseInt(hours, 10) + 12;
-      }
-     return hours + ':' + minutes;
-    }
 
-  
+  async convertTime12to24(time12h) {
+    const [time, modifier] = time12h.split(' ');
+    let [hours, minutes] = time.split(':');
+    if (hours === '12') {
+      hours = '00';
+    }
+    if (modifier === 'PM') {
+      hours = parseInt(hours, 10) + 12;
+    }
+    return hours + ':' + minutes;
+  }
+
+
   async open(content, type) {
 
     if (!content) {
       this.isAdd = true
     } else {
-       this.isAdd = false
-   }
+      this.isAdd = false
+    }
     const modalRef = this.modalService.open(AddEditRestaurantComponent);
     let arr_value: any = [false, false, false, false];
     modalRef.componentInstance.id = content ? content._id : "";
@@ -137,12 +154,11 @@ export class RestaurantComponent implements OnInit, AfterViewInit {
     modalRef.componentInstance.mealOffers = (content) ? await this.checkValue(content.mealOffers) : arr_value;
 
   }
-  viewRestaurant(restaurant){
-    this.modalReference=this.modalService.open(restaurant)
- }
+  viewRestaurant(restaurant) {
+    this.modalReference = this.modalService.open(restaurant)
+  }
 
   delete(id) {
-
     swal({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",
@@ -153,27 +169,36 @@ export class RestaurantComponent implements OnInit, AfterViewInit {
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.value) {
+        this.spinnerService.show();
         this.restaurantService.deleteRestaurant(id).subscribe(
           data => {
-            this.getRestaurantList();
-            if(data['code']==200){
+            if (data['code'] == 200) {
               swal(
                 'Deleted!',
-               data['message'],
+                data['message'],
                 'success'
               )
-            }else{
+              this.restaurantService.getAllRestaurant().subscribe((response: any) => {
+                this.RestaurantList = response.data;
+                this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+                  dtInstance.destroy();
+                  this.dtTrigger.next();
+                  this.spinnerService.hide();
+                })
+              });
+            } else {
               swal({
                 type: 'error',
                 text: data['message']
               })
-            }},error=>{
-              swal({
-                type: 'error',
-                text: error['message']
-              })
-            });
-        }
+            }
+          }, error => {
+            swal({
+              type: 'error',
+              text: error['message']
+            })
+          });
+      }
     })
 
   }
