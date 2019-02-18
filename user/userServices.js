@@ -60,7 +60,7 @@ function authenticateUser(req, res) {
                     //     updation = { $set: { activeToken: token }, $push: { blackListedTokens: currentToken } }
                     // }
                     // else {
-                        updation = { $set: { activeToken: token } }
+                    updation = { $set: { activeToken: token } }
                     // }
                     userModel.update({ _id: result._id }, updation, (err, cb) => {
                         if (err) {
@@ -68,7 +68,7 @@ function authenticateUser(req, res) {
                         }
                     })
                     let { _id, name, location, locationVisible, email, role, profilePicture } = result
-			console.log(token);
+                    console.log(token);
                     result = { _id, name, location, locationVisible, email, role, profilePicture }
                     return res.json({ code: code.ok, message: msg.loggedIn, token: token, data: result })
                 }
@@ -162,7 +162,7 @@ function fetchDetail(req, res) {
 function manageSocialLogin(req, res) {
     let data = req.body
     let user = new userModel(data)
-    userModel.findOneAndUpdate({ socialId: data.socialId,role: role.USER, status: status.active },
+    userModel.findOneAndUpdate({ socialId: data.socialId, role: role.USER },
         { $set: { deviceId: data.deviceId, deviceType: data.deviceType, fcmToken: data.fcmToken, email: data.email, location: data.location } },
         { new: true }, (err, data) => {
             if (err) {
@@ -182,8 +182,13 @@ function manageSocialLogin(req, res) {
                 })
             }
             else {
-                let token = util.generateToken(data, process.env.user_secret)
-                return res.json({ code: code.ok, message: msg.loggedIn, token: token, data: data })
+                if (data.status == status.active) {
+                    let token = util.generateToken(data, process.env.user_secret)
+                    return res.json({ code: code.ok, message: msg.loggedIn, token: token, data: data })
+                } else {
+                    return res.json({ code: code.notFound, message: msg.userNotFound })
+                }
+
             }
         })
 }
@@ -334,28 +339,28 @@ function addReview(req, res) {
                                             model.receiver = result.follower;
                                             model.createdAt = Date.now()
                                             userModel.find({ _id: { $in: result.follower } }).select('fcmToken').then((tokens) => {
-                                            let receiverTokens;
+                                                let receiverTokens;
                                                 if (tokens.length > 0) {
                                                     receiverTokens = tokens
                                                 }
 
                                                 let notfctnData = model
                                                 model.save().then((response) => {
-                                                let obj = util.decodeToken(req.headers['authorization'])
-                                                let message = `${obj.name} posted new review.`
+                                                    let obj = util.decodeToken(req.headers['authorization'])
+                                                    let message = `${obj.name} posted new review.`
                                                     console.log("printing reciever token");
                                                     console.log(receiverTokens)
-                                                if (receiverTokens) {
-                                                    receiverTokens.map((token) => {
-                                                        fcm.sendMessage(token.fcmToken, message, process.env.appName, notfctnData)
-                                                    })
-                                                }
-                                                return res.json({ code: code.created, message: msg.reviewAdded, data: data_V3 })
-                                            })
+                                                    if (receiverTokens) {
+                                                        receiverTokens.map((token) => {
+                                                            fcm.sendMessage(token.fcmToken, message, process.env.appName, notfctnData)
+                                                        })
+                                                    }
+                                                    return res.json({ code: code.created, message: msg.reviewAdded, data: data_V3 })
+                                                })
                                             }).catch((err) => {
                                                 return res.json({ code: code.internalError, message: msg.internalServerError })
                                             })
-                                            
+
                                         }
                                     })
 
@@ -667,7 +672,7 @@ function getNearByRestaurant(req, res) {
                         maxDistance: 10000,
                         key: 'location',
                         query: { status: status.active },
-                         spherical: true
+                        spherical: true
                     }
                 }, {
                     $project: {
@@ -698,9 +703,9 @@ function getNearByRestaurant(req, res) {
                     if (err) {
                         return res.json({ code: code.internalError, message: msg.internalServerError })
                     } else {
-                    
-			console.log(response.length);
-			    let marker = [];
+
+                        console.log(response.length);
+                        let marker = [];
                         let recommendation = []
 
                         let modifyed_response = response.map(async (response_res) => {
@@ -709,9 +714,9 @@ function getNearByRestaurant(req, res) {
                             obj.lat = obj.location.coordinates[1];
                             obj.long = obj.location.coordinates[0];
                             obj.photos = obj.photos[0];
-        	                    if (!obj.rating) {
+                            if (!obj.rating) {
                                 obj.rating = 0
-                           }
+                            }
                             response_res.photos = response_res.photos[0];
                             delete obj.location;
                             delete response_res.location;
@@ -725,13 +730,13 @@ function getNearByRestaurant(req, res) {
                                     response_res.addedInFavourites = 1;
                                 }
                             });
-	
+
                             marker.push(obj);
                             recommendation.push(response_res);
 
                         });
-	console.log({marker})        
-                recommendation = recommendation.slice(0, 10)
+                        console.log({ marker })
+                        recommendation = recommendation.slice(0, 10)
 
                         return res.json({ code: code.ok, marker, recommendation })
                     }
@@ -1101,7 +1106,7 @@ function getNotificationList(req, res) {
 
 function logout(req, res) {
     let obj = util.decodeToken(req.headers['authorization'])
-    userModel.findByIdAndUpdate({ _id: obj.id }, { $set:{"fcmToken":'',"activeToken":'',"deviceId":""},$push: { blackListedTokens: req.headers['authorization'] } })
+    userModel.findByIdAndUpdate({ _id: obj.id }, { $set: { "fcmToken": '', "activeToken": '', "deviceId": "" }, $push: { blackListedTokens: req.headers['authorization'] } })
         .then((data) => {
             if (data) {
                 return res.json({ code: code.ok, message: msg.loggedout })
