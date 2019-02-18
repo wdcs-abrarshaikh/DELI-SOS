@@ -168,7 +168,8 @@ function fetchDetail(req, res) {
 function manageSocialLogin(req, res) {
     let data = req.body
     let user = new userModel(data)
-    userModel.findOneAndUpdate({ socialId: data.socialId },
+	console.log({data})    
+userModel.findOneAndUpdate({ socialId: data.socialId ,role: role.USER },
         { $set: { deviceId: data.deviceId, deviceType: data.deviceType, fcmToken: data.fcmToken, email: data.email, location: data.location } },
         { new: true }, (err, data) => {
             if (err) {
@@ -188,9 +189,13 @@ function manageSocialLogin(req, res) {
                 })
             }
             else {
+		if(data.status == status.active){
                 let token = util.generateToken(data, process.env.user_secret)
                 return res.json({ code: code.ok, message: msg.loggedIn, token: token, data: data })
-            }
+            }else{
+	return res.json({ code: code.notFound, message: msg.userNotFound })
+}
+}
         })
 }
 
