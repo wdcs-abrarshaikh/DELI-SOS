@@ -162,7 +162,7 @@ function fetchDetail(req, res) {
 function manageSocialLogin(req, res) {
     let data = req.body
     let user = new userModel(data)
-    userModel.findOneAndUpdate({ socialId: data.socialId },
+    userModel.findOneAndUpdate({ socialId: data.socialId,role: role.USER, status: status.active },
         { $set: { deviceId: data.deviceId, deviceType: data.deviceType, fcmToken: data.fcmToken, email: data.email, location: data.location } },
         { new: true }, (err, data) => {
             if (err) {
