@@ -235,9 +235,10 @@ function getRestaurantDetail(req, res) {
                         return res.json({ code: code.internalError, message: msg.internalServerError })
                     }
                     else {
-                        userModel.findOne({ _id: userId }, { 'favourites': 1, '_id': 0 }).then((result) => {
+			userModel.findOne({ _id: userId }, { 'favourites': 1, '_id': 0 }).then((result) => {
                             let fav = result.favourites
                             let actual_response = response[0]
+		
                             actual_response._id.addedInFavourites = 0;
                             if (fav.indexOf(id) >= 0) {
                                 actual_response._id.addedInFavourites = 1;
