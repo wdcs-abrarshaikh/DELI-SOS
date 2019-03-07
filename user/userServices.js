@@ -1048,18 +1048,6 @@ function filterRestaurants(req, res) {
                     final.sort((a, b) => {
                         return (a._id['ratings'] - b._id['ratings'])
                     })
-                    if (sortBy) {
-                        if (sortBy == 'ratings') {
-                            final.sort((a, b) => {
-                                return (b._id[sortBy] - a._id[sortBy])
-                            })
-                        }
-                        else{
-                            final.sort((a, b) => {
-                                return (a._id[sortBy] - b._id[sortBy])
-                            })
-                        }
-                    }
                     res.json({ code: code.ok, message: msg.ok, data: final })
                 }
             })
