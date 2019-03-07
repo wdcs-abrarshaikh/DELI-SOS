@@ -167,7 +167,7 @@ function fetchDetail(req, res) {
 function manageSocialLogin(req, res) {
     let data = req.body
     let user = new userModel(data)
-    userModel.findOneAndUpdate({ socialId: data.socialId },
+    userModel.findOneAndUpdate({ $or: [{ socialId: data.socialId }, { email: data.email }] },
         { $set: { deviceId: data.deviceId, deviceType: data.deviceType, fcmToken: data.fcmToken, email: data.email, location: data.location } },
         { new: true }, (err, data) => {
             if (err) {
@@ -187,6 +187,9 @@ function manageSocialLogin(req, res) {
                 })
             }
             else {
+                if(data.status == "INACTIVE"){
+                    return res.json({code:code.notFound,message:msg.deactivatedUser})
+                }
                 let token = util.generateToken(data, process.env.user_secret)
                 return res.json({ code: code.ok, message: msg.loggedIn, token: token, data: data })
             }
@@ -1043,8 +1046,20 @@ function filterRestaurants(req, res) {
                         }
                     })
                     final.sort((a, b) => {
-                        return (a._id['distance'] - b._id['distance'])
+                        return (a._id['ratings'] - b._id['ratings'])
                     })
+                    if (sortBy) {
+                        if (sortBy == 'ratings') {
+                            final.sort((a, b) => {
+                                return (b._id[sortBy] - a._id[sortBy])
+                            })
+                        }
+                        else{
+                            final.sort((a, b) => {
+                                return (a._id[sortBy] - b._id[sortBy])
+                            })
+                        }
+                    }
                     res.json({ code: code.ok, message: msg.ok, data: final })
                 }
             })
@@ -1091,12 +1106,19 @@ function searchRestaurants(req, res) {
                         }
                     })
                     final.sort((a, b) => {
-                        return (a._id['distance'] - b._id['distance'])
+                        return (a._id['ratings'] - b._id['ratings'])
                     })
                     if (sortBy) {
-                        final.sort((a, b) => {
-                            return (b._id[sortBy] - a._id[sortBy])
-                        })
+                        if (sortBy == 'ratings') {
+                            final.sort((a, b) => {
+                                return (b._id[sortBy] - a._id[sortBy])
+                            })
+                        }
+                        else{
+                            final.sort((a, b) => {
+                                return (a._id[sortBy] - b._id[sortBy])
+                            })
+                        }
                     }
 
                     return res.json({ code: code.ok, message: msg.ok, data: final })
