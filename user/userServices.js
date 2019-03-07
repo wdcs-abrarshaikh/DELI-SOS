@@ -60,21 +60,20 @@ function authenticateUser(req, res) {
             else {
                 if (bcrypt.compareSync(data.password, result.password)) {
                     let token = util.generateToken(result, process.env.user_secret)
-                    // let currentToken = result.activeToken
+                    let currentToken = result.activeToken
                     let updation;
-                    // if (currentToken) {
-                    //     updation = { $set: { activeToken: token }, $push: { blackListedTokens: currentToken } }
-                    // }
-                    // else {
+                    if (currentToken) {
+                        updation = { $set: { activeToken: token }, $push: { blackListedTokens: currentToken } }
+                    }
+                    else {
                         updation = { $set: { activeToken: token } }
-                    // }
+                    }
                     userModel.update({ _id: result._id }, updation, (err, cb) => {
                         if (err) {
                             return res.json({ code: code.ineternalError, message: msg.internalServerError })
                         }
                     })
                     let { _id, name, location, locationVisible, email, role, profilePicture } = result
-			console.log(token);
                     result = { _id, name, location, locationVisible, email, role, profilePicture }
                     return res.json({ code: code.ok, message: msg.loggedIn, token: token, data: result })
                 }
@@ -168,8 +167,7 @@ function fetchDetail(req, res) {
 function manageSocialLogin(req, res) {
     let data = req.body
     let user = new userModel(data)
-	console.log({data})    
-userModel.findOneAndUpdate({ socialId: data.socialId ,role: role.USER },
+    userModel.findOneAndUpdate({ $or: [{ socialId: data.socialId }, { email: data.email }] },
         { $set: { deviceId: data.deviceId, deviceType: data.deviceType, fcmToken: data.fcmToken, email: data.email, location: data.location } },
         { new: true }, (err, data) => {
             if (err) {
@@ -189,13 +187,12 @@ userModel.findOneAndUpdate({ socialId: data.socialId ,role: role.USER },
                 })
             }
             else {
-		if(data.status == status.active){
+                if(data.status == "INACTIVE"){
+                    return res.json({code:code.notFound,message:msg.deactivatedUser})
+                }
                 let token = util.generateToken(data, process.env.user_secret)
                 return res.json({ code: code.ok, message: msg.loggedIn, token: token, data: data })
-            }else{
-	return res.json({ code: code.notFound, message: msg.userNotFound })
-}
-}
+            }
         })
 }
 
@@ -235,10 +232,9 @@ function getRestaurantDetail(req, res) {
                         return res.json({ code: code.internalError, message: msg.internalServerError })
                     }
                     else {
-			userModel.findOne({ _id: userId }, { 'favourites': 1, '_id': 0 }).then((result) => {
+                        userModel.findOne({ _id: userId }, { 'favourites': 1, '_id': 0 }).then((result) => {
                             let fav = result.favourites
                             let actual_response = response[0]
-		
                             actual_response._id.addedInFavourites = 0;
                             if (fav.indexOf(id) >= 0) {
                                 actual_response._id.addedInFavourites = 1;
@@ -306,74 +302,78 @@ function getRestaurantList(req, res) {
 }
 
 function addReview(req, res) {
-    userModel.findOne({ _id: req.body.userId }, (err, data_v1) => {
+    userModel.findOne({ _id: req.body.userId }, (err, data) => {
         if (err) {
             return res.json({ code: code.internalError, message: msg.internalServerError })
-        } else if (!data_v1) {
+        } else if (!data) {
             return res.json({ code: code.notFound, message: msg.userNotFound })
         }
         else {
-            restModel.findOne({ _id: req.body.restId }, (err, data_V2) => {
+            restModel.findOne({ _id: req.body.restId }, (err, data) => {
                 if (err) {
                     return res.json({ code: code.internalError, message: msg.internalServerError })
                 }
-                else if (!data_V2) {
+                else if (!data) {
                     return res.json({ code: code.notFound, message: msg.restNotFound })
                 }
                 else {
                     let review = new reviewModel(req.body)
                     review.createdAt = Date.now()
-                    review.save((err, data_V3) => {
+                    review.save((err, data) => {
                         if (err) {
                             res.json({ code: code.internalError, message: msg.internalServerError })
                         }
                         else {
-                            userModel.findByIdAndUpdate({ _id: req.body.userId }, { $push: { review: data_V3._id } }, (err, result) => {
+                            userModel.findByIdAndUpdate({ _id: req.body.userId }, { $push: { review: data._id } }, (err, result) => {
                                 if (err) {
                                     return res.json({ code: code.internalError, message: msg.internalServerError })
                                 }
                                 else {
-                                    restModel.findByIdAndUpdate({ _id: req.body.restId }, { $push: { reviews: data_V3._id } }, (err) => {
+                                    restModel.findByIdAndUpdate({ _id: req.body.restId }, { $push: { reviews: data._id } }, (err) => {
                                         if (err) {
                                             return res.json({ code: code.internalError, message: msg.internalServerError })
                                         }
                                         else {
                                             let model = new notificationModel()
                                             model.notificationType = ntfctnType.reviewPosted
-                                            model.reviewId = data_V3._id;
+                                            model.reviewId = data._id;
                                             model.sender = req.body.userId;
                                             model.restId = req.body.restId;
                                             model.receiver = result.follower;
                                             model.createdAt = Date.now()
-
                                             let receiverTokens;
                                             console.log("printing followers", result.follower)
-
                                             userModel.find({ _id: { $in: result.follower } }).select('fcmToken').then((tokens) => {
-                                            let receiverTokens;
                                                 if (tokens.length > 0) {
                                                     receiverTokens = tokens
-                                              } else {
+                                                } else {
                                                     receiverTokens = []
                                                 }
-
+                                                console.log("printing tokens");
+                                                console.log(receiverTokens)
                                                 let notfctnData = model
-                                                model.save().then((response) => {
+                                                model.save().then(async (response) => {
+                                                    let obj = await util.decodeToken(req.headers['authorization'])
+                                                    let message = `${obj.name} posted new review.`
+                                                    receiverTokens.map((token) => {
+                                                        fcm.sendMessage(token.fcmToken, message, process.env.appName, notfctnData)
+                                                    })
+                                                    return res.json({ code: code.created, message: msg.reviewAdded, data: data })
+                                                })
+                                            }).catch((err) => {
+                                                return res.json({ code: code.internalError, message: msg.internalServerError })
+                                            })
+                                            let notfctnData = model
+                                            model.save().then((response) => {
                                                 let obj = util.decodeToken(req.headers['authorization'])
                                                 let message = `${obj.name} posted new review.`
-                                                    console.log("printing reciever token");
-                                                    console.log(receiverTokens)
                                                 if (receiverTokens) {
                                                     receiverTokens.map((token) => {
                                                         fcm.sendMessage(token.fcmToken, message, process.env.appName, notfctnData)
                                                     })
                                                 }
-                                                return res.json({ code: code.created, message: msg.reviewAdded, data: data_V3 })
+                                                return res.json({ code: code.created, message: msg.reviewAdded, data: data })
                                             })
-                                            }).catch((err) => {
-                                                return res.json({ code: code.internalError, message: msg.internalServerError })
-                                            })
-                                            
                                         }
                                     })
 
@@ -692,7 +692,7 @@ function changePassword(req, res) {
 
 function getNearByRestaurant(req, res) {
     userModel.findOne({ _id: req.params.userId, status: status.active }, (err, data) => {
-
+        console.log(data.location)
         if (err) {
             return res.json({ code: code.internalError, message: msg.internalServerError })
         } else if (!data) {
@@ -707,7 +707,7 @@ function getNearByRestaurant(req, res) {
                         key: 'location',
                         query: { status: status.active },
                         spherical: true,
-                       num: 1000
+                        num: 1000
                     }
                 }, {
                     $project: {
@@ -735,25 +735,22 @@ function getNearByRestaurant(req, res) {
 
                     }
                 }], (err, response) => {
-
+                    console.log(response.length)
                     if (err) {
                         return res.json({ code: code.internalError, message: msg.internalServerError })
                     } else {
-                    
-			console.log(response.length);
-			    let marker = [];
+                        let marker = [];
                         let recommendation = []
                         let counter = 1
-
                         let modifyed_response = response.map(async (response_res) => {
                             let obj = Object.assign({}, response_res);
                             delete obj.mealOffers;
                             obj.lat = obj.location.coordinates[1];
                             obj.long = obj.location.coordinates[0];
                             obj.photos = obj.photos[0];
-        	                    if (!obj.rating) {
+                            if (!obj.rating) {
                                 obj.rating = 0
-                           }
+                            }
                             response_res.photos = response_res.photos[0];
                             delete obj.location;
                             delete response_res.location;
@@ -767,12 +764,13 @@ function getNearByRestaurant(req, res) {
                                     response_res.addedInFavourites = 1;
                                 }
                             });
-	
+
                             marker.push(obj);
-			recommendation.push(response_res);
-                                            });
-	        
-                recommendation = recommendation.slice(0, 10)
+                            recommendation.push(response_res);
+
+
+                        });
+                        recommendation = recommendation.slice(0, 10)
 
                         return res.json({ code: code.ok, marker, recommendation })
                     }
@@ -1048,8 +1046,20 @@ function filterRestaurants(req, res) {
                         }
                     })
                     final.sort((a, b) => {
-                        return (a._id['distance'] - b._id['distance'])
+                        return (a._id['ratings'] - b._id['ratings'])
                     })
+                    if (sortBy) {
+                        if (sortBy == 'ratings') {
+                            final.sort((a, b) => {
+                                return (b._id[sortBy] - a._id[sortBy])
+                            })
+                        }
+                        else{
+                            final.sort((a, b) => {
+                                return (a._id[sortBy] - b._id[sortBy])
+                            })
+                        }
+                    }
                     res.json({ code: code.ok, message: msg.ok, data: final })
                 }
             })
@@ -1096,12 +1106,19 @@ function searchRestaurants(req, res) {
                         }
                     })
                     final.sort((a, b) => {
-                        return (a._id['distance'] - b._id['distance'])
+                        return (a._id['ratings'] - b._id['ratings'])
                     })
                     if (sortBy) {
-                        final.sort((a, b) => {
-                            return (b._id[sortBy] - a._id[sortBy])
-                        })
+                        if (sortBy == 'ratings') {
+                            final.sort((a, b) => {
+                                return (b._id[sortBy] - a._id[sortBy])
+                            })
+                        }
+                        else{
+                            final.sort((a, b) => {
+                                return (a._id[sortBy] - b._id[sortBy])
+                            })
+                        }
                     }
 
                     return res.json({ code: code.ok, message: msg.ok, data: final })
@@ -1142,7 +1159,7 @@ function getNotificationList(req, res) {
 
 function logout(req, res) {
     let obj = util.decodeToken(req.headers['authorization'])
-    userModel.findByIdAndUpdate({ _id: obj.id }, { $set:{"fcmToken":'',"activeToken":'',"deviceId":""},$push: { blackListedTokens: req.headers['authorization'] } })
+    userModel.findByIdAndUpdate({ _id: obj.id }, { $push: { blackListedTokens: req.headers['authorization'] } })
         .then((data) => {
             if (data) {
                 return res.json({ code: code.ok, message: msg.loggedout })

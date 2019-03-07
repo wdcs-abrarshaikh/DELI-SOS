@@ -10,11 +10,11 @@ var status = require('../constants').status;
 var validate = require('./adminValidator');
 var cloudinary = require('cloudinary')
 MongoClient = require('mongodb').MongoClient,
-cloudinary.config({
-    cloud_name: process.env.cloudinary_name,
-    api_key: process.env.cloudinary_key,
-    api_secret: process.env.cloudinary_secret
-});
+    cloudinary.config({
+        cloud_name: process.env.cloudinary_name,
+        api_key: process.env.cloudinary_key,
+        api_secret: process.env.cloudinary_secret
+    });
 
 
 var reviews = require('../schema/review');
@@ -48,7 +48,7 @@ async function createAdmin(req, res) {
 
 //this is a login function of admin. it returns token which expires in 1hr and result:id,mail and role
 async function authenticateAdmin(req, res) {
-    
+
     let data = req.body;
     await userModel.findOne({ email: data.email, role: role.ADMIN }, (err, result) => {
         if (err) {
@@ -221,7 +221,7 @@ async function getRestaurantList(req, res) {
             res.json({ code: code.internalError, message: msg.internalServerError })
         }
         else {
-           res.json({ code: code.ok, message: msg.ok, data: result })
+            res.json({ code: code.ok, message: msg.ok, data: result })
         }
     })
 }
@@ -325,6 +325,17 @@ async function deleteRestaurantPhoto(req, res) {
 
 
 async function deleteUser(req, res) {
+    // userModel.findOneAndRemove({ _id: req.params.id }).then((data) => {
+    //     if (!data) {
+    //         return res.json({ code: code.notFound, message: msg.userNotFound })
+    //     }
+    //     else {
+    //         return res.json({ code: code.ok, message: msg.userDelete })
+    //     }
+    // }).catch((err) => {
+    //     console.log(err)
+    //     return res.json({ code: code.internalError, message: msg.internalError })
+    // })
     await userModel.findByIdAndUpdate({ _id: req.params.id }, { $set: { status: status.inactive } }, (err, data) => {
         if (err) {
             return res.json({ code: code.internalError, message: msg.internalError })
@@ -654,10 +665,10 @@ async function getContactRequest(req, res) {
                 return res.json({ code: code.internalError, message: msg.internalServerError })
             }
             else {
-                console.log("data",data)
+                console.log("data", data)
                 data.sort((a, b) => {
-                        // return new Date(b['createdAt']) - new Date(a['createdAt']);
-                        return b.createdAt - a.createdAt
+                    // return new Date(b['createdAt']) - new Date(a['createdAt']);
+                    return b.createdAt - a.createdAt
                 })
                 return res.json({ code: code.ok, message: msg.ok, data: data })
             }
@@ -692,8 +703,8 @@ async function addCuisin(req, res) {
 }
 
 async function searchCuisin(req, res) {
-    let name=req.query.name;
-   
+    let name = req.query.name;
+
     userModel.aggregate([
         {
             $project: { 'cuisin': 1 }
@@ -705,7 +716,7 @@ async function searchCuisin(req, res) {
 
             $match: {
                 'cuisin.status': 'ACTIVE',
-                'cuisin.name': new RegExp('^' +name, "i")
+                'cuisin.name': new RegExp('^' + name, "i")
             }
 
         },
@@ -835,7 +846,7 @@ async function deleteRestaurantReq(req, res) {
 //        });
 //        db.close();
 //       });
- 
+
 // }
 
 

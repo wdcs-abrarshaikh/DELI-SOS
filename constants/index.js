@@ -67,7 +67,8 @@ messages = {
     likedReview: "Review successfully liked",
     unlikedReview: "Review successfully unliked",
     loggedout:'Loggedout successfully',
-    tokenExpired:'Token expired'
+    tokenExpired:'Token expired',
+    deactivatedUser:'Your account is deactivated by admin,please contact admin for further process.'
 }
 
 roles = {
