@@ -16,7 +16,7 @@ img.m--img-rounded.m--marginless {
 }
 .name{
     float:right;
-    font-size:22px;
+    font-size:30px;
     margin-top: 20px;
     margin-right: 10px
 }
@@ -25,14 +25,15 @@ h3{
     text-align: center;
     margin-left: 5px;
     margin-top:20px;
-    font-size: 30px
+    font-size: 30px;
+    cursor: pointer;
 }
 .label{
     font-style: bold;
     text-align: right
 }
 .user{
-    color:orangered;
+    color:#fc4a1a;
     font-weight: 500;
     font :bold;
     font-size: 25px
@@ -55,9 +56,44 @@ h3{
     display: table;
     padding: 10px;
     float: right;
+    cursor: pointer;
 }
 
 .pic_nm span {
     display: table-cell;
     vertical-align: middle;
+    font-size: 20px;
+}
+.m-nav .m-nav__item>.m-nav__link .m-nav__link-icon {
+    color: #fc4a1a;
+}
+.m-nav .m-nav__item>.m-nav__link .m-nav__link-text {
+    color: #fc4a1a
+}
+.m-nav__link:hover{
+    background-color:none;
+}
+
+.m-nav .m-nav__item:hover:not(.m-nav__item--disabled)>.m-nav__link .m-nav__link-text {
+    color: #f06027;
+ }
+ .m-nav .m-nav__item:hover:not(.m-nav__item--disabled)>.m-nav__link .m-nav__link-icon {
+    color: #f06027;
+ }
+ .a1{
+    color: white;
+    text-decoration: none;
+    background-color: transparent;
+    -webkit-text-decoration-skip: objects;
+}
+.a1:hover {
+    color: white;
+ 
+}
+.m-dropdown__wrapper .m-dropdown__arrow{
+    color: #fff !important;
+    right: 61px!important;
+}
+.font {
+    padding-right: 20px;
 }

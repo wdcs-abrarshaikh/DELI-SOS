@@ -5,15 +5,21 @@ var util = require('../app util/util')
 var userModel = require('../schema/user')
 
 function validateSignUp(req, res, next) {
-    if (req.body.name && req.body.password && req.body.email && req.body.deviceId && req.body.deviceType && req.body.fcmToken) {
+    if (req.body.name && req.body.password && req.body.email && req.body.deviceId && req.body.deviceType && req.body.fcmToken && req.body.longitude && req.body.latitude) {
         var name = req.body.name.trim(),
             email = req.body.email.trim(),
             password = req.body.password.trim();
         deviceId = req.body.deviceId.trim();
         deviceType = req.body.deviceType.trim();
         fcmToken = req.body.fcmToken.trim();
-
-        if (name && email && password && deviceId && deviceType && fcmToken) {
+        if (!validateLatLong(parseFloat(req.body.longitude), parseFloat(req.body.latitude))) {
+            return res.json({ code: code.badRequest, message: msg.invalidLatLong })
+        }
+        if (name && email && password && deviceId && deviceType && fcmToken && req.body.latitude && req.body.longitude) {
+            req.body.location = {
+                type: 'Point',
+                coordinates: [parseFloat(req.body.longitude), parseFloat(req.body.latitude)]
+            }
             next();
         }
         else {

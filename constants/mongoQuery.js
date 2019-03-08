@@ -190,7 +190,7 @@ function getRestaurantDetail(id) {
                 'reviews_details.userId': '$reviews_details.user_details._id',
                 'reviews_details.userName': '$reviews_details.user_details.name',
                 'reviews_details.userProfilePicture': '$reviews_details.user_details.profilePicture',
-                //'reviews_details.favourites': '$reviews_details.user_details.favourites'  
+                //'reviews_details.favourites': '$reviews_details.user_details.favourites'
             }
         },
         {
@@ -344,6 +344,16 @@ function filterRestaurant(data, flag) {
     }
     else {
         return [
+          // {
+          // $geoNear: {
+          //               near: { type: data.location.type, coordinates: [data.location.coordinates[0], data.location.coordinates[1]] },
+          //               distanceField: "dist.calculated",
+          //               maxDistance: 100000,
+          //               key: 'location',
+          //               query: { status: status.active },
+          //               num: 5, spherical: true
+          //           }
+          //         },
             {
                 $match: {
                     $and: [
@@ -398,7 +408,7 @@ function searchRestaurants(name) {
                 $and: [
                     {
                         $or: [{
-                            name: { $regex: '^' + name, $options: 'i' }
+                            name: { $regex: name, $options: 'i' }
                         },
                         {
                             cuisinOffered: { $elemMatch: { $regex: '^' + name, $options: 'i' } }

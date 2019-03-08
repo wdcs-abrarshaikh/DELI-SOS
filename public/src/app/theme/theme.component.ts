@@ -2,32 +2,35 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router, NavigationStart, NavigationEnd } from '@angular/router';
 import { Helpers } from '../helpers';
 import { ScriptLoaderService } from '../_services/script-loader.service';
+import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 
 declare let mApp: any;
 declare let mUtil: any;
 declare let mLayout: any;
 @Component({
-selector: ".m-grid.m-grid--hor.m-grid--root.m-page",
-templateUrl: "./theme.component.html",
-// encapsulation: ViewEncapsulation.None,
+	selector: ".m-grid.m-grid--hor.m-grid--root.m-page",
+	templateUrl: "./theme.component.html",
+	encapsulation: ViewEncapsulation.None,
 })
 export class ThemeComponent implements OnInit {
 
 
-constructor(private _script:ScriptLoaderService,private _router: Router)  {
+	constructor(private _script: ScriptLoaderService, private _router: Router,private spinnerService: Ng4LoadingSpinnerService) {
 
-}
-ngOnInit()  {
-		this._script.loadScripts('body', ['assets/vendors/base/vendors.bundle.js','assets/demo/default/base/scripts.bundle.js'], true)
+	}
+	ngOnInit() {
+		let that = this;
+		this.spinnerService.show();
+		this._script.loadScripts('body', ['assets/vendors/base/vendors.bundle.js', 'assets/demo/default/base/scripts.bundle.js'], true)
 			.then(result => {
 				Helpers.setLoading(false);
 				// optional js to be loaded once
-				this._script.loadScripts('head', ['assets/vendors/custom/fullcalendar/fullcalendar.bundle.js'], true);
+				// this._script.loadScripts('head', ['assets/vendors/custom/fullcalendar/fullcalendar.bundle.js'], true);
 			});
 		this._router.events.subscribe((route) => {
 			if (route instanceof NavigationStart) {
 				(<any>mLayout).closeMobileAsideMenuOffcanvas();
-(<any>mLayout).closeMobileHorMenuOffcanvas();
+				(<any>mLayout).closeMobileHorMenuOffcanvas();
 				Helpers.setLoading(true);
 				// hide visible popover
 				(<any>$('[data-toggle="m-popover"]')).popover('hide');
@@ -44,6 +47,6 @@ ngOnInit()  {
 				}).removeClass(animation).addClass(animation);
 			}
 		});
-}
+	}
 
 }

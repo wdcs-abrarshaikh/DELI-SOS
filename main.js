@@ -5,7 +5,7 @@ const morgan= require('morgan');
 var bodyParser = require('body-parser')
 var env = require('dotenv').config()
 app.use(bodyParser.json({extended:true,limit:'50mb'}))
-app.use(bodyParser.urlencoded({extended:true,limit:'50mb'}))
+app.use(bodyParser.urlencoded({extended:true,limit:'50mb',parameterLimit: 1000000}))
 mongoose.connect(process.env.dbUrl)
 app.use(morgan('combined'));
 require('./router')(app)

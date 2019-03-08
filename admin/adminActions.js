@@ -1,3 +1,6 @@
+
+
+
 var service = require("./adminServices")
 
 function signup(req, res) {
@@ -35,6 +38,10 @@ function addRestaurant(req, res) {
     service.addRestaurant(req, res)
 }
 
+// function getAllRestaurant(req, res) {
+//     service.getAllRestaurant(req, res)
+// }
+
 function getRestaurantDetails(req, res) {
     service.getRestaurantDetails(req, res)
 }
@@ -64,9 +71,10 @@ function deleteUser(req, res) {
 // function whatuLike(req,res){
 //     service.whatuLike(req,res)
 // }
-function getCuisin(req, res) {
-    service.getCuisin(req, res)
-}
+
+// function getCuisin(req, res) {
+//     service.getCuisin(req, res)
+// }
 function searchRestaurant(req, res) {
     service.searchRestaurant(req, res)
 }
@@ -177,7 +185,7 @@ module.exports = {
     deleteRestaurantPhoto,
     deleteUser,
     // whatuLike,
-    getCuisin,
+    // getCuisin,
     searchRestaurant,
     approveRestaurantProposal,
     getAllPendingRestaurant,
@@ -200,5 +208,6 @@ module.exports = {
     getCuisinList,
     deleteCuisin,
     updateCuisin,
-    deleteRestaurantReq
+    deleteRestaurantReq,
+    // getAllRestaurant
 }

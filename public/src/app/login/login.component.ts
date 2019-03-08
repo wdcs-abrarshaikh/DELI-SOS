@@ -3,6 +3,7 @@ import { LoginService } from './login.service';
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationStart, NavigationEnd } from '@angular/router';
 import { FormBuilder, Validators, FormControl, FormGroup, FormArray } from '@angular/forms';
+import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 
 
 @Component({
@@ -18,7 +19,8 @@ export class LoginComponent implements OnInit {
   constructor(private _formBuilder: FormBuilder,
     private _router: Router,
     private _loginService: LoginService,
-    private toastService: ToastrService) { }
+    private toastService: ToastrService,
+    private spinnerService: Ng4LoadingSpinnerService ) { }
 
 
   ngOnInit() {
@@ -28,33 +30,29 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
-
-    // stop here if form is invalid
+   // stop here if form is invalid
     if (this.loginForm.invalid) {
           return;
     }
-
-    this.loading = true;
-  }
-
-  signIn() {
+    this.spinnerService.show();
     this._loginService.post(this.loginForm.value).subscribe((response: any) => {
       if (response['code'] == 200) {
        this.toastService.success(response.message);
        localStorage.setItem('_token', JSON.stringify(response.token))
         localStorage.setItem('_id', JSON.stringify(response.data._id));
-        this._router.navigate(['/index']);
+       this._router.navigate(['/index']);
       }
       else{
+        this.spinnerService.hide();
         this.toastService.error(response.message);
-        this.loading = false;
       }
     }, error => {
-      this.loading = false
-      console.log(error);
+      this.spinnerService.hide();
+       console.log('error' + error);
     });
-
   }
+  
+
 
   buildLoginForm() {
     this.loginForm = this._formBuilder.group({

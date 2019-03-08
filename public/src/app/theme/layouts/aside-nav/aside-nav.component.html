@@ -5,54 +5,45 @@
 <div id="m_aside_left" class="m-grid__item	m-aside-left  m-aside-left--skin-dark">
 	<!-- BEGIN: Aside Menu -->
 	<div id="m_ver_menu" class="m-aside-menu  m-aside-menu--skin-dark m-aside-menu--submenu-skin-dark" m-menu-vertical="1"
-	 m-menu-scrollable="1" m-menu-dropdown-timeout="500" style="background: rgb(236, 151, 39);  /* fallback for old browsers */
-	 background: -webkit-linear-gradient(to right, #e97121, rgb(236, 151, 39));  /* Chrome 10-25, Safari 5.1-6 */
-	 background: linear-gradient(to right, #e97121, rgb(236, 151, 39)); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-	 
-	 ">
+	 m-menu-scrollable="1" m-menu-dropdown-timeout="500" style="background: linear-gradient(rgb(236, 151, 39), #e97121); ">
 		<ul class="m-menu__nav  m-menu__nav--dropdown-submenu-arrow">
-			<li class="m-menu__item  " routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }"
-			 aria-haspopup="true"><a routerLink="/index" class="m-menu__link"><i class="m-menu__link-icon flaticon-line-graph" style="color:white; font-weight: 500"> </i><span
-					 class="m-menu__link-title">
-						<span class="m-menu__link-wrap"> <span class="m-menu__link-text" style="color:white; font-weight: 500">Dashboard</span>  </span></span></a></li>
-			<!-- <li class="m-menu__section">
-				<h4 class="m-menu__section-text">Masters</h4> <i class="m-menu__section-icon flaticon-more-v3"></i>
-			</li> -->
-			<!-- <li class="m-menu__item" routerLinkActive="m-menu__item--active"
-			 routerLinkActiveOptions="{ exact: true }" aria-haspopup="true"><a routerLink="/angular/ng-bootstrap" class="m-menu__link"><i class="m-menu__link-icon flaticon-settings"></i><span class="m-menu__link-text">Ng-Bootstrap</span></a></li> -->
-
-			<!-- <li class="m-menu__item" routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true"><a
-				 routerLink="/admin/banner" class="m-menu__link"><i class="far fa-images"></i>&nbsp;&nbsp;&nbsp;Banner</a>
-			</li> -->
-			<li class="m-menu__item" routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true"><a
-				routerLink="/admin/restaurant" class="m-menu__link" style="color:white; font-weight: 500"><i class="fas fa-hotel" style="color:white; font-weight: 500"></i>&nbsp;&nbsp;&nbsp;Restaurants
-					 </a>
-		   </li>
-			<li class="m-menu__item" routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true"><a
-				 routerLink="/admin/cuisin" class="m-menu__link"  style="color:white; font-weight: 500"><i class="fa fa-birthday-cake"  style="color:white; font-weight: 500"></i>&nbsp;&nbsp;&nbsp;Cuisines</a>
-			</li>
 		
-					
 			<li class="m-menu__item" routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true"><a
-				 routerLink="/admin/contact-us" class="m-menu__link" style="color:white; font-weight: 500"><i class="fas fa-envelope-open" style="color:white; font-weight: 500"></i>&nbsp;&nbsp;&nbsp; Contact Us
+				routerLink="/index" class="m-menu__link"><i class="fa fa-dashboard"></i>Dashboard
 						</a>
 			</li>
+		
 			<li class="m-menu__item" routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true"><a
-				routerLink="/admin/getUserList" class="m-menu__link" style="color:white; font-weight: 500"><i class="fa fa-users" style="color:white; font-weight: 500"></i>&nbsp;&nbsp;&nbsp;Users
-
-				
-					  </a>
+				routerLink="/admin/restaurant" class="m-menu__link"><img src="./assets/demo/default/media/img/logo/restaurant.png" width="20px"/>Restaurants
+					 </a>
 		   </li>
-		   <li class="m-menu__item" routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true"><a
-			routerLink="/admin/about-us" class="m-menu__link" style="color:white; font-weight: 500"><i class="far fa-building"></i>&nbsp;&nbsp;&nbsp;About Us
-				   </a>
-	     </li>
-   
-			<li class="m-menu__item" routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }"aria-haspopup="true">
-			<a routerLink="/admin/privacy-policy" class="m-menu__link" style="color:white; font-weight: 500"><i class="far flaticon-settings" style="color:white; font-weight: 500"></i>&nbsp;&nbsp;&nbsp;Privacy Policy
-				</a>
-			</li>
 
+			<li class="m-menu__item" routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true"><a
+				 routerLink="/admin/cuisines" class="m-menu__link" ><img src="./assets/demo/default/media/img/logo/cuisin.png" width="20px"/>Cuisines</a>
+			</li>
+		
+			
+			<li class="m-menu__item" routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true"><a
+				routerLink="/admin/getUserList" class="m-menu__link"><i class="fa fa-users"></i>Users </a>
+            	 
+		   </li>
+
+		   <li class="m-menu__item" routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true"><a
+			routerLink="/admin/about-us" class="m-menu__link" ><i class="far fa-building"></i>About Us </a>
+				  
+	       </li>
+   
+		   		
+			<li class="m-menu__item" routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }" aria-haspopup="true"><a
+				routerLink="/admin/contact-us" class="m-menu__link" ><i class="fa fa-phone"></i>Contact Us </a>
+					
+		   </li>
+
+			<li class="m-menu__item" routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }"aria-haspopup="true">
+			<a routerLink="/admin/privacy-policy" class="m-menu__link" ><i class="fa fa-file-text"></i>Privacy Policy</a>
+			
+			</li>
+			<!-- fa fa-envelope-open -->
 
 	<!----  <li class="m-menu__item" routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }"
 	   aria-haspopup="true"><a routerLink="/admin/terms-conditions" class="m-menu__link"><i class="m-menu__link-icon flaticon-settings"></i><span

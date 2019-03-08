@@ -1,7 +1,8 @@
-// import { OnInit } from '@angular/core';
+
+import { AddEditUserComponent } from './add-edit-user/add-edit-user.component';
 import { Message, Password } from 'primeng/primeng';
 import { UserService } from './user.service';
-import { Component, OnInit, Output, EventEmitter, Input, AfterViewInit,ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input, AfterViewInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, Validators, FormControl, FormGroup, FormArray } from '@angular/forms';
 import { Location } from '@angular/common';
@@ -9,190 +10,15 @@ import { ToastrService } from 'ngx-toastr';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ScriptLoaderService } from '../../../../../_services/script-loader.service';
 import swal from 'sweetalert2'
+import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
+import { error } from '@angular/compiler/src/util';
+import { errorObject } from 'rxjs/internal-compatibility';
 
-
-
-@Component({
-  selector: 'app-user',
-  template: ` <div class="modal-header">
-  <h4 class="modal-title">{{ isAdd ? 'Add' : isView ? 'View' : 'Edit'}} User</h4>  
-  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
-    <span aria-hidden="true">&times;</span>
-  </button>
-</div>
-<div class="modal-body">
-<form [formGroup]="userForm" (ngSubmit)="addUsers()">
-            <div class="form-group">
-                <label for="name">User Name</label>
-                <input type="text" formControlName="name" [(ngModel)]="name" class="form-control"/>
-                <p *ngIf="userForm.controls.name.errors?.required && (userForm.controls.name.dirty || userForm.controls.name.touched)" class="lbl-err">Name is required.</p>
-             </div>
-
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="text" formControlName="email" [(ngModel)]="email" class="form-control" />
-                <p *ngIf="userForm.controls.email.errors?.required  && (userForm.controls.email.dirty || userForm.controls.email.touched)" class="lbl-err">email Id is required.</p>
-                <p *ngIf="userForm.controls.email.errors?.pattern  && (userForm.controls.email.dirty || userForm.controls.email.touched)" class="lbl-err">Enter Valid Email.</p>
-             </div>
-
-            <div class="form-group">
-              <label for="deviceId">DeviceId</label>
-              <input type="text" formControlName="deviceId" [(ngModel)]="deviceId" class="form-control" />
-              <p *ngIf="userForm.controls.deviceId.errors?.required  && (userForm.controls.deviceId.dirty || userForm.controls.deviceId.touched)" class="lbl-err">Device Id is required.</p>
-            </div>
-
-            <div class="form-group">
-              <label for="deviceType">Device Type</label>
-              <input type="text" formControlName="deviceType" [(ngModel)]="deviceType" class="form-control" />
-              <p *ngIf="userForm.controls.deviceType.errors?.required  && (userForm.controls.deviceType.dirty || userForm.controls.deviceType.touched)" class="lbl-err">Device Type  is required.</p>
-            </div>
-
-            <div class="form-group">
-              <label for="fcmToken">fcm Token</label>
-              <input type="text" formControlName="fcmToken" [(ngModel)]="fcmToken" class="form-control" />
-              <p *ngIf="userForm.controls.fcmToken.errors?.required  && (userForm.controls.fcmToken.dirty || userForm.controls.fcmToken.touched)" class="lbl-err">fcmToken is required.</p>
-            </div>
-
-            <div [hidden]="!isAdd">
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" formControlName="password"  [(ngModel)]="password" class="form-control"/>
-                <p *ngIf="userForm.controls.password.errors?.required  && (userForm.controls.password.dirty || userForm.controls.password.touched)" class="lbl-err">password is required.</p>
-                <p *ngIf="userForm.controls.password.errors?.pattern  && (userForm.controls.password.dirty || userForm.controls.password.touched)" class="lbl-err">Enter Valid Password.</p>
-           </div>
-           </div>
-        <div class="modal-footer">
-            <div class="form-group" *ngIf="!isView">
-           <button type="submit"  class="btn btn-outline-dark" [disabled]="validateForm()">Save</button>&nbsp;&nbsp;
-           <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Cancel</button>
-            </div>
-         </div>
-        </form>`,
-  styleUrls: ['./user.component.css'],
- 
-})
-
-export class NgbdModalContent {
-  usersList: Array<any>;
- 
- 
-  userForm: FormGroup;
-
-  @Input() id;
-  @Input() name;
-  @Input() email;
-  @Input() password;
-  @Input() deviceId;
-  @Input() deviceType;
-  @Input() fcmToken;
-  loading = false;
-  submitted = false;
-  isAdd: boolean;
-  isView: boolean;
-
-  constructor(public activeModal: NgbActiveModal,
-    private _router: Router,
-    private _formBuilder: FormBuilder,
-    private modalService: NgbModal,
-    private userService: UserService,
-    private toastService: ToastrService) { }
-
-  ngOnInit() {
-    this.buildUserForm();
-  }
-
-  get f() {
-    return this.userForm.controls;
-  }
-  buildUserForm() {
-    this.userForm = this._formBuilder.group({
-      name: ['', [Validators.required]],
-      email: ['', [Validators.required, Validators.pattern(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)]],
-      password: ['', [Validators.required]],
-      deviceId: ['', Validators.required],
-      deviceType: ['', Validators.required],
-      fcmToken: ['', Validators.required]
-    });
-    console.log(this.userForm)
-  }
-
-  addUsers() {
-    var addObj = {
-      "name": this.userForm.controls['name'].value,
-      "email": this.userForm.controls['email'].value,
-      "password": this.userForm.controls['password'].value,
-      "deviceId": this.userForm.controls['deviceId'].value,
-      "deviceType": this.userForm.controls['deviceType'].value,
-      "fcmToken": this.userForm.controls['fcmToken'].value,
-    }
-    if (this.isAdd) {
-       this.userService.addUser(addObj).subscribe(
-        data => {
-          this.getAllUser();
-         if (data['code'] ==201 ) {
-             swal({
-               position: 'center',
-               type: 'success',
-               title: data['message'],
-               showConfirmButton: false,
-               timer: 1500
-             })
-             this.activeModal.dismiss();
-           } else {
-             swal({
-               type: 'error',
-               text: data['message']
-             })
-            }
-          },
-        error => {
-          this.toastService.error(error['message']);
-        });
-    } else {
-    console.log(addObj)
-      this.userService.editUser(addObj, this.id).subscribe(
-        data => {
-          this.getAllUser();
-          this.activeModal.dismiss();
-          if (data['code'] ==200 ) {
-            swal({
-              position: 'center',
-              type: 'success',
-              title: data['message'],
-              showConfirmButton: false,
-              timer: 1500
-            })
-            this.activeModal.dismiss();
-          } else {
-            swal({
-              type: 'error',
-              text: data['message']
-            })
-           }
-        },
-        error => {
-          this.toastService.error(error['message']);
-        });
-    }
-  }
-
-  getAllUser() {
-    this.userService.getAllUsers().subscribe((response: any) => {
-      this.userService.setUsers(response);
-    })
-  }
-
-  validateForm() {
-       
-    if (this.userForm.valid) {
-      return false;
-    } else {
-      return true;
-    }
-  }
-
-
+function _window(): any {
+  // return the global native browser window object
+  return window;
 }
+
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
@@ -215,20 +41,36 @@ export class UserComponent implements OnInit, AfterViewInit {
     private toastService: ToastrService,
     private _formBuilder: FormBuilder,
     private userService: UserService,
-    private _script: ScriptLoaderService) {
-
+    private _script: ScriptLoaderService,
+    private spinnerService: Ng4LoadingSpinnerService,
+    private router: Router) {
     this.userService.getUsers().subscribe((data: any) => {
       this.usersList = data.usersList.data
     });
   }
   ngAfterViewInit() {
+    let scripts = [];
+    if (!_window().isScriptLoadedUsermgmt) {
+      scripts = ['assets/vendors/custom/datatables/datatables.bundle.js'];
+    }
+
+    let that = this;
     this._script.loadScripts('app-user',
-      ['assets/vendors/custom/datatables/datatables.bundle.js',
-        'assets/demo/default/custom/crud/datatables/basic/paginations.js']);
+      scripts).then(function () {
+        _window().isScriptLoadedUsermgmt = true;
+        that._script.loadScripts('app-user', ['assets/demo/default/custom/crud/datatables/basic/paginations.js']);
+      });
   }
 
   ngOnInit() {
-   this.getUserList();
+
+    _window().my = _window().my || {};
+    _window().my.usermgmt = _window().my.usermgmt || {};
+    if (typeof (_window().isScriptLoadedUsermgmt) == "undefined") {
+      _window().isScriptLoadedUsermgmt = false;
+    }
+
+    this.getUserList();
   }
   open(content, type) {
     if (!content) {
@@ -242,7 +84,7 @@ export class UserComponent implements OnInit, AfterViewInit {
         this.isView = false
       }
     }
-    const modalRef = this.modalService.open(NgbdModalContent);
+    const modalRef = this.modalService.open(AddEditUserComponent);
     modalRef.componentInstance.id = content ? content._id : "";
     modalRef.componentInstance.name = content ? content.name : "";
     modalRef.componentInstance.password = content ? content.password : "";
@@ -256,52 +98,58 @@ export class UserComponent implements OnInit, AfterViewInit {
 
   // All User Display Method
   getUserList() {
+    this.spinnerService.show();
     this.userService.getAllUsers().subscribe((response: any) => {
-      // console.log("all data here display")
       this.usersList = response.data;
-    });
+      this.spinnerService.hide();
+    }, error => {
+       console.log(error)
+      }
+    )
   }
 
- 
+  viewUser(user) {
+    this.modalReference = this.modalService.open(user)
+  }
+
   delete(id) {
-    console.log(id)
     swal({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",
       type: 'warning',
+      showConfirmButton: true,
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
+      confirmButtonColor: '#49a558',
+      cancelButtonColor: '#a73a08',
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.value) {
-
-
-
-        console.log("result",result.value)
         this.userService.deleteUser(id).subscribe(
           data => {
-            console.log(data)
-          this.getUserList();
-            swal(
-              'Deleted!',
-              'Your file has been deleted.',
-              'success'
-            )
-          },
-          error => {
-            swal(
-              'error!',
-              'Your file has been deleted.',
-              'success'
-            )
+            this.getUserList();
+            if (data['code'] == 200) {
+              swal(
+                'Deleted!',
+                 data['message'],
+                'success'
+              )
+            } else {
+              swal({
+                type: 'error',
+                text: data['message']
+              })
+            }
+          }, error => {
+            swal({
+              type: 'error',
+              text: error['message']
+            })
           });
-      
-      }
+       }
     })
-  
+
   }
-  
+
 
   validateForm() {
     if (this.userForm.valid) {
@@ -310,8 +158,6 @@ export class UserComponent implements OnInit, AfterViewInit {
       return true;
     }
   }
-
-
 
 }
 

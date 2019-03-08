@@ -3,6 +3,7 @@ import { ThemeComponent } from './theme.component';
 import { Routes, RouterModule } from '@angular/router';
 import {AuthGuard} from "../auth/_guards/auth.guard";
 
+
 const routes: Routes = [
     {
         "path": "",
@@ -39,7 +40,7 @@ const routes: Routes = [
                 "loadChildren":"./pages/default/angular/contact-us/contact-us.module#ContactUsModule"
             },
             {
-                "path":"admin/cuisin",
+                "path":"admin/cuisines",
                 "loadChildren":"./pages/default/angular/cuisin/cuisin.module#CuisinModule"
             }
         ]

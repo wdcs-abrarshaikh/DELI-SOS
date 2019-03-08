@@ -1,6 +1,6 @@
 
-
-import { RestaurantComponent, NgbdModalContent} from './../restaurant/restaurant.component';
+import { AddEditRestaurantComponent } from './add-edit-restaurant/add-edit-restaurant.component';
+import { RestaurantComponent} from './../restaurant/restaurant.component';
 import { RestaurantService } from './restaurant.service';
 import { RestaurantRoutingModule } from './restaurant.routing';
 import {NgModule} from '@angular/core';
@@ -11,8 +11,47 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {DefaultComponent} from '../../default.component';
 import {LayoutModule} from '../../../../layouts/layout.module';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { DataTablesModule } from 'angular-datatables';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import * as $ from 'jquery';
+import {
+	MatAutocompleteModule,
+	MatBadgeModule,
+	MatBottomSheetModule,
+	MatButtonModule,
+	MatButtonToggleModule,
+	MatCardModule,
+	MatCheckboxModule,
+	MatChipsModule,
+	MatDatepickerModule,
+	MatDialogModule,
+	MatDividerModule,
+	MatExpansionModule,
+	MatGridListModule,
+	MatIconModule,
+	MatInputModule,
+	MatListModule,
+	MatMenuModule,
+	MatNativeDateModule,
+	MatPaginatorModule,
+	MatProgressBarModule,
+	MatProgressSpinnerModule,
+	MatRadioModule,
+	MatRippleModule,
+	MatSelectModule,
+	MatSidenavModule,
+	MatSliderModule,
+	MatSlideToggleModule,
+	MatSnackBarModule,
+	MatSortModule,
+	MatStepperModule,
+	MatTableModule,
+	MatTabsModule,
+	MatToolbarModule,
+	MatTooltipModule,
+	MatTreeModule,
+  } from '@angular/material';
 
  
 
@@ -32,6 +71,7 @@ const routes: Routes = [
 
 @NgModule({
 	imports: [
+		DateInputsModule,
 		CommonModule, 
 		RestaurantRoutingModule,
 		LayoutModule,
@@ -41,14 +81,49 @@ const routes: Routes = [
 		OwlDateTimeModule,
 		OwlNativeDateTimeModule,
 		DataTablesModule,
-		Ng2SearchPipeModule
+		Ng2SearchPipeModule,
+		MatAutocompleteModule,
+		MatBadgeModule,
+		MatBottomSheetModule,
+		MatButtonModule,
+		MatButtonToggleModule,
+		MatCardModule,
+		MatCheckboxModule,
+		MatChipsModule,
+		MatDatepickerModule,
+		MatDialogModule,
+		MatDividerModule,
+		MatExpansionModule,
+		MatGridListModule,
+		MatIconModule,
+		MatInputModule,
+		MatListModule,
+		MatMenuModule,
+		MatNativeDateModule,
+		MatPaginatorModule,
+		MatProgressBarModule,
+		MatProgressSpinnerModule,
+		MatRadioModule,
+		MatRippleModule,
+		MatSelectModule,
+		MatSidenavModule,
+		MatSliderModule,
+		MatSlideToggleModule,
+		MatSnackBarModule,
+		MatSortModule,
+		MatStepperModule,
+		MatTableModule,
+		MatTabsModule,
+		MatToolbarModule,
+		MatTooltipModule,
+		MatTreeModule
 
 	],
 	
-	exports: [RestaurantComponent,NgbdModalContent],
-	declarations: [RestaurantComponent,NgbdModalContent],
+	exports: [RestaurantComponent,AddEditRestaurantComponent],
+	declarations: [RestaurantComponent, AddEditRestaurantComponent],
 	providers: [RestaurantComponent], 
-	entryComponents:[NgbdModalContent]
+	entryComponents:[AddEditRestaurantComponent]
 	
 })
 export class RestaurantModule {

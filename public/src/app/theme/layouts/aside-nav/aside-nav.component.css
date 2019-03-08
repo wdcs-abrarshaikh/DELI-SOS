@@ -1,5 +1,5 @@
 .m-aside-menu .m-menu__nav .m-menu__item>.m-menu__heading:hover, .m-aside-menu .m-menu__nav .m-menu__item>.m-menu__link:hover {
-    background:#e97121;
+    background:#f84d09;
 }
 .menu__nav .m-menu__item>.m-menu__link:hover {
     background: sandybrown;
@@ -7,3 +7,58 @@
 .m-menu__link:hover{
     background: sandybrown;
 }
+.m-menu__item.m-menu__item--active a{
+    -webkit-transition: background-color .3s;
+    transition: background-color .3s;
+    background-color:sandybrown;
+ }
+ .m-aside-menu .m-menu__nav .m-menu__item>.m-menu__link:hover {
+    text-decoration: none;
+    cursor: pointer;
+    background: sandybrown;
+ }
+ .m-menu__link{
+    color:white; 
+    /* font-weight:500; */
+    font-size: 1.2rem;
+    position: relative;
+    display: flex;
+    align-items: center;
+    font-weight: bold !important;
+ }
+ 
+ a:hover {
+    color: white;
+    text-decoration: underline;
+}
+.m-menu__link-text {
+    display: contents !important;
+    font-weight: bold !important;
+    color:white
+}
+.m-menu__nav img {
+    margin-right: 10px;
+}
+.m-menu__item .fa, .m-menu__item .fas, .m-menu__item .far {
+    color:white;
+    font-size: 18px;
+    width:32px;
+}
+.fa-users:before {
+    color:white;
+    content: "\f0c0";
+}
+
+.fa-dashboard:before {
+    color:white;
+    content: "\f0e4";
+}
+.fa-phone:before {
+    color:white;
+    content: "\f095";
+}
+.fa-file-text:before {
+    color:white;
+    content: "\f15c";
+}
+

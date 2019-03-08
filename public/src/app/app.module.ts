@@ -20,8 +20,10 @@ import { ThemeRoutingModule } from "./theme/theme-routing.module";
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
 import { ForgotEmailComponent } from './forgot-email/forgot-email.component';
-
+import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { InputsModule } from '@progress/kendo-angular-inputs';
+
 
 
 // import { ImagesPipe } from './images.pipe';
@@ -34,12 +36,7 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
     ForgotPasswordComponent,
     // SignUpComponent,
     ForgotEmailComponent,
-  
  
-    // ImagesPipe,
-    
-   
-      
   ],
   imports: [
     BrowserModule,
@@ -52,9 +49,14 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
     HttpClientModule,
     LayoutModule,
     AuthModule,
-    ToastrModule.forRoot(),
+    ToastrModule.forRoot({
+      timeOut:3000,
+      preventDuplicates:true
+    }),
     OwlDateTimeModule,
-    OwlNativeDateTimeModule 
+    OwlNativeDateTimeModule ,
+    Ng4LoadingSpinnerModule.forRoot(),
+    InputsModule
 
   ],
   providers: [ScriptLoaderService],

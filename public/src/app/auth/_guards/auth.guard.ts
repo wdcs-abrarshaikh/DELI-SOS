@@ -4,37 +4,22 @@ import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from "
 import {UserService} from "../_services/user.service";
 import {Observable} from "rxjs/Rx";
 import { ToastrService } from 'ngx-toastr';
-
-// import { createVerify } from "crypto";
+import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
 
-	constructor(private _router: Router, private _userService: UserService,private _authService:AuthenticationService,private toastService: ToastrService) {
+	constructor(private _router: Router, private _userService: UserService,private _authService:AuthenticationService,private toastService: ToastrService,private spinnerService: Ng4LoadingSpinnerService) {
 	}
 
 	canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | boolean {
-		// this._userService.token().map(
-		// 	data => {
-		// 		console.log("hhhhhhhhhhhhh",data)
-		// 		if (data !== null) {
-		// 			// logged in so return true
-		// 			return true;
-		// 		}
-		// 		// error when verify so redirect to login page with the return url
-		// 		this._router.navigate(['/login'], {queryParams: {returnUrl: state.url}});
-		// 		return false;
-		// 	},
-		// 	error => {
-		// 		// error when verify so redirect to login page with the return url
-		// 		this._router.navigate(['/login'], {queryParams: {returnUrl: state.url}});
-		// 		return false;
-		// 	});
 		
-    
 		let currentUser = JSON.parse(localStorage.getItem('_token'));
 		if(currentUser){
+		  this.spinnerService.show();
 		  this._authService.verify().subscribe(data=>{
+
+				 this.spinnerService.hide();
 				 if(data['code']==400){
 					this._router.navigate(['/login'])
 					this.toastService.success(data['message']);

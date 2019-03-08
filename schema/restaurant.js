@@ -5,8 +5,8 @@ var status = require('../constants').status;
 var meal = require('../constants').mealTypes;
 
 var restaurantSchema = new schema({
-    name: { type: String, required: true },
-    description: { type: String, required: true },
+    name: { type: String , required: true },
+    description: { type: String ,required: true},
     address: {
         street1: String,
         stree2: String,
@@ -39,8 +39,7 @@ var restaurantSchema = new schema({
     status: { type: String, enum: [status.active, status.inactive, status.pending], default: status.pending },
     createdBy: { type: mongoose.Schema.Types.ObjectId, ref: cnst.users },
     editedBy: { type: mongoose.Schema.Types.ObjectId, ref: cnst.users }
-
-}, {
+  }, {
         versionKey: false
     })
 

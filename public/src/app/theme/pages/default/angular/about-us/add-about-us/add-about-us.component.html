@@ -1,0 +1,23 @@
+<div class="modal-header">
+  <h4 class="modal-title"> Add Content</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="aboutUsForm" (ngSubmit)="addContent()">
+    <div class="form-group">
+      <label for="name">Content</label>
+      <app-ngx-editor [placeholder]="'Enter text here...'" [spellcheck]="true" formControlName="content" [(ngModel)]="content"
+        [config]="editorConfig"></app-ngx-editor>
+        <div *ngIf="aboutUsForm.controls['content'].errors?.required &&  (aboutUsForm.controls['content'].dirty || aboutUsForm.controls['content'].touched)" class="lbl-err">
+        Content is required.
+      </div>
+   </div>
+    <div class="modal-footer">
+      <div class="form-group">
+        <button type="submit" class="btn btn-save" [disabled]="validateForm()">Save</button>&nbsp;&nbsp;
+        <button type="button" class="btn btn-delete" (click)="activeModal.close('Close click')">Cancel</button>
+      </div>
+    </div>
+  </form>

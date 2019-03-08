@@ -9,11 +9,12 @@ var role = require('../constants').roles;
 var status = require('../constants').status;
 var validate = require('./adminValidator');
 var cloudinary = require('cloudinary')
-cloudinary.config({
-    cloud_name: process.env.cloudinary_name,
-    api_key: process.env.cloudinary_key,
-    api_secret: process.env.cloudinary_secret
-});
+MongoClient = require('mongodb').MongoClient,
+    cloudinary.config({
+        cloud_name: process.env.cloudinary_name,
+        api_key: process.env.cloudinary_key,
+        api_secret: process.env.cloudinary_secret
+    });
 
 
 var reviews = require('../schema/review');
@@ -47,6 +48,7 @@ async function createAdmin(req, res) {
 
 //this is a login function of admin. it returns token which expires in 1hr and result:id,mail and role
 async function authenticateAdmin(req, res) {
+
     let data = req.body;
     await userModel.findOne({ email: data.email, role: role.ADMIN }, (err, result) => {
         if (err) {
@@ -212,6 +214,7 @@ async function getRestaurantDetails(req, res) {
 }
 
 async function getRestaurantList(req, res) {
+    console.log("get restatfsadgfa")
     restModel.find({ status: status.active }, (err, result) => {
         if (err) {
             //console.log("error", err)
@@ -270,7 +273,6 @@ async function deleteRestaurant(req, res) {
 // }
 function uploadPhoto(req, res) {
     req.newFile_name = [];
-
     util.upload(req, res, async function (err) {
         if (err) {
             return res.json({ code: code.badRequest, message: err })
@@ -323,6 +325,17 @@ async function deleteRestaurantPhoto(req, res) {
 
 
 async function deleteUser(req, res) {
+    // userModel.findOneAndRemove({ _id: req.params.id }).then((data) => {
+    //     if (!data) {
+    //         return res.json({ code: code.notFound, message: msg.userNotFound })
+    //     }
+    //     else {
+    //         return res.json({ code: code.ok, message: msg.userDelete })
+    //     }
+    // }).catch((err) => {
+    //     console.log(err)
+    //     return res.json({ code: code.internalError, message: msg.internalError })
+    // })
     await userModel.findByIdAndUpdate({ _id: req.params.id }, { $set: { status: status.inactive } }, (err, data) => {
         if (err) {
             return res.json({ code: code.internalError, message: msg.internalError })
@@ -388,40 +401,41 @@ async function deleteUser(req, res) {
 //     })
 // }
 //returning unique cuisin function getCuisin
-async function getCuisin(req, res) {
-    await restModel.aggregate([
-        {
-            $project: {
-                cuisin: 1
-            }
-        },
-        {
-            $unwind: '$cuisin'
-        },
-        {
-            $group: {
-                _id: '$cuisin.name',
-                image: { $first: '$cuisin.image' }
+// async function getCuisin(req, res) {
+//     await restModel.aggregate([
+//         {
+//             $project: {
+//                 cuisin: 1
+//             }
+//         },
+//         {
+//             $unwind: '$cuisin'
+//         },
 
-            }
-        }
-    ]).exec((err, data) => {
-        if (err) {
-            // console.log("jiiiiiiiiii", err)
-            return res.json({ code: code.internalError, message: msg.internalServerError })
-        }
-        else if (!data) {
-            return res.json({ code: code.notFound, message: msg.restNotFound })
-        }
-        else {
-            // console.log("data cuisin name",data)
-            return res.json({ code: code.ok, data: data })
+//         {
+//             $group: {
+//                 _id: '$cuisin.name',
+//                 image: { $first: '$cuisin.image' }
+
+//             }
+//         }
+//     ]).exec((err, data) => {
+//         if (err) {
+//             // console.log("jiiiiiiiiii", err)
+//             return res.json({ code: code.internalError, message: msg.internalServerError })
+//         }
+//         else if (!data) {
+//             return res.json({ code: code.notFound, message: msg.restNotFound })
+//         }
+//         else {
+//             // console.log("data cuisin name",data)
+//             return res.json({ code: code.ok, data: data })
 
 
-        }
-    })
+//         }
+//     })
 
-}
+// }
 async function searchRestaurant(req, res) {
     restModel.find({ name: new RegExp('^' + req.params.name, "i") }, (err, data) => {
         if (err) {
@@ -651,10 +665,10 @@ async function getContactRequest(req, res) {
                 return res.json({ code: code.internalError, message: msg.internalServerError })
             }
             else {
-                console.log("data",data)
+                console.log("data", data)
                 data.sort((a, b) => {
-                        // return new Date(b['createdAt']) - new Date(a['createdAt']);
-                        return b.createdAt - a.createdAt
+                    // return new Date(b['createdAt']) - new Date(a['createdAt']);
+                    return b.createdAt - a.createdAt
                 })
                 return res.json({ code: code.ok, message: msg.ok, data: data })
             }
@@ -689,6 +703,8 @@ async function addCuisin(req, res) {
 }
 
 async function searchCuisin(req, res) {
+    let name = req.query.name;
+
     userModel.aggregate([
         {
             $project: { 'cuisin': 1 }
@@ -700,7 +716,7 @@ async function searchCuisin(req, res) {
 
             $match: {
                 'cuisin.status': 'ACTIVE',
-                'cuisin.name': new RegExp('^' + req.params.name, "i")
+                'cuisin.name': new RegExp('^' + name, "i")
             }
 
         },
@@ -794,8 +810,45 @@ async function deleteRestaurantReq(req, res) {
         } else { return res.json({ code: code.ok, message: msg.restReqDeclined }) }
     });
 
-
 }
+
+// async function getAllRestaurant(req, res) {
+//    MongoClient.connect("mongodb://localhost/", function(err, db) {
+//         if (err) throw err;
+//         var dbo = db.db("getdata");
+//         dbo.collection("restaurants").find({},{ projection: { geometry: 1, name: 1, rating: 1 ,_id:0} }).toArray(function(err, result) {
+//             if(err){
+//                 return res.json({ code: code.internalError, message: msg.internalError })
+//             }else{
+//           result.map((data)=>{
+//                    req.body.location = {
+//                         type: "Point",
+//                         coordinates: [data.geometry[0].location.lng, data.geometry[0].location.lat]
+//                      }
+//                     req.body.name=data.name
+//                     req.body.rating=data.rating
+//                     let rest = new restModel(req.body)
+//                     rest.status = status.active;
+//                     rest.openTime='10:00 AM'
+//                     rest.closeTime='8:00 PM'
+//                     rest.menu='default.jpg',
+//                     rest.description="good"
+//                     rest.save((err, data1) => {
+//                         if(err){
+//                             return res.json({ code: code.internalError, message: msg.internalError })
+//                         }else{
+//                             return data1
+//                         }
+//                    })
+//                })
+//               return  res.json({ code: code.created, message: msg.restAddSucessfully})
+//             }
+//        });
+//        db.close();
+//       });
+
+// }
+
 
 
 module.exports = {
@@ -816,7 +869,7 @@ module.exports = {
     deleteRestaurantPhoto,
     deleteUser,
     // whatuLike,
-    getCuisin,
+    // getCuisin,
     searchRestaurant,
     approveRestaurantProposal,
     getAllPendingRestaurant,
@@ -839,5 +892,6 @@ module.exports = {
     getCuisinList,
     deleteCuisin,
     updateCuisin,
-    deleteRestaurantReq
+    deleteRestaurantReq,
+    // getAllRestaurant
 }

@@ -11,8 +11,6 @@ import { Injectable, EventEmitter } from '@angular/core';
 export class ContactUsService {
 
  private contactList=new Subject<any>()
-  
-
   constructor(private http:HttpClient) { }
    
   getHeaderWithToken() {
@@ -23,28 +21,11 @@ export class ContactUsService {
     return headers;
 
   }
-  setContacts(data:any){
-  this.contactList.next({contactList:data})
-
-  }
-  getContact():Observable<any>{
-     return this.contactList.asObservable();
-  }
-
   getAllContactRequest(){
-    return this.http.get(URL+ 'admin/getAllPendingRestaurant',{ headers: this.getHeaderWithToken() })
+    return this.http.get(URL+ 'admin/getContactRequest',{ headers: this.getHeaderWithToken() })
     .pipe(
         map((res:Response)=>{ return res})
     )
-}
-resolveContact(R_id){
-   return this.http.get(URL+'admin/approveRestaurantProposal/'+ R_id ,{ headers: this.getHeaderWithToken() })
-    .pipe(
-        map((res:Response)=>{
-            return res
-        })
-    )
-
-}
+   }
 
 }
