@@ -167,13 +167,8 @@ function fetchDetail(req, res) {
 function manageSocialLogin(req, res) {
     let data = req.body
     let user = new userModel(data)
-<<<<<<< HEAD
-    userModel.findOneAndUpdate({ socialId: data.socialId },
-        { $set: { deviceId: data.deviceId, deviceType: data.deviceType, fcmToken: data.fcmToken, email: data.email, location: data.location} },
-=======
     userModel.findOneAndUpdate({ $or: [{ socialId: data.socialId }, { email: data.email }] },
         { $set: { deviceId: data.deviceId, deviceType: data.deviceType, fcmToken: data.fcmToken, email: data.email, location: data.location } },
->>>>>>> 5cc70d7b03ccdcb72e1a4af4e22396fe4e051bd0
         { new: true }, (err, data) => {
             if (err) {
                 return json({ code: code.internalError, message: msg.internalServerError })
