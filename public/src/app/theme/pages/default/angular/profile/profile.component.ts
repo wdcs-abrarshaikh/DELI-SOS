@@ -55,9 +55,11 @@ export class ProfileComponent implements OnInit {
 
 
   async uploadImage(images) {
+    this.display=true;
     let files = images.target.files;
     return new Promise((resolve, reject) => {
       this.profileService.uploadPic(files).subscribe((data) => {
+        this.display=false;
       if(data.code==400){
           swal({
             type: 'error',
@@ -91,7 +93,6 @@ export class ProfileComponent implements OnInit {
           showConfirmButton: false,
           timer: 1500
         })
-     
       } else {
         swal({
           type: 'error',

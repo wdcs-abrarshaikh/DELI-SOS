@@ -2,3 +2,7 @@
     color:red;
     /* width:20px; */
 }
+.t1{
+    -webkit-transition: none !important;
+    transition: none !important;
+}
