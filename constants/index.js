@@ -20,7 +20,7 @@ messages = {
     emailNotFound: 'No such email is registered',
     mailNotSent: 'Something went wrong while sending mail',
     ok: 'Ok',
-    userNotFound: 'No such user found',
+    userNotFound: 'Unable to find user.',
     invalidBody: 'Invalid input',
     invalidToken: 'Invalid token',
     updated: 'Updated',
