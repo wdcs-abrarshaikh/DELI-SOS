@@ -187,6 +187,7 @@ export class UserComponent implements OnInit, AfterViewInit {
   }
 
   activeUser(id: any) {
+    this.spinnerService.show();
     this.userService.activateUser(id).subscribe((data: any) => {
       if (data.code != 200) {
         swal({
