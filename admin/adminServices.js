@@ -119,9 +119,23 @@ async function resetPassword(req, res) {
 }
 
 async function getUsers(req, res) {
-    userModel.find({ role: role.USER, status: status.active }, (err, result) => {
+    userModel.find({ role: role.USER }, (err, result) => {
         return (err) ? res.json({ code: code.internalError, message: internalServerError })
             : res.json({ code: code.ok, message: msg.ok, data: result })
+    })
+}
+
+function changeUserStatus(req, res) {
+    userModel.findOneAndUpdate({ _id: req.params.id }, { $set: { status: status.active } }, { new: true }).then((result) => {
+        if (result) {
+            return res.json({ code: code.ok, message: msg.updated, data: result })
+        }
+        else {
+            return res.json({ code: code.notFound, message: msg.userNotFound })
+        }
+    }).catch((err) => {
+        console.log(err)
+        return res.json({ code: code.internalError, message: msg.internalServerError })
     })
 }
 
@@ -894,4 +908,5 @@ module.exports = {
     updateCuisin,
     deleteRestaurantReq,
     // getAllRestaurant
+    changeUserStatus,
 }

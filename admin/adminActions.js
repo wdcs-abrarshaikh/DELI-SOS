@@ -167,6 +167,10 @@ function deleteRestaurantReq(req, res) {
     service.deleteRestaurantReq(req, res)
 }
 
+function changeUserStatus(req,res){
+    service.changeUserStatus(req,res)
+}
+
 module.exports = {
     signup,
     login,
@@ -210,4 +214,5 @@ module.exports = {
     updateCuisin,
     deleteRestaurantReq,
     // getAllRestaurant
+    changeUserStatus
 }
