@@ -22,8 +22,8 @@ export class UserService {
 
     getUsers(): Observable<any> {
         return this.usersList.asObservable();
-  }
-  
+    }
+
     getHeaderWithToken() {
         let headers = new HttpHeaders()
         headers = headers.set('Content-Type', 'application/json')
@@ -32,7 +32,7 @@ export class UserService {
         return headers;
     }
     addUser(user: any) {
-       return this.http.post<any>(URL + 'admin/addUser', user, { headers: this.getHeaderWithToken() })
+        return this.http.post<any>(URL + 'admin/addUser', user, { headers: this.getHeaderWithToken() })
             .pipe(
                 map((res: Response) => { return res }),
             );
@@ -60,6 +60,12 @@ export class UserService {
 
     }
 
+    activateUser(id: any) {
+        return this.http.put<any>(URL + 'admin/changeUserStatus/' + id, {}, { headers: this.getHeaderWithToken() })
+        .map((res: Response) => {
+            return res
+        });
+    }
 
 
 }

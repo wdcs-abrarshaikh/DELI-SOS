@@ -3,10 +3,10 @@ import { AddEditUserComponent } from './add-edit-user/add-edit-user.component';
 import { UserService } from './user.service';
 import { Component, OnInit, AfterViewInit, ViewEncapsulation, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder,  FormGroup, } from '@angular/forms';
+import { FormBuilder, FormGroup, } from '@angular/forms';
 import { Location } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
-import {  NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ScriptLoaderService } from '../../../../../_services/script-loader.service';
 import swal from 'sweetalert2'
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
@@ -53,8 +53,8 @@ export class UserComponent implements OnInit, AfterViewInit {
         dtInstance.destroy();
         this.dtTrigger.next();
         this.spinnerService.hide();
-     })
-   
+      })
+
     });
   }
 
@@ -84,7 +84,7 @@ export class UserComponent implements OnInit, AfterViewInit {
       stateSave: true
     };
     this.getUserList();
-   
+
   }
 
   ngOnDestroy(): void {
@@ -131,7 +131,7 @@ export class UserComponent implements OnInit, AfterViewInit {
   }
 
   delete(id) {
-   swal({
+    swal({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",
       type: 'warning',
@@ -184,6 +184,27 @@ export class UserComponent implements OnInit, AfterViewInit {
     } else {
       return true;
     }
+  }
+
+  activeUser(id: any) {
+    this.userService.activateUser(id).subscribe((data: any) => {
+      if (data.code != 200) {
+        swal({
+          type: 'error',
+          text: "Something went wrong. Try after some time."
+        })
+      }
+      else{
+        this.userService.getAllUsers().subscribe((response: any) => {
+          this.usersList = response.data;
+          this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+            dtInstance.destroy();
+            this.dtTrigger.next();
+            this.spinnerService.hide();
+          })
+        })
+      }
+    })
   }
 
 }
