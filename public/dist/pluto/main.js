@@ -442,6 +442,7 @@ var AppModule = /** @class */ (function () {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "URL", function() { return URL; });
 var URL = "http://66.70.179.133:8080/";
+// export const URL:string="http://localhost:8080/";
 
 
 /***/ }),

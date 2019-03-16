@@ -748,7 +748,7 @@ async function searchCuisin(req, res) {
             return res.json({ code: code.internalError, message: msg.internalServerError })
         }
         else if (data.length == 0) {
-      return res.json({ code: code.notFound, message: msg.noMatchFound })
+            return res.json({ code: code.notFound, message: msg.noMatchFound })
         }
         else {
             return res.json({ code: code.ok, message: msg.ok, data: data })
@@ -908,5 +908,5 @@ module.exports = {
     updateCuisin,
     deleteRestaurantReq,
     // getAllRestaurant
-  changeUserStatus,
+    changeUserStatus,
 }

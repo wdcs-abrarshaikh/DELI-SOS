@@ -74,6 +74,7 @@ function authenticateUser(req, res) {
                         }
                     })
                     let { _id, name, location, locationVisible, email, role, profilePicture } = result
+                    console.log(token);
                     result = { _id, name, location, locationVisible, email, role, profilePicture }
                     return res.json({ code: code.ok, message: msg.loggedIn, token: token, data: result })
                 }
@@ -187,11 +188,13 @@ function manageSocialLogin(req, res) {
                 })
             }
             else {
-                if(data.status == "INACTIVE"){
-                    return res.json({code:code.notFound,message:msg.deactivatedUser})
+                if (data.status == status.active) {
+                    let token = util.generateToken(data, process.env.user_secret)
+                    return res.json({ code: code.ok, message: msg.loggedIn, token: token, data: data })
+                } else {
+                    return res.json({ code: code.notFound, message: msg.userNotFound })
                 }
-                let token = util.generateToken(data, process.env.user_secret)
-                return res.json({ code: code.ok, message: msg.loggedIn, token: token, data: data })
+
             }
         })
 }
@@ -341,9 +344,8 @@ function addReview(req, res) {
                                             model.restId = req.body.restId;
                                             model.receiver = result.follower;
                                             model.createdAt = Date.now()
-                                            let receiverTokens;
-                                            console.log("printing followers", result.follower)
                                             userModel.find({ _id: { $in: result.follower } }).select('fcmToken').then((tokens) => {
+                                                let receiverTokens;
                                                 if (tokens.length > 0) {
                                                     receiverTokens = tokens
                                                 } else {
@@ -352,13 +354,17 @@ function addReview(req, res) {
                                                 console.log("printing tokens");
                                                 console.log(receiverTokens)
                                                 let notfctnData = model
-                                                model.save().then(async (response) => {
-                                                    let obj = await util.decodeToken(req.headers['authorization'])
+                                                model.save().then((response) => {
+                                                    let obj = util.decodeToken(req.headers['authorization'])
                                                     let message = `${obj.name} posted new review.`
-                                                    receiverTokens.map((token) => {
-                                                        fcm.sendMessage(token.fcmToken, message, process.env.appName, notfctnData)
-                                                    })
-                                                    return res.json({ code: code.created, message: msg.reviewAdded, data: data })
+                                                    console.log("printing reciever token");
+                                                    console.log(receiverTokens)
+                                                    if (receiverTokens) {
+                                                        receiverTokens.map((token) => {
+                                                            fcm.sendMessage(token.fcmToken, message, process.env.appName, notfctnData)
+                                                        })
+                                                    }
+                                                    return res.json({ code: code.created, message: msg.reviewAdded, data: data_V3 })
                                                 })
                                             }).catch((err) => {
                                                 return res.json({ code: code.internalError, message: msg.internalServerError })
@@ -692,7 +698,6 @@ function changePassword(req, res) {
 
 function getNearByRestaurant(req, res) {
     userModel.findOne({ _id: req.params.userId, status: status.active }, (err, data) => {
-        console.log(data.location)
         if (err) {
             return res.json({ code: code.internalError, message: msg.internalServerError })
         } else if (!data) {
@@ -735,13 +740,13 @@ function getNearByRestaurant(req, res) {
 
                     }
                 }], (err, response) => {
-                    console.log(response.length)
                     if (err) {
                         return res.json({ code: code.internalError, message: msg.internalServerError })
                     } else {
+
+                        console.log(response.length);
                         let marker = [];
                         let recommendation = []
-                        let counter = 1
                         let modifyed_response = response.map(async (response_res) => {
                             let obj = Object.assign({}, response_res);
                             delete obj.mealOffers;
@@ -768,8 +773,8 @@ function getNearByRestaurant(req, res) {
                             marker.push(obj);
                             recommendation.push(response_res);
 
-
                         });
+                        console.log({ marker })
                         recommendation = recommendation.slice(0, 10)
 
                         return res.json({ code: code.ok, marker, recommendation })
@@ -1147,7 +1152,7 @@ function getNotificationList(req, res) {
 
 function logout(req, res) {
     let obj = util.decodeToken(req.headers['authorization'])
-    userModel.findByIdAndUpdate({ _id: obj.id }, { $push: { blackListedTokens: req.headers['authorization'] } })
+    userModel.findByIdAndUpdate({ _id: obj.id }, { $set: { "fcmToken": '', "activeToken": '', "deviceId": "" }, $push: { blackListedTokens: req.headers['authorization'] } })
         .then((data) => {
             if (data) {
                 return res.json({ code: code.ok, message: msg.loggedout })

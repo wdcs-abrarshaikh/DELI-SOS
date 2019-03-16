@@ -232,7 +232,7 @@ module.exports = "\n.btn-add {\n    border-radius: 1.1rem;\n    padding: 1.0rem 
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<h2 class=\"header\">Users</h2>\n<button class=\"btn-add\" (click)=\"open()\">Add</button>\n<!-- <table class=\"table table-striped- table-bordered table-hover table-checkable\" id=\"m_table_1\">\n</table> -->\n<table class=\"table table-striped- table-bordered table-hover table-checkable\" datatable [dtOptions]=\"dtOptions\"\n  [dtTrigger]=\"dtTrigger\">\n  <thead>\n    <tr>\n      <td style=\"font-weight: bold; width: 10%;\">Sr.No</td>\n      <td style=\"font-weight: bold; width: 20%\">UserName</td>\n      <td style=\"font-weight: bold; width: 30%;\">Email</td>\n      <th style=\"width:20%\"> &nbsp;&nbsp;&nbsp;Status</th>\n      <th style=\" width:20%\"> &nbsp;Action</th>\n    </tr>\n  </thead>\n  <tbody>\n\n    <tr *ngFor=\"let user of usersList ; let i=index\">\n      <td>{{i+1}}</td>\n      <td>{{user.name}}</td>\n      <td>{{user.email}}</td>\n      <td><span class=\"m-badge  m-badge--wide\">{{user.status}}</span></td>\n      <td>\n        <button type=\"button\" class=\"m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill\"\n          data-toggle=\"m-tooltip\" data-placement=\"top\" title=\"View\" (click)=\"viewUser(User)\">\n          <i class=\"fas fa-eye\"></i>\n        </button>\n        <ng-template #User let-d=\"dismiss\">\n          <div class=\"modal-header\">\n            <h4 class=\"modal-title\">View User</h4>\n            <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"d('Cross click')\">\n              <span aria-hidden=\"true\">&times;</span>\n            </button>\n          </div>\n          <div class=\"modal-body\">\n            <div class=\"form-group\">\n              <label for=\"name\">User Name</label>\n              <input type=\"text\" [(ngModel)]=\"user.name\" class=\"form-control\" disabled />\n            </div>\n\n            <div class=\"form-group\">\n              <label for=\"email\">Email</label>\n              <input type=\"text\" [(ngModel)]=\"user.email\" class=\"form-control\" disabled />\n            </div>\n\n            <div class=\"form-group\">\n              <label for=\"deviceId\">DeviceId</label>\n              <input type=\"text\" [(ngModel)]=\"user.deviceId\" class=\"form-control\" disabled />\n            </div>\n\n            <div class=\"form-group\">\n              <label for=\"deviceType\">Device Type</label>\n              <input type=\"text\" [(ngModel)]=\"user.deviceType\" class=\"form-control\" disabled />\n            </div>\n\n            <div class=\"form-group\">\n              <label for=\"fcmToken\">fcm Token</label>\n              <textarea [(ngModel)]=\"user.fcmToken\" class=\"form-control\" rows=\"4\" disabled></textarea>\n            </div>\n\n          </div>\n\n        </ng-template>\n        &nbsp;&nbsp;\n        <button type=\"button\" class=\"m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill\"\n          data-toggle=\"m-tooltip\" title=\"Edit\" (click)=\"open(user,'edit')\">\n          <i class=\"fas fa-edit\"></i>\n        </button> &nbsp;&nbsp;\n\n        <button type=\"button\" class=\"m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill\"\n          data-toggle=\"m-tooltip\" data-placement=\"top\" title=\"Delete\" (click)=\"delete(user._id)\">\n          <i class=\"fas fa-trash-alt\"></i>\n        </button>\n      </td>\n    </tr>\n  </tbody>\n</table>\n\n<script>\n  $(document).ready(function () {\n    $('[data-toggle=\"m-tooltip\"]').tooltip();\n  });\n</script>"
+module.exports = "<h2 class=\"header\">Users</h2>\n<button class=\"btn-add\" (click)=\"open()\">Add</button>\n<!-- <table class=\"table table-striped- table-bordered table-hover table-checkable\" id=\"m_table_1\">\n</table> -->\n<table class=\"table table-striped- table-bordered table-hover table-checkable\" datatable [dtOptions]=\"dtOptions\"\n  [dtTrigger]=\"dtTrigger\">\n  <thead>\n    <tr>\n      <td style=\"font-weight: bold; width: 10%;\">Sr.No</td>\n      <td style=\"font-weight: bold; width: 20%\">UserName</td>\n      <td style=\"font-weight: bold; width: 30%;\">Email</td>\n      <th style=\"width:20%\"> &nbsp;&nbsp;&nbsp;Status</th>\n      <th style=\" width:20%\"> &nbsp;Action</th>\n    </tr>\n  </thead>\n  <tbody>\n\n    <tr *ngFor=\"let user of usersList ; let i=index\">\n      <td>{{i+1}}</td>\n      <td>{{user.name}}</td>\n      <td>{{user.email}}</td>\n      <td><span class=\"m-badge  m-badge--wide\">{{user.status}}</span></td>\n      <td>\n        <button type=\"button\"\n          class=\"m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill\"\n          data-toggle=\"m-tooltip\" data-placement=\"top\" title=\"Activate\" *ngIf=\"user.status == 'INACTIVE'\"\n          (click)=\"activeUser(user._id)\">\n          <i class=\"fas fa-undo\"></i>\n        </button>\n        \n        <button type=\"button\"\n          class=\"m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill\"\n          data-toggle=\"m-tooltip\" data-placement=\"top\" title=\"View\" (click)=\"viewUser(User)\"\n          *ngIf=\"user.status!='INACTIVE'\">\n          <i class=\"fas fa-eye\"></i>\n        </button>\n        <ng-template #User let-d=\"dismiss\">\n          <div class=\"modal-header\">\n            <h4 class=\"modal-title\">View User</h4>\n            <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"d('Cross click')\">\n              <span aria-hidden=\"true\">&times;</span>\n            </button>\n          </div>\n          <div class=\"modal-body\">\n            <div class=\"form-group\">\n              <label for=\"name\">User Name</label>\n              <input type=\"text\" [(ngModel)]=\"user.name\" class=\"form-control\" disabled />\n            </div>\n\n            <div class=\"form-group\">\n              <label for=\"email\">Email</label>\n              <input type=\"text\" [(ngModel)]=\"user.email\" class=\"form-control\" disabled />\n            </div>\n\n            <div class=\"form-group\">\n              <label for=\"deviceId\">DeviceId</label>\n              <input type=\"text\" [(ngModel)]=\"user.deviceId\" class=\"form-control\" disabled />\n            </div>\n\n            <div class=\"form-group\">\n              <label for=\"deviceType\">Device Type</label>\n              <input type=\"text\" [(ngModel)]=\"user.deviceType\" class=\"form-control\" disabled />\n            </div>\n\n            <div class=\"form-group\">\n              <label for=\"fcmToken\">fcm Token</label>\n              <textarea [(ngModel)]=\"user.fcmToken\" class=\"form-control\" rows=\"4\" disabled></textarea>\n            </div>\n\n          </div>\n\n        </ng-template>\n        &nbsp;&nbsp;\n        <button type=\"button\"\n          class=\"m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill\"\n          data-toggle=\"m-tooltip\" title=\"Edit\" (click)=\"open(user,'edit')\" *ngIf=\"user.status != 'INACTIVE'\">\n          <i class=\"fas fa-edit\"></i>\n        </button> &nbsp;&nbsp;\n\n        <button type=\"button\"\n          class=\"m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill\"\n          data-toggle=\"m-tooltip\" data-placement=\"top\" title=\"Delete\" (click)=\"delete(user._id)\"\n          *ngIf=\"user.status != 'INACTIVE'\">\n          <i class=\"fas fa-trash-alt\"></i>\n        </button>\n\n\n      </td>\n    </tr>\n  </tbody>\n</table>\n\n<script>\n  $(document).ready(function () {\n    $('[data-toggle=\"m-tooltip\"]').tooltip();\n  });\n</script>"
 
 /***/ }),
 
@@ -323,6 +323,7 @@ var UserComponent = /** @class */ (function () {
             _window().isScriptLoadedUsermgmt = true;
             that._script.loadScripts('app-user', ['assets/demo/default/custom/crud/datatables/basic/paginations.js']);
         });
+        console.log(this.usersList);
     };
     UserComponent.prototype.ngOnInit = function () {
         _window().my = _window().my || {};
@@ -427,6 +428,27 @@ var UserComponent = /** @class */ (function () {
         else {
             return true;
         }
+    };
+    UserComponent.prototype.activeUser = function (id) {
+        var _this = this;
+        this.userService.activateUser(id).subscribe(function (data) {
+            if (data.code != 200) {
+                sweetalert2__WEBPACK_IMPORTED_MODULE_9___default()({
+                    type: 'error',
+                    text: "Something went wrong. Try after some time."
+                });
+            }
+            else {
+                _this.userService.getAllUsers().subscribe(function (response) {
+                    _this.usersList = response.data;
+                    _this.dtElement.dtInstance.then(function (dtInstance) {
+                        dtInstance.destroy();
+                        _this.dtTrigger.next();
+                        _this.spinnerService.hide();
+                    });
+                });
+            }
+        });
     };
     __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["ViewChild"])(angular_datatables__WEBPACK_IMPORTED_MODULE_12__["DataTableDirective"]),
@@ -649,6 +671,12 @@ var UserService = /** @class */ (function () {
     };
     UserService.prototype.deleteUser = function (id) {
         return this.http.put(_app_service__WEBPACK_IMPORTED_MODULE_0__["URL"] + 'admin/deleteUser/' + id, {}, { headers: this.getHeaderWithToken() })
+            .map(function (res) {
+            return res;
+        });
+    };
+    UserService.prototype.activateUser = function (id) {
+        return this.http.put(_app_service__WEBPACK_IMPORTED_MODULE_0__["URL"] + 'admin/changeUserStatus/' + id, {}, { headers: this.getHeaderWithToken() })
             .map(function (res) {
             return res;
         });
