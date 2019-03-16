@@ -14,12 +14,7 @@ const routes: Routes = [
     path: '',
     component: CuisinComponent,
    
-  },
-  
-
-  
-]
-
+  },]
 },
 ]
 

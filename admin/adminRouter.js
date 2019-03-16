@@ -47,7 +47,7 @@ adminRouter.route('/addRestaurant')
     .post([validate.verifyAdminToken, validate.validateRestaurant], (req, res) => {
         action.addRestaurant(req, res)
     })
-    
+
 //  adminRouter.route('/getAllRestaurant')
 //       .get((req, res) => {
 //         action.getAllRestaurant(req, res)
@@ -212,4 +212,10 @@ adminRouter.route('/deleteRestaurantReq/:id')
     .put([validate.verifyAdminToken], (req, res) => {
         action.deleteRestaurantReq(req, res)
     })
+
+adminRouter.route('/changeUserStatus/:id')
+    .put([validate.verifyAdminToken], (req, res) => {
+        action.changeUserStatus(req, res)
+    })
+
 module.exports = adminRouter

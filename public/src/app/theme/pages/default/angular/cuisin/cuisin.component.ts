@@ -1,15 +1,15 @@
 import { ScriptLoaderService } from './../../../../../_services/script-loader.service';
 import { ToastrService } from 'ngx-toastr';
-import { FormBuilder, FormArray, FormGroup, Validators, FormControl } from '@angular/forms';
-import { Message, Password } from 'primeng/primeng';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { CuisinService } from './cuisin.service';
-import { Component, OnInit, Output, EventEmitter, Input, AfterViewInit, ViewEncapsulation } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit, AfterViewInit, ViewEncapsulation, ViewChild, ElementRef } from '@angular/core';
 import { Location } from '@angular/common';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddEditcuisinComponent } from './add-editcuisin/add-editcuisin.component';
 import swal from 'sweetalert2'
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
+import { Subject } from 'rxjs';
+import { DataTableDirective } from 'angular-datatables';
 
 function _window(): any {
   // return the global native browser window object
@@ -24,6 +24,11 @@ function _window(): any {
   encapsulation: ViewEncapsulation.None
 })
 export class CuisinComponent implements OnInit {
+  dtOptions: DataTables.Settings = {};
+  dtTrigger: Subject<any> = new Subject();
+  @ViewChild(DataTableDirective)
+  dtElement: DataTableDirective;
+  sorting : Boolean=true;
   modalReference: any;
   isAdd: boolean = false;
   cuisinsList: Array<any>;
@@ -41,14 +46,21 @@ export class CuisinComponent implements OnInit {
     private spinnerService: Ng4LoadingSpinnerService) {
     this.cuisinService.getCuisins().subscribe((data: any) => {
       this.cuisinsList = data.cuisinsList.data
+      this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+        dtInstance.destroy();
+        this.dtTrigger.next();
+        this.spinnerService.hide();
+      })
     });
   }
+
   ngAfterViewInit() {
     let scripts = [];
     if (!_window().isScriptLoadedUsermgmt) {
       scripts = ['assets/vendors/custom/datatables/datatables.bundle.js'];
 
     }
+
     let that = this;
     this._script.loadScripts('app-cuisin',
       scripts).then(function () {
@@ -57,14 +69,19 @@ export class CuisinComponent implements OnInit {
       });
 
   }
-
+ 
   ngOnInit() {
     _window().my = _window().my || {};
     _window().my.usermgmt = _window().my.usermgmt || {};
     if (typeof (_window().isScriptLoadedUsermgmt) == "undefined") {
       _window().isScriptLoadedUsermgmt = false;
     }
-
+    this.dtOptions = {
+      pagingType: 'full_numbers',
+      pageLength: 10,
+      processing: true,
+      stateSave: true,
+    };
     this.getCuisinList();
   }
 
@@ -73,7 +90,6 @@ export class CuisinComponent implements OnInit {
       this.isAdd = true
     } else {
       this.isAdd = false
-
     }
     const modalRef = this.modalService.open(AddEditcuisinComponent);
     modalRef.componentInstance.id = content ? content._id : "";
@@ -88,11 +104,12 @@ export class CuisinComponent implements OnInit {
     this.spinnerService.show();
     this.cuisinService.getAllCuisins().subscribe((response: any) => {
       this.cuisinsList = response.data;
+      this.dtTrigger.next();
       this.spinnerService.hide();
     });
   }
 
-  viewCuisines(cuisin) {
+   viewCuisines(cuisin) {
     this.modalReference = this.modalService.open(cuisin);
   }
 
@@ -107,13 +124,22 @@ export class CuisinComponent implements OnInit {
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.value) {
+        this.spinnerService.show();
         this.cuisinService.deleteCuisin(id).subscribe(
           data => {
-           this.getCuisinList();
+            this.cuisinService.getAllCuisins().subscribe((response: any) => {
+              this.cuisinsList = response.data;
+              this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+                dtInstance.destroy();
+                this.dtTrigger.next();
+                this.spinnerService.hide();
+              })
+            });
+
             if (data['code'] == 200) {
               swal(
                 'Deleted!',
-                 data['data'],
+                data['message'],
                 'success'
               )
             } else {

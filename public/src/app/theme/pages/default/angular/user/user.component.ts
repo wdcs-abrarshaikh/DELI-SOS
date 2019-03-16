@@ -1,18 +1,18 @@
 
 import { AddEditUserComponent } from './add-edit-user/add-edit-user.component';
-import { Message, Password } from 'primeng/primeng';
 import { UserService } from './user.service';
-import { Component, OnInit, Output, EventEmitter, Input, AfterViewInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewEncapsulation, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder, Validators, FormControl, FormGroup, FormArray } from '@angular/forms';
+import { FormBuilder, FormGroup, } from '@angular/forms';
 import { Location } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
-import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ScriptLoaderService } from '../../../../../_services/script-loader.service';
 import swal from 'sweetalert2'
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
-import { error } from '@angular/compiler/src/util';
-import { errorObject } from 'rxjs/internal-compatibility';
+import { Subject } from 'rxjs';
+import { DataTableDirective } from 'angular-datatables';
+
 
 function _window(): any {
   // return the global native browser window object
@@ -27,7 +27,10 @@ function _window(): any {
 })
 
 export class UserComponent implements OnInit, AfterViewInit {
-  // usersDetail: any;
+  dtOptions: DataTables.Settings = {};
+  dtTrigger: Subject<any> = new Subject();
+  @ViewChild(DataTableDirective)
+  dtElement: DataTableDirective;
 
   modalReference: any;
   isAdd: boolean = false;
@@ -46,14 +49,20 @@ export class UserComponent implements OnInit, AfterViewInit {
     private router: Router) {
     this.userService.getUsers().subscribe((data: any) => {
       this.usersList = data.usersList.data
+      this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+        dtInstance.destroy();
+        this.dtTrigger.next();
+        this.spinnerService.hide();
+      })
+
     });
   }
+
   ngAfterViewInit() {
     let scripts = [];
     if (!_window().isScriptLoadedUsermgmt) {
       scripts = ['assets/vendors/custom/datatables/datatables.bundle.js'];
     }
-
     let that = this;
     this._script.loadScripts('app-user',
       scripts).then(function () {
@@ -63,15 +72,25 @@ export class UserComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-
     _window().my = _window().my || {};
-    _window().my.usermgmt = _window().my.usermgmt || {};
+    _window().my.notimgmt = _window().my.notimgmt || {};
     if (typeof (_window().isScriptLoadedUsermgmt) == "undefined") {
       _window().isScriptLoadedUsermgmt = false;
     }
-
+    this.dtOptions = {
+      pagingType: 'full_numbers',
+      pageLength: 10,
+      processing: true,
+      stateSave: true
+    };
     this.getUserList();
+
   }
+
+  ngOnDestroy(): void {
+    this.dtTrigger.unsubscribe();
+  }
+
   open(content, type) {
     if (!content) {
       this.isAdd = true
@@ -101,10 +120,9 @@ export class UserComponent implements OnInit, AfterViewInit {
     this.spinnerService.show();
     this.userService.getAllUsers().subscribe((response: any) => {
       this.usersList = response.data;
+      this.dtTrigger.next();
       this.spinnerService.hide();
-    }, error => {
-       console.log(error)
-      }
+    }
     )
   }
 
@@ -124,13 +142,22 @@ export class UserComponent implements OnInit, AfterViewInit {
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.value) {
+        this.spinnerService.show();
         this.userService.deleteUser(id).subscribe(
           data => {
-            this.getUserList();
+            this.userService.getAllUsers().subscribe((response: any) => {
+              this.usersList = response.data;
+              this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+                dtInstance.destroy();
+                this.dtTrigger.next();
+                this.spinnerService.hide();
+              })
+            }
+            )
             if (data['code'] == 200) {
               swal(
                 'Deleted!',
-                 data['message'],
+                data['message'],
                 'success'
               )
             } else {
@@ -145,7 +172,7 @@ export class UserComponent implements OnInit, AfterViewInit {
               text: error['message']
             })
           });
-       }
+      }
     })
 
   }
@@ -157,6 +184,27 @@ export class UserComponent implements OnInit, AfterViewInit {
     } else {
       return true;
     }
+  }
+
+  activeUser(id: any) {
+    this.userService.activateUser(id).subscribe((data: any) => {
+      if (data.code != 200) {
+        swal({
+          type: 'error',
+          text: "Something went wrong. Try after some time."
+        })
+      }
+      else{
+        this.userService.getAllUsers().subscribe((response: any) => {
+          this.usersList = response.data;
+          this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+            dtInstance.destroy();
+            this.dtTrigger.next();
+            this.spinnerService.hide();
+          })
+        })
+      }
+    })
   }
 
 }
