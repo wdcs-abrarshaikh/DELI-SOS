@@ -662,10 +662,10 @@ if(false) {}
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/codezeros/Desktop/DELI-SOS/public/node_modules/@progress/kendo-theme-default/dist/all.css */"./node_modules/@progress/kendo-theme-default/dist/all.css");
-__webpack_require__(/*! /home/codezeros/Desktop/DELI-SOS/public/src/styles.css */"./src/styles.css");
-__webpack_require__(/*! /home/codezeros/Desktop/DELI-SOS/public/node_modules/ngx-toastr/toastr.css */"./node_modules/ngx-toastr/toastr.css");
-module.exports = __webpack_require__(/*! /home/codezeros/Desktop/DELI-SOS/public/node_modules/datatables.net-dt/css/jquery.dataTables.css */"./node_modules/datatables.net-dt/css/jquery.dataTables.css");
+__webpack_require__(/*! /root/parallels/vishal_project/DELI-SOS/public/node_modules/@progress/kendo-theme-default/dist/all.css */"./node_modules/@progress/kendo-theme-default/dist/all.css");
+__webpack_require__(/*! /root/parallels/vishal_project/DELI-SOS/public/src/styles.css */"./src/styles.css");
+__webpack_require__(/*! /root/parallels/vishal_project/DELI-SOS/public/node_modules/ngx-toastr/toastr.css */"./node_modules/ngx-toastr/toastr.css");
+module.exports = __webpack_require__(/*! /root/parallels/vishal_project/DELI-SOS/public/node_modules/datatables.net-dt/css/jquery.dataTables.css */"./node_modules/datatables.net-dt/css/jquery.dataTables.css");
 
 
 /***/ })

@@ -1,4 +1,4 @@
-var jwt = require('jsonwebtoken')
+﻿var jwt = require('jsonwebtoken')
 var code = require('../constants').http_codes;
 var msg = require('../constants').messages;
 var util = require('../app util/util')
@@ -95,7 +95,6 @@ function validateSocialLogin(req, res, next) {
 
 async function verifyUserToken(req, res, next) {
     let token = req.headers['authorization']
-
     await jwt.verify(token, process.env.user_secret, (err) => {
         if (err) {
             return res.json({ code: code.unAuthorized, message: msg.invalidToken })
@@ -115,6 +114,10 @@ async function verifyUserToken(req, res, next) {
         }
     })
 }
+/*
+
+*/
+
 
 async function validateBody(req, res, next) {
     let data = req.body
@@ -276,3 +279,4 @@ module.exports = {
     validateUpload,
     validateLatLong
 }
+

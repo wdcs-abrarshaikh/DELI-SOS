@@ -254,7 +254,7 @@ var AppRoutingModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!-- begin::Page loader -->\n<!-- <div class=\"m-page-loader m-page-loader--base m-page-loader--non-block\" style=\"margin-left: -80px; margin-top: -20px;  background:rgb(255, 248, 224)\"> -->\n   \n \n   \n   <!-- <div class=\"m-blockui\"> -->\n     <ng4-loading-spinner> </ng4-loading-spinner>\n    <!-- <span>Please wait...</span> -->\n   \n \n<!-- <ng4-loading-spinner> </ng4-loading-spinner> -->\n<!-- end::Page loader -->\n<!-- begin:: Page -->\n<router-outlet></router-outlet>\n\n<!-- end:: Page -->\n<!-- <app-quick-sidebar></app-quick-sidebar> -->\n<!-- <app-scroll-top></app-scroll-top> -->\n<!-- <app-tooltips></app-tooltips> -->\n<!--begin::Base Scripts -->\n<!--end::Base Scripts -->\n<!--begin::Page Vendors -->\n<!--end::Page Vendors -->\n<!--begin::Page Snippets -->\n<!--end::Page Snippets -->"
+module.exports = "<!-- begin::Page loader -->\n<!-- <div class=\"m-page-loader m-page-loader--base m-page-loader--non-block\" style=\"margin-left: -80px; margin-top: -20px;  background:rgb(255, 248, 224)\"> -->\n   \n \n   \n   <!-- <div class=\"m-blockui\"> -->\n     <ng4-loading-spinner> </ng4-loading-spinner>\n    <!-- <span>Please wait...</span> -->\n   \n \n<!-- <ng4-loading-spinner> </ng4-loading-spinner> -->\n<!-- end::Page loader -->\n<!-- begin:: Page -->\n<router-outlet ng-cloak></router-outlet>\n\n<!-- end:: Page -->\n<!-- <app-quick-sidebar></app-quick-sidebar> -->\n<!-- <app-scroll-top></app-scroll-top> -->\n<!-- <app-tooltips></app-tooltips> -->\n<!--begin::Base Scripts -->\n<!--end::Base Scripts -->\n<!--begin::Page Vendors -->\n<!--end::Page Vendors -->\n<!--begin::Page Snippets -->\n<!--end::Page Snippets -->"
 
 /***/ }),
 
@@ -394,6 +394,7 @@ var AppModule = /** @class */ (function () {
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_4__["BrowserModule"],
                 _angular_forms__WEBPACK_IMPORTED_MODULE_7__["FormsModule"],
+                ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_17__["Ng4LoadingSpinnerModule"].forRoot(),
                 _angular_forms__WEBPACK_IMPORTED_MODULE_7__["ReactiveFormsModule"],
                 _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_6__["BrowserAnimationsModule"],
                 _app_routing_module__WEBPACK_IMPORTED_MODULE_10__["AppRoutingModule"],
@@ -402,10 +403,13 @@ var AppModule = /** @class */ (function () {
                 _angular_common_http__WEBPACK_IMPORTED_MODULE_14__["HttpClientModule"],
                 _theme_layouts_layout_module__WEBPACK_IMPORTED_MODULE_9__["LayoutModule"],
                 _auth_auth_module__WEBPACK_IMPORTED_MODULE_2__["AuthModule"],
-                ngx_toastr__WEBPACK_IMPORTED_MODULE_15__["ToastrModule"].forRoot(),
+                ngx_toastr__WEBPACK_IMPORTED_MODULE_15__["ToastrModule"].forRoot({
+                    timeOut: 3000,
+                    preventDuplicates: true
+                }),
                 ng_pick_datetime__WEBPACK_IMPORTED_MODULE_18__["OwlDateTimeModule"],
                 ng_pick_datetime__WEBPACK_IMPORTED_MODULE_18__["OwlNativeDateTimeModule"],
-                ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_17__["Ng4LoadingSpinnerModule"].forRoot(),
+                // Ng4LoadingSpinnerModule.forRoot(),
                 _progress_kendo_angular_inputs__WEBPACK_IMPORTED_MODULE_19__["InputsModule"]
             ],
             providers: [_services_script_loader_service__WEBPACK_IMPORTED_MODULE_1__["ScriptLoaderService"]],
@@ -510,6 +514,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 /* harmony import */ var _services_user_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../_services/user.service */ "./src/app/auth/_services/user.service.ts");
 /* harmony import */ var ngx_toastr__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ngx-toastr */ "./node_modules/ngx-toastr/fesm5/ngx-toastr.js");
+/* harmony import */ var ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ng4-loading-spinner */ "./node_modules/ng4-loading-spinner/ng4-loading-spinner.umd.js");
+/* harmony import */ var ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_5__);
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -524,18 +530,22 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
 var AuthGuard = /** @class */ (function () {
-    function AuthGuard(_router, _userService, _authService, toastService) {
+    function AuthGuard(_router, _userService, _authService, toastService, spinnerService) {
         this._router = _router;
         this._userService = _userService;
         this._authService = _authService;
         this.toastService = toastService;
+        this.spinnerService = spinnerService;
     }
     AuthGuard.prototype.canActivate = function (route, state) {
         var _this = this;
         var currentUser = JSON.parse(localStorage.getItem('_token'));
         if (currentUser) {
+            this.spinnerService.show();
             this._authService.verify().subscribe(function (data) {
+                _this.spinnerService.hide();
                 if (data['code'] == 400) {
                     _this._router.navigate(['/login']);
                     _this.toastService.success(data['message']);
@@ -550,7 +560,7 @@ var AuthGuard = /** @class */ (function () {
     };
     AuthGuard = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])(),
-        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"], _services_user_service__WEBPACK_IMPORTED_MODULE_3__["UserService"], _services_authentication_service__WEBPACK_IMPORTED_MODULE_0__["AuthenticationService"], ngx_toastr__WEBPACK_IMPORTED_MODULE_4__["ToastrService"]])
+        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"], _services_user_service__WEBPACK_IMPORTED_MODULE_3__["UserService"], _services_authentication_service__WEBPACK_IMPORTED_MODULE_0__["AuthenticationService"], ngx_toastr__WEBPACK_IMPORTED_MODULE_4__["ToastrService"], ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_5__["Ng4LoadingSpinnerService"]])
     ], AuthGuard);
     return AuthGuard;
 }());
@@ -1529,7 +1539,7 @@ module.exports = "\nbody{\n\tmargin:0;\n\t\n}\n.lbl-err {\n    color: red; \n\t}
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"top\">\n  <div class=\"m-grid__item m-grid__item--fluid m-grid m-grid--hor m-login m-login--signin m-login--2 m-login-2--skin-2\"id=\"m_login\"  style=\"background-image: url(bg-3.jpg)\">\n   <div class=\"m-grid__item m-grid__item--fluid    m-login__wrapper\">\n      <div class=\"m-login__container\">\n        <div class=\"size\">\n            <div class=\"app-logo\"></div><br>\n            <h1>To error is human</h1>\n         </div>\n        <div class=\"m-login__signin\">\n           <div class=\"m-login__head\">\n             <div class=\"m-login center\">\n              <h3 class=\"m-login__title\">Forgot Password</h3>\n             </div>\n          </div><br>\n          <div class=\"m-login__container\">\n          <form [formGroup]=\"forgotPasswordForm\" name=\"forgotPasswordForm\" (ngSubmit)=\"onSubmit()\">\n            <div class=\"form-group\">\n              <input  type=\"text\" placeholder=\"Email\" formControlName=\"email\"  class=\"form-control\"  [ngClass]=\"{'is-invalid': submitted && f.email.errors}\">\n              <div *ngIf=\"submitted && f.email.errors\" class=\"lbl-err\">\n                <div *ngIf=\"f.email.errors.required \">Email is required</div>\n                <div *ngIf=\"f.email.errors.pattern\">Enter Valid Email ID</div>\n              </div>\n             </div>\n            <br>\n            <div class=\"form-group\">\n                <div class=\"m--align-center\">\n                    <button [disabled]=\"loading\" class=\"btn-forgot\" (click)=\"forgotPassword()\" >Forgot Password</button>\n                </div>\n            </div>\n          </form>\n         </div>\n        </div>\n       </div>\n    </div>\n</div>\n    <!-- <app-footer></app-footer> -->\n  \n\n  \n  <!-- <div class=\"m-login__form-action\"> <button id=\"m_login_forget_password_submit\" class=\"btn btn-focus m-btn m-btn--pill m-btn--custom m-btn--air\"\n                (click)=\"forgotPassword()\">Request</button>\n              <button id=\"m_login_forget_password_cancel\" class=\"btn btn-outline-focus m-btn m-btn--pill m-btn--custom\">Cancel</button>\n            </div> -->\n\n\n   <!-- <link rel=\"stylesheet\" type=\"text/css\" href=\"login.component.css\"> -->\n\n"
+module.exports = "<div class=\"top\">\n  <div class=\"m-grid__item m-grid__item--fluid m-grid m-grid--hor m-login m-login--signin m-login--2 m-login-2--skin-2\"id=\"m_login\"  style=\"background-image: url(bg-3.jpg)\">\n   <div class=\"m-grid__item m-grid__item--fluid    m-login__wrapper\">\n      <div class=\"m-login__container\">\n        <div class=\"size\">\n            <div class=\"app-logo\"></div><br>\n            <h1>To error is human</h1>\n         </div>\n        <div class=\"m-login__signin\">\n           <div class=\"m-login__head\">\n             <div class=\"m-login center\">\n              <h3 class=\"m-login__title\">Forgot Password</h3>\n             </div>\n          </div><br>\n          <div class=\"m-login__container\">\n          <form [formGroup]=\"forgotPasswordForm\" name=\"forgotPasswordForm\" (ngSubmit)=\"onSubmit()\">\n            <div class=\"form-group\">\n              <input  type=\"text\" placeholder=\"Email\" formControlName=\"email\"  class=\"form-control\"  [ngClass]=\"{'is-invalid': submitted && f.email.errors}\">\n              <div *ngIf=\"submitted && f.email.errors\" class=\"lbl-err\">\n                <div *ngIf=\"f.email.errors.required \">Email is required</div>\n                <div *ngIf=\"f.email.errors.pattern\">Enter Valid Email ID</div>\n              </div>\n             </div>\n            <br>\n            <div class=\"form-group\">\n                <div class=\"m--align-center\">\n                    <button [disabled]=\"loading\" class=\"btn-forgot\" >Forgot Password</button>\n                </div>\n            </div>\n          </form>\n         </div>\n        </div>\n       </div>\n    </div>\n</div>\n    <!-- <app-footer></app-footer> -->\n  \n\n  \n  <!-- <div class=\"m-login__form-action\"> <button id=\"m_login_forget_password_submit\" class=\"btn btn-focus m-btn m-btn--pill m-btn--custom m-btn--air\"\n                (click)=\"forgotPassword()\">Request</button>\n              <button id=\"m_login_forget_password_cancel\" class=\"btn btn-outline-focus m-btn m-btn--pill m-btn--custom\">Cancel</button>\n            </div> -->\n\n\n   <!-- <link rel=\"stylesheet\" type=\"text/css\" href=\"login.component.css\"> -->\n\n"
 
 /***/ }),
 
@@ -1581,23 +1591,15 @@ var ForgotPasswordComponent = /** @class */ (function () {
         });
     };
     ForgotPasswordComponent.prototype.onSubmit = function () {
+        var _this = this;
         this.submitted = true;
         //if invalid form return
         if (this.forgotPasswordForm.invalid) {
             return;
         }
         this.spinnerService.show();
-    };
-    Object.defineProperty(ForgotPasswordComponent.prototype, "f", {
-        get: function () {
-            return this.forgotPasswordForm.controls;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    ForgotPasswordComponent.prototype.forgotPassword = function () {
-        var _this = this;
         this.forgotPasswordService.post(this.forgotPasswordForm.value).subscribe(function (response) {
+            _this.spinnerService.hide();
             if (response['code'] == 200) {
                 sweetalert2__WEBPACK_IMPORTED_MODULE_5___default()({
                     position: 'center',
@@ -1607,9 +1609,9 @@ var ForgotPasswordComponent = /** @class */ (function () {
                     timer: 1500
                 });
                 _this.router.navigate(['/forgotemail']);
-                _this.spinnerService.hide();
             }
             else {
+                _this.spinnerService.hide();
                 sweetalert2__WEBPACK_IMPORTED_MODULE_5___default()({
                     type: 'error',
                     text: response['message']
@@ -1619,6 +1621,13 @@ var ForgotPasswordComponent = /** @class */ (function () {
             console.log('error', JSON.stringify(error));
         });
     };
+    Object.defineProperty(ForgotPasswordComponent.prototype, "f", {
+        get: function () {
+            return this.forgotPasswordForm.controls;
+        },
+        enumerable: true,
+        configurable: true
+    });
     ForgotPasswordComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-forgot-password',
@@ -1784,7 +1793,7 @@ module.exports = "\nbody{\n\tmargin:0;\n\t\n}\n.lbl-err {\n    color: red; \n\t}
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!-- <link rel=\"stylesheet\" type=\"text/css\" href=\"login.component.css\"> -->\n\n<div class=\"top\">\n    <div class=\"m-grid__item m-grid__item--fluid m-grid m-grid--hor m-login m-login--signin m-login--2 m-login-2--skin-2\"\n        id=\"m_login\" style=\"background-image: url(bg-3.jpg)\">\n        <div class=\"m-grid__item m-grid__item--fluid    m-login__wrapper\">\n            <div class=\"m-login__container\">\n                <div class=\"size\">\n                    <div class=\"app-logo\"></div><br>\n                    <h1>Good food is<br>waiting for you!</h1>\n                </div>\n                <div class=\"m-login__signin\">\n                    <div class=\"m-login__head\"><br><br>\n                        <h3 class=\"m-login__title\">Sign In To Admin</h3>\n                    </div>\n                    <br>\n                    <form name=\"loginForm\" [formGroup]=\"loginForm\" (ngSubmit)=\"onSubmit()\">\n                        <div class=\"form-group\"> \n                          <input type=\"text\" class=\"form-control\" placeholder=\"Email\"\n                                formControlName=\"email\" [ngClass]=\"{ 'is-invalid': submitted && f.email.errors }\">\n                            <div *ngIf=\"submitted && f.email.errors\" class=\"lbl-err \">\n                                <div *ngIf=\"f.email.errors.required\">Email is required</div>\n                                <div *ngIf=\"f.email.errors.pattern\">Enter Valid EmailId</div>\n                            </div>\n                        </div>\n                        <div class=\"form-group\">\n                            <input type=\"password\"   class=\"form-control\" placeholder=\"Password\" formControlName=\"password\"\n                                [ngClass]=\"{ 'is-invalid': submitted && f.password.errors }\">\n                            <div *ngIf=\"submitted && f.password.errors\" class=\"lbl-err \">\n                                <div *ngIf=\"f.password.errors.required\">Password is required</div>\n                                <!-- <div *ngIf=\"f.password.errors.pattern\">Enter Password must be Minimum Six characters, at least one Capital letter, one number and one special character:</div> -->\n                            </div>\n                            <br>\n\n                            <div class=\"col m--align-center\">\n                                <!-- <p>Don't have an account? &nbsp;<a routerLink=\"/sign-up\">register</a> </p> -->\n                            </div>\n                        </div>\n                        <div class=\"row m-login__form-sub\">\n                            <div class=\"col m--align-left\"> <label class=\"checkbox\"> <input type=\"checkbox\" name=\"remember\"\n                                        style=\"color:blue\"> Remember me <span></span> </label>\n                            </div>\n                            <div class=\"col m--align-right\"> <a routerLink=\"/forgotpassword\" class=\"checkbox\">Forgot\n                                    Password?</a> </div>\n                        </div>\n                        <div class=\"form-group\">\n                            <div class=\"m--align-center\">\n                                <button [disabled]=\"loading\" class=\"btn-login\" (click)=\"signIn()\">Log In</button>\n                            </div>\n                        </div>\n\n                    </form>\n                </div>\n\n\n                <!-- <div class=\"m-login__account\">\n                <span class=\"m-login__account-msg\">\n                Don't have an account yet ?\n                </span>&nbsp;&nbsp;\n                <a href=\"javascript:;\" id=\"m_login_signup\" class=\"m-link m-link--light m-login__account-link\" routerLink=\"/sign-up\">Sign Up</a>\n            </div>\n            <div class=\"m-login__account\">\n                <span class=\"m-login__account-msg\">\n               Continue with facebook?\n               <a href=\"javascript:;\" id=\"m_login_signup\" class=\"m-link m-link--light m-login__account-link\" routerLink=\"/sign-up\">Sign Up</a>\n\n               </span>\n               \n            </div> -->\n            </div>\n        </div>\n\n        <!-- <app-footer></app-footer> -->\n    </div>\n    <div>"
+module.exports = "<!-- <link rel=\"stylesheet\" type=\"text/css\" href=\"login.component.css\"> -->\n\n<div class=\"top\">\n    <div class=\"m-grid__item m-grid__item--fluid m-grid m-grid--hor m-login m-login--signin m-login--2 m-login-2--skin-2\"\n        id=\"m_login\" style=\"background-image: url(bg-3.jpg)\">\n        <div class=\"m-grid__item m-grid__item--fluid    m-login__wrapper\">\n            <div class=\"m-login__container\">\n                <div class=\"size\">\n                    <div class=\"app-logo\"></div><br>\n                    <h1>Good food is<br>waiting for you!</h1>\n                </div>\n                <div class=\"m-login__signin\">\n                    <div class=\"m-login__head\"><br><br>\n                        <h3 class=\"m-login__title\">Sign In To Admin</h3>\n                    </div>\n                    <br>\n                    <form name=\"loginForm\" [formGroup]=\"loginForm\" (ngSubmit)=\"onSubmit()\">\n                        <div class=\"form-group\"> \n                          <input type=\"text\" class=\"form-control\" placeholder=\"Email\"\n                                formControlName=\"email\" [ngClass]=\"{ 'is-invalid': submitted && f.email.errors }\">\n                            <div *ngIf=\"submitted && f.email.errors\" class=\"lbl-err \">\n                                <div *ngIf=\"f.email.errors.required\">Email is required</div>\n                                <div *ngIf=\"f.email.errors.pattern\">Enter Valid EmailId</div>\n                            </div>\n                        </div>\n                        <div class=\"form-group\">\n                            <input type=\"password\"   class=\"form-control\" placeholder=\"Password\" formControlName=\"password\"\n                                [ngClass]=\"{ 'is-invalid': submitted && f.password.errors }\">\n                            <div *ngIf=\"submitted && f.password.errors\" class=\"lbl-err \">\n                                <div *ngIf=\"f.password.errors.required\">Password is required</div>\n                                <!-- <div *ngIf=\"f.password.errors.pattern\">Enter Password must be Minimum Six characters, at least one Capital letter, one number and one special character:</div> -->\n                            </div>\n                            <br>\n\n                            <div class=\"col m--align-center\">\n                              \n                            </div>\n                        </div>\n                        <div class=\"row m-login__form-sub\">\n                            <div class=\"col m--align-left\"> <label class=\"checkbox\"> <input type=\"checkbox\" name=\"remember\"\n                                        style=\"color:blue\"> Remember me <span></span> </label>\n                            </div>\n                            <div class=\"col m--align-right\"> <a routerLink=\"/forgotpassword\" class=\"checkbox\">Forgot\n                                    Password?</a> </div>\n                        </div>\n                        <div class=\"form-group\">\n                            <div class=\"m--align-center\">\n                                <button [disabled]=\"loading\" class=\"btn-login\">Log In</button>\n                            </div>\n                        </div>\n\n                    </form>\n                </div>\n\n\n                <!-- <div class=\"m-login__account\">\n                <span class=\"m-login__account-msg\">\n                Don't have an account yet ?\n                </span>&nbsp;&nbsp;\n                <a href=\"javascript:;\" id=\"m_login_signup\" class=\"m-link m-link--light m-login__account-link\" routerLink=\"/sign-up\">Sign Up</a>\n            </div>\n            <div class=\"m-login__account\">\n                <span class=\"m-login__account-msg\">\n               Continue with facebook?\n               <a href=\"javascript:;\" id=\"m_login_signup\" class=\"m-link m-link--light m-login__account-link\" routerLink=\"/sign-up\">Sign Up</a>\n\n               </span>\n               \n            </div> -->\n            </div>\n        </div>\n\n        <!-- <app-footer></app-footer> -->\n    </div>\n    <div>"
 
 /***/ }),
 
@@ -1839,21 +1848,18 @@ var LoginComponent = /** @class */ (function () {
         configurable: true
     });
     LoginComponent.prototype.onSubmit = function () {
+        var _this = this;
         this.submitted = true;
         // stop here if form is invalid
         if (this.loginForm.invalid) {
             return;
         }
-    };
-    LoginComponent.prototype.signIn = function () {
-        var _this = this;
+        this.spinnerService.show();
         this._loginService.post(this.loginForm.value).subscribe(function (response) {
             if (response['code'] == 200) {
-                _this.spinnerService.hide();
                 _this.toastService.success(response.message);
                 localStorage.setItem('_token', JSON.stringify(response.token));
                 localStorage.setItem('_id', JSON.stringify(response.data._id));
-                _this.spinnerService.show();
                 _this._router.navigate(['/index']);
             }
             else {
@@ -1951,7 +1957,7 @@ var LoginService = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".m-aside-menu .m-menu__nav .m-menu__item>.m-menu__heading:hover, .m-aside-menu .m-menu__nav .m-menu__item>.m-menu__link:hover {\n    background:#dd600c;\n}\n.menu__nav .m-menu__item>.m-menu__link:hover {\n    background: sandybrown;\n}\n.m-menu__link:hover{\n    background: sandybrown;\n}\n.m-menu__item.m-menu__item--active a{\n    transition: background-color .3s;\n    background-color:sandybrown;\n }\n.m-aside-menu .m-menu__nav .m-menu__item>.m-menu__link:hover {\n    text-decoration: none;\n    cursor: pointer;\n    background: sandybrown;\n }\n.m-menu__link{\n    color:white; \n    /* font-weight:500; */\n    font-size: 1.2rem;\n    position: relative;\n    display: flex;\n    align-items: center;\n    font-weight: bold !important;\n }\na:hover {\n    color: white;\n    text-decoration: underline;\n}\n.m-menu__link-text {\n    display: contents !important;\n    font-weight: bold !important;\n    color:white\n}\n.m-menu__nav img {\n    margin-right: 10px;\n}\n.m-menu__item .fa, .m-menu__item .fas, .m-menu__item .far {\n    color:white;\n    font-size: 18px;\n    width:32px;\n}\n.m-menu__item{\n    color:white; \n    font-size: 1.2rem;\n    padding:10px\n    \n}\n"
+module.exports = ".m-aside-menu .m-menu__nav .m-menu__item>.m-menu__heading:hover, .m-aside-menu .m-menu__nav .m-menu__item>.m-menu__link:hover {\n    background:#f84d09;\n}\n.menu__nav .m-menu__item>.m-menu__link:hover {\n    background: sandybrown;\n}\n.m-menu__link:hover{\n    background: sandybrown;\n}\n.m-menu__item.m-menu__item--active a{\n    transition: background-color .3s;\n    background-color:sandybrown;\n }\n.m-aside-menu .m-menu__nav .m-menu__item>.m-menu__link:hover {\n    text-decoration: none;\n    cursor: pointer;\n    background: sandybrown;\n }\n.m-menu__link{\n    color:white; \n    /* font-weight:500; */\n    font-size: 1.2rem;\n    position: relative;\n    display: flex;\n    align-items: center;\n    font-weight: bold !important;\n }\na:hover {\n    color: white;\n    text-decoration: underline;\n}\n.m-menu__link-text {\n    display: contents !important;\n    font-weight: bold !important;\n    color:white\n}\n.m-menu__nav img {\n    margin-right: 10px;\n}\n.m-menu__item .fa, .m-menu__item .fas, .m-menu__item .far {\n    color:white;\n    font-size: 18px;\n    width:32px;\n}\n.fa-users:before {\n    color:white;\n    content: \"\\f0c0\";\n}\n.fa-dashboard:before {\n    color:white;\n    content: \"\\f0e4\";\n}\n.fa-phone:before {\n    color:white;\n    content: \"\\f095\";\n}\n.fa-file-text:before {\n    color:white;\n    content: \"\\f15c\";\n}\n\n"
 
 /***/ }),
 
@@ -1962,7 +1968,7 @@ module.exports = ".m-aside-menu .m-menu__nav .m-menu__item>.m-menu__heading:hove
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!-- BEGIN: Left Aside -->\n<div class=\"t1\">\n<app-header-nav></app-header-nav>\n<button class=\"m-aside-left-close  m-aside-left-close--skin-dark\" id=\"m_aside_left_close_btn\" appunwraptag=\"\"><i class=\"la la-close\"></i></button>\n<div id=\"m_aside_left\" class=\"m-grid__item\tm-aside-left  m-aside-left--skin-dark\">\n\t<!-- BEGIN: Aside Menu -->\n\t<div id=\"m_ver_menu\" class=\"m-aside-menu  m-aside-menu--skin-dark m-aside-menu--submenu-skin-dark\" m-menu-vertical=\"1\"\n\t m-menu-scrollable=\"1\" m-menu-dropdown-timeout=\"500\" style=\"background: linear-gradient(rgb(236, 151, 39), #e97121); \">\n\t\t<ul class=\"m-menu__nav  m-menu__nav--dropdown-submenu-arrow\">\n\t\t\n\t\t\t<li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\" aria-haspopup=\"true\"><a\n\t\t\t\t(click)=\"moveToIndex()\" class=\"m-menu__link\"><i class=\"fas flaticon-line-graph\"></i>Dashboard\n\t\t\t\t\t\t</a>\n\t\t\t</li>\n\t\t\n\t\t\t<li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\" aria-haspopup=\"true\"><a\n\t\t\t\t(click)=\"moveToRestaurant()\" class=\"m-menu__link\"><img src=\"./assets/demo/default/media/img/logo/restaurant.png\" width=\"20px\"/>Restaurants\n\t\t\t\t\t </a>\n\t\t   </li>\n\n\t\t\t<li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\" aria-haspopup=\"true\"><a\n\t\t\t\t(click)=\"moveToCuisin()\" class=\"m-menu__link\" ><img src=\"./assets/demo/default/media/img/logo/cuisin.png\" width=\"20px\"/>Cuisines</a>\n\t\t\t</li>\n\t\t\n\t\t\t\n\t\t\t<li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\" aria-haspopup=\"true\"><a\n\t\t\t\t(click)=\"moveToUser()\" class=\"m-menu__link\"><i class=\"fa fa-users\"></i>Users </a>\n            \t \n\t\t   </li>\n\n\t\t   <li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\" aria-haspopup=\"true\"><a\n\t\t\t(click)=\"moveToAboutus()\" class=\"m-menu__link\" ><i class=\"far fa-building\"></i>About Us </a>\n\t\t\t\t  \n\t       </li>\n   \n\t\t   \t\t\n\t\t\t<li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\" aria-haspopup=\"true\"><a\n\t\t\t\t(click)=\"moveToContactus()\" class=\"m-menu__link\" ><i class=\"fas fa-envelope-open\"></i>Contact Us   </a>\n\t\t\t\t\t\n\t\t   </li>\n\n\t\t\t<li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\"aria-haspopup=\"true\">\n\t\t\t<a (click)=\"moveToPrivacy()\" class=\"m-menu__link\" ><i class=\"far flaticon-settings\"></i>Privacy Policy</a>\n\t\t\t\n\t\t\t</li>\n\t\t\t\n\n\t<!----  <li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\"\n\t   aria-haspopup=\"true\"><a routerLink=\"/admin/terms-conditions\" class=\"m-menu__link\"><i class=\"m-menu__link-icon flaticon-settings\"></i><span\n\t\t\t   class=\"m-menu__link-text\">Terms & Conditions\n\t\t\t  </span></a>\n\t  </li>\n\n\n\t  <li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\"\n\t  aria-haspopup=\"true\"><a routerLink=\"/admin/notifications\" class=\"m-menu__link\"><i class=\"m-menu__link-icon flaticon-settings\"></i><span\n\t\t\t  class=\"m-menu__link-text\">Notifications\n\t\t\t </span></a>\n\t </li>\n\n\t -->\n\t\t\t\n\t\t\t\t\t</ul>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t\n"
+module.exports = "<!-- BEGIN: Left Aside -->\n<div class=\"t1\">\n<app-header-nav></app-header-nav>\n<button class=\"m-aside-left-close  m-aside-left-close--skin-dark\" id=\"m_aside_left_close_btn\" appunwraptag=\"\"><i class=\"la la-close\"></i></button>\n<div id=\"m_aside_left\" class=\"m-grid__item\tm-aside-left  m-aside-left--skin-dark\">\n\t<!-- BEGIN: Aside Menu -->\n\t<div id=\"m_ver_menu\" class=\"m-aside-menu  m-aside-menu--skin-dark m-aside-menu--submenu-skin-dark\" m-menu-vertical=\"1\"\n\t m-menu-scrollable=\"1\" m-menu-dropdown-timeout=\"500\" style=\"background: linear-gradient(rgb(236, 151, 39), #e97121); \">\n\t\t<ul class=\"m-menu__nav  m-menu__nav--dropdown-submenu-arrow\">\n\t\t\n\t\t\t<li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\" aria-haspopup=\"true\"><a\n\t\t\t\trouterLink=\"/index\" class=\"m-menu__link\"><i class=\"fa fa-dashboard\"></i>Dashboard\n\t\t\t\t\t\t</a>\n\t\t\t</li>\n\t\t\n\t\t\t<li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\" aria-haspopup=\"true\"><a\n\t\t\t\trouterLink=\"/admin/restaurant\" class=\"m-menu__link\"><img src=\"./assets/demo/default/media/img/logo/restaurant.png\" width=\"20px\"/>Restaurants\n\t\t\t\t\t </a>\n\t\t   </li>\n\n\t\t\t<li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\" aria-haspopup=\"true\"><a\n\t\t\t\t routerLink=\"/admin/cuisines\" class=\"m-menu__link\" ><img src=\"./assets/demo/default/media/img/logo/cuisin.png\" width=\"20px\"/>Cuisines</a>\n\t\t\t</li>\n\t\t\n\t\t\t\n\t\t\t<li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\" aria-haspopup=\"true\"><a\n\t\t\t\trouterLink=\"/admin/getUserList\" class=\"m-menu__link\"><i class=\"fa fa-users\"></i>Users </a>\n            \t \n\t\t   </li>\n\n\t\t   <li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\" aria-haspopup=\"true\"><a\n\t\t\trouterLink=\"/admin/about-us\" class=\"m-menu__link\" ><i class=\"far fa-building\"></i>About Us </a>\n\t\t\t\t  \n\t       </li>\n   \n\t\t   \t\t\n\t\t\t<li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\" aria-haspopup=\"true\"><a\n\t\t\t\trouterLink=\"/admin/contact-us\" class=\"m-menu__link\" ><i class=\"fa fa-phone\"></i>Contact Us </a>\n\t\t\t\t\t\n\t\t   </li>\n\n\t\t\t<li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\"aria-haspopup=\"true\">\n\t\t\t<a routerLink=\"/admin/privacy-policy\" class=\"m-menu__link\" ><i class=\"fa fa-file-text\"></i>Privacy Policy</a>\n\t\t\t\n\t\t\t</li>\n\t\t\t<!-- fa fa-envelope-open -->\n\n\t<!----  <li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\"\n\t   aria-haspopup=\"true\"><a routerLink=\"/admin/terms-conditions\" class=\"m-menu__link\"><i class=\"m-menu__link-icon flaticon-settings\"></i><span\n\t\t\t   class=\"m-menu__link-text\">Terms & Conditions\n\t\t\t  </span></a>\n\t  </li>\n\n\n\t  <li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\"\n\t  aria-haspopup=\"true\"><a routerLink=\"/admin/notifications\" class=\"m-menu__link\"><i class=\"m-menu__link-icon flaticon-settings\"></i><span\n\t\t\t  class=\"m-menu__link-text\">Notifications\n\t\t\t </span></a>\n\t </li>\n\n\t -->\n\t\t\t\n\t\t\t\t\t</ul>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t\n"
 
 /***/ }),
 
@@ -1977,9 +1983,6 @@ module.exports = "<!-- BEGIN: Left Aside -->\n<div class=\"t1\">\n<app-header-na
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AsideNavComponent", function() { return AsideNavComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ng4-loading-spinner */ "./node_modules/ng4-loading-spinner/ng4-loading-spinner.umd.js");
-/* harmony import */ var ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1990,45 +1993,13 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
-
-
 var AsideNavComponent = /** @class */ (function () {
-    function AsideNavComponent(spinnerService, _router) {
-        this.spinnerService = spinnerService;
-        this._router = _router;
+    function AsideNavComponent() {
     }
     AsideNavComponent.prototype.ngOnInit = function () {
     };
     AsideNavComponent.prototype.ngAfterViewInit = function () {
         mLayout.initAside();
-    };
-    AsideNavComponent.prototype.moveToIndex = function () {
-        this.spinnerService.show();
-        this._router.navigate(['/index']);
-    };
-    AsideNavComponent.prototype.moveToRestaurant = function () {
-        this.spinnerService.show();
-        this._router.navigate(['/admin/restaurant']);
-    };
-    AsideNavComponent.prototype.moveToCuisin = function () {
-        this.spinnerService.show();
-        this._router.navigate(['/admin/cuisines']);
-    };
-    AsideNavComponent.prototype.moveToUser = function () {
-        this.spinnerService.show();
-        this._router.navigate(['/admin/getUserList']);
-    };
-    AsideNavComponent.prototype.moveToAboutus = function () {
-        this.spinnerService.show();
-        this._router.navigate(['/admin/about-us']);
-    };
-    AsideNavComponent.prototype.moveToContactus = function () {
-        this.spinnerService.show();
-        this._router.navigate(['/admin/contact-us']);
-    };
-    AsideNavComponent.prototype.moveToPrivacy = function () {
-        this.spinnerService.show();
-        this._router.navigate(['/admin/privacy-policy']);
     };
     AsideNavComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -2037,8 +2008,7 @@ var AsideNavComponent = /** @class */ (function () {
             styles: [__webpack_require__(/*! ./aside-nav.component.css */ "./src/app/theme/layouts/aside-nav/aside-nav.component.css")],
             encapsulation: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewEncapsulation"].None,
         }),
-        __metadata("design:paramtypes", [ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_1__["Ng4LoadingSpinnerService"],
-            _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"]])
+        __metadata("design:paramtypes", [])
     ], AsideNavComponent);
     return AsideNavComponent;
 }());
@@ -2198,7 +2168,7 @@ var HeaderNavComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "img.m--img-rounded.m--marginless {\n    margin-left: 95%!important;\n    margin-top: -6%!important;\n    cursor: pointer !important;\n    width:50px !important;\n    height:50px !important;\n}\n\n.img-circle{\n    vertical-align: middle;\n    border-style: none;\n    float: right;\n    border-radius: 50%;\n    /* height: 80px; */\n    /* background: url(\"user.jpeg\") */\n}\n\n.name{\n    float:right;\n    font-size:30px;\n    margin-top: 20px;\n    margin-right: 10px\n}\n\nh3{\n    color:white;\n    text-align: center;\n    margin-left: 5px;\n    margin-top:20px;\n    font-size: 30px;\n    cursor: pointer;\n}\n\n.label{\n    font-style: bold;\n    text-align: right\n}\n\n.user{\n    color:#fc4a1a;\n    font-weight: 500;\n    font :bold;\n    font-size: 25px\n}\n\n.m1{\n    text-align: right;\n    margin-left: 90%;\n    margin-right: 5px;\n  \n}\n\n.image{\n    vertical-align: middle;\n    border-style: none;\n    float: right;\n    height: 60px;\n    width:60px;\n    border-radius: 50%\n }\n\n.m-nav__link.m-dropdown__toggle.pic_nm {\n    display: table;\n    padding: 10px;\n    float: right;\n    cursor: pointer;\n}\n\n.pic_nm span {\n    display: table-cell;\n    vertical-align: middle;\n    font-size: 20px;\n}\n\n.m-nav .m-nav__item>.m-nav__link .m-nav__link-icon {\n    color: #fc4a1a;\n}\n\n.m-nav .m-nav__item>.m-nav__link .m-nav__link-text {\n    color: #fc4a1a\n}\n\n.m-nav__link:hover{\n    background-color:none;\n}\n\n.m-nav .m-nav__item:hover:not(.m-nav__item--disabled)>.m-nav__link .m-nav__link-text {\n    color: #fd7e14;\n }\n\n.m-nav .m-nav__item:hover:not(.m-nav__item--disabled)>.m-nav__link .m-nav__link-icon {\n    color: #fd7e14;\n }\n\n.a1{\n    color: white;\n    text-decoration: none;\n    background-color: transparent;\n    -webkit-text-decoration-skip: objects;\n}\n\n.a1:hover {\n    color: white;\n \n}\n\n.m-dropdown__wrapper .m-dropdown__arrow{\n    color: #fff !important;\n    right: 61px!important;\n}\n\n.font {\n    padding-right: 20px;\n}"
+module.exports = "img.m--img-rounded.m--marginless {\n    margin-left: 95%!important;\n    margin-top: -6%!important;\n    cursor: pointer !important;\n    width:50px !important;\n    height:50px !important;\n}\n\n.img-circle{\n    vertical-align: middle;\n    border-style: none;\n    float: right;\n    border-radius: 50%;\n    /* height: 80px; */\n    /* background: url(\"user.jpeg\") */\n}\n\n.name{\n    float:right;\n    font-size:30px;\n    margin-top: 20px;\n    margin-right: 10px\n}\n\nh3{\n    color:white;\n    text-align: center;\n    margin-left: 5px;\n    margin-top:20px;\n    font-size: 30px;\n    cursor: pointer;\n}\n\n.label{\n    font-style: bold;\n    text-align: right\n}\n\n.user{\n    color:#fc4a1a;\n    font-weight: 500;\n    font :bold;\n    font-size: 25px\n}\n\n.m1{\n    text-align: right;\n    margin-left: 90%;\n    margin-right: 5px;\n  \n}\n\n.image{\n    vertical-align: middle;\n    border-style: none;\n    float: right;\n    height: 60px;\n    width:60px;\n    border-radius: 50%\n }\n\n.m-nav__link.m-dropdown__toggle.pic_nm {\n    display: table;\n    padding: 10px;\n    float: right;\n    cursor: pointer;\n}\n\n.pic_nm span {\n    display: table-cell;\n    vertical-align: middle;\n    font-size: 20px;\n}\n\n.m-nav .m-nav__item>.m-nav__link .m-nav__link-icon {\n    color: #fc4a1a;\n}\n\n.m-nav .m-nav__item>.m-nav__link .m-nav__link-text {\n    color: #fc4a1a\n}\n\n.m-nav__link:hover{\n    background-color:none;\n}\n\n.m-nav .m-nav__item:hover:not(.m-nav__item--disabled)>.m-nav__link .m-nav__link-text {\n    color: #f06027;\n }\n\n.m-nav .m-nav__item:hover:not(.m-nav__item--disabled)>.m-nav__link .m-nav__link-icon {\n    color: #f06027;\n }\n\n.a1{\n    color: white;\n    text-decoration: none;\n    background-color: transparent;\n    -webkit-text-decoration-skip: objects;\n}\n\n.a1:hover {\n    color: white;\n \n}\n\n.m-dropdown__wrapper .m-dropdown__arrow{\n    color: #fff !important;\n    right: 61px!important;\n}\n\n.font {\n    padding-right: 20px;\n}"
 
 /***/ }),
 
@@ -2599,7 +2569,6 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
-// import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 var routes = [
     {
         "path": "",
@@ -2664,7 +2633,7 @@ var ThemeRoutingModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n\n<app-header-nav></app-header-nav> \n\n<router-outlet></router-outlet> <!-- end:: Body -->\n"
+module.exports = "<!-- <ng4-loading-spinner> </ng4-loading-spinner> -->\n<app-header-nav></app-header-nav> \n\n<router-outlet></router-outlet> <!-- end:: Body -->\n"
 
 /***/ }),
 
@@ -2682,6 +2651,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 /* harmony import */ var _helpers__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../helpers */ "./src/app/helpers.ts");
 /* harmony import */ var _services_script_loader_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../_services/script-loader.service */ "./src/app/_services/script-loader.service.ts");
+/* harmony import */ var ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ng4-loading-spinner */ "./node_modules/ng4-loading-spinner/ng4-loading-spinner.umd.js");
+/* harmony import */ var ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_4__);
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2695,18 +2666,21 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
 var ThemeComponent = /** @class */ (function () {
-    function ThemeComponent(_script, _router) {
+    function ThemeComponent(_script, _router, spinnerService) {
         this._script = _script;
         this._router = _router;
+        this.spinnerService = spinnerService;
     }
     ThemeComponent.prototype.ngOnInit = function () {
-        var _this = this;
+        var that = this;
+        this.spinnerService.show();
         this._script.loadScripts('body', ['assets/vendors/base/vendors.bundle.js', 'assets/demo/default/base/scripts.bundle.js'], true)
             .then(function (result) {
             _helpers__WEBPACK_IMPORTED_MODULE_2__["Helpers"].setLoading(false);
             // optional js to be loaded once
-            _this._script.loadScripts('head', ['assets/vendors/custom/fullcalendar/fullcalendar.bundle.js'], true);
+            // this._script.loadScripts('head', ['assets/vendors/custom/fullcalendar/fullcalendar.bundle.js'], true);
         });
         this._router.events.subscribe(function (route) {
             if (route instanceof _angular_router__WEBPACK_IMPORTED_MODULE_1__["NavigationStart"]) {
@@ -2733,8 +2707,9 @@ var ThemeComponent = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: ".m-grid.m-grid--hor.m-grid--root.m-page",
             template: __webpack_require__(/*! ./theme.component.html */ "./src/app/theme/theme.component.html"),
+            encapsulation: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewEncapsulation"].None,
         }),
-        __metadata("design:paramtypes", [_services_script_loader_service__WEBPACK_IMPORTED_MODULE_3__["ScriptLoaderService"], _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"]])
+        __metadata("design:paramtypes", [_services_script_loader_service__WEBPACK_IMPORTED_MODULE_3__["ScriptLoaderService"], _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"], ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_4__["Ng4LoadingSpinnerService"]])
     ], ThemeComponent);
     return ThemeComponent;
 }());
@@ -2803,7 +2778,7 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /home/codezeros/Desktop/DELI-SOS/public/src/main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! /root/parallels/vishal_project/DELI-SOS/public/src/main.ts */"./src/main.ts");
 
 
 /***/ })
