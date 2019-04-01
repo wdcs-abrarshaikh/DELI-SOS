@@ -60,14 +60,14 @@ function authenticateUser(req, res) {
             else {
                 if (bcrypt.compareSync(data.password, result.password)) {
                     let token = util.generateToken(result, process.env.user_secret)
-                    // let currentToken = result.activeToken
+                    let currentToken = result.activeToken
                     let updation;
-                    // if (currentToken) {
-                    //     updation = { $set: { activeToken: token }, $push: { blackListedTokens: currentToken } }
-                    // }
-                    // else {
-                    updation = { $set: { activeToken: token } }
-                    // }
+                    if (currentToken) {
+                        updation = { $set: { activeToken: token }, $push: { blackListedTokens: currentToken } }
+                    }
+                    else {
+                        updation = { $set: { activeToken: token } }
+                    }
                     userModel.update({ _id: result._id }, updation, (err, cb) => {
                         if (err) {
                             return res.json({ code: code.ineternalError, message: msg.internalServerError })
@@ -305,34 +305,34 @@ function getRestaurantList(req, res) {
 }
 
 function addReview(req, res) {
-    userModel.findOne({ _id: req.body.userId }, (err, data_v1) => {
+    userModel.findOne({ _id: req.body.userId }, (err, data) => {
         if (err) {
             return res.json({ code: code.internalError, message: msg.internalServerError })
-        } else if (!data_v1) {
+        } else if (!data) {
             return res.json({ code: code.notFound, message: msg.userNotFound })
         }
         else {
-            restModel.findOne({ _id: req.body.restId }, (err, data_V2) => {
+            restModel.findOne({ _id: req.body.restId }, (err, data) => {
                 if (err) {
                     return res.json({ code: code.internalError, message: msg.internalServerError })
                 }
-                else if (!data_V2) {
+                else if (!data) {
                     return res.json({ code: code.notFound, message: msg.restNotFound })
                 }
                 else {
                     let review = new reviewModel(req.body)
                     review.createdAt = Date.now()
-                    review.save((err, data_V3) => {
+                    review.save((err, data) => {
                         if (err) {
                             res.json({ code: code.internalError, message: msg.internalServerError })
                         }
                         else {
-                            userModel.findByIdAndUpdate({ _id: req.body.userId }, { $push: { review: data_V3._id } }, (err, result) => {
+                            userModel.findByIdAndUpdate({ _id: req.body.userId }, { $push: { review: data._id } }, (err, result) => {
                                 if (err) {
                                     return res.json({ code: code.internalError, message: msg.internalServerError })
                                 }
                                 else {
-                                    restModel.findByIdAndUpdate({ _id: req.body.restId }, { $push: { reviews: data_V3._id } }, (err) => {
+                                    restModel.findByIdAndUpdate({ _id: req.body.restId }, { $push: { reviews: data._id } }, (err) => {
                                         if (err) {
                                             return res.json({ code: code.internalError, message: msg.internalServerError })
                                         }
@@ -340,7 +340,7 @@ function addReview(req, res) {
                                             console.log("res",{result})
                                             let model = new notificationModel()
                                             model.notificationType = ntfctnType.reviewPosted
-                                            model.reviewId = data_V3._id;
+                                            model.reviewId = data._id;
                                             model.sender = req.body.userId;
                                             model.restId = req.body.restId;
                                             model.receiver = result.follower;
@@ -352,7 +352,6 @@ function addReview(req, res) {
                                                 } else {
                                                     receiverTokens = []
                                                 }
-                                                console.log("model",{model})
                                                 let notfctnData = model
                                                 model.save().then((response) => {
                                                     let obj = util.decodeToken(req.headers['authorization'])
@@ -369,7 +368,17 @@ function addReview(req, res) {
                                             }).catch((err) => {
                                                 return res.json({ code: code.internalError, message: msg.internalServerError })
                                             })
-
+                                            let notfctnData = model
+                                            model.save().then((response) => {
+                                                let obj = util.decodeToken(req.headers['authorization'])
+                                                let message = `${obj.name} posted new review.`
+                                                if (receiverTokens) {
+                                                    receiverTokens.map((token) => {
+                                                        fcm.sendMessage(token.fcmToken, message, process.env.appName, notfctnData)
+                                                    })
+                                                }
+                                                return res.json({ code: code.created, message: msg.reviewAdded, data: data })
+                                            })
                                         }
                                     })
 

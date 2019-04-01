@@ -11,6 +11,7 @@ var map = {
 	"./pages/default/angular/about-us/about-us.module": [
 		"./src/app/theme/pages/default/angular/about-us/about-us.module.ts",
 		"pages-default-angular-about-us-about-us-module~pages-default-angular-contact-us-contact-us-module~pa~d76143b5",
+		"pages-default-angular-about-us-about-us-module~pages-default-angular-cuisin-cuisin-module~pages-defa~a6730473",
 		"pages-default-angular-about-us-about-us-module~pages-default-angular-privacy-policy-privacy-policy-m~16124936",
 		"common",
 		"pages-default-angular-about-us-about-us-module"
@@ -24,12 +25,14 @@ var map = {
 	"./pages/default/angular/cuisin/cuisin.module": [
 		"./src/app/theme/pages/default/angular/cuisin/cuisin.module.ts",
 		"pages-default-angular-about-us-about-us-module~pages-default-angular-contact-us-contact-us-module~pa~d76143b5",
+		"pages-default-angular-about-us-about-us-module~pages-default-angular-cuisin-cuisin-module~pages-defa~a6730473",
 		"common",
 		"pages-default-angular-cuisin-cuisin-module"
 	],
 	"./pages/default/angular/privacy-policy/privacy-policy.module": [
 		"./src/app/theme/pages/default/angular/privacy-policy/privacy-policy.module.ts",
 		"pages-default-angular-about-us-about-us-module~pages-default-angular-contact-us-contact-us-module~pa~d76143b5",
+		"pages-default-angular-about-us-about-us-module~pages-default-angular-cuisin-cuisin-module~pages-defa~a6730473",
 		"pages-default-angular-about-us-about-us-module~pages-default-angular-privacy-policy-privacy-policy-m~16124936",
 		"common",
 		"pages-default-angular-privacy-policy-privacy-policy-module"
@@ -37,24 +40,28 @@ var map = {
 	"./pages/default/angular/profile/profile.module": [
 		"./src/app/theme/pages/default/angular/profile/profile.module.ts",
 		"pages-default-angular-about-us-about-us-module~pages-default-angular-contact-us-contact-us-module~pa~d76143b5",
+		"pages-default-angular-about-us-about-us-module~pages-default-angular-cuisin-cuisin-module~pages-defa~a6730473",
 		"common",
 		"pages-default-angular-profile-profile-module"
 	],
 	"./pages/default/angular/restaurant/restaurant.module": [
 		"./src/app/theme/pages/default/angular/restaurant/restaurant.module.ts",
 		"pages-default-angular-about-us-about-us-module~pages-default-angular-contact-us-contact-us-module~pa~d76143b5",
+		"pages-default-angular-about-us-about-us-module~pages-default-angular-cuisin-cuisin-module~pages-defa~a6730473",
 		"common",
 		"pages-default-angular-restaurant-restaurant-module"
 	],
 	"./pages/default/angular/user/user.module": [
 		"./src/app/theme/pages/default/angular/user/user.module.ts",
 		"pages-default-angular-about-us-about-us-module~pages-default-angular-contact-us-contact-us-module~pa~d76143b5",
+		"pages-default-angular-about-us-about-us-module~pages-default-angular-cuisin-cuisin-module~pages-defa~a6730473",
 		"common",
 		"pages-default-angular-user-user-module"
 	],
 	"./pages/default/index/index.module": [
 		"./src/app/theme/pages/default/index/index.module.ts",
 		"pages-default-angular-about-us-about-us-module~pages-default-angular-contact-us-contact-us-module~pa~d76143b5",
+		"pages-default-angular-about-us-about-us-module~pages-default-angular-cuisin-cuisin-module~pages-defa~a6730473",
 		"common",
 		"pages-default-index-index-module"
 	]
@@ -435,8 +442,7 @@ var AppModule = /** @class */ (function () {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "URL", function() { return URL; });
 var URL = "http://66.70.179.133:8080/";
-// export const URL:string="http://66.70.179.133:8080/";
-// export const URL:string = "http://localhost:8080/";
+// export const URL:string="http://localhost:8080/";
 
 
 /***/ }),
@@ -901,7 +907,6 @@ var AuthenticationService = /** @class */ (function () {
     AuthenticationService.prototype.login = function () {
         return this.http.post(_app_service__WEBPACK_IMPORTED_MODULE_0__["URL"] + 'login', { headers: this.getHeaderWithToken() })
             .map(function (response) {
-            console.log('responsesss', response);
             // login successful if there's a jwt token in the response
             // let user = response.json();
             // if (user && user.token) {
@@ -984,7 +989,6 @@ var UserService = /** @class */ (function () {
         this.http = http;
     }
     UserService.prototype.verify = function () {
-        console.log("vertdsdsghdsghdsgh");
         return this.http.get('/admin/verifyToken', this.jwt()).map(function (response) { return response.json(); });
     };
     UserService.prototype.forgotPassword = function (email) {
@@ -1010,7 +1014,6 @@ var UserService = /** @class */ (function () {
         // create authorization header with jwt token
         var currentUser = JSON.parse(localStorage.getItem('_token'));
         if (currentUser && currentUser.token) {
-            console.log(currentUser);
             var headers = new _angular_http__WEBPACK_IMPORTED_MODULE_1__["Headers"]({ 'Authorization': JSON.parse(localStorage.getItem('_token')) });
             return new _angular_http__WEBPACK_IMPORTED_MODULE_1__["RequestOptions"]({ headers: headers });
         }
@@ -1539,7 +1542,7 @@ module.exports = "\nbody{\n\tmargin:0;\n\t\n}\n.lbl-err {\n    color: red; \n\t}
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"top\">\n  <div class=\"m-grid__item m-grid__item--fluid m-grid m-grid--hor m-login m-login--signin m-login--2 m-login-2--skin-2\"id=\"m_login\"  style=\"background-image: url(bg-3.jpg)\">\n   <div class=\"m-grid__item m-grid__item--fluid    m-login__wrapper\">\n      <div class=\"m-login__container\">\n        <div class=\"size\">\n            <div class=\"app-logo\"></div><br>\n            <h1>To error is human</h1>\n         </div>\n        <div class=\"m-login__signin\">\n           <div class=\"m-login__head\">\n             <div class=\"m-login center\">\n              <h3 class=\"m-login__title\">Forgot Password</h3>\n             </div>\n          </div><br>\n          <div class=\"m-login__container\">\n          <form [formGroup]=\"forgotPasswordForm\" name=\"forgotPasswordForm\" (ngSubmit)=\"onSubmit()\">\n            <div class=\"form-group\">\n              <input  type=\"text\" placeholder=\"Email\" formControlName=\"email\"  class=\"form-control\"  [ngClass]=\"{'is-invalid': submitted && f.email.errors}\">\n              <div *ngIf=\"submitted && f.email.errors\" class=\"lbl-err\">\n                <div *ngIf=\"f.email.errors.required \">Email is required</div>\n                <div *ngIf=\"f.email.errors.pattern\">Enter Valid Email ID</div>\n              </div>\n             </div>\n            <br>\n            <div class=\"form-group\">\n                <div class=\"m--align-center\">\n                    <button [disabled]=\"loading\" class=\"btn-forgot\" >Forgot Password</button>\n                </div>\n            </div>\n          </form>\n         </div>\n        </div>\n       </div>\n    </div>\n</div>\n    <!-- <app-footer></app-footer> -->\n  \n\n  \n  <!-- <div class=\"m-login__form-action\"> <button id=\"m_login_forget_password_submit\" class=\"btn btn-focus m-btn m-btn--pill m-btn--custom m-btn--air\"\n                (click)=\"forgotPassword()\">Request</button>\n              <button id=\"m_login_forget_password_cancel\" class=\"btn btn-outline-focus m-btn m-btn--pill m-btn--custom\">Cancel</button>\n            </div> -->\n\n\n   <!-- <link rel=\"stylesheet\" type=\"text/css\" href=\"login.component.css\"> -->\n\n"
+module.exports = "<div class=\"top\">\n  <div class=\"m-grid__item m-grid__item--fluid m-grid m-grid--hor m-login m-login--signin m-login--2 m-login-2--skin-2\"\n    id=\"m_login\" style=\"background-image: url(bg-3.jpg)\">\n    <div class=\"m-grid__item m-grid__item--fluid    m-login__wrapper\">\n      <div class=\"m-login__container\">\n        <div class=\"size\">\n          <div class=\"app-logo\"></div><br>\n          <h1>To error is human</h1>\n        </div>\n        <div class=\"m-login__signin\">\n          <div class=\"m-login__head\">\n            <div class=\"m-login center\">\n              <h3 class=\"m-login__title\">Forgot Password</h3>\n            </div>\n          </div><br>\n          <div class=\"m-login__container\">\n            <form [formGroup]=\"forgotPasswordForm\" name=\"forgotPasswordForm\" (ngSubmit)=\"onSubmit()\">\n              <div class=\"form-group\">\n                <input type=\"text\" placeholder=\"Email\" formControlName=\"email\" class=\"form-control\" [ngClass]=\"{'is-invalid': submitted && f.email.errors}\">\n                <div *ngIf=\"submitted && f.email.errors\" class=\"lbl-err\">\n                  <div *ngIf=\"f.email.errors.required \">Email is required</div>\n                  <div *ngIf=\"f.email.errors.pattern\">Enter Valid EmailID</div>\n                </div>\n              </div>\n              <br>\n              <div class=\"form-group\">\n                <div class=\"m--align-center\">\n                  <button [disabled]=\"loading\" class=\"btn-forgot\">Forgot Password</button>\n                </div>\n              </div>\n            </form>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n  <!-- <app-footer></app-footer> -->\n\n\n\n  <!-- <div class=\"m-login__form-action\"> <button id=\"m_login_forget_password_submit\" class=\"btn btn-focus m-btn m-btn--pill m-btn--custom m-btn--air\"\n                (click)=\"forgotPassword()\">Request</button>\n              <button id=\"m_login_forget_password_cancel\" class=\"btn btn-outline-focus m-btn m-btn--pill m-btn--custom\">Cancel</button>\n            </div> -->\n\n\n  <!-- <link rel=\"stylesheet\" type=\"text/css\" href=\"login.component.css\"> -->"
 
 /***/ }),
 
@@ -1554,13 +1557,12 @@ module.exports = "<div class=\"top\">\n  <div class=\"m-grid__item m-grid__item-
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ForgotPasswordComponent", function() { return ForgotPasswordComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ng4-loading-spinner */ "./node_modules/ng4-loading-spinner/ng4-loading-spinner.umd.js");
-/* harmony import */ var ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
-/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
-/* harmony import */ var _forgot_password_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./forgot-password.service */ "./src/app/forgot-password/forgot-password.service.ts");
-/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
-/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var ngx_toastr__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ngx-toastr */ "./node_modules/ngx-toastr/fesm5/ngx-toastr.js");
+/* harmony import */ var ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ng4-loading-spinner */ "./node_modules/ng4-loading-spinner/ng4-loading-spinner.umd.js");
+/* harmony import */ var ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var _forgot_password_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./forgot-password.service */ "./src/app/forgot-password/forgot-password.service.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1577,17 +1579,18 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 var ForgotPasswordComponent = /** @class */ (function () {
-    function ForgotPasswordComponent(formBuilder, router, forgotPasswordService, spinnerService) {
+    function ForgotPasswordComponent(formBuilder, router, forgotPasswordService, spinnerService, toastService) {
         this.formBuilder = formBuilder;
         this.router = router;
         this.forgotPasswordService = forgotPasswordService;
         this.spinnerService = spinnerService;
+        this.toastService = toastService;
         this.loading = false;
         this.submitted = false;
     }
     ForgotPasswordComponent.prototype.ngOnInit = function () {
         this.forgotPasswordForm = this.formBuilder.group({
-            email: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_3__["Validators"].required, _angular_forms__WEBPACK_IMPORTED_MODULE_3__["Validators"].pattern(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)]]
+            email: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_4__["Validators"].required, _angular_forms__WEBPACK_IMPORTED_MODULE_4__["Validators"].pattern(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)]]
         });
     };
     ForgotPasswordComponent.prototype.onSubmit = function () {
@@ -1601,23 +1604,15 @@ var ForgotPasswordComponent = /** @class */ (function () {
         this.forgotPasswordService.post(this.forgotPasswordForm.value).subscribe(function (response) {
             _this.spinnerService.hide();
             if (response['code'] == 200) {
-                sweetalert2__WEBPACK_IMPORTED_MODULE_5___default()({
-                    position: 'center',
-                    type: 'success',
-                    title: response['message'],
-                    showConfirmButton: false,
-                    timer: 1500
-                });
+                _this.toastService.error(response.message);
                 _this.router.navigate(['/forgotemail']);
             }
             else {
+                _this.toastService.error(response.message);
                 _this.spinnerService.hide();
-                sweetalert2__WEBPACK_IMPORTED_MODULE_5___default()({
-                    type: 'error',
-                    text: response['message']
-                });
             }
         }, function (error) {
+            _this.toastService.error(error);
             console.log('error', JSON.stringify(error));
         });
     };
@@ -1634,10 +1629,11 @@ var ForgotPasswordComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./forgot-password.component.html */ "./src/app/forgot-password/forgot-password.component.html"),
             styles: [__webpack_require__(/*! ./forgot-password.component.css */ "./src/app/forgot-password/forgot-password.component.css")]
         }),
-        __metadata("design:paramtypes", [_angular_forms__WEBPACK_IMPORTED_MODULE_3__["FormBuilder"],
-            _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"],
-            _forgot_password_service__WEBPACK_IMPORTED_MODULE_4__["ForgotPasswordService"],
-            ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_1__["Ng4LoadingSpinnerService"]])
+        __metadata("design:paramtypes", [_angular_forms__WEBPACK_IMPORTED_MODULE_4__["FormBuilder"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"],
+            _forgot_password_service__WEBPACK_IMPORTED_MODULE_5__["ForgotPasswordService"],
+            ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_2__["Ng4LoadingSpinnerService"],
+            ngx_toastr__WEBPACK_IMPORTED_MODULE_1__["ToastrService"]])
     ], ForgotPasswordComponent);
     return ForgotPasswordComponent;
 }());
@@ -1675,11 +1671,6 @@ var ForgotPasswordService = /** @class */ (function () {
     function ForgotPasswordService(http) {
         this.http = http;
     }
-    // getHeaderWithToken() {
-    //   let headers = new HttpHeaders()
-    //   headers = headers.set('Content-Type', 'application/json')
-    //   return headers;
-    // }
     ForgotPasswordService.prototype.post = function (obj) {
         return this.http.post(_app_service__WEBPACK_IMPORTED_MODULE_0__["URL"] + 'admin/forgotPassword', obj)
             .map(function (res) { return res; });
@@ -1793,7 +1784,7 @@ module.exports = "\nbody{\n\tmargin:0;\n\t\n}\n.lbl-err {\n    color: red; \n\t}
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!-- <link rel=\"stylesheet\" type=\"text/css\" href=\"login.component.css\"> -->\n\n<div class=\"top\">\n    <div class=\"m-grid__item m-grid__item--fluid m-grid m-grid--hor m-login m-login--signin m-login--2 m-login-2--skin-2\"\n        id=\"m_login\" style=\"background-image: url(bg-3.jpg)\">\n        <div class=\"m-grid__item m-grid__item--fluid    m-login__wrapper\">\n            <div class=\"m-login__container\">\n                <div class=\"size\">\n                    <div class=\"app-logo\"></div><br>\n                    <h1>Good food is<br>waiting for you!</h1>\n                </div>\n                <div class=\"m-login__signin\">\n                    <div class=\"m-login__head\"><br><br>\n                        <h3 class=\"m-login__title\">Sign In To Admin</h3>\n                    </div>\n                    <br>\n                    <form name=\"loginForm\" [formGroup]=\"loginForm\" (ngSubmit)=\"onSubmit()\">\n                        <div class=\"form-group\"> \n                          <input type=\"text\" class=\"form-control\" placeholder=\"Email\"\n                                formControlName=\"email\" [ngClass]=\"{ 'is-invalid': submitted && f.email.errors }\">\n                            <div *ngIf=\"submitted && f.email.errors\" class=\"lbl-err \">\n                                <div *ngIf=\"f.email.errors.required\">Email is required</div>\n                                <div *ngIf=\"f.email.errors.pattern\">Enter Valid EmailId</div>\n                            </div>\n                        </div>\n                        <div class=\"form-group\">\n                            <input type=\"password\"   class=\"form-control\" placeholder=\"Password\" formControlName=\"password\"\n                                [ngClass]=\"{ 'is-invalid': submitted && f.password.errors }\">\n                            <div *ngIf=\"submitted && f.password.errors\" class=\"lbl-err \">\n                                <div *ngIf=\"f.password.errors.required\">Password is required</div>\n                                <!-- <div *ngIf=\"f.password.errors.pattern\">Enter Password must be Minimum Six characters, at least one Capital letter, one number and one special character:</div> -->\n                            </div>\n                            <br>\n\n                            <div class=\"col m--align-center\">\n                              \n                            </div>\n                        </div>\n                        <div class=\"row m-login__form-sub\">\n                            <div class=\"col m--align-left\"> <label class=\"checkbox\"> <input type=\"checkbox\" name=\"remember\"\n                                        style=\"color:blue\"> Remember me <span></span> </label>\n                            </div>\n                            <div class=\"col m--align-right\"> <a routerLink=\"/forgotpassword\" class=\"checkbox\">Forgot\n                                    Password?</a> </div>\n                        </div>\n                        <div class=\"form-group\">\n                            <div class=\"m--align-center\">\n                                <button [disabled]=\"loading\" class=\"btn-login\">Log In</button>\n                            </div>\n                        </div>\n\n                    </form>\n                </div>\n\n\n                <!-- <div class=\"m-login__account\">\n                <span class=\"m-login__account-msg\">\n                Don't have an account yet ?\n                </span>&nbsp;&nbsp;\n                <a href=\"javascript:;\" id=\"m_login_signup\" class=\"m-link m-link--light m-login__account-link\" routerLink=\"/sign-up\">Sign Up</a>\n            </div>\n            <div class=\"m-login__account\">\n                <span class=\"m-login__account-msg\">\n               Continue with facebook?\n               <a href=\"javascript:;\" id=\"m_login_signup\" class=\"m-link m-link--light m-login__account-link\" routerLink=\"/sign-up\">Sign Up</a>\n\n               </span>\n               \n            </div> -->\n            </div>\n        </div>\n\n        <!-- <app-footer></app-footer> -->\n    </div>\n    <div>"
+module.exports = "<!-- <link rel=\"stylesheet\" type=\"text/css\" href=\"login.component.css\"> -->\n\n<div class=\"top\">\n    <div class=\"m-grid__item m-grid__item--fluid m-grid m-grid--hor m-login m-login--signin m-login--2 m-login-2--skin-2\"\n        id=\"m_login\" style=\"background-image: url(bg-3.jpg)\">\n        <div class=\"m-grid__item m-grid__item--fluid    m-login__wrapper\">\n            <div class=\"m-login__container\">\n                <div class=\"size\">\n                    <div class=\"app-logo\"></div><br>\n                    <h1>Good food is<br>waiting for you!</h1>\n                </div>\n                <div class=\"m-login__signin\">\n                    <div class=\"m-login__head\"><br><br>\n                        <h3 class=\"m-login__title\">Sign In To Admin</h3>\n                    </div>\n                    <br>\n                    <form name=\"loginForm\" [formGroup]=\"loginForm\" (ngSubmit)=\"onSubmit()\">\n                        <div class=\"form-group\">\n                            <input type=\"text\" class=\"form-control\" placeholder=\"Email\" formControlName=\"email\"\n                                [ngClass]=\"{ 'is-invalid': submitted && f.email.errors }\">\n                            <div *ngIf=\"submitted && f.email.errors\" class=\"lbl-err \">\n                                <div *ngIf=\"f.email.errors.required\">Email is required</div>\n                                <div *ngIf=\"f.email.errors.pattern\">Enter Valid EmailId</div>\n                            </div>\n                        </div>\n                        <div class=\"form-group\">\n                            <input type=\"password\" class=\"form-control\" placeholder=\"Password\" formControlName=\"password\"\n                                [ngClass]=\"{ 'is-invalid': submitted && f.password.errors }\">\n                            <div *ngIf=\"submitted && f.password.errors\" class=\"lbl-err \">\n                                <div *ngIf=\"f.password.errors.required\">Password is required</div>\n                                <!-- <div *ngIf=\"f.password.errors.pattern\">Enter Password must be Minimum Six characters, at least one Capital letter, one number and one special character:</div> -->\n                            </div>\n                            <br>\n\n                            <div class=\"col m--align-center\">\n\n                            </div>\n                        </div>\n                        <div class=\"row m-login__form-sub\">\n                            <div class=\"col m--align-left\"> <label class=\"checkbox\"> <input type=\"checkbox\" name=\"remember\"\n                                        style=\"color:blue\" > Remember me <span></span> </label>\n                            </div>\n                            <div class=\"col m--align-right\"> <a routerLink=\"/forgotpassword\" class=\"checkbox\">Forgot\n                                    Password?</a> </div>\n\n                        </div>\n                        <div class=\"form-group\">\n                            <div class=\"m--align-center\">\n                                <button [disabled]=\"loading\" class=\"btn-login\">Log In</button>\n                            </div>\n                        </div>\n\n                    </form>\n                </div>\n\n\n                <!-- <div class=\"m-login__account\">\n                <span class=\"m-login__account-msg\">\n                Don't have an account yet ?\n                </span>&nbsp;&nbsp;\n                <a href=\"javascript:;\" id=\"m_login_signup\" class=\"m-link m-link--light m-login__account-link\" routerLink=\"/sign-up\">Sign Up</a>\n            </div>\n            <div class=\"m-login__account\">\n                <span class=\"m-login__account-msg\">\n               Continue with facebook?\n               <a href=\"javascript:;\" id=\"m_login_signup\" class=\"m-link m-link--light m-login__account-link\" routerLink=\"/sign-up\">Sign Up</a>\n\n               </span>\n               \n            </div> -->\n            </div>\n        </div>\n\n        <!-- <app-footer></app-footer> -->\n    </div>\n    <div>"
 
 /***/ }),
 
@@ -1868,7 +1859,7 @@ var LoginComponent = /** @class */ (function () {
             }
         }, function (error) {
             _this.spinnerService.hide();
-            console.log('error' + error);
+            _this.toastService.error(error.message);
         });
     };
     LoginComponent.prototype.buildLoginForm = function () {
@@ -1876,6 +1867,9 @@ var LoginComponent = /** @class */ (function () {
             email: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_4__["Validators"].required, _angular_forms__WEBPACK_IMPORTED_MODULE_4__["Validators"].pattern(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)]],
             password: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_4__["Validators"].required]]
         });
+    };
+    LoginComponent.prototype.remember = function () {
+        console.log(this.loginForm.value);
     };
     LoginComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["Component"])({
@@ -1957,7 +1951,7 @@ var LoginService = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".m-aside-menu .m-menu__nav .m-menu__item>.m-menu__heading:hover, .m-aside-menu .m-menu__nav .m-menu__item>.m-menu__link:hover {\n    background:#f84d09;\n}\n.menu__nav .m-menu__item>.m-menu__link:hover {\n    background: sandybrown;\n}\n.m-menu__link:hover{\n    background: sandybrown;\n}\n.m-menu__item.m-menu__item--active a{\n    transition: background-color .3s;\n    background-color:sandybrown;\n }\n.m-aside-menu .m-menu__nav .m-menu__item>.m-menu__link:hover {\n    text-decoration: none;\n    cursor: pointer;\n    background: sandybrown;\n }\n.m-menu__link{\n    color:white; \n    /* font-weight:500; */\n    font-size: 1.2rem;\n    position: relative;\n    display: flex;\n    align-items: center;\n    font-weight: bold !important;\n }\na:hover {\n    color: white;\n    text-decoration: underline;\n}\n.m-menu__link-text {\n    display: contents !important;\n    font-weight: bold !important;\n    color:white\n}\n.m-menu__nav img {\n    margin-right: 10px;\n}\n.m-menu__item .fa, .m-menu__item .fas, .m-menu__item .far {\n    color:white;\n    font-size: 18px;\n    width:32px;\n}\n.fa-users:before {\n    color:white;\n    content: \"\\f0c0\";\n}\n.fa-dashboard:before {\n    color:white;\n    content: \"\\f0e4\";\n}\n.fa-phone:before {\n    color:white;\n    content: \"\\f095\";\n}\n.fa-file-text:before {\n    color:white;\n    content: \"\\f15c\";\n}\n\n"
+module.exports = ".m-aside-menu .m-menu__nav .m-menu__item>.m-menu__heading:hover, .m-aside-menu .m-menu__nav .m-menu__item>.m-menu__link:hover {\n    background:#f84d09;\n}\n.menu__nav .m-menu__item>.m-menu__link:hover {\n    background: sandybrown;\n}\n.m-menu__link:hover{\n    background: sandybrown;\n}\n.m-menu__item.m-menu__item--active a{\n    transition: background-color .3s;\n    background-color:sandybrown;\n }\n.m-aside-menu .m-menu__nav .m-menu__item>.m-menu__link:hover {\n    text-decoration: none;\n    cursor: pointer;\n    background: sandybrown;\n }\n.m-menu__link{\n    color:white; \n    /* font-weight:500; */\n    font-size: 1.2rem;\n    position: relative;\n    display: flex;\n    align-items: center;\n    font-weight: bold !important;\n }\na:hover {\n    color: white;\n    text-decoration: underline;\n}\n.m-menu__link-text {\n    display: contents !important;\n    font-weight: bold !important;\n    color:white\n}\n.m-menu__nav img {\n    margin-right: 10px;\n}\n.m-menu__item .fa, .m-menu__item .fas, .m-menu__item .far {\n    color:white;\n    font-size: 18px;\n    width:32px;\n}\n.fa-users:before {\n    color:white;\n    content: \"\\f0c0\";\n}\n.fa-dashboard:before {\n    color:white;\n    content: \"\\f0e4\";\n}\n.fa-phone:before {\n    color:white;\n    content: \"\\f095\";\n}\n.fa-file-text:before {\n    color:white;\n    content: \"\\f15c\";\n}\n.ps__thumb-y {\n    background-color:none;\n    border-radius:none;\n  \n}\n\n"
 
 /***/ }),
 

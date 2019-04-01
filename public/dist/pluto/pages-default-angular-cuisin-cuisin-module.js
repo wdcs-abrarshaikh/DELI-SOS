@@ -18,7 +18,7 @@ module.exports = ".lbl-err{\n    color: red;\n}"
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"modal-header\">\n  <h4 class=\"modal-title\">{{ isAdd ? 'Add' : isView ? 'View' : 'Edit'}} Cuisine</h4>  \n  <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"activeModal.dismiss('Cross click')\">\n    <span aria-hidden=\"true\">&times;</span>\n  </button>\n</div>\n<div class=\"modal-body\">\n<form [formGroup]=\"cuisinForm\" (ngSubmit)=\"addCuisins()\">\n            <div class=\"form-group\">\n                <label for=\"name\">Cuisine Name</label>\n                <input type=\"text\" formControlName=\"name\"  class=\"form-control\" [(ngModel)]=\"name\" [ngClass]=\"{'is-invalid':submitted && f.name.errors}\" />\n               <div *ngIf=\"submitted && f.name.errors\" class=\"lbl-err\">\n               <div *ngIf=\" f.name.errors.required \">Name is required</div>\n               <div *ngIf=\"f.name.errors.pattern\">Name is required</div>\n              \n                </div>\n             </div>\n\n             <div class=\"form-group\">\n             <label>Cuisine  Image:</label><br>\n             <img  [src]=\"image\" class=\"rounded mb-3\" width=\"50%\" height=auto/> &nbsp;&nbsp;<br>\n             <label class=\"btn-bs-file btn btn-ls btn-info\" style=\"margin-top:6px\" text-align=\"center\" *ngIf=\"!isView && isAdd\" >image\n             <input type=\"file\" formControlName=\"image\" style=\"display: none\" (change)=\"uploadImage($event)\" [ngClass]=\"{'is-invalid':submitted && f.image.errors}\"/> </label>  \n             <label class=\"btn-bs-file btn btn-ls btn-info\" style=\"margin-top:6px\" text-align=\"center\" *ngIf=\"!isView && !isAdd\" >Edit Image\n                <input type=\"file\" formControlName=\"image\" style=\"display: none\" (change)=\"uploadImage($event)\" [ngClass]=\"{'is-invalid':submitted && f.image.errors}\"/> </label>        \n             <div *ngIf=\"submitted && f.image.errors\" class=\"lbl-err\">\n                <div *ngIf=\"f.image.errors.required\">image is required</div>\n               </div>\n           \n           </div>\n           \n        <div class=\"modal-footer\">\n            <div class=\"form-group\" *ngIf=\"!isView\">\n           <button type=\"submit\"  class=\"btn btn-save\" >Save</button>&nbsp;&nbsp;\n           <button type=\"button\" class=\"btn btn-delete\" (click)=\"activeModal.close('Close click')\">Cancel</button>\n            </div>\n         </div>\n        </form>\n\n\n      "
+module.exports = "<div class=\"modal-header\">\n   <h4 class=\"modal-title\">{{ isAdd ? 'Add' : isView ? 'View' : 'Edit'}} Cuisine</h4>\n   <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"activeModal.dismiss('Cross click')\">\n      <span aria-hidden=\"true\">&times;</span>\n   </button>\n</div>\n<div class=\"modal-body\">\n   <form [formGroup]=\"cuisinForm\" (ngSubmit)=\"addCuisins()\">\n      <div class=\"form-group\">\n         <label for=\"name\">Cuisine Name</label>\n         <input type=\"text\" formControlName=\"name\" class=\"form-control\" [(ngModel)]=\"name\" [ngClass]=\"{'is-invalid':submitted && f.name.errors}\" />\n         <div *ngIf=\"submitted && f.name.errors\" class=\"lbl-err\">\n            <div *ngIf=\" f.name.errors.required \">Name is required</div>\n            <div *ngIf=\"f.name.errors.pattern\">Name is required</div>\n         </div>\n      </div>\n\n      <div class=\"form-group\">\n         <label>Cuisine Image:</label><br>\n         <img [src]=\"image\" class=\"rounded mb-3\" width=\"50%\" height=auto /> &nbsp;&nbsp;<br>\n         <label class=\"btn-bs-file btn btn-ls btn-info\" style=\"margin-top:6px\" text-align=\"center\" *ngIf=\"!isView && isAdd\">image\n            <input type=\"file\" formControlName=\"image\" style=\"display: none\" (change)=\"uploadImage($event)\" [ngClass]=\"{'is-invalid':submitted && f.image.errors}\" />\n         </label>\n         <label class=\"btn-bs-file btn btn-ls btn-info\" style=\"margin-top:6px\" text-align=\"center\" *ngIf=\"!isView && !isAdd\">Edit\n            Image\n            <input type=\"file\" formControlName=\"image\" style=\"display: none\" (change)=\"uploadImage($event)\" [ngClass]=\"{'is-invalid':submitted && f.image.errors}\" />\n         </label>\n         <div *ngIf=\"submitted && f.image.errors\" class=\"lbl-err\">\n            <div *ngIf=\"f.image.errors.required\">image is required</div>\n         </div>\n      </div>\n\n      <div class=\"modal-footer\">\n         <div class=\"form-group\" *ngIf=\"!isView\">\n            <button type=\"submit\" class=\"btn btn-save\">Save</button>&nbsp;&nbsp;\n            <button type=\"button\" class=\"btn btn-delete\" (click)=\"activeModal.close('Close click')\">Cancel</button>\n         </div>\n      </div>\n   </form>"
 
 /***/ }),
 
@@ -32,14 +32,16 @@ module.exports = "<div class=\"modal-header\">\n  <h4 class=\"modal-title\">{{ i
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AddEditcuisinComponent", function() { return AddEditcuisinComponent; });
-/* harmony import */ var ngx_toastr__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ngx-toastr */ "./node_modules/ngx-toastr/fesm5/ngx-toastr.js");
-/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
-/* harmony import */ var _cuisin_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../cuisin.service */ "./src/app/theme/pages/default/angular/cuisin/cuisin.service.ts");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
-/* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ "./node_modules/@ng-bootstrap/ng-bootstrap/fesm5/ng-bootstrap.js");
-/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
-/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ng4-loading-spinner */ "./node_modules/ng4-loading-spinner/ng4-loading-spinner.umd.js");
+/* harmony import */ var ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var ngx_toastr__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ngx-toastr */ "./node_modules/ngx-toastr/fesm5/ngx-toastr.js");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var _cuisin_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../cuisin.service */ "./src/app/theme/pages/default/angular/cuisin/cuisin.service.ts");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ "./node_modules/@ng-bootstrap/ng-bootstrap/fesm5/ng-bootstrap.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_7__);
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -91,14 +93,16 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
 
 
 
+
 var AddEditcuisinComponent = /** @class */ (function () {
-    function AddEditcuisinComponent(activeModal, _router, _formBuilder, modalService, cuisinService, toastService) {
+    function AddEditcuisinComponent(activeModal, _router, _formBuilder, modalService, cuisinService, toastService, spinnerService) {
         this.activeModal = activeModal;
         this._router = _router;
         this._formBuilder = _formBuilder;
         this.modalService = modalService;
         this.cuisinService = cuisinService;
         this.toastService = toastService;
+        this.spinnerService = spinnerService;
         this.loading = false;
         this.submitted = false;
     }
@@ -115,13 +119,13 @@ var AddEditcuisinComponent = /** @class */ (function () {
     AddEditcuisinComponent.prototype.buildCuisinForm = function () {
         if (this.isAdd) {
             this.cuisinForm = this._formBuilder.group({
-                name: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].required, _angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].pattern(/^(?!\s*$).+/)]],
-                image: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].required]]
+                name: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required, _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].pattern(/^(?!\s*$).+/)]],
+                image: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required]]
             });
         }
         else {
             this.cuisinForm = this._formBuilder.group({
-                name: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].required, _angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].pattern(/^(?!\s*$).+/)]],
+                name: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required, _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].pattern(/^(?!\s*$).+/)]],
                 image: ['']
             });
         }
@@ -135,7 +139,7 @@ var AddEditcuisinComponent = /** @class */ (function () {
                 return [2 /*return*/, new Promise(function (resolve, reject) {
                         _this.cuisinService.uploadPic(files).subscribe(function (data) {
                             if (data.code == 400) {
-                                sweetalert2__WEBPACK_IMPORTED_MODULE_6___default()({
+                                sweetalert2__WEBPACK_IMPORTED_MODULE_7___default()({
                                     type: 'error',
                                     text: 'Invalid input'
                                 });
@@ -160,10 +164,11 @@ var AddEditcuisinComponent = /** @class */ (function () {
             "image": this.image
         };
         if (this.isAdd) {
+            this.spinnerService.show();
             this.cuisinService.addCuisin(addObj).subscribe(function (data) {
                 _this.getAllCuisin();
                 if (data['code'] == 200) {
-                    sweetalert2__WEBPACK_IMPORTED_MODULE_6___default()({
+                    sweetalert2__WEBPACK_IMPORTED_MODULE_7___default()({
                         position: 'center',
                         type: 'success',
                         title: 'Added Successfully',
@@ -173,21 +178,21 @@ var AddEditcuisinComponent = /** @class */ (function () {
                     _this.activeModal.dismiss();
                 }
                 else {
-                    sweetalert2__WEBPACK_IMPORTED_MODULE_6___default()({
+                    sweetalert2__WEBPACK_IMPORTED_MODULE_7___default()({
                         type: 'error',
                         text: data['message']
                     });
                 }
             }, function (error) {
-                _this.toastService.error(error['msg']);
+                _this.toastService.error(error['message']);
             });
         }
         else {
+            this.spinnerService.show();
             this.cuisinService.editCuisin(addObj, this.id).subscribe(function (data) {
                 _this.getAllCuisin();
-                _this.activeModal.dismiss();
                 if (data['code'] == 200) {
-                    sweetalert2__WEBPACK_IMPORTED_MODULE_6___default()({
+                    sweetalert2__WEBPACK_IMPORTED_MODULE_7___default()({
                         position: 'center',
                         type: 'success',
                         title: 'Updated Successfully',
@@ -197,7 +202,7 @@ var AddEditcuisinComponent = /** @class */ (function () {
                     _this.activeModal.dismiss();
                 }
                 else {
-                    sweetalert2__WEBPACK_IMPORTED_MODULE_6___default()({
+                    sweetalert2__WEBPACK_IMPORTED_MODULE_7___default()({
                         type: 'error',
                         text: data['message']
                     });
@@ -214,29 +219,30 @@ var AddEditcuisinComponent = /** @class */ (function () {
         });
     };
     __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_3__["Input"])(),
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_4__["Input"])(),
         __metadata("design:type", Object)
     ], AddEditcuisinComponent.prototype, "id", void 0);
     __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_3__["Input"])(),
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_4__["Input"])(),
         __metadata("design:type", Object)
     ], AddEditcuisinComponent.prototype, "name", void 0);
     __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_3__["Input"])(),
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_4__["Input"])(),
         __metadata("design:type", Object)
     ], AddEditcuisinComponent.prototype, "image", void 0);
     AddEditcuisinComponent = __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_3__["Component"])({
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_4__["Component"])({
             selector: 'app-add-editcuisin',
             template: __webpack_require__(/*! ./add-editcuisin.component.html */ "./src/app/theme/pages/default/angular/cuisin/add-editcuisin/add-editcuisin.component.html"),
             styles: [__webpack_require__(/*! ./add-editcuisin.component.css */ "./src/app/theme/pages/default/angular/cuisin/add-editcuisin/add-editcuisin.component.css")]
         }),
-        __metadata("design:paramtypes", [_ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_5__["NgbActiveModal"],
-            _angular_router__WEBPACK_IMPORTED_MODULE_4__["Router"],
-            _angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormBuilder"],
-            _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_5__["NgbModal"],
-            _cuisin_service__WEBPACK_IMPORTED_MODULE_2__["CuisinService"],
-            ngx_toastr__WEBPACK_IMPORTED_MODULE_0__["ToastrService"]])
+        __metadata("design:paramtypes", [_ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_6__["NgbActiveModal"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_5__["Router"],
+            _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormBuilder"],
+            _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_6__["NgbModal"],
+            _cuisin_service__WEBPACK_IMPORTED_MODULE_3__["CuisinService"],
+            ngx_toastr__WEBPACK_IMPORTED_MODULE_1__["ToastrService"],
+            ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_0__["Ng4LoadingSpinnerService"]])
     ], AddEditcuisinComponent);
     return AddEditcuisinComponent;
 }());
@@ -252,7 +258,7 @@ var AddEditcuisinComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".btn-add {\n    border-radius: 1.1rem;\n    padding: 1.0rem 1.65rem;\n    font-size: 1.25rem;\n    line-height: .6;\n    color: white;\n    border-color: #e95e37;\n    margin-left: 88%;\n    margin-bottom: 16px;\n    background: linear-gradient(to right, #fc4a1a, #f7b733);\n}\n.lbl-err {\n    color: red;\n\n }\n.header{\n    font-size: 3.15rem;\n    padding: 1.30rem 4.65rem;\n    text-align: center;\n   }\n.btn-edit{\n    border: none;\n    color:gray;\n    background-color: transparent;\n  }\n.btn-delete{\n    border: none;\n    color:gray;\n    background-color: transparent;\n \n}\n.btn-view{\n    border: none;\n    color:gray;\n    background-color: transparent;\n    \n    }\n.banner-image {\n        /* height: 85px; */\n        width: 130px;\n        margin-left: 122px;\n}\n.btn-del{\n    padding: 1.25rem 1.65rem;\n    font-size: 1.25rem;\n    line-height: 1.5;\n    color:white;\n    margin-right:45px;\n    background-color: transparent;\n    background: #a73a08;\n    border-color: #a73a08;\n}\ntable.dataTable thead th.sorting,\n   table.dataTable thead th.sorting_asc,\n   table.dataTable thead th.sorting_desc {\n   background: none;\n   padding: 4px 5px;\n   }\n.dataTables_wrapper .pagination .page-item.active>.page-link {\n    background: linear-gradient(45deg, #fc4a1a, #f7b733) !important;\n    color: #fff;\n }\n.dataTables_wrapper .pagination .page-item:hover>.page-link {\n    background: linear-gradient(45deg, #fc4a1a, #f7b733) !important;\n    color: #fff;\n }\n.btn.m-btn--hover-brand:hover{\n    background: linear-gradient(45deg, #fc4a1a, #f7b733) !important;\n    border: none;\n }\n.btn.m-btn--hover-brand:active{\n    border-color:  linear-gradient(45deg, #fc4a1a, #f7b733) !important;\n    background-color:  linear-gradient(45deg, #fc4a1a, #f7b733) !important;\n }\n.m-page-loader.m-page-loader--base.m-page-loader--non-block {\n    background: 0 0;\n}\n.btn.m-btn--hover-brand:focus{\n   border-color: #a73a08;\n   background-color: #a73a08\n}\n.dataTables_wrapper .dataTables_paginate .paginate_button:hover {\n    color: white !important;\n    border: 1px solid #f1d7a2;\n    background-color:#f1d7a2;\n    background:#f1d7a2\n}\n.container-fluid {\n    width: 85%;\n    padding-right: 15px;\n    padding-left: 15px;\n    margin-right: auto;\n    margin-left: auto;\n}\n.btn.m-btn--hover-brand:hover, .btn.m-btn--hover-brand:focus, .btn.m-btn--hover-brand:active{\n    background: linear-gradient(45deg, #fc4a1a, #f7b733) !important;\n    border: none;\n }\ntable.dataTable thead td {\n   border-bottom: 1px solid #111111;\n}\n.m-badge {\n background:linear-gradient(45deg, #fc4a1a, #f7b733) !important;\n color:white;\n font-weight: bold !important;\n}\n.fa-eye:before {\n    content: \"\\f06e\";\n    color: dimgrey;\n}\n.fa-edit:before, .fa-pencil-square-o:before {\n    content: \"\\f044\";\n    color: dimgrey;\n}\n.fa-trash-alt:before {\n    content: \"\\f2ed\";\n    color: dimgrey;\n}\n.btn-save {\n    color: white;\n    width: 80px;\n    background: #49a558;\n    border-radius: 25%;\n    opacity: 1.5;\n}\n.btn-delete{\n    color: white;\n    width: 80px;\n    background: #a73a08;\n    opacity: 1.5;\n    border-radius: 25%;\n}\n.form-control:focus {\n    border-color: lightslategrey;\n    color: #575962;\n    box-shadow: none;\n    border-radius: 0%\n}\n.form-control {\n    font-family: sans-serif,Arial;\n    border-radius: 0;\n    /* border-radius: .25rem; */\n}"
+module.exports = ".btn-add {\n    border-radius: 1.1rem;\n    padding: 1.0rem 1.65rem;\n    font-size: 1.25rem;\n    line-height: .6;\n    color: white;\n    border-color: #e95e37;\n    margin-left: 88%;\n    margin-bottom: 16px;\n    background: linear-gradient(to right, #fc4a1a, #f7b733);\n}\n.lbl-err {\n    color: red;\n\n }\n.header{\n    font-size: 2.25rem;\n    padding: 1.30rem 4.65rem;\n    text-align: center;\n   }\n.btn-edit{\n    border: none;\n    color:gray;\n    background-color: transparent;\n  }\n.btn-delete{\n    border: none;\n    color:gray;\n    background-color: transparent;\n \n}\n.btn-view{\n    border: none;\n    color:gray;\n    background-color: transparent;\n    \n    }\n.banner-image {\n        /* height: 85px; */\n        width: 130px;\n        margin-left: 122px;\n}\n.btn-del{\n    padding: 1.25rem 1.65rem;\n    font-size: 1.25rem;\n    line-height: 1.5;\n    color:white;\n    margin-right:45px;\n    background-color: transparent;\n    background: #a73a08;\n    border-color: #a73a08;\n}\ntable.dataTable thead th.sorting,\n   table.dataTable thead th.sorting_asc,\n   table.dataTable thead th.sorting_desc {\n   background: none;\n   padding: 4px 5px;\n   }\n.dataTables_wrapper .pagination .page-item.active>.page-link {\n    background: linear-gradient(45deg, #fc4a1a, #f7b733) !important;\n    color: #fff;\n }\n.dataTables_wrapper .pagination .page-item:hover>.page-link {\n    background: linear-gradient(45deg, #fc4a1a, #f7b733) !important;\n    color: #fff;\n }\n.btn.m-btn--hover-brand:hover{\n    background: linear-gradient(45deg, #fc4a1a, #f7b733) !important;\n    border: none;\n }\n.btn.m-btn--hover-brand:active{\n    border-color:  linear-gradient(45deg, #fc4a1a, #f7b733) !important;\n    background-color:  linear-gradient(45deg, #fc4a1a, #f7b733) !important;\n }\n.m-page-loader.m-page-loader--base.m-page-loader--non-block {\n    background: 0 0;\n}\n.btn.m-btn--hover-brand:focus{\n   border-color: #a73a08;\n   background-color: #a73a08\n}\n.dataTables_wrapper .dataTables_paginate .paginate_button:hover {\n    color: white !important;\n    border: 1px solid #f1d7a2;\n    background-color:#f1d7a2;\n    background:#f1d7a2\n}\n.container-fluid {\n    width: 85%;\n    padding-right: 15px;\n    padding-left: 15px;\n    margin-right: auto;\n    margin-left: auto;\n}\n.btn.m-btn--hover-brand:hover, .btn.m-btn--hover-brand:focus, .btn.m-btn--hover-brand:active{\n    background: linear-gradient(45deg, #fc4a1a, #f7b733) !important;\n    border: none;\n }\ntable.dataTable thead td {\n   border-bottom: 1px solid #111111;\n}\n.m-badge {\n background:linear-gradient(45deg, #fc4a1a, #f7b733) !important;\n color:white;\n font-weight: bold !important;\n}\n.fa-eye:before {\n    content: \"\\f06e\";\n    color: dimgrey;\n}\n.fa-edit:before, .fa-pencil-square-o:before {\n    content: \"\\f044\";\n    color: dimgrey;\n}\n.fa-trash-alt:before {\n    content: \"\\f2ed\";\n    color: dimgrey;\n}\n.btn-save {\n    color: white;\n    width: 80px;\n    background: #49a558;\n    border-radius: 25%;\n    opacity: 1.5;\n}\n.btn-delete{\n    color: white;\n    width: 80px;\n    background: #a73a08;\n    opacity: 1.5;\n    border-radius: 25%;\n}\n.form-control:focus {\n    border-color: lightslategrey;\n    color: #575962;\n    box-shadow: none;\n    border-radius: 0%\n}\n.form-control {\n    font-family: sans-serif,Arial;\n    border-radius: 0;\n    /* border-radius: .25rem; */\n}"
 
 /***/ }),
 
@@ -263,7 +269,7 @@ module.exports = ".btn-add {\n    border-radius: 1.1rem;\n    padding: 1.0rem 1.
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<h2 class=\"header\">Cuisines</h2>\n<button class=\"btn-add\" (click)=\"open()\">Add</button>\n\n\n<table *ngIf=\"cuisinsList\" datatable class=\"table-bordered table-hover\">\n  <thead>\n    <tr>\n      <td style=\"font-weight: bold; width:10%;\">Sr.</td>\n      <td style=\"font-weight: bold; width:40%;\">Cuisine Name</td>\n      <th style=\"width:20%\"> &nbsp;&nbsp;&nbsp;Status</th>\n      <th style=\"width:20%\"> &nbsp;Action</th>\n    </tr>\n  </thead>\n  <tbody>\n\n    <tr *ngFor=\"let cuisin of cuisinsList ; let i=index\">\n      <td>{{i+1}}</td>\n      <td>{{cuisin.name}}</td>\n      <td><span class=\"m-badge  m-badge--wide\">{{cuisin.status}}</span></td>\n      <td>\n\n        <button type=\"button\" class=\"m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill\"\n          data-toggle=\"m-tooltip\" data-placement=\"top\" title=\"View\" (click)=\"viewCuisines(viewCuisin)\">\n          <i class=\"fas fa-eye\"></i>\n        </button>\n        <ng-template #viewCuisin let-c=\"close\" let-d=\"dismiss\">\n          <div class=\"modal-header\">\n            <h4 class=\"modal-title\">View  Cuisine</h4>\n            <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"d('Cross click')\">\n              <span aria-hidden=\"true\">&times;</span>\n            </button>\n          </div>\n          <div class=\"modal-body\">\n            <div class=\"form-group\">\n              <label for=\"name\">Cuisine  Name</label>\n              <input type=\"text\" class=\"form-control\" [(ngModel)]=\"cuisin.name\" disabled />\n            </div>\n\n            <div class=\"form-group\">\n              <label>Cuisine  Images:</label><br>\n              <img [src]=\"cuisin.image\" class=\"rounded mb-3\" width=\"50%\" height=auto /> &nbsp;&nbsp;<br>\n            </div>\n\n          </div>\n        </ng-template>\n        &nbsp;&nbsp;\n\n        <button type=\"button\" class=\"m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill\"\n          data-toggle=\"m-tooltip\" data-placement=\"top\" title=\"Edit\" (click)=\"open(cuisin,'edit')\">\n          <i class=\"fas fa-edit\"></i>\n        </button> &nbsp;&nbsp;\n\n        <button type=\"button\" class=\"m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill\"\n          data-toggle=\"m-tooltip\" data-placement=\"top\" title=\"Delete\" (click)=\"delete(cuisin._id)\">\n          <i class=\"fas fa-trash-alt\"></i>\n        </button>\n\n      </td>\n    </tr>\n  </tbody>\n</table>\n<script>\n  $(document).ready(function () {\n    $('[data-toggle=\"m-tooltip\"]').tooltip();\n  });\n</script>"
+module.exports = "<h2 class=\"header\">Cuisines</h2>\n<button class=\"btn-add\" (click)=\"open()\">Add</button>\n\n\n<table class=\"table table-striped- table-bordered table-hover table-checkable\" datatable [dtOptions]=\"dtOptions\"\n  [dtTrigger]=\"dtTrigger\">\n  <thead>\n    <tr>\n      <td style=\"font-weight: bold; width:10%;\" >Sr.No</td>\n      <td style=\"font-weight: bold; width:40%;\"  (click)=\"get($event)\"  >Cuisine Name</td>\n      <th style=\"width:20%\" > &nbsp;&nbsp;&nbsp;Status</th>\n      <th style=\"width:20%\"> &nbsp;Action</th>\n    </tr>\n  </thead>\n  <tbody>\n  <tr *ngFor=\"let cuisin of cuisinsList ; let i=index\">\n     <td >{{i+1}}</td>\n      <td>{{cuisin.name}}</td>\n      <td><span class=\"m-badge  m-badge--wide\">{{cuisin.status}}</span></td>\n      <td>\n        <button type=\"button\" class=\"m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill\"\n          data-toggle=\"m-tooltip\" data-placement=\"top\" title=\"View\" (click)=\"viewCuisines(viewCuisin)\">\n          <i class=\"fas fa-eye\"></i>\n        </button>\n        <ng-template #viewCuisin let-c=\"close\" let-d=\"dismiss\">\n          <div class=\"modal-header\">\n            <h4 class=\"modal-title\">View Cuisine</h4>\n            <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"d('Cross click')\">\n              <span aria-hidden=\"true\">&times;</span>\n            </button>\n          </div>\n          <div class=\"modal-body\">\n            <div class=\"form-group\">\n              <label for=\"name\">Cuisine Name</label>\n              <input type=\"text\" class=\"form-control\" [(ngModel)]=\"cuisin.name\" disabled />\n            </div>\n\n            <div class=\"form-group\">\n              <label>Cuisine Images:</label><br>\n              <img [src]=\"cuisin.image\" class=\"rounded mb-3\" width=\"50%\" height=auto /> &nbsp;&nbsp;<br>\n            </div>\n\n          </div>\n        </ng-template>\n        &nbsp;&nbsp;\n\n        <button type=\"button\" class=\"m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill\"\n          data-toggle=\"m-tooltip\" data-placement=\"top\" title=\"Edit\" (click)=\"open(cuisin,'edit')\">\n          <i class=\"fas fa-edit\"></i>\n        </button> &nbsp;&nbsp;\n\n        <button type=\"button\" class=\"m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill\"\n          data-toggle=\"m-tooltip\" data-placement=\"top\" title=\"Delete\" (click)=\"delete(cuisin._id)\">\n          <i class=\"fas fa-trash-alt\"></i>\n        </button>\n\n      </td>\n    </tr>\n  </tbody>\n</table>\n<script>\n  $(document).ready(function () {\n    $('[data-toggle=\"m-tooltip\"]').tooltip();\n  });\n</script>"
 
 /***/ }),
 
@@ -289,6 +295,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_8__);
 /* harmony import */ var ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ng4-loading-spinner */ "./node_modules/ng4-loading-spinner/ng4-loading-spinner.umd.js");
 /* harmony import */ var ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm5/index.js");
+/* harmony import */ var angular_datatables__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! angular-datatables */ "./node_modules/angular-datatables/index.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -298,6 +306,8 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
+
 
 
 
@@ -322,12 +332,20 @@ var CuisinComponent = /** @class */ (function () {
         this.cuisinService = cuisinService;
         this._script = _script;
         this.spinnerService = spinnerService;
+        this.dtOptions = {};
+        this.dtTrigger = new rxjs__WEBPACK_IMPORTED_MODULE_10__["Subject"]();
+        this.sorting = true;
         this.isAdd = false;
         this.loading = false;
         this.submitted = false;
         this.isView = false;
         this.cuisinService.getCuisins().subscribe(function (data) {
             _this.cuisinsList = data.cuisinsList.data;
+            _this.dtElement.dtInstance.then(function (dtInstance) {
+                dtInstance.destroy();
+                _this.dtTrigger.next();
+                _this.spinnerService.hide();
+            });
         });
     }
     CuisinComponent.prototype.ngAfterViewInit = function () {
@@ -347,6 +365,12 @@ var CuisinComponent = /** @class */ (function () {
         if (typeof (_window().isScriptLoadedUsermgmt) == "undefined") {
             _window().isScriptLoadedUsermgmt = false;
         }
+        this.dtOptions = {
+            pagingType: 'full_numbers',
+            pageLength: 10,
+            processing: true,
+            stateSave: true,
+        };
         this.getCuisinList();
     };
     CuisinComponent.prototype.open = function (content) {
@@ -368,6 +392,7 @@ var CuisinComponent = /** @class */ (function () {
         this.spinnerService.show();
         this.cuisinService.getAllCuisins().subscribe(function (response) {
             _this.cuisinsList = response.data;
+            _this.dtTrigger.next();
             _this.spinnerService.hide();
         });
     };
@@ -386,10 +411,18 @@ var CuisinComponent = /** @class */ (function () {
             confirmButtonText: 'Yes, delete it!'
         }).then(function (result) {
             if (result.value) {
+                _this.spinnerService.show();
                 _this.cuisinService.deleteCuisin(id).subscribe(function (data) {
-                    _this.getCuisinList();
+                    _this.cuisinService.getAllCuisins().subscribe(function (response) {
+                        _this.cuisinsList = response.data;
+                        _this.dtElement.dtInstance.then(function (dtInstance) {
+                            dtInstance.destroy();
+                            _this.dtTrigger.next();
+                            _this.spinnerService.hide();
+                        });
+                    });
                     if (data['code'] == 200) {
-                        sweetalert2__WEBPACK_IMPORTED_MODULE_8___default()('Deleted!', data['data'], 'success');
+                        sweetalert2__WEBPACK_IMPORTED_MODULE_8___default()('Deleted!', data['message'], 'success');
                     }
                     else {
                         sweetalert2__WEBPACK_IMPORTED_MODULE_8___default()({
@@ -414,6 +447,10 @@ var CuisinComponent = /** @class */ (function () {
             return true;
         }
     };
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_4__["ViewChild"])(angular_datatables__WEBPACK_IMPORTED_MODULE_11__["DataTableDirective"]),
+        __metadata("design:type", angular_datatables__WEBPACK_IMPORTED_MODULE_11__["DataTableDirective"])
+    ], CuisinComponent.prototype, "dtElement", void 0);
     CuisinComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_4__["Component"])({
             selector: 'app-cuisin',
@@ -605,7 +642,6 @@ var CuisinService = /** @class */ (function () {
     }
     CuisinService.prototype.setCuisins = function (data) {
         this.cuisinsList.next({ cuisinsList: data });
-        this.cuisinsList.complete();
     };
     CuisinService.prototype.getCuisins = function () {
         return this.cuisinsList.asObservable();
@@ -632,7 +668,6 @@ var CuisinService = /** @class */ (function () {
     CuisinService.prototype.deleteCuisin = function (id) {
         return this.http.put(_app_service__WEBPACK_IMPORTED_MODULE_0__["URL"] + 'admin/deleteCuisin/' + id, {}, { headers: this.getHeaderWithToken() })
             .map(function (res) {
-            console.log(res);
             return res;
         });
     };
