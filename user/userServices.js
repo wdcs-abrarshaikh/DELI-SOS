@@ -337,6 +337,7 @@ function addReview(req, res) {
                                             return res.json({ code: code.internalError, message: msg.internalServerError })
                                         }
                                         else {
+                                            console.log("res",{result})
                                             let model = new notificationModel()
                                             model.notificationType = ntfctnType.reviewPosted
                                             model.reviewId = data_V3._id;
@@ -351,19 +352,19 @@ function addReview(req, res) {
                                                 } else {
                                                     receiverTokens = []
                                                 }
-
+                                                console.log("model",{model})
                                                 let notfctnData = model
                                                 model.save().then((response) => {
                                                     let obj = util.decodeToken(req.headers['authorization'])
                                                     let message = `${obj.name} posted new review.`
-                                                    console.log("printing reciever token");
-                                                    console.log(receiverTokens)
                                                     if (receiverTokens) {
                                                         receiverTokens.map((token) => {
                                                             fcm.sendMessage(token.fcmToken, message, process.env.appName, notfctnData)
                                                         })
                                                     }
                                                     return res.json({ code: code.created, message: msg.reviewAdded, data: data_V3 })
+                                                }).catch((err)=>{
+                                                    console.log({err})
                                                 })
                                             }).catch((err) => {
                                                 return res.json({ code: code.internalError, message: msg.internalServerError })
