@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
-import {Router, NavigationStart, NavigationEnd} from '@angular/router';
+import { Router, NavigationStart, NavigationEnd } from '@angular/router';
 import { FormBuilder, Validators, FormControl, FormGroup, FormArray } from '@angular/forms';
 import { ForgotPasswordService } from './forgot-password.service';
 import swal from 'sweetalert2'
@@ -14,54 +15,48 @@ export class ForgotPasswordComponent implements OnInit {
   loading = false;
   submitted = false;
   constructor(private formBuilder: FormBuilder,
-               private router: Router,
-              private forgotPasswordService:ForgotPasswordService,
-              private spinnerService: Ng4LoadingSpinnerService) { }
+    private router: Router,
+    private forgotPasswordService: ForgotPasswordService,
+    private spinnerService: Ng4LoadingSpinnerService,
+    private toastService: ToastrService) { }
 
   ngOnInit() {
     this.forgotPasswordForm = this.formBuilder.group({
-      email: ['', [Validators.required,Validators.pattern(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)]]
-      
-  });
+      email: ['', [Validators.required, Validators.pattern(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)]]
+
+    });
   }
 
-  onSubmit(){
-    this.submitted=true;
-   //if invalid form return
-   if( this.forgotPasswordForm.invalid){
-     return ;
-      }
-      this.spinnerService.show();
-     }
-
-      get f(){
-        return this.forgotPasswordForm.controls;
-      }
-
-   forgotPassword() {
-     this.forgotPasswordService.post(this.forgotPasswordForm.value).subscribe((response: any) => {
-       console.log(response)
-       if (response['code'] == 200) {
-        swal({
-          position: 'center',
-          type: 'success',
-          title: response['message'],
-          showConfirmButton: false,
-          timer: 1500
-        })
+  onSubmit() {
+    this.submitted = true;
+    //if invalid form return
+    if (this.forgotPasswordForm.invalid) {
+      return;
+    }
+    this.spinnerService.show();
+    this.forgotPasswordService.post(this.forgotPasswordForm.value).subscribe((response: any) => {
+      this.spinnerService.hide();
+      if (response['code'] == 200) {
+        this.toastService.error(response.message);
         this.router.navigate(['/forgotemail']);
+
+      } else {
+        this.toastService.error(response.message);
         this.spinnerService.hide();
-     } else {
-        swal({
-          type: 'error',
-          text: response['message']
-        })
+       
       }
     },
       error => {
-      console.log('error',JSON.stringify(error));
-    });
-         
+        this.toastService.error(error);
+        console.log('error', JSON.stringify(error));
+      });
+
   }
+
+
+  get f() {
+    return this.forgotPasswordForm.controls;
+  }
+
 
 }

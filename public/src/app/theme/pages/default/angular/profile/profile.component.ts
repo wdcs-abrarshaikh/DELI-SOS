@@ -2,7 +2,6 @@ import { ProfileService } from './profile.service';
 import { LoginService } from './../../../../../login/login.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormControl, FormGroup, FormArray } from '@angular/forms';
-import { map } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 import swal from 'sweetalert2'
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
@@ -49,18 +48,27 @@ export class ProfileComponent implements OnInit {
   }
   buildProfileForm() {
     this.profileForm = this._formBuilder.group({
-      name: ['', [Validators.required,Validators.pattern(/^(?!\s*$).+/)]],
+      name: ['', [Validators.required,Validators.pattern(/^(?!\s*$).+/),Validators.maxLength(20)]],
       profilePicture: [''],
     });
   }
 
 
   async uploadImage(images) {
+    this.display=true;
     let files = images.target.files;
     return new Promise((resolve, reject) => {
       this.profileService.uploadPic(files).subscribe((data) => {
-        this.profilesList = data.data[0]
-        resolve(data.data)
+        this.display=false;
+      if(data.code==400){
+          swal({
+            type: 'error',
+            text: 'Invalid input'
+          })
+        }else{
+          this.profilesList= data.data[0]
+        }
+       resolve(data.data)
       });
     })
 
@@ -81,11 +89,10 @@ export class ProfileComponent implements OnInit {
         swal({
           position: 'center',
           type: 'success',
-          title: response['message'],
+          title:'Updated Successfully',
           showConfirmButton: false,
           timer: 1500
         })
-     
       } else {
         swal({
           type: 'error',

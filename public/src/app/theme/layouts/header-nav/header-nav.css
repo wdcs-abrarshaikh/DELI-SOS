@@ -75,10 +75,10 @@ h3{
 }
 
 .m-nav .m-nav__item:hover:not(.m-nav__item--disabled)>.m-nav__link .m-nav__link-text {
-    color: #fd7e14;
+    color: #f06027;
  }
  .m-nav .m-nav__item:hover:not(.m-nav__item--disabled)>.m-nav__link .m-nav__link-icon {
-    color: #fd7e14;
+    color: #f06027;
  }
  .a1{
     color: white;
@@ -93,4 +93,7 @@ h3{
 .m-dropdown__wrapper .m-dropdown__arrow{
     color: #fff !important;
     right: 61px!important;
+}
+.font {
+    padding-right: 20px;
 }

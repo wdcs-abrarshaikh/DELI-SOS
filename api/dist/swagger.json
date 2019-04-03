@@ -4,7 +4,7 @@
         "title": "DeliSOS",
         "version": "1.0.0"
     },
-    "host": "66.70.179.133:8080",
+    "host": "3.18.139.243:8080",
     "consumes": [
         "application/json",
         "application/x-www-form-urlencoded"
@@ -46,7 +46,9 @@
                                 "name",
                                 "deviceId",
                                 "deviceType",
-                                "fcmToken"
+                                "fcmToken",
+                                "latitude",
+                                "longitude"
                             ],
                             "properties": {
                                 "name": {
@@ -67,6 +69,14 @@
                                 },
                                 "fcmToken": {
                                     "type": "string"
+                                },
+                                "latitude": {
+                                    "type": "string",
+                                    "description": "The value must be between -90 to 90"
+                                },
+                                "longitude": {
+                                    "type": "string",
+                                    "description": "The value must be between -180 to 180"
                                 }
                             }
                         }
@@ -484,10 +494,7 @@
                         "name": "img",
                         "description": "Select image ,You can also select multiple images at a time,the maximum limit is 5.",
                         "required": true,
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        }
+                        "type": "file"
                     }
                 ],
                 "responses": {
@@ -1656,8 +1663,7 @@
                             "required": [
                                 "meal",
                                 "cuisins",
-                                "minBudget",
-                                "maxBudget"
+                                "minBudget"
                             ],
                             "properties": {
                                 "meal": {
@@ -1681,7 +1687,8 @@
                                     "description": "minimum budget"
                                 },
                                 "maxBudget": {
-                                    "type": "number"
+                                    "type": "number",
+                                    "description": "maximum budget if selected by user"
                                 }
                             }
                         }
@@ -1787,6 +1794,214 @@
                         }
                     },
                     "400": {
+                        "description": "Erorr message.",
+                        "schema": {
+                            "$ref": "#/definitions/errorMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Erorr message.",
+                        "schema": {
+                            "$ref": "#/definitions/errorMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/getNotificationList/{userId}": {
+            "get": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "to get list of notifications.",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "userId",
+                        "description": "id of user, whom notifications you want to get.",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "description": "token for validation.",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok.",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessMessage"
+                        }
+                    },
+                    "400": {
+                        "description": "Erorr message.",
+                        "schema": {
+                            "$ref": "#/definitions/errorMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Erorr message.",
+                        "schema": {
+                            "$ref": "#/definitions/errorMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/logout": {
+            "get": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "for loggedout from the current session.",
+                "parameters": [
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "description": "token for validation.",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok.",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessMessage"
+                        }
+                    },
+                    "400": {
+                        "description": "Erorr message.",
+                        "schema": {
+                            "$ref": "#/definitions/errorMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Erorr message.",
+                        "schema": {
+                            "$ref": "#/definitions/errorMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/shareReview/{reviewId}/{restId}": {
+            "get": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "to get url for redirect to restaurant where shared review posted.",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "reviewId",
+                        "description": "id of shared review.",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "path",
+                        "name": "restId",
+                        "description": "id of shared review's restaurant.",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "description": "token for validation.",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok.",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessMessage"
+                        }
+                    },
+                    "400": {
+                        "description": "Erorr message.",
+                        "schema": {
+                            "$ref": "#/definitions/errorMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Erorr message.",
+                        "schema": {
+                            "$ref": "#/definitions/errorMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/contactUs": {
+            "post": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "send contact request to admin if you have any  or suggestion.",
+                "parameters": [
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "description": "token for validation.",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "user",
+                        "in": "body",
+                        "description": "details of request.",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "name",
+                                "email",
+                                "contactNumber",
+                                "content"
+                            ],
+                            "properties": {
+                                "name": {
+                                    "type": "string",
+                                    "description": "name of the person who is going to make request"
+                                },
+                                "contactNumber": {
+                                    "type": "string",
+                                    "description": "contact number of the person who is going to make request"
+                                },
+                                "email": {
+                                    "type": "string",
+                                    "description": "email of the person who is going to make request"
+                                },
+                                "content": {
+                                    "type": "string",
+                                    "description": "content for the request"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "created",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessMessage"
+                        }
+                    },
+                    "400": {
+                        "description": "Erorr message.",
+                        "schema": {
+                            "$ref": "#/definitions/errorMessage"
+                        }
+                    },
+                    "404": {
                         "description": "Erorr message.",
                         "schema": {
                             "$ref": "#/definitions/errorMessage"

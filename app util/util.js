@@ -7,7 +7,6 @@ var path = require('path')
 var multer = require('multer');
 var storage = multer.diskStorage({
     destination: function (req, file, callback) {
-
         callback(null, './img');
     },
     filename: function (req, file, callback) {
@@ -23,7 +22,8 @@ var upload = multer({
         console.log(file)
         checkFileType(file,callback)
     }
-}).array('img', 5);
+    
+}).array('img',5);
 
 cloudinary.config({
     cloud_name: process.env.cloud_name,
@@ -39,17 +39,19 @@ function validateEmail(data) {
 }
 
 function validatePassword(data) {
-    let regex = /^(?=.*[A-z])(?=.*[0-9])(?=.*[@#$_-])\S{8,20}$/;
+    let regex = /^(?!\s*$).+/;
     return regex.test(data)
 }
 
 function generateToken(data, secret) {
+    console.log(data)
     let obj = {
         id: data._id,
+        name: data.name,
         email: data.email,
         role: data.role
     }
-    return jwt.sign(obj, secret, { expiresIn: '24hr' })
+    return jwt.sign(obj, secret, { expiresIn: '720hr' })
 }
 
 function decodeToken(token) {

@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { ThemeComponent } from './theme.component';
 import { Routes, RouterModule } from '@angular/router';
 import {AuthGuard} from "../auth/_guards/auth.guard";
-// import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
+
 
 const routes: Routes = [
     {
@@ -40,7 +40,7 @@ const routes: Routes = [
                 "loadChildren":"./pages/default/angular/contact-us/contact-us.module#ContactUsModule"
             },
             {
-                "path":"admin/cuisin",
+                "path":"admin/cuisines",
                 "loadChildren":"./pages/default/angular/cuisin/cuisin.module#CuisinModule"
             }
         ]

@@ -11,8 +11,7 @@
       <input class="form-control m-input" type="text" formControlName="name" [(ngModel)]="name">
       <p *ngIf="RestaurantForm.controls.name.errors?.required && (RestaurantForm.controls.name.dirty || RestaurantForm.controls.name.touched)"
         class="lbl-err">Name is required.</p>
-        <p *ngIf="RestaurantForm.controls.name.errors?.pattern "
-        class="lbl-err">Name is required.</p>
+      <p *ngIf="RestaurantForm.controls.name.errors?.pattern " class="lbl-err">Enter valid name.</p>
     </div><br>
 
 
@@ -21,8 +20,7 @@
       <input class="form-control m-input" type="text" formControlName="description" [(ngModel)]="description">
       <p *ngIf="RestaurantForm.controls.description.errors?.required &&  (RestaurantForm.controls.description.dirty || RestaurantForm.controls.description.touched)"
         class="lbl-err">Description is required.</p>
-        <p *ngIf="RestaurantForm.controls.description.errors?.pattern "
-        class="lbl-err">Description is required.</p>
+      <p *ngIf="RestaurantForm.controls.description.errors?.pattern " class="lbl-err">Enter valid description.</p>
 
     </div><br>
 
@@ -32,8 +30,7 @@
       <input class="form-control m-input" type="text" formControlName="latitude" [(ngModel)]="latitude">
       <p *ngIf="RestaurantForm.controls.latitude.errors?.required &&  (RestaurantForm.controls.latitude.dirty || RestaurantForm.controls.latitude.touched)"
         class="lbl-err">Latitude is required.</p>
-        <p *ngIf="RestaurantForm.controls.latitude.errors?.pattern"
-        class="lbl-err">Latitude is required.</p>
+      <p *ngIf="RestaurantForm.controls.latitude.errors?.pattern" class="lbl-err">Enter valid Latitude.</p>
 
     </div><br>
 
@@ -42,8 +39,7 @@
       <input class="form-control m-input" type="text" formControlName="longitude" [(ngModel)]="longitude">
       <p *ngIf="RestaurantForm.controls.longitude.errors?.required && (RestaurantForm.controls.longitude.dirty || RestaurantForm.controls.longitude.touched) "
         class="lbl-err">longitude is required.</p>
-        <p *ngIf="RestaurantForm.controls.longitude.errors?.pattern "
-        class="lbl-err">longitude is required.</p>
+      <p *ngIf="RestaurantForm.controls.longitude.errors?.pattern " class="lbl-err">Enter valid longitude.</p>
 
     </div><br>
 
@@ -54,6 +50,7 @@
       <p *ngIf="RestaurantForm.controls.openTime.errors?.required && (RestaurantForm.controls.openTime.dirty || RestaurantForm.controls.openTime.touched)"
         class="lbl-err">openTime is required.</p>
     </div><br>
+
 
     <div class="form-group">
       <label for="time">Close Time</label>
@@ -67,7 +64,7 @@
       <label>Meal Offers</label>
       <fieldset>
         <div *ngFor="let category of RestaurantForm.controls['mealOffers'].controls; let i = index">
-          <input type="checkbox" [formControl]="category"  (change)="mealoffer($event,i)">&nbsp;
+          <input type="checkbox" [formControl]="category" (change)="mealoffer($event,i)">&nbsp;
           <label>{{ mealOffers_arr[i]}}</label>
         </div>
         <br>
@@ -79,22 +76,15 @@
     <div class="form-group">
       <label>Contact Number</label>
       <input class="form-control m-input" type="tel" formControlName="contactNumber" [(ngModel)]="contactNumber">
-      <p *ngIf="RestaurantForm.controls.contactNumber.errors?.required && (RestaurantForm.controls.contactNumber.dirty || RestaurantForm.controls.contactNumber.touched)"
-        class="lbl-err">Contact Number is required.</p>
-        <p *ngIf="RestaurantForm.controls.contactNumber.errors?.pattern && (RestaurantForm.controls.contactNumber.dirty || RestaurantForm.controls.contactNumber.touched)"
-        class="lbl-err"> Enter Valid ContactNumber.</p>
+      <p *ngIf="RestaurantForm.controls.contactNumber.errors?.pattern" class="lbl-err"> Enter Valid ContactNumber.</p>
 
-   </div>
+    </div>
 
     <div class="form-group">
       <label>Website</label>
       <input class="form-control m-input" type="text" formControlName="website" [(ngModel)]="website">
-      <p *ngIf="RestaurantForm.controls.website.errors?.required &&   (RestaurantForm.controls.website.dirty || RestaurantForm.controls.website.touched)"
-        class="lbl-err">Website is required.</p>
-        <p *ngIf="RestaurantForm.controls.website.errors?.pattern "
-        class="lbl-err">Website is required.</p>
-
-   </div>
+      <p *ngIf="RestaurantForm.controls.website.errors?.pattern " class="lbl-err">Website is required.</p>
+    </div>
 
 
     <div class="form-group">
@@ -111,8 +101,6 @@
     <div class="form-group">
       <label>Per Person Cost</label>
       <input class="form-control m-input" type="Number" formControlName="perPersonCost" [(ngModel)]="perPersonCost">
-      <p *ngIf="RestaurantForm.controls.perPersonCost.errors?.required && (RestaurantForm.controls.perPersonCost.dirty || RestaurantForm.controls.perPersonCost.touched)"
-        class="lbl-err">perPersonCost is required.</p>
       <p *ngIf="RestaurantForm.controls.perPersonCost.errors?.pattern && (RestaurantForm.controls.perPersonCost.dirty || RestaurantForm.controls.perPersonCost.touched)"
         class="lbl-err"> Invalid input. Please enter only numeric value .</p>
     </div>
@@ -142,14 +130,14 @@
             [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
             (matChipInputTokenEnd)="add($event)" (keyup)='valueChange($event)' (focus)='focusOutFn($event)'>
         </mat-chip-list>
-         <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
           <mat-option *ngFor="let values of CuisinList " [value]="values">
             {{CuisinList}}
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
       <p *ngIf="RestaurantForm.controls.cuisinOffered.errors?.required && (RestaurantForm.controls.cuisinOffered.dirty || RestaurantForm.controls.cuisinOffered.touched)"
-      class="lbl-err"> cuisin is required.</p>
+        class="lbl-err"> cuisin is required.</p>
       <ul class="qz" [hidden]="CuisinList.length ==0">
         <li *ngFor="let values of CuisinList" (click)='selectedValue(values)' style='margin-top:3px;'>
           {{values}}
@@ -158,9 +146,12 @@
     </div>
   </form>
 
-  <div class="modal-footer">
-    <button type="submit" *ngIf="isAdd" class="btn btn-save" (click)="addRestaurant()" [disabled]="validateForm()" >Save</button>&nbsp;&nbsp;
-    <button type="submit"  class="btn btn-save" (click)="addRestaurant()"  >Save</button>&nbsp;&nbsp;
+  <div class="modal-footer" *ngIf="!isAdd">
+    <button type="submit" class="btn btn-save" (click)="addRestaurant()">Save</button>&nbsp;&nbsp;
     <button type="button" class="btn btn-delete" (click)="activeModal.close('Close click')">Cancel</button>
- </div>
+  </div>
+  <div class="modal-footer" *ngIf="isAdd">
+    <button type="submit" class="btn btn-save" (click)="addRestaurant()" [disabled]="validateForm()">Save</button>&nbsp;&nbsp;
+    <button type="button" class="btn btn-delete" (click)="activeModal.close('Close click')">Cancel</button>
+  </div>
 </div>

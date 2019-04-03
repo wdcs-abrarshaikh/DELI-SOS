@@ -54,7 +54,7 @@ export class PrivacyPolicyComponent implements OnInit {
         this.privacyPolicyLists = data.privacyPolicyLists;
         this.initialprivacyPolicyLists = this.privacyPolicyLists;
       }
-    })
+   })
   }
 
   ngOnInit() {
@@ -84,7 +84,7 @@ export class PrivacyPolicyComponent implements OnInit {
               swal({
                 position: 'center',
                 type: 'success',
-                title: data['message'],
+                title:'Updated Successfully',
                 showConfirmButton: false,
                 timer: 1500
               })
@@ -115,21 +115,21 @@ export class PrivacyPolicyComponent implements OnInit {
 
   getAllPrivacyPolicy() {
     this.privacyPolicyService.getAllPrivacyPolicy().subscribe((response: any) => {
-      this.privacyPolicyService.setPrivacyPolicy(response.data);
-    })
+     this.privacyPolicyService.setPrivacyPolicy(response.data);
+   })
   }
 
   getPrivacyPolicyList() {
     this.spinnerService.show();
     this.privacyPolicyService.getAllPrivacyPolicy().subscribe((response: any) => {
-      this.spinnerService.hide();
-      if (response.data !== null) {
+    if (response.data !== null) {
         this.privacyPolicyLists = response.data.content;
         this.initialprivacyPolicyLists = this.privacyPolicyLists;
         this.id = response.data._id;
       } else {
         this.initialprivacyPolicyLists = response.data;
       }
+      this.spinnerService.hide();
     })
   }
 
@@ -151,8 +151,8 @@ export class PrivacyPolicyComponent implements OnInit {
       text: "You won't be able to revert this!",
       type: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
+      confirmButtonColor: '#49a558',
+      cancelButtonColor: '#a73a08',
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.value) {

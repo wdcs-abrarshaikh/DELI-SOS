@@ -9,11 +9,12 @@ var role = require('../constants').roles;
 var status = require('../constants').status;
 var validate = require('./adminValidator');
 var cloudinary = require('cloudinary')
-cloudinary.config({
-    cloud_name: process.env.cloudinary_name,
-    api_key: process.env.cloudinary_key,
-    api_secret: process.env.cloudinary_secret
-});
+MongoClient = require('mongodb').MongoClient,
+    cloudinary.config({
+        cloud_name: process.env.cloudinary_name,
+        api_key: process.env.cloudinary_key,
+        api_secret: process.env.cloudinary_secret
+    });
 
 
 var reviews = require('../schema/review');
@@ -47,6 +48,7 @@ async function createAdmin(req, res) {
 
 //this is a login function of admin. it returns token which expires in 1hr and result:id,mail and role
 async function authenticateAdmin(req, res) {
+
     let data = req.body;
     await userModel.findOne({ email: data.email, role: role.ADMIN }, (err, result) => {
         if (err) {
@@ -117,9 +119,23 @@ async function resetPassword(req, res) {
 }
 
 async function getUsers(req, res) {
-    userModel.find({ role: role.USER, status: status.active }, (err, result) => {
+    userModel.find({ role: role.USER }, (err, result) => {
         return (err) ? res.json({ code: code.internalError, message: internalServerError })
             : res.json({ code: code.ok, message: msg.ok, data: result })
+    })
+}
+
+function changeUserStatus(req, res) {
+    userModel.findOneAndUpdate({ _id: req.params.id }, { $set: { status: status.active } }, { new: true }).then((result) => {
+        if (result) {
+            return res.json({ code: code.ok, message: msg.updated, data: result })
+        }
+        else {
+            return res.json({ code: code.notFound, message: msg.userNotFound })
+        }
+    }).catch((err) => {
+        console.log(err)
+        return res.json({ code: code.internalError, message: msg.internalServerError })
     })
 }
 
@@ -190,7 +206,7 @@ async function addRestaurant(req, res) {
     rest.createdBy = obj.id;
     rest.status = status.active;
     rest.save((err, data) => {
-        // console.log(err)
+        console.log(err)
         return (err) ? res.json({ code: code.internalError, message: msg.internalServerError }) :
             res.json({ code: code.created, message: msg.restAddSucessfully, data: data })
     })
@@ -212,6 +228,7 @@ async function getRestaurantDetails(req, res) {
 }
 
 async function getRestaurantList(req, res) {
+    console.log("get restatfsadgfa")
     restModel.find({ status: status.active }, (err, result) => {
         if (err) {
             //console.log("error", err)
@@ -322,6 +339,17 @@ async function deleteRestaurantPhoto(req, res) {
 
 
 async function deleteUser(req, res) {
+    // userModel.findOneAndRemove({ _id: req.params.id }).then((data) => {
+    //     if (!data) {
+    //         return res.json({ code: code.notFound, message: msg.userNotFound })
+    //     }
+    //     else {
+    //         return res.json({ code: code.ok, message: msg.userDelete })
+    //     }
+    // }).catch((err) => {
+    //     console.log(err)
+    //     return res.json({ code: code.internalError, message: msg.internalError })
+    // })
     await userModel.findByIdAndUpdate({ _id: req.params.id }, { $set: { status: status.inactive } }, (err, data) => {
         if (err) {
             return res.json({ code: code.internalError, message: msg.internalError })
@@ -528,6 +556,7 @@ async function addAboutUs(req, res) {
         if (data.length == 0) {
             let about = new aboutModel(req.body)
             about.type = "About_Us"
+            about.createdAt = Date.now()
             about.save((err, data) => {
                 if (err) {
                     // console.log("error", err)
@@ -592,6 +621,7 @@ async function addPrivacyPolicy(req, res) {
         if (data.length == 0) {
             let about = new aboutModel(req.body)
             about.type = "Privacy_Policy"
+            about.createdAt = Date.now()
             about.save((err, data) => {
 
                 return (err) ? res.json({ code: code.internalError, message: msg.internalServerError }) :
@@ -643,12 +673,17 @@ async function deletePrivacyPolicy(req, res) {
 }
 
 async function getContactRequest(req, res) {
-    aboutModel.findOne({ $and: [{ status: status.active }, { type: Type.contact }] })
-        .populate({ path: 'createdBy', select : 'name email' }).exec((err, data) => {
+    aboutModel.find({ $and: [{ status: status.active }, { type: Type.contact }] })
+        .exec((err, data) => {
             if (err) {
                 return res.json({ code: code.internalError, message: msg.internalServerError })
             }
             else {
+                console.log("data", data)
+                data.sort((a, b) => {
+                    // return new Date(b['createdAt']) - new Date(a['createdAt']);
+                    return b.createdAt - a.createdAt
+                })
                 return res.json({ code: code.ok, message: msg.ok, data: data })
             }
         })
@@ -677,13 +712,13 @@ async function addCuisin(req, res) {
             if (err) {
                 return res.json({ code: code.internalError, message: msg.internalServerError })
                 // console.log("err in array updation ")
-            } else { return res.json({ code: code.ok, msg: msg.cuisinAdded }) }
+            } else { return res.json({ code: code.ok, message: msg.cuisinAdded }) }
         });
 }
 
 async function searchCuisin(req, res) {
-    let name=req.query.name;
-   
+    let name = req.query.name;
+
     userModel.aggregate([
         {
             $project: { 'cuisin': 1 }
@@ -695,7 +730,7 @@ async function searchCuisin(req, res) {
 
             $match: {
                 'cuisin.status': 'ACTIVE',
-                'cuisin.name': new RegExp('^' +name, "i")
+                'cuisin.name': new RegExp('^' + name, "i")
             }
 
         },
@@ -710,11 +745,10 @@ async function searchCuisin(req, res) {
         }
     ]).exec((err, data) => {
         if (err) {
-            return res.json({ code: code.internalError, msg: msg.internalServerError })
+            return res.json({ code: code.internalError, message: msg.internalServerError })
         }
         else if (data.length == 0) {
-            console.log("error----->",err)
-            return res.json({ code: code.notFound, msg: msg.noMatchFound })
+            return res.json({ code: code.notFound, message: msg.noMatchFound })
         }
         else {
             return res.json({ code: code.ok, message: msg.ok, data: data })
@@ -767,7 +801,7 @@ async function deleteCuisin(req, res) {
             if (err) {
                 return res.json({ code: code.internalError, message: msg.internalServerError })
             } else {
-                return res.json({ code: code.ok, data: msg.cuisinDeleted })
+                return res.json({ code: code.ok, message: msg.cuisinDeleted })
             }
         })
 }
@@ -778,7 +812,7 @@ async function updateCuisin(req, res) {
             if (err) {
                 return res.json({ code: code.internalError, message: msg.internalServerError })
             } else {
-                return res.json({ code: code.ok, msg: msg.cuisinUpdated, data: data })
+                return res.json({ code: code.ok, message: msg.cuisinUpdated, data: data })
             }
         })
 }
@@ -787,11 +821,48 @@ async function deleteRestaurantReq(req, res) {
     restModel.remove({ _id: req.params.id }, (err, data) => {
         if (err) {
             return res.json({ code: code.internalError, message: msg.internalServerError })
-        } else { return res.json({ code: code.ok, msg: msg.restReqDeclined }) }
+        } else { return res.json({ code: code.ok, message: msg.restReqDeclined }) }
     });
 
-
 }
+
+// async function getAllRestaurant(req, res) {
+//    MongoClient.connect("mongodb://localhost/", function(err, db) {
+//         if (err) throw err;
+//         var dbo = db.db("getdata");
+//         dbo.collection("restaurants").find({},{ projection: { geometry: 1, name: 1, rating: 1 ,_id:0} }).toArray(function(err, result) {
+//             if(err){
+//                 return res.json({ code: code.internalError, message: msg.internalError })
+//             }else{
+//           result.map((data)=>{
+//                    req.body.location = {
+//                         type: "Point",
+//                         coordinates: [data.geometry[0].location.lng, data.geometry[0].location.lat]
+//                      }
+//                     req.body.name=data.name
+//                     req.body.rating=data.rating
+//                     let rest = new restModel(req.body)
+//                     rest.status = status.active;
+//                     rest.openTime='10:00 AM'
+//                     rest.closeTime='8:00 PM'
+//                     rest.menu='default.jpg',
+//                     rest.description="good"
+//                     rest.save((err, data1) => {
+//                         if(err){
+//                             return res.json({ code: code.internalError, message: msg.internalError })
+//                         }else{
+//                             return data1
+//                         }
+//                    })
+//                })
+//               return  res.json({ code: code.created, message: msg.restAddSucessfully})
+//             }
+//        });
+//        db.close();
+//       });
+
+// }
+
 
 
 module.exports = {
@@ -835,5 +906,7 @@ module.exports = {
     getCuisinList,
     deleteCuisin,
     updateCuisin,
-    deleteRestaurantReq
+    deleteRestaurantReq,
+    // getAllRestaurant
+    changeUserStatus,
 }

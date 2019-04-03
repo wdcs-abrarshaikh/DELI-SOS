@@ -1,3 +1,6 @@
+
+
+
 var service = require("./adminServices")
 
 function signup(req, res) {
@@ -34,6 +37,10 @@ function updateUser(req, res) {
 function addRestaurant(req, res) {
     service.addRestaurant(req, res)
 }
+
+// function getAllRestaurant(req, res) {
+//     service.getAllRestaurant(req, res)
+// }
 
 function getRestaurantDetails(req, res) {
     service.getRestaurantDetails(req, res)
@@ -160,6 +167,10 @@ function deleteRestaurantReq(req, res) {
     service.deleteRestaurantReq(req, res)
 }
 
+function changeUserStatus(req,res){
+    service.changeUserStatus(req,res)
+}
+
 module.exports = {
     signup,
     login,
@@ -201,5 +212,7 @@ module.exports = {
     getCuisinList,
     deleteCuisin,
     updateCuisin,
-    deleteRestaurantReq
+    deleteRestaurantReq,
+    // getAllRestaurant
+    changeUserStatus
 }

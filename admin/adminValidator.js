@@ -1,6 +1,7 @@
 var jwt = require('jsonwebtoken')
 var code = require('../constants').http_codes;
 var msg = require('../constants').messages;
+var validate = require('../user/userValidator')
 
 function validateSignUp(req, res, next) {
     if (req.body.name && req.body.password && req.body.email) {
@@ -111,27 +112,34 @@ function isEmpty(arr) {
 
 function validateRestaurant(req, res, next) {
     let rest = req.body
+console.log(req.body)
     if (rest.name && rest.description && rest.latitude &&
         rest.longitude && rest.cuisinOffered && rest.openTime &&
-        rest.closeTime && rest.menu) {
+        rest.closeTime) {
+
+        if (!validate.validateLatLong(parseFloat(req.body.longitude), parseFloat(req.body.latitude))) {
+            return res.json({ code: code.badRequest, message: msg.invalidLatLong })
+        }
 
         let name = rest.name.trim(),
             description = rest.description.trim(),
             openTime = rest.openTime.trim(),
             closeTime = rest.closeTime.trim(),
             len = rest.cuisinOffered;
-            cusinlen = len.length;
+        cusinlen = len.length;
         if (cusinlen == 0) {
+console.log("cuisin length")
             return res.json({ code: code.badRequest, message: msg.invalidBody })
         }
         if (name && description && openTime && closeTime) {
             next();
         }
         else {
+console.log("1====")
             return res.json({ code: code.badRequest, message: msg.invalidBody })
         }
     }
-    else { return res.json({ code: code.badRequest, message: msg.invalidBody }) }
+    else { console.log("2=======");return res.json({ code: code.badRequest, message: msg.invalidBody }) }
 
 }
 

@@ -10,7 +10,7 @@ import { DefaultComponent } from '../../default.component';
 import { LayoutModule } from '../../../../layouts/layout.module';
 import { DataTablesModule } from 'angular-datatables';
 import { AddEditUserComponent } from './add-edit-user/add-edit-user.component';
-
+// import * as jquery from 'jquery'
 
 const routes: Routes = [
 	{

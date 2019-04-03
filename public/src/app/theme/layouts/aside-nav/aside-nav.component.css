@@ -1,5 +1,5 @@
 .m-aside-menu .m-menu__nav .m-menu__item>.m-menu__heading:hover, .m-aside-menu .m-menu__nav .m-menu__item>.m-menu__link:hover {
-    background:#dd600c;
+    background:#f84d09;
 }
 .menu__nav .m-menu__item>.m-menu__link:hover {
     background: sandybrown;
@@ -26,6 +26,7 @@
     align-items: center;
     font-weight: bold !important;
  }
+ 
  a:hover {
     color: white;
     text-decoration: underline;
@@ -38,7 +39,31 @@
 .m-menu__nav img {
     margin-right: 10px;
 }
-.m-menu__nav i.fa, i.fas, i.fa, i.far {
+.m-menu__item .fa, .m-menu__item .fas, .m-menu__item .far {
+    color:white;
     font-size: 18px;
     width:32px;
 }
+.fa-users:before {
+    color:white;
+    content: "\f0c0";
+}
+
+.fa-dashboard:before {
+    color:white;
+    content: "\f0e4";
+}
+.fa-phone:before {
+    color:white;
+    content: "\f095";
+}
+.fa-file-text:before {
+    color:white;
+    content: "\f15c";
+}
+.ps__thumb-y {
+    background-color:none;
+    border-radius:none;
+  
+}
+

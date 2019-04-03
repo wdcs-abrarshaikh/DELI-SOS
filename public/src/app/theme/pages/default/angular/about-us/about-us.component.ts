@@ -43,6 +43,7 @@ export class AboutUsComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private aboutUsService: AboutUsService,
     private spinnerService: Ng4LoadingSpinnerService) {
+   
     this.aboutUsService.getAboutus().subscribe((data: any) => {
       if (data.aboutUsList == null) {
         this.aboutUsList = data.aboutUsList
@@ -52,7 +53,6 @@ export class AboutUsComponent implements OnInit {
         this.id = data.aboutUsList._id;
         this.initialaboutusList = this.aboutUsList;
       }
-
     })
   }
 
@@ -60,8 +60,8 @@ export class AboutUsComponent implements OnInit {
     this.buildAboutusForm();
     this.getAboutusList();
     this.getAllAboutus();
+ }
 
-  }
   buildAboutusForm() {
     this.aboutUsForm = this._formBuilder.group({
       id: '',
@@ -72,21 +72,21 @@ export class AboutUsComponent implements OnInit {
   getAboutusList() {
     this.spinnerService.show();
     this.aboutUsService.getAllAboutus().subscribe((response: any) => {
-      this.spinnerService.hide();
-      if (response.data == null) {
+     if (response.data == null) {
         this.initialaboutusList = response.data;
       } else {
         this.aboutUsList = response.data.content
         this.initialaboutusList = this.aboutUsList;
         this.id = response.data._id
       }
+      this.spinnerService.hide();
     });
   }
+
   getAllAboutus() {
-    this.aboutUsService.getAllAboutus().subscribe((response: any) => {
-      console.log(response)
-      this.aboutUsService.setAboutus(response.data);
-    })
+   this.aboutUsService.getAllAboutus().subscribe((response: any) => {
+     this.aboutUsService.setAboutus(response.data);
+   })
   }
   validateForm() {
     if (this.aboutUsForm.valid) {
@@ -109,10 +109,10 @@ export class AboutUsComponent implements OnInit {
             if (data['code'] == 200) {
               swal({
                 position: 'center',
-                type: 'success',
-                title: data['message'],
-                showConfirmButton: false,
-                timer: 1500
+              type: 'success',
+              title:'Updated Successfully',
+              showConfirmButton: false,
+              timer: 1500
               })
             } else {
               swal({
@@ -134,6 +134,7 @@ export class AboutUsComponent implements OnInit {
   get f() {
     return this.aboutUsForm.controls;
   }
+  
   onSubmit() {
     this.submitted = true;
     if (this.aboutUsForm.invalid) {
@@ -150,8 +151,8 @@ export class AboutUsComponent implements OnInit {
       text: "You won't be able to revert this!",
       type: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
+      confirmButtonColor: '#49a558',
+      cancelButtonColor: '#a73a08',
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.value) {

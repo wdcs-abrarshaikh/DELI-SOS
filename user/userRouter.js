@@ -1,4 +1,4 @@
-var userRouter = require('express').Router();
+﻿var userRouter = require('express').Router();
 var validate = require('./userValidator')
 var actions = require('./userActions')
 
@@ -164,16 +164,45 @@ userRouter.route('/filterRestaurants')
 
 userRouter.route('/searchRestaurants/:name')
     .get([validate.verifyUserToken], (req, res) => {
-        actions.searchRestaurants(req,res)
+        actions.searchRestaurants(req, res)
     })
 
 userRouter.route('/getAboutUs')
-    .get([validate.verifyUserToken],(req,res)=>{
-        actions.getAboutUs(req,res)
+    .get([validate.verifyUserToken], (req, res) => {
+        actions.getAboutUs(req, res)
     })
 
 userRouter.route('/contactUs')
-    .post([validate.verifyUserToken,validate.validateContactUs],(req,res)=>{
-        actions.contactUs(req,res)
+    .post([validate.verifyUserToken], (req, res) => {
+        actions.contactUs(req, res)
     })
+
+
+
+
+
+userRouter.route('/getNotificationList/:userId')
+    .get([validate.verifyUserToken], (req, res) => {
+        actions.getNotificationList(req, res)
+    })
+
+userRouter.route('/logout')
+    .get([validate.verifyUserToken], (req, res) => {
+console.log('/searchFollowing/:name')
+        actions.logout(req, res)
+    })
+
+userRouter.route('/shareReview/:reviewId/:restId')
+    .get((req, res) => {
+        actions.shareReview(req, res)
+    })
+
+
+
+//  userRouter.route('/getAllRestaurant')
+//     .get([validate.verifyUserToken],(req, res) => {
+//       actions.getAllRestaurant(req, res)
+//   })
+
+
 module.exports = userRouter;

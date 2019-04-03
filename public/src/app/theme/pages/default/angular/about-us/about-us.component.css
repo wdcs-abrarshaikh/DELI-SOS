@@ -1,4 +1,5 @@
 .btn-add {
+    border-radius: 1.1rem;
     padding: 1.0rem 1.65rem;
     font-size: 1.25rem;
     line-height: .6;
@@ -10,7 +11,7 @@
 }
 
 .header{
-    font-size: 3.15rem;
+    font-size: 2.25rem;
     padding: 1.30rem 4.65rem;
     text-align: center;
 }
@@ -20,7 +21,7 @@
     color:white;
     width:80px;
     background: #2e85a0;
-       border-radius: 25%;
+    border-radius: 25%;
     opacity: 1;
 }
 .btn-edit:hover{opacity: 1;}
@@ -77,6 +78,7 @@
  }
  :host app-ngx-editor /deep/ .ngx-editor-textarea {
     height:500px !important;
+    color:black
  } 
 
  #commonCms{
@@ -98,3 +100,8 @@
     height:300px !important;
  
  }
+ .form-control {
+    font-family: sans-serif,Arial;
+    border-radius: 0;
+    /* border-radius: .25rem; */
+}

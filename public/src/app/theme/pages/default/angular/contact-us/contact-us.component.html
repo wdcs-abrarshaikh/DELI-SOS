@@ -1,29 +1,28 @@
-<h2 class="header " >ContactUs List</h2>
-<div class="table1">
-  <table  datatable class="table-bordered table-hover" >
-   <thead>
+
+<h2 class="header">Contact Us</h2>
+<table *ngIf="contactUsList" datatable class="table-bordered table-hover">
+  <thead>
     <tr>
-      <th>Sr.</th>
-      <th>UserName</th>
-      <th>Status</th>
-      <th>Action</th>
+      <td style="font-weight: bold; width:5%;">Sr.No</td>
+      <td style="font-weight: bold; width:10%;">UserName</td>
+      <td style="font-weight: bold; width: 10%;">Email</td>
+      <th style="width:10%"> &nbsp;&nbsp;&nbsp;Contact Number</th>
+      <th style="width:20%"> &nbsp;Descriptions</th>
     </tr>
-   </thead>
-    
-    <tbody>
-      <tr *ngFor="let contact of contactUsList ; let i=index">
+  </thead>
+  <tbody>
+  <tr *ngFor="let user of contactUsList ; let i=index">
       <td>{{i+1}}</td>
-      <td>{{contact.createdBy.name}}</td>
-      <td><span class="m-badge  m-badge--wide">{{contact.status}}</span></td>
-      <td>
-      <button type="button" class="btn-view">
-        <i class="fas fa-eye" (click)="open(Rest)"></i> 
-      </button>
-       &nbsp;&nbsp;
-       <button type="button" class="btn btn1" (click)="resolve(contact._id)" >Approve</button> 
-     </td>
+        <td>{{user.name}}</td>
+        <td>{{user.email}}</td>
+        <td>{{user.contactNumber}}</td>
+        <td  data-toggle="m-tooltip" data-placement="top" title="{{user.content}}">{{user.content.substr(0,100)}} <a style="color:blue;width:10%" *ngIf="user.content.length>100" >. . . . . . . .</a></td>
      </tr>
-    </tbody> 
-   
-  </table>
-</div>
+  </tbody>
+</table>
+<script>
+    $(document).ready(function () {
+      $('[data-toggle="m-tooltip"]').tooltip();
+    });
+  </script>
+

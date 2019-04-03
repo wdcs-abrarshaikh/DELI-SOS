@@ -1,5 +1,5 @@
 <!-- BEGIN: Subheader -->
-<app-header-nav></app-header-nav>
+
 <h2 class="header">Profile</h2>
 <!-- <div class="m-subheader" appunwraptag="">
     <div class="d-flex align-items-center">
@@ -17,7 +17,7 @@
                     <div class="image-container">
                         <div class="image-box">
                             <div *ngIf="display">
-                                <app-atom-spinner [animationDuration]="1000" [size]="60" [color]="'#ff1d5e'">
+                                <app-atom-spinner [animationDuration]="1000" [size]="60" [color]="'#fc4a1a'">
                                 </app-atom-spinner>
                             </div>
                             <div *ngIf="!display">
@@ -38,10 +38,12 @@
                             <label for="example-text-input" class="col-3 col-form-label pr_l">Name</label>
                             <div class="col-9">
                                 <input class="form-control m-input cus_inp" type="text" formControlName="name"
-                                    [(ngModel)]="name">
+                                    maxlength="20" [(ngModel)]="name">
                                 <p *ngIf="profileForm.controls.name.errors?.required && (profileForm.controls.name.dirty || profileForm.controls.name.touched)"
                                     class="lbl-err">Name is required.</p>
-                                    <p *ngIf="profileForm.controls.name.errors?.pattern && (profileForm.controls.name.dirty || profileForm.controls.name.touched)"
+                                <p *ngIf="profileForm.controls.name.errors?.pattern && (profileForm.controls.name.dirty || profileForm.controls.name.touched)"
+                                    class="lbl-err">Name is required.</p>
+                                <p *ngIf="profileForm.controls.name.errors?.maxlength && (profileForm.controls.name.dirty || profileForm.controls.name.touched)"
                                     class="lbl-err">Name is required.</p>
                                 <button type="button" class="btn m-btn--custom mrgLeft10000 yellow_btn" (click)="editProfile()">Save
                                     Changes

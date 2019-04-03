@@ -1,25 +1,27 @@
+import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { Component, OnInit, Output, EventEmitter, Input, AfterViewInit, ViewEncapsulation, ElementRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RestaurantService } from '../restaurant.service';
 import * as $ from 'jquery';
-import { FormBuilder, Validators, FormControl, FormGroup, FormArray } from '@angular/forms';
-import { Location } from '@angular/common';
+import { ScriptLoaderService } from '../../../../../../_services/script-loader.service';
+import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import * as _ from 'lodash';
 import swal from 'sweetalert2'
-import { MatAutocompleteSelectedEvent, MatChipInputEvent, MatAutocomplete } from '@angular/material';
-import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
+import { MatChipInputEvent, MatAutocomplete } from '@angular/material';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-// import { timingSafeEqual } from 'crypto';
 
+
+function _window(): any {
+  // return the global native browser window object
+  return window;
+}
 @Component({
   selector: 'app-add-edit-restaurant',
   templateUrl: './add-edit-restaurant.component.html',
   styleUrls: ['./add-edit-restaurant.component.css']
 })
-export class AddEditRestaurantComponent implements OnInit {
+export class AddEditRestaurantComponent implements OnInit, AfterViewInit {
 
   RestaurantList: Array<any>;
   RestaurantForm: FormGroup;
@@ -49,6 +51,7 @@ export class AddEditRestaurantComponent implements OnInit {
   @Input() mealOffers;
   @Input() menu;
   @Input() cuisinOffered;
+
   loading = false;
   submitted = false;
   mypic: any = null;
@@ -59,12 +62,27 @@ export class AddEditRestaurantComponent implements OnInit {
   constructor(public activeModal: NgbActiveModal,
     private _router: Router,
     private _formBuilder: FormBuilder,
+    private _script: ScriptLoaderService,
     private modalService: NgbModal,
     private restaurantService: RestaurantService,
-    private toastService: ToastrService) {
+    private toastService: ToastrService,
+    private spinnerService: Ng4LoadingSpinnerService) {
   }
   ngOnInit() {
     this.buildRestaurantForm();
+  }
+
+  ngAfterViewInit() {
+    let scripts = [];
+    if (!_window().isScriptLoadedUsermgmt) {
+      scripts = ['assets/vendors/custom/datatables/datatables.bundle.js'];
+    }
+    let that = this;
+    this._script.loadScripts('app-restaurant',
+      scripts).then(function () {
+        _window().isScriptLoadedUsermgmt = true;
+        that._script.loadScripts('app-restaurant', ['assets/demo/default/custom/crud/datatables/basic/paginations.js']);
+      });
   }
 
   get f() {
@@ -78,26 +96,26 @@ export class AddEditRestaurantComponent implements OnInit {
     }
     this.loading = true;
   }
-  public arr_value: any = [false, false, false, false]
 
+  public arr_value: any = [false, false, false, false]
   buildRestaurantForm() {
     if (this.mealOffers.length > 0) {
       this.arr_value = this.mealOffers
     }
     this.RestaurantForm = this._formBuilder.group({
-      name: ['', [Validators.required,Validators.pattern(/^(?!\s*$).+/)]],
-      description: ['', [Validators.required,Validators.pattern(/^(?!\s*$).+/)]],
-      latitude: ['', [Validators.required,Validators.pattern(/^(?!\s*$).+/)]],
-      longitude: ['',[Validators.required,Validators.pattern(/^(?!\s*$).+/)]],
+      name: ['', [Validators.required, Validators.pattern(/^(?!\s*$).+/)]],
+      description: ['', [Validators.required, Validators.pattern(/^(?!\s*$).+/)]],
+      latitude: ['', [Validators.required, Validators.pattern(/^[+,-]?[0-9]{1,2}(?:\.[0-9]{1,30})?$/)]],
+      longitude: ['', [Validators.required, Validators.pattern(/^[+,-]?[0-9]{1,3}(?:\.[0-9]{1,30})?$/)]],
       openTime: [, Validators.required],
       closeTime: ['', Validators.required],
       restaurantImages: [''],
-      contactNumber: ['',[ Validators.required,Validators.pattern(/^[+]?\d{8,14}$/)]],
-      website: ['',[Validators.required,Validators.pattern(/^(?!\s*$).+/)]],
+      contactNumber: ['', [Validators.pattern(/^[+]*([(]{0,1}[0-9]{1,4}[)]{0,1})?[-\s\./0-9]{8,14}[0-9]$/)]],
+      website: ['', Validators.pattern(/^((ftp|http|https):\/\/)?(www.)?(?!.*(ftp|http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+((\/)[\w#]+)*(\/\w+\?[a-zA-Z0-9_]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?$/)],
       menuImages: [''],
       mealOffers: this._formBuilder.array(this.arr_value),
-      perPersonCost: ['', [Validators.required, Validators.pattern(/^(0|[1-9][0-9]*)$/)]],
-      cuisinOffered: ['',Validators.required]
+      perPersonCost: ['', [Validators.pattern(/^([1-9][0-9]*)$/)]],
+      cuisinOffered: ['', Validators.required]
     });
 
   }
@@ -121,8 +139,8 @@ export class AddEditRestaurantComponent implements OnInit {
   remove(cuisin) {
     this.cuisinExist.pop()
   }
-  selectedValue(event) {
 
+  selectedValue(event) {
     if (this.cuisinExist.indexOf(event) == -1)
       this.cuisinExist.push(event);
     this.valuesInput.nativeElement.value = '';
@@ -146,30 +164,23 @@ export class AddEditRestaurantComponent implements OnInit {
       if (value.target.value && this.cuisinExist.indexOf(this.RestaurantForm.controls.cuisinOffered.value) < 0) {
         this.cuisinExist.push(value.target.value);
       }
-
     } else if (this.RestaurantForm.controls.cuisinOffered.value != "") {
-
       this.restaurantService.serachCuisin(value.target.value).subscribe(async (data) => {
         if (data['code'] == 200) {
           data['data'].map(async (values) => {
-
             if (this.CuisinList.indexOf(values.name) == -1) {
               this.CuisinList.push(values.name)
             }
-
           })
         }
-
       }), err => {
         console.log(err)
       }
     }
-
   }
 
 
   selectSelector(flag: string, arr) {
-
     switch (flag) {
       case 'menu':
         if (this.menuImages.length > 0) {
@@ -230,7 +241,6 @@ export class AddEditRestaurantComponent implements OnInit {
       case 'restaurant':
         this.restaurantImages.splice(i, 1);
         break;
-
     }
   }
 
@@ -244,7 +254,6 @@ export class AddEditRestaurantComponent implements OnInit {
     if (arr.length == value.length) {
       arr = ['ALL']
     }
-
     return arr;
   }
 
@@ -292,7 +301,6 @@ export class AddEditRestaurantComponent implements OnInit {
         else if (event.target.checked == false) {
           this.RestaurantForm.patchValue({
             mealOffers: [false, false, false, false]
-
           });
           this.meal = []
         } else {
@@ -304,9 +312,7 @@ export class AddEditRestaurantComponent implements OnInit {
 
 
   async addRestaurant() {
-    
     this.submitted = true;
-  
     this.loading = true;
     var addObj = {
       "name": this.RestaurantForm.controls['name'].value,
@@ -323,13 +329,12 @@ export class AddEditRestaurantComponent implements OnInit {
       "photos": this.restaurantImages,
       "cuisinOffered": this.cuisinExist,
     };
-
-
     if (this.isAdd) {
       if (this.RestaurantForm.invalid) {
-          return;
-        }
-    await this.restaurantService.addRestaurant(addObj).subscribe(
+        return;
+      }
+      this.spinnerService.show();
+      await this.restaurantService.addRestaurant(addObj).subscribe(
         data => {
           this.activeModal.dismiss();
           this.getAllRestaurant();
@@ -337,7 +342,7 @@ export class AddEditRestaurantComponent implements OnInit {
             swal({
               position: 'center',
               type: 'success',
-              title: data['message'],
+              title: 'Added Successfully',
               showConfirmButton: false,
               timer: 1500
             })
@@ -353,16 +358,16 @@ export class AddEditRestaurantComponent implements OnInit {
           this.toastService.error(error['message']);
         });
     } else {
-    this.restaurantService.editRestaurant(addObj, this.id).subscribe(
+      this.spinnerService.show();
+      this.restaurantService.editRestaurant(addObj, this.id).subscribe(
         data => {
-       
           this.getAllRestaurant();
           this.activeModal.dismiss();
           if (data['code'] == 200) {
             swal({
               position: 'center',
               type: 'success',
-              title: data['message'],
+              title: 'Updated Successfully',
               showConfirmButton: false,
               timer: 1500
             })
@@ -383,6 +388,7 @@ export class AddEditRestaurantComponent implements OnInit {
   getAllRestaurant() {
     this.restaurantService.getAllRestaurant().subscribe((response: any) => {
       this.restaurantService.setRestaurant(response);
+
     })
   }
 

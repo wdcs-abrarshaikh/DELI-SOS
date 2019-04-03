@@ -18,5 +18,26 @@ db.restaurants.aggregate([
 
 
 
-
-                                     
+/*get restaurnat with reviews detail
+ db.restaurants.aggregate([
+     {$match:{_id:ObjectId('5bdaa51a586af17b7dd94bac')}},
+     {$lookup:{foreignField:'_id',localField:'reviews',from:'reviews',as:'reviews'}},
+   
+     {$unwind:'$reviews'},
+     { 
+       $match: { 
+          'reviews.status' : {
+                $eq: 'ACTIVE'
+          }
+       } 
+    },
+    {
+       $group: {
+           _id: {
+               "restId": '$_id'
+                },
+                reviews_details: { "$push": "$reviews" }
+            }
+    },
+      {$addFields:{totalReviews:{$size:'$reviews_details'}}},
+     ]).pretty()

@@ -2,6 +2,7 @@ var userModel = require('../schema/user');
 var restModel = require('../schema/restaurant');
 var reviewModel = require('../schema/review');
 var aboutModel = require('../schema/about_Privacy');
+var notificationModel = require('../schema/notification');
 var bcrypt = require('bcrypt');
 var util = require('../app util/util');
 var code = require('../constants').http_codes;
@@ -13,7 +14,8 @@ let type = require('../constants').Type;
 let adminService = require('../admin/adminServices');
 var mongoose = require('mongoose');
 const mongoQuery = require('../constants/mongoQuery');
-
+const ntfctnType = require('../constants').notificationsTypes;
+const fcm = require('../app util/fcmSetup')
 
 async function createUser(req, res) {
     let data = req.body;
@@ -27,9 +29,15 @@ async function createUser(req, res) {
             user.role = role.USER
             user.password = bcrypt.hashSync(data.password, 11)
             user.save((err, data) => {
-                return (err) ?
-                    res.json({ code: code.ineternalError, message: msg.internalServerError }) :
-                    res.json({ code: code.created, message: msg.registered, data: data })
+                if (err) {
+                    return res.json({ code: code.ineternalError, message: msg.internalServerError })
+                }
+                else {
+                    let token = util.generateToken(data, process.env.user_secret)
+                    let { _id, name, location, locationVisible, email, role, profilePicture } = data
+                    data = { _id, name, location, locationVisible, email, role, profilePicture }
+                    return res.json({ code: code.created, message: msg.registered, token: token, data: data })
+                }
             });
         }
         else {
@@ -41,7 +49,7 @@ async function createUser(req, res) {
 function authenticateUser(req, res) {
     let data = req.body;
     userModel.findOneAndUpdate({ email: data.email, role: role.USER, status: status.active },
-        { $set: { deviceId: data.deviceId, deviceType: data.deviceType, fcmToken: data.fcmToken, location: data.location } },
+        { $set: { deviceId: data.deviceId, deviceType: data.deviceType, fcmToken: data.fcmToken, location: data.location,isSocialLogin:false } },
         { new: true }, (err, result) => {
             if (err) {
                 return res.json({ code: code.ineternalError, message: msg.internalServerError })
@@ -52,6 +60,22 @@ function authenticateUser(req, res) {
             else {
                 if (bcrypt.compareSync(data.password, result.password)) {
                     let token = util.generateToken(result, process.env.user_secret)
+                    let currentToken = result.activeToken
+                    let updation;
+                    if (currentToken) {
+                        updation = { $set: { activeToken: token }, $push: { blackListedTokens: currentToken } }
+                    }
+                    else {
+                        updation = { $set: { activeToken: token } }
+                    }
+                    userModel.update({ _id: result._id }, updation, (err, cb) => {
+                        if (err) {
+                            return res.json({ code: code.ineternalError, message: msg.internalServerError })
+                        }
+                    })
+                    let { _id, name, location, locationVisible, email, role, profilePicture } = result
+                    console.log(token);
+                    result = { _id, name, location, locationVisible, email, role, profilePicture }
                     return res.json({ code: code.ok, message: msg.loggedIn, token: token, data: result })
                 }
                 else {
@@ -145,7 +169,7 @@ function manageSocialLogin(req, res) {
     let data = req.body
     let user = new userModel(data)
     userModel.findOneAndUpdate({ socialId: data.socialId },
-        { $set: { deviceId: data.deviceId, deviceType: data.deviceType, fcmToken: data.fcmToken, email: data.email, location: data.location } },
+        { $set: { deviceId: data.deviceId, deviceType: data.deviceType, fcmToken: data.fcmToken, email: data.email, location: data.location,isSocialLogin:true} },
         { new: true }, (err, data) => {
             if (err) {
                 return json({ code: code.internalError, message: msg.internalServerError })
@@ -164,8 +188,13 @@ function manageSocialLogin(req, res) {
                 })
             }
             else {
-                let token = util.generateToken(data, process.env.user_secret)
-                return res.json({ code: code.ok, message: msg.loggedIn, token: token, data: data })
+                if (data.status == status.active) {
+                    let token = util.generateToken(data, process.env.user_secret)
+                    return res.json({ code: code.ok, message: msg.loggedIn, token: token, data: data })
+                } else {
+                    return res.json({ code: code.notFound, message: msg.userNotFound })
+                }
+
             }
         })
 }
@@ -192,67 +221,77 @@ function addRestaurant(req, res) {
 function getRestaurantDetail(req, res) {
     let id = req.params.id,
         userId = mongoose.Types.ObjectId(util.decodeToken(req.headers['authorization']).id);
-    return restModel.findOne({ _id: id }, (err, data) => {
+    restModel.findOne({ _id: id }, (err, data) => {
         if (err) {
-            res.json({ code: code.internalError, message: msg.internalServerError })
+            return res.json({ code: code.internalError, message: msg.internalServerError })
         }
         else if (!data) {
-            res.json({ code: code.notFound, message: msg.restNotFound })
+            return res.json({ code: code.notFound, message: msg.restNotFound })
         }
         else {
             if (data.reviews.length > 0) {
-                restModel.aggregate(mongoQuery.getRestaurantDetail(id), (err, response) => {
+                restModel.aggregate(mongoQuery.getRestaurantDetail(id), async (err, response) => {
                     if (err) {
-                        console.log(err)
-                        res.json({ code: code.internalError, message: msg.internalServerError })
+                        return res.json({ code: code.internalError, message: msg.internalServerError })
                     }
                     else {
-                        let final = response.map(function (data) {
-                            data._id.addedInFavourites = 0;
+                        userModel.findOne({ _id: userId }, { 'favourites': 1, '_id': 0 }).then((result) => {
+                            let fav = result.favourites
+                            let actual_response = response[0]
+                            actual_response._id.addedInFavourites = 0;
+                            if (fav.indexOf(id) >= 0) {
+                                actual_response._id.addedInFavourites = 1;
+                            }
+                            let reviewDetails = actual_response.reviews.filter(function (review_unfilter) {
+                                review_unfilter.likedByMe = 0
 
-                            data._id.favourites.some(function (favourite) {
-                                if (favourite.equals(id) == true) {
-                                    data._id.addedInFavourites = 1;
-                                }
-                            });
-                            var totalRating = 0;
-                            let reviewDetails = data.reviews.filter(function (result) {
-                                result.likedByMe = 0
-                                result.likedBy.some(function (liked) {
+                                review_unfilter.likedBy.some((liked) => {
                                     if (liked.equals(userId) == true) {
-                                        result.likedByMe = 1;
+                                        review_unfilter.likedByMe = 1;
                                     }
                                 });
-                                if (result.status == status.active) {
-                                    totalRating += result.rating
-                                    delete result.status
-                                    delete result.likedBy
-                                    return result
-                                }
+
+                                delete review_unfilter.status
+                                delete review_unfilter.likedBy
+                                return review_unfilter
                             })
-                            data.totalRatings = reviewDetails.length
-                            data.avgRating = totalRating/data.totalRatings
-                            data.reviews = reviewDetails
-                            delete data._id.favourites;
-                            return data;
+                            actual_response.reviews = reviewDetails;
+                            return res.json({ code: code.ok, message: msg.ok, data: actual_response })
+                        }).catch((err) => {
+                            console.log(err)
+                            return res.json({ code: code.internalError, message: msg.internalServerError })
                         })
-                        res.json({ code: code.ok, message: msg.ok, data: final[0] })
                     }
                 })
             }
             else {
-                const { _id, name, description, location,
-                    photos, cuisinOffered, openTime, closeTime,
+                const { name, description, location,
+                    photos, openTime, closeTime,
                     contactNumber, website, menu, photoByUser,
-                    reviews, perPersonCost } = data
-
-                let final = {
-                    _id, name, description, location,
-                    photos, cuisinOffered, openTime, closeTime,
+                    perPersonCost } = data
+                let final = {};
+                final._id = {
+                    name, description, location,
+                    photos, openTime, closeTime,
                     contactNumber, website, menu, photoByUser,
-                    reviews, perPersonCost
+                    perPersonCost
                 }
-                res.json({ code: code.ok, message: msg.ok, data: final })
+                final._id.cuisin = data.cuisinOffered
+                final._id.restId = data._id
+                final.reviews = data.reviews
+                final.totalRatings = 0
+                final.avgRating = 0
+                userModel.findOne({ _id: userId }, { 'favourites': 1, '_id': 0 })
+                    .then((result) => {
+                        let fav = result.favourites
+                        final._id.addedInFavourites = 0;
+                        if (fav.indexOf(id) >= 0) {
+                            final._id.addedInFavourites = 1;
+                        }
+                        return res.json({ code: code.ok, message: msg.ok, data: final })
+                    }).catch((err) => {
+                        return res.json({ code: code.internalError, message: msg.internalServerError })
+                    })
             }
         }
     })
@@ -266,7 +305,6 @@ function getRestaurantList(req, res) {
 }
 
 function addReview(req, res) {
-
     userModel.findOne({ _id: req.body.userId }, (err, data) => {
         if (err) {
             return res.json({ code: code.internalError, message: msg.internalServerError })
@@ -286,10 +324,10 @@ function addReview(req, res) {
                     review.createdAt = Date.now()
                     review.save((err, data) => {
                         if (err) {
-                            rres.json({ code: code.internalError, message: msg.internalServerError })
+                            res.json({ code: code.internalError, message: msg.internalServerError })
                         }
                         else {
-                            userModel.findByIdAndUpdate({ _id: req.body.userId }, { $push: { review: data._id } }, (err) => {
+                            userModel.findByIdAndUpdate({ _id: req.body.userId }, { $push: { review: data._id } }, (err, result) => {
                                 if (err) {
                                     return res.json({ code: code.internalError, message: msg.internalServerError })
                                 }
@@ -299,9 +337,51 @@ function addReview(req, res) {
                                             return res.json({ code: code.internalError, message: msg.internalServerError })
                                         }
                                         else {
-                                            return res.json({ code: code.created, message: msg.reviewAdded, data: data })
+                                            console.log("res",{result})
+                                            let model = new notificationModel()
+                                            model.notificationType = ntfctnType.reviewPosted
+                                            model.reviewId = data._id;
+                                            model.sender = req.body.userId;
+                                            model.restId = req.body.restId;
+                                            model.receiver = result.follower;
+                                            model.createdAt = Date.now()
+                                            userModel.find({ _id: { $in: result.follower } }).select('fcmToken').then((tokens) => {
+                                                let receiverTokens;
+                                                if (tokens.length > 0) {
+                                                    receiverTokens = tokens
+                                                } else {
+                                                    receiverTokens = []
+                                                }
+                                                let notfctnData = model
+                                                model.save().then((response) => {
+                                                    let obj = util.decodeToken(req.headers['authorization'])
+                                                    let message = `${obj.name} posted new review.`
+                                                    if (receiverTokens) {
+                                                        receiverTokens.map((token) => {
+                                                            fcm.sendMessage(token.fcmToken, message, process.env.appName, notfctnData)
+                                                        })
+                                                    }
+                                                    return res.json({ code: code.created, message: msg.reviewAdded, data: data_V3 })
+                                                }).catch((err)=>{
+                                                    console.log({err})
+                                                })
+                                            }).catch((err) => {
+                                                return res.json({ code: code.internalError, message: msg.internalServerError })
+                                            })
+                                            let notfctnData = model
+                                            model.save().then((response) => {
+                                                let obj = util.decodeToken(req.headers['authorization'])
+                                                let message = `${obj.name} posted new review.`
+                                                if (receiverTokens) {
+                                                    receiverTokens.map((token) => {
+                                                        fcm.sendMessage(token.fcmToken, message, process.env.appName, notfctnData)
+                                                    })
+                                                }
+                                                return res.json({ code: code.created, message: msg.reviewAdded, data: data })
+                                            })
                                         }
                                     })
+
                                 }
                             })
 
@@ -314,7 +394,7 @@ function addReview(req, res) {
 }
 
 function updateReview(req, res) {
-    reviewModel.findByIdAndUpdate({ _id: req.params.id }, { $set: req.body },{new:true}, (err, data) => {
+    reviewModel.findByIdAndUpdate({ _id: req.params.id }, { $set: req.body }, { new: true }, (err, data) => {
         if (err) {
             return res.json({ code: code.internalError, message: msg.internalServerError })
         }
@@ -336,6 +416,11 @@ function deleteReview(req, res) {
             return res.json({ code: code.notFound, message: msg.reviewNotFound })
         }
         else {
+            notificationModel.findOneAndRemove({ reviewId: req.params.id }, (err, result) => {
+                if (err) {
+                    return res.json({ code: code.internalError, message: msg.internalServerError })
+                }
+            })
             return res.json({ code: code.ok, message: msg.deleted })
         }
     })
@@ -360,7 +445,7 @@ function addPhotoByUser(req, res) {
     let data = req.body
     let condition = {
         _id: data.restId,
-        'photoByUser.userId': { $ne: data.userId }
+        //'photoByUser.userId': { $eq  : data.userId }
     }
     let newArray = []
     let obj = data.url.map(async (result) => {
@@ -375,19 +460,38 @@ function addPhotoByUser(req, res) {
     let update = {
         $addToSet: { photoByUser: newArray }
     }
-    return restModel.findOneAndUpdate(condition, update).then((result) => {
-        if (!result) {
-            res.json({ code: code.forbidden, message: msg.alreadyUploadPhotos })
+    restModel.findOne(condition).then((result) => {
+        let imageObjects = []
+        if (result.photoByUser.length > 0) {
+            imageObjects = result.photoByUser.filter((object) => {
+                if (object.userId == data.userId) {
+                    return object
+                }
+            })
+        }
+        console.log("len", imageObjects.length)
+        let totalLength = imageObjects.length + newArray.length
+        if (imageObjects.length < 5 && totalLength <= 5) {
+            restModel.findOneAndUpdate(condition, update).then((result) => {
+                if (!result) {
+                    return res.json({ code: code.forbidden, message: msg.alreadyUploadPhotos })
+                }
+                else {
+                    return res.json({ code: code.created, message: msg.imageUploaded })
+                }
+            }).catch((err) => {
+                if (err) {
+                    return res.json({ code: code.internalError, message: msg.internalServerError })
+                }
+            })
         }
         else {
-            res.json({ code: code.created, message: msg.imageUploaded })
+            return res.json({ code: code.forbidden, message: msg.alreadyUploadPhotos })
         }
     }).catch((err) => {
-        if (err) {
-            console.log(err)
-            res.json({ code: code.internalError, message: msg.internalServerError })
-        }
+        return res.json({ code: code.internalError, message: msg.internalServerError })
     })
+
 }
 
 function deletePhotoByUser(req, res) {
@@ -447,12 +551,35 @@ function showFavourites(req, res) {
             res.json({ code: code.ineternalError, message: msg.internalServerError })
         }
         else {
-            let final = response.map(function (data) {
-                data.favourites_details.dist = util.calculateDistance(data.location.coordinates[1], data.location.coordinates[0],
-                    data.favourites_details.location.coordinates[1], data.favourites_details.location.coordinates[0], "K") * 1000;
-                delete data.location;
-                delete data.favourites_details.location;
-                return data;
+            let final = response.filter(function (data) {
+                if (data._id.status == status.active) {
+                    data._id.distance = util.calculateDistance(data.location.coordinates[1], data.location.coordinates[0],
+                        data._id.location.coordinates[1], data._id.location.coordinates[0], "K") * 1000;
+                    var totalRatings = 0;
+                    if (data.reviews.length > 0) {
+                        var reviews_details = data.reviews[0].filter((result) => {
+                            if (result.status == status.active) {
+                                totalRatings += result.rating
+                                return result
+                            }
+                        })
+
+                        if (reviews_details.length > 0) {
+                            data._id.ratings = totalRatings / reviews_details.length
+                        }
+                        else {
+                            data._id.ratings = 0
+                        }
+                    }
+                    else {
+                        data._id.ratings = 0
+                    }
+                    delete data._id.status
+                    delete data.location;
+                    delete data.reviews;
+                    delete data._id.location;
+                    return data;
+                }
             })
             res.json({ code: code.ok, message: msg.ok, data: final })
         }
@@ -487,7 +614,6 @@ function showProfile(req, res) {
                                         }
                                     });
                                     delete result.likedBy
-                                    console.log("staus", result.status)
                                     if (result.status == status.active) {
                                         return result
                                     }
@@ -581,15 +707,16 @@ function getNearByRestaurant(req, res) {
                     $geoNear: {
                         near: { type: data.location.type, coordinates: [data.location.coordinates[0], data.location.coordinates[1]] },
                         distanceField: "dist.calculated",
-                        maxDistance: 100000,
+                        // maxDistance: 10000,
                         key: 'location',
                         query: { status: status.active },
-                        num: 5, spherical: true
+                        spherical: true,
+                        num: 1000
                     }
                 }, {
                     $project: {
                         'location': 1, 'photos': 1, '_id': 1,
-                        'reviews': 1, 'name': 1, 'dist': 1, 'mealOffers': 1
+                        'reviews': 1, 'name': 1, 'dist': 1, 'mealOffers': 1, 'cuisinOffered': 1
                     }
                 },
                 {
@@ -612,26 +739,30 @@ function getNearByRestaurant(req, res) {
 
                     }
                 }], (err, response) => {
-                    console.log(err);
-                    console.log(response)
                     if (err) {
                         return res.json({ code: code.internalError, message: msg.internalServerError })
                     } else {
-                        console.log(response);
+
+                        console.log(response.length);
                         let marker = [];
                         let recommendation = []
-
                         let modifyed_response = response.map(async (response_res) => {
                             let obj = Object.assign({}, response_res);
                             delete obj.mealOffers;
                             obj.lat = obj.location.coordinates[1];
                             obj.long = obj.location.coordinates[0];
                             obj.photos = obj.photos[0];
+                            if (!obj.rating) {
+                                obj.rating = 0
+                            }
                             response_res.photos = response_res.photos[0];
                             delete obj.location;
                             delete response_res.location;
 
                             response_res.addedInFavourites = 0;
+                            if (!response_res.rating) {
+                                response_res.rating = 0
+                            }
                             data.favourites.some(function (favourite) {
                                 if (favourite.equals(response_res._id) == true) {
                                     response_res.addedInFavourites = 1;
@@ -642,6 +773,8 @@ function getNearByRestaurant(req, res) {
                             recommendation.push(response_res);
 
                         });
+                        console.log({ marker })
+                        recommendation = recommendation.slice(0, 10)
 
                         return res.json({ code: code.ok, marker, recommendation })
                     }
@@ -654,20 +787,39 @@ function getNearByRestaurant(req, res) {
 function followUser(req, res) {
     let obj = util.decodeToken(req.headers['authorization']),
         uid = req.params.userId
-    return userModel.findByIdAndUpdate({ _id: uid }, { $addToSet: { follower: obj.id } }, (err, result) => {
+    userModel.findByIdAndUpdate({ _id: uid }, { $addToSet: { follower: obj.id } }, { new: true }, (err, result) => {
         if (err) {
-            res.json({ code: code.ineternalError, message: msg.internalServerError })
+            return res.json({ code: code.ineternalError, message: msg.internalServerError })
         }
         else if (!result) {
-            res.json({ code: code.notFound, message: msg.userNotFound })
+            return res.json({ code: code.notFound, message: msg.userNotFound })
         }
         else {
             userModel.findOneAndUpdate({ _id: obj.id }, { $addToSet: { following: uid } }, (err, data) => {
                 if (err) {
-                    res.json({ code: code.ineternalError, message: msg.internalServerError })
+                    return res.json({ code: code.ineternalError, message: msg.internalServerError })
                 }
                 else {
-                    res.json({ code: code.ok, message: msg.followed })
+                    let model = new notificationModel()
+                    model.sender = obj.id
+                    model.receiver = [uid]
+                    model.notificationType = ntfctnType.follow
+                    model.createdAt = Date.now()
+                    let message = `${obj.name} started following you.`;
+
+                    if (data.follower.indexOf(uid) != -1) {
+                        message = `${obj.name} followed you back.`
+                        model.notificationType = ntfctnType.followedBack
+                    }
+                    model.save((err, response) => {
+                        if (err) {
+                            return res.json({ code: code.ineternalError, message: msg.internalServerError })
+                        }
+                        else {
+                            fcm.sendMessage(result.fcmToken, message, process.env.appName, model)
+                            return res.json({ code: code.ok, message: msg.followed })
+                        }
+                    })
                 }
             })
         }
@@ -677,20 +829,30 @@ function followUser(req, res) {
 function unfollowUser(req, res) {
     let obj = util.decodeToken(req.headers['authorization']),
         uid = req.params.userId
-    return userModel.findByIdAndUpdate({ _id: uid }, { $pull: { follower: obj.id } }, (err, result) => {
+    userModel.findByIdAndUpdate({ _id: uid }, { $pull: { follower: obj.id } }, (err, result) => {
         if (err) {
-            res.json({ code: code.ineternalError, message: msg.internalServerError })
+            return res.json({ code: code.ineternalError, message: msg.internalServerError })
         }
         else if (!result) {
-            res.json({ code: code.notFound, message: msg.userNotFound })
+            return res.json({ code: code.notFound, message: msg.userNotFound })
         }
         else {
             userModel.findOneAndUpdate({ _id: obj.id }, { $pull: { following: uid } }, (err, data) => {
                 if (err) {
-                    res.json({ code: code.ineternalError, message: msg.internalServerError })
+                    return res.json({ code: code.ineternalError, message: msg.internalServerError })
                 }
                 else {
-                    res.json({ code: code.ok, message: msg.unfollowed })
+                    notificationModel.findOneAndRemove({
+                        $and: [{ sender: obj.id },
+                        { $or: [{ notificationType: ntfctnType.follow }, { notificationType: ntfctnType.followedBack }] }],
+                    }, (err, result) => {
+                        if (err) {
+                            return res.json({ code: code.ineternalError, message: msg.internalServerError })
+                        }
+                        else {
+                            return res.json({ code: code.ok, message: msg.unfollowed })
+                        }
+                    })
                 }
             })
         }
@@ -701,12 +863,24 @@ function getFollowingList(req, res) {
     let obj = util.decodeToken(req.headers['authorization'])
     userModel.findOne({ _id: obj.id })
         .select({ "following": 1, "_id": 0 })
-        .populate({ path: "following", select: "_id name profilePicture location locationVisible" })
-        .exec((err, data) => {
+        .populate({ path: "following", select: "_id name profilePicture location locationVisible follower following" })
+        .lean().exec((err, data) => {
             if (err) {
                 res.json({ code: code.ineternalError, message: msg.internalServerError })
             }
             else {
+                let final = data.following.map(function (result) {
+                    result.followedByMe = 0
+                    result.following.some(function (followed) {
+                        if (followed.equals(obj.id) == true) {
+                            result.followedByMe = 1;
+                        }
+                    });
+                    delete result.following
+                    delete result.follower
+                    return result;
+                })
+                data.following = final
                 res.json({ code: code.ok, message: msg.ok, data: data })
             }
         })
@@ -753,14 +927,26 @@ function searchInList(req, res, listName) {
     let obj = util.decodeToken(req.headers['authorization'])
     userModel.findOne({ _id: obj.id }).select({ listName: 1, "_id": 0 })
         .populate({
-            path: listName, select: "_id name profilePicture location locationVisible",
+            path: listName, select: "_id name profilePicture location locationVisible following follower ",
             match: { name: new RegExp('^' + req.params.name, "i") }
         })
-        .exec((err, data) => {
+        .lean().exec((err, data) => {
             if (err) {
                 res.json({ code: code.ineternalError, message: msg.internalServerError })
             }
             else {
+                let final = data[listName].map(function (result) {
+                    result.followedByMe = 0
+                    result[listName].some(function (followed) {
+                        if (followed.equals(obj.id) == true) {
+                            result.followedByMe = 1;
+                        }
+                    });
+                    delete result.following
+                    delete result.follower
+                    return result;
+                })
+                data[listName] = final
                 res.json({ code: code.ok, message: msg.ok, data: data })
             }
         })
@@ -782,19 +968,42 @@ function changeLocation(req, res) {
 
 function likeUnlikeReview(req, res) {
     let obj = util.decodeToken(req.headers['authorization'])
-    return reviewModel.findById({ _id: req.params.reviewId }).then((result) => {
+    reviewModel.findById({ _id: req.params.reviewId }).then((result) => {
         if (result.likedBy.indexOf(obj.id) >= 0) {
             reviewModel.update({ _id: req.params.reviewId }, { $pull: { likedBy: obj.id } }).then((result) => {
-                res.json({ code: code.ok, message: msg.ok })
+                notificationModel.findOneAndRemove({ $and: [{ reviewId: req.params.reviewId }, { notificationType: ntfctnType.reviewLiked }] }).then(() => {
+                    return res.json({ code: code.ok, message: msg.unlikedReview })
+                }).catch((err) => {
+                    return res.json({ code: code.internalError, message: msg.internalServerError })
+                })
             })
         }
         else {
-            reviewModel.update({ _id: req.params.reviewId }, { $push: { likedBy: obj.id } }).then((result) => {
-                res.json({ code: code.ok, message: msg.ok })
+            reviewModel.findOneAndUpdate({ _id: req.params.reviewId }, { $push: { likedBy: obj.id } }).then((result) => {
+                if (obj.id != result.userId) {
+                    let model = new notificationModel()
+                    model.notificationType = ntfctnType.reviewLiked
+                    model.reviewId = req.params.reviewId;
+                    model.sender = obj.id;
+                    model.restId = result.restId;
+                    model.receiver = [result.userId];
+                    model.createdAt = Date.now()
+                    model.save().then(async (response) => {
+                        let user = await userModel.findById({ _id: result.userId }).select('fcmToken').then((data) => {
+                            return data
+                        })
+                        let message = `${obj.name} liked your review`
+                        fcm.sendMessage(user.fcmToken, message, process.env.appName, model)
+                        return res.json({ code: code.ok, message: msg.likedReview })
+                    })
+                }
+                else {
+                    return res.json({ code: code.ok, message: msg.likedReview })
+                }
             })
         }
     }).catch((err) => {
-        res.json({ code: code.internalError, message: msg.internalServerError })
+        return res.json({ code: code.internalError, message: msg.internalServerError })
     })
 }
 
@@ -803,8 +1012,11 @@ function getCuisinList(req, res) {
 }
 
 function filterRestaurants(req, res) {
-    let data = req.body
-    restModel.aggregate(mongoQuery.filterRestaurant(data), (err, response) => {
+    let data = req.body, flag = false
+    if (data.maxBudget) {
+        flag = true;
+    }
+    restModel.aggregate(mongoQuery.filterRestaurant(data, flag), (err, response) => {
         if (err) {
             res.json({ code: code.internalError, message: msg.internalServerError })
         }
@@ -815,25 +1027,30 @@ function filterRestaurants(req, res) {
                     res.json({ code: code.internalError, message: msg.internalServerError })
                 }
                 else if (loc) {
-                    let final = response.map(function (data) {
+                    let final = response.filter(function (data) {
                         data._id.distance = util.calculateDistance(loc.location.coordinates[1], loc.location.coordinates[0],
                             data._id.location.coordinates[1], data._id.location.coordinates[0], "K") * 1000;
                         var totalRatings = 0;
-                        let reviews_details = data._id.reviews.filter(function (result) {
-                            if (result.status == status.active) {
-                                totalRatings += result.rating
-                                return result
-                            }
-                        })
-                        if (reviews_details.length > 0) {
+                        if (data.reviews[0].length > 0) {
+                            let reviews_details = data.reviews.filter(function (result) {
+                                if (result[0].status == status.active) {
+                                    totalRatings += result[0].rating
+                                    return result
+                                }
+                            })
                             data._id.ratings = totalRatings / reviews_details.length
                         }
                         else {
                             data._id.ratings = 0
                         }
                         delete data._id.location;
-                        delete data._id.reviews;
-                        return data;
+                        delete data.reviews;
+                        if (data._id.distance <= 10000) {
+                            return data;
+                        }
+                    })
+                    final.sort((a, b) => {
+                        return (a._id['ratings'] - b._id['ratings'])
                     })
                     res.json({ code: code.ok, message: msg.ok, data: final })
                 }
@@ -846,43 +1063,57 @@ function searchRestaurants(req, res) {
     let search = req.params.name
     let sortBy = req.query.sortBy
 
-    return restModel.aggregate(mongoQuery.searchRestaurants(search), (err, response) => {
+    restModel.aggregate(mongoQuery.searchRestaurants(search), (err, response) => {
         if (err) {
-            res.json({ code: code.internalError, message: msg.internalServerError })
+            return res.json({ code: code.internalError, message: msg.internalServerError })
         }
         else {
             let obj = util.decodeToken(req.headers['authorization'])
             userModel.findOne({ _id: obj.id }).select('location').exec((err, loc) => {
                 if (err) {
-                    res.json({ code: code.internalError, message: msg.internalServerError })
+                    return res.json({ code: code.internalError, message: msg.internalServerError })
                 }
                 else if (loc) {
-                    var final = response.map(function (data) {
+
+                    var final = response.filter(function (data) {
                         data._id.distance = util.calculateDistance(loc.location.coordinates[1], loc.location.coordinates[0],
                             data._id.location.coordinates[1], data._id.location.coordinates[0], "K") * 1000;
                         var totalRatings = 0;
-                        let reviews_details = data._id.reviews.filter(function (result) {
-                            if (result.status == status.active) {
-                                totalRatings += result.rating
-                                return result
-                            }
-                        })
-                        if (reviews_details.length > 0) {
+                        if (data.reviews[0].length > 0) {
+                            let reviews_details = data.reviews.filter(function (result) {
+                                if (result[0].status == status.active) {
+                                    totalRatings += result[0].rating
+                                    return result
+                                }
+                            })
                             data._id.ratings = totalRatings / reviews_details.length
                         }
                         else {
                             data._id.ratings = 0
                         }
                         delete data._id.location;
-                        delete data._id.reviews;
-                        return data;
+                        delete data.reviews;
+                        if (data._id.distance <= 10000) {
+                            return data;
+                        }
+                    })
+                    final.sort((a, b) => {
+                        return (a._id['ratings'] - b._id['ratings'])
                     })
                     if (sortBy) {
-                        final.sort((a, b) => {
-                            return (b._id[sortBy] - a._id[sortBy])
-                        })
+                        if (sortBy == 'ratings') {
+                            final.sort((a, b) => {
+                                return (b._id[sortBy] - a._id[sortBy])
+                            })
+                        }
+                        else{
+                            final.sort((a, b) => {
+                                return (a._id[sortBy] - b._id[sortBy])
+                            })
+                        }
                     }
-                    res.json({ code: code.ok, message: msg.ok, data: final })
+
+                    return res.json({ code: code.ok, message: msg.ok, data: final })
                 }
             })
         }
@@ -898,15 +1129,46 @@ function contactUs(req, res) {
     let obj = util.decodeToken(req.headers['authorization'])
     data.createdBy = obj.id
     data.type = type.contact
+    data.createdAt = Date.now()
     let contactReq = new aboutModel(data)
-    return contactReq.save((err, result) => {
+    contactReq.save((err, result) => {
         if (err) {
-            res.json({ code: code.internalError, message: msg.internalServerError })
+            return res.json({ code: code.internalError, message: msg.internalServerError })
         }
         else {
-            res.json({ code: code.created, message: msg.contactReqSent })
+            return res.json({ code: code.created, message: msg.contactReqSent })
         }
     })
+}
+
+function getNotificationList(req, res) {
+    notificationModel.aggregate(mongoQuery.notificationList(req.params.userId)).then((data) => {
+        return res.json({ code: code.ok, message: msg.ok, data: data })
+    }).catch((err) => {
+        return res.json({ code: code.internalError, message: msg.internalServerError })
+    })
+}
+
+function logout(req, res) {
+    let obj = util.decodeToken(req.headers['authorization'])
+    userModel.findByIdAndUpdate({ _id: obj.id }, { $set: { "fcmToken": '', "activeToken": '', "deviceId": "" }, $push: { blackListedTokens: req.headers['authorization'] } })
+        .then((data) => {
+            if (data) {
+                return res.json({ code: code.ok, message: msg.loggedout })
+            }
+        }).catch((err) => {
+            return res.json({ code: code.internalError, message: msg.internalServerError })
+        })
+}
+
+function shareReview(req, res) {
+    let obj = {
+        appLogo: process.env.appLogo,
+        appBannerText: process.env.appBannerText,
+        url: `${process.env.shareReviewUrl}${req.params.restId}`,
+        reviewId: req.params.reviewId
+    }
+    return res.json({ code: code.ok, message: msg.ok, data: obj })
 }
 
 module.exports = {
@@ -944,5 +1206,8 @@ module.exports = {
     filterRestaurants,
     searchRestaurants,
     getAboutUs,
-    contactUs
+    contactUs,
+    getNotificationList,
+    logout,
+    shareReview
 }

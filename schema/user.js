@@ -38,7 +38,9 @@ var userSchema = new schema({
     createdAt: { type: Date, default: Date.now },
     role: { type: String, enum: [roles.ADMIN, roles.USER], default: roles.USER },
     status: { type: String, enum: [status.active, status.inactive], default: status.active },
-    isSocialLogin: { type: Boolean },
+    isSocialLogin: { type: Boolean,default:false },
+    activeToken: { type: String },
+    blackListedTokens: [{ type: String }],
     socialId: {
         type: String, required: function () {
             return (this.isSocialLogin == true) ? true : false
@@ -63,7 +65,7 @@ var userSchema = new schema({
             else {
                 return false;
             }
-        }       
+        }
     },
     fcmToken: {
         type: String, required: function () {

@@ -7,7 +7,7 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".table1{\n    margin: 43px;\n}\n.btn1{\n    background: #f7b733;\n}\n.header{\n    font-size: 3.15rem;\n   \n    padding: 1.25rem 4.65rem;\n    text-align: center;\n}\n.dataTables_wrapper .pagination .page-item.active>.page-link {\n    background: linear-gradient(45deg, #fc4a1a, #f7b733) !important;\n    color: #fff;\n }\n.dataTables_wrapper .pagination .page-item:hover>.page-link {\n    background: linear-gradient(45deg, #fc4a1a, #f7b733) !important;\n    color: #fff;\n }"
+module.exports = ".table1{\n    margin: 43px;\n}\n.btn1{\n    background: #f7b733;\n}\n.header{\n    font-size: 2.25rem;\n    padding: 1.30rem 4.65rem;\n    text-align: center;\n}\n.header1{\n  font-size: 2.25rem;\n  text-align: center;\n}\n.dataTables_wrapper .pagination .page-item.active>.page-link {\n    background: linear-gradient(45deg, #fc4a1a, #f7b733) !important;\n    color: #fff;\n }\n.dataTables_wrapper .pagination .page-item:hover>.page-link {\n    background: linear-gradient(45deg, #fc4a1a, #f7b733) !important;\n    color: #fff;\n }\n.dataTables_wrapper .dataTables_paginate .paginate_button:hover {\n    color: white !important;\n    border: 1px solid #f1d7a2;\n    background-color:#f1d7a2;\n    background:#f1d7a2\n}\n.container-fluid {\n    width: 85%;\n    padding-right: 15px;\n    padding-left: 15px;\n    margin-right: auto;\n    margin-left: auto;\n}\n.btn.m-btn--hover-brand:hover, .btn.m-btn--hover-brand:focus, .btn.m-btn--hover-brand:active{\n    background: linear-gradient(45deg, #fc4a1a, #f7b733) !important;\n    border: none;\n }\n.m-body .m-content {\n    padding: 30px 30px;\n     /* float: center; */\n    margin-left: 140px;\n    /* padding: 0px; */\n}\ntable.dataTable thead th.sorting,\n   table.dataTable thead th.sorting_asc,\n   table.dataTable thead th.sorting_desc {\n   background: none;\n   padding: 7px 8px;\n   }\n.f1{\n     width:60px;\n    color: dimgrey;\n }\n.fa-check:before {\n    content: \"\\f00c\";\n    color: dimgrey;\n}\n.btn.m-btn--hover-brand:hover, .btn.m-btn--hover-brand:focus, .btn.m-btn--hover-brand:active{\n    background: linear-gradient(45deg, #fc4a1a, #f7b733) !important;\n    border: none;\n }\n.fa-remove:before, .fa-close:before, .fa-times:before {\n    content: \"\\f00d\";\n    color: dimgrey;\n}\n.m-badge {\n    background:linear-gradient(45deg, #fc4a1a, #f7b733) !important;\n    color:white;\n    font-weight: bold !important;\n   }\n.badge-secondary {\n    color: black;\n    background-color: #ebedf2;\n    font-size: 100%;\n    padding: 7px;\n    border-radius: 20px;\n}\n.fa-eye:before {\n    content: \"\\f06e\";\n    color: dimgrey;\n}\n.form-control:focus {\n    border-color: lightslategrey;\n    color: #575962;\n    box-shadow: none;\n}\n.m-portlet__head-text:focus:hover{\n    outline-color:white\n\n}\n.m-portlet__head-text .fa-users:before {\n    color:black;\n    content: \"\\f0c0\";\n}\n.form-control {\n    font-family: sans-serif,Arial;\n    border-radius: 0;\n    /* border-radius: .25rem; */\n}\n\n\n"
 
 /***/ }),
 
@@ -18,7 +18,7 @@ module.exports = ".table1{\n    margin: 43px;\n}\n.btn1{\n    background: #f7b73
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!-- BEGIN: Subheader -->\n<h2 class=\"header\">Dashboard</h2>\n<!-- <div class=\"m-subheader\" appunwraptag=\"\">\n\t<div class=\"d-flex align-items-center\">\n\t\t<div class=\"mr-auto\">\n\t\t\t\n\t\t</div>\n\t\n\t</div>\n</div>  -->\n<div class=\"m-content\">\n\t<!--Begin::Section-->\n\t<div class=\"row\">\n\t\t<div class=\"col-xl-4\">\n\t\t\t<!--begin:: Widgets/Top Products-->\n\t\t\t<div class=\"m-portlet m-portlet--bordered-semi m-portlet--full-height\">\n\t\t\t\t<div class=\"m-portlet__head\">\n\t\t\t\t\t<div class=\"m-portlet__head-caption\">\n\t\t\t\t\t\t<div class=\"m-portlet__head-title\">\n\t\t\t\t\t\t\t<h3 class=\"m-portlet__head-text\"> Users </h3><br>\n\t\t\t\t\t\t\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<h3 class=\"m-portlet__head-caption\"  style=\"color:black\">{{usersList}}</h3>\n\t\t\t\t</div>\n\t\t\t\t\n\t\t\t</div>\n\t\t\t<!--end:: Widgets/Top Products-->\n\t\t</div>\n\t\t\n\t\t<div class=\"col-xl-4\"> \n\t\t\t  <div class=\"m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force\">\n\t\t\t\t<div class=\"m-portlet__head\">\n\t\t\t\t\t<div class=\"m-portlet__head-caption\">\n\t\t\t\t\t\t<div class=\"m-portlet__head-title\">\n\t\t\t\t\t\t\t<h3 class=\"m-portlet__head-text\"> Restaurants </h3>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<h3 class=\"m-portlet__head-caption\" style=\"color:black\">{{restaurantList}}</h3>\n\t\t\t\t</div>\n\t\t\t\n\t\t\t</div>\n\t\t</div> \n\t</div>\n\t</div>\n\t\t<div class=\"table1\">\n\t\t\t<table  datatable class=\"table-bordered table-hover\"  *ngIf=\"restList\">\n\t\t\t <thead>\n\t\t\t\t<tr>\n\t\t\t\t  <th>Sr.</th>\n\t\t\t\t  <th>Restaurant Name</th>\n\t\t\t\t  <th>Status</th>\n\t\t\t\t  <th class=\"sorting\">Action</th>\n\t\t\t\t</tr>\n\t\t\t </thead>\n\t\t\t\t\n\t\t\t  <tbody>\n\t\t    \t<tr *ngFor=\"let Rest of restList ; let i=index\">\n\t\t\t\t  <td>{{i+1}}</td>\n\t\t\t\t  <td>{{Rest.name}}</td>\n\t\t\t\t  <td>{{Rest.status}}</td>\n\t\t\t    <td>\n\t\t\t\t\t<button type=\"button\" class=\"btn-view\">\n\t\t\t\t\t  <i class=\"fas fa-eye\" (click)=\"open(Rest)\"></i> \n\t\t\t\t\t</button>\n\t\t\t\t\t &nbsp;&nbsp;\n         \t<button type=\"button\" class=\"btn btn1\" (click)=\"Approve(Rest._id)\" >Approve</button> \n\t\t\t   </td>\n\t\t\t\t </tr>\n\t\t\t\t</tbody> \n\t\t\t \n\t\t\t</table>\n\t</div>\n\t\n\t\n\t\n\t\t\n\t"
+module.exports = "<!-- BEGIN: Subheader -->\n<h2 class=\"header\">Dashboard</h2>\n\n<div class=\"m-content\">\n\t<!--Begin::Section-->\n\t<div class=\"row\">\n\t\t<div class=\"col-xl-5\">\n\t\t\t<!--begin:: Widgets/Top Products-->\n\t\t\t<div class=\"m-portlet m-portlet--bordered-semi m-portlet--full-height\">\n\t\t\t\t<div class=\"m-portlet__head\">\n\t\t\t\t\t<div class=\"m-portlet__head-caption\">\n\t\t\t\t\t\t<div class=\"m-portlet__head-title\">\n\t\t\t\t\t\t\t<h3 class=\"m-portlet__head-text\" routerLink='/admin/getUserList'><i class=\"fa fa-users\" width=\"100px\" style=\"color:black\" ></i> Users </h3><br>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<h3 class=\"m-portlet__head-caption\" style=\"color:black\">{{usersList}}</h3>\n\t\t\t\t</div>\n\n\t\t\t</div>\n\t\t\t<!--end:: Widgets/Top Products-->\n\t\t</div>\n    &nbsp; &nbsp; &nbsp; &nbsp;\n\t\t<div class=\"col-xl-5\">\n\t\t\t<div class=\"m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force\">\n\t\t\t\t<div class=\"m-portlet__head\">\n\t\t\t\t\t<div class=\"m-portlet__head-caption\">\n\t\t\t\t\t\t<div class=\"m-portlet__head-title\">\n\t\t\t\t\t\t\t<img src=\"./assets/demo/default/media/img/logo/restaurant.png\" width=\"30px\" style=\"background:black\" />\n\t\t\t\t\t\t\t<h3 class=\"m-portlet__head-text\" routerLink='/admin/restaurant'>&nbsp; Restaurants </h3>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<h3 class=\"m-portlet__head-caption\" style=\"color:black\">{{restaurantList}}</h3>\n\t\t\t\t</div>\n\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</div><br>\n\n<div class=\"table1\">\n\t<h2 class=\"header1\">Restaurants Awaiting Approval</h2>\n\t<table class=\"table table-striped- table-bordered table-hover table-checkable\" datatable [dtOptions]=\"dtOptions\"\n\t[dtTrigger]=\"dtTrigger\">\n\t\t<thead>\n\t\t\t<tr>\n\t\t\t\t<td style=\"font-weight: bold; width: 10%\">Sr.No</td>\n\t\t\t\t<td style=\"font-weight: bold; width: 40%;\">Restaurant Name</td>\n\t\t\t\t<th style=\"width:20%\"> &nbsp;&nbsp;&nbsp;Status</th>\n\t\t\t\t<th style=\" width: 20%;\"> &nbsp;Action</th>\n\t\t\t</tr>\n\t\t</thead>\n\n\t\t<tbody>\n\t\t\t<tr *ngFor=\"let Rest of restList ; let i=index\" ng-cloak>\n\t\t\t\t<td>{{i+1}}</td>\n\t\t\t\t<td>{{Rest.name}}</td>\n\t\t\t\t<td><span class=\"m-badge  m-badge--wide\">{{Rest.status}}</span></td>\n\t\t\t\t<td>\n\t\t\t\t\t<button type=\"button\" class=\"m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill\"\n\t\t\t\t\t data-toggle=\"m-tooltip\"  data-placement=\"top\" title=\"View\" (click)=\"open(Rest)\">\n\t\t\t\t\t\t<i class=\"fas fa-eye\"></i>\n\t\t\t\t\t</button>\n\t\t\t\t\t&nbsp;&nbsp;\n\n\t\t\t\t\t<button type=\"button\" class=\"m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill\"\n\t\t\t\t\t data-toggle=\"m-tooltip\"  data-placement=\"top\" title=\"Appove\" (click)=\" Approve(Rest._id) \">\n\t\t\t\t\t\t<i class=\"fa fa-check f1\"></i>\n\t\t\t\t\t</button> &nbsp;&nbsp;\n\n\t\t\t\t\t<button type=\"button\" class=\"m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill\"\n\t\t\t\t\t data-toggle=\"m-tooltip\"  data-placement=\"top\" title=\"Reject\"  (click)=\"Reject(Rest._id)\">\n\t\t\t\t\t\t<i class=\"fa fa-close \"></i>\n\t\t\t\t\t</button> &nbsp;&nbsp;\n\t\t\t\t</td>\n\n\t\t\t</tr>\n\t\t</tbody>\n\t</table>\n</div>\n<script>\n$(document).ready(function(){\n    $('[data-toggle=\"m-tooltip\"]').tooltip();   \n});\n</script>"
 
 /***/ }),
 
@@ -26,21 +26,27 @@ module.exports = "<!-- BEGIN: Subheader -->\n<h2 class=\"header\">Dashboard</h2>
 /*!**************************************************************!*\
   !*** ./src/app/theme/pages/default/index/index.component.ts ***!
   \**************************************************************/
-/*! exports provided: NgbdModalContent, IndexComponent */
+/*! exports provided: IndexComponent */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NgbdModalContent", function() { return NgbdModalContent; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "IndexComponent", function() { return IndexComponent; });
-/* harmony import */ var _index_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index.service */ "./src/app/theme/pages/default/index/index.service.ts");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
-/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
-/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
-/* harmony import */ var ngx_toastr__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ngx-toastr */ "./node_modules/ngx-toastr/fesm5/ngx-toastr.js");
-/* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ "./node_modules/@ng-bootstrap/ng-bootstrap/fesm5/ng-bootstrap.js");
-/* harmony import */ var _services_script_loader_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./../../../../_services/script-loader.service */ "./src/app/_services/script-loader.service.ts");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _index_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./index.service */ "./src/app/theme/pages/default/index/index.service.ts");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
+/* harmony import */ var ngx_toastr__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ngx-toastr */ "./node_modules/ngx-toastr/fesm5/ngx-toastr.js");
+/* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ "./node_modules/@ng-bootstrap/ng-bootstrap/fesm5/ng-bootstrap.js");
+/* harmony import */ var _services_script_loader_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./../../../../_services/script-loader.service */ "./src/app/_services/script-loader.service.ts");
+/* harmony import */ var _viewrestaurant_viewrestaurant_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./viewrestaurant/viewrestaurant.component */ "./src/app/theme/pages/default/index/viewrestaurant/viewrestaurant.component.ts");
+/* harmony import */ var ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ng4-loading-spinner */ "./node_modules/ng4-loading-spinner/ng4-loading-spinner.umd.js");
+/* harmony import */ var ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_10__);
+/* harmony import */ var angular_datatables__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! angular-datatables */ "./node_modules/angular-datatables/index.js");
+/* harmony import */ var rxjs_Subject__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! rxjs/Subject */ "./node_modules/rxjs-compat/_esm5/Subject.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -58,72 +64,17 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
-var NgbdModalContent = /** @class */ (function () {
-    function NgbdModalContent(activeModal, _router, _formBuilder, modalService, IndexService, toastService) {
-        this.activeModal = activeModal;
-        this._router = _router;
-        this._formBuilder = _formBuilder;
-        this.modalService = modalService;
-        this.IndexService = IndexService;
-        this.toastService = toastService;
-        this.mealOffers = [];
-        this.cuisinImagesObject = [
-            {
-                cname: '',
-                image: ''
-            }
-        ];
-    }
-    NgbdModalContent.prototype.ngOnInit = function () {
-        this.buildRestaurantForm();
-    };
-    Object.defineProperty(NgbdModalContent.prototype, "f", {
-        get: function () {
-            return this.RestaurantForm.controls;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    NgbdModalContent.prototype.buildRestaurantForm = function () {
-        this.RestaurantForm = this._formBuilder.group({
-            name: [''],
-            description: [''],
-            latitude: [''],
-            longitude: [''],
-            openTime: [''],
-            closeTime: [''],
-            restaurantImages: [''],
-            contactNumber: [''],
-            website: [''],
-            menu: [''],
-            photos: [''],
-            mealOffers: [''],
-            perPersonCost: ['']
-        });
-    };
-    __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])(),
-        __metadata("design:type", Object)
-    ], NgbdModalContent.prototype, "cuisin", void 0);
-    NgbdModalContent = __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
-            selector: 'app-index',
-            template: "\n   \n    <div class=\"modal-header\">\n    <h4 class=\"modal-title\">View Restaurant</h4>\n     <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"activeModal.dismiss('Cross click')\">\n      <span aria-hidden=\"true\">&times;</span>\n    </button>\n   </div>\n    <div class=\"modal-body\">\n    <form name=\"RestaurantForm\" [formGroup]=\"RestaurantForm\" >\n        <div class=\"form-group\"> \n        <label> Restaurant Name</label>\n        <input class=\"form-control m-input\" type=\"text\" formControlName=\"name\"   [(ngModel)]=\"name\" disabled> \n        </div><br>\n      \n        <div class=\"form-group\"> \n        <label>Description</label>\n        <input class=\"form-control m-input\" type=\"text\" formControlName=\"description\" [(ngModel)]=\"description\" disabled> \n        </div><br>\n  \n        <div class=\"form-group\"> \n        <label>Latitude</label>\n        <input class=\"form-control m-input\" type=\"text\" formControlName=\"latitude\"  [(ngModel)]=\"latitude\"disabled > \n         </div><br>\n  \n         <div class=\"form-group\"> \n         <label>Longitude</label>\n         <input class=\"form-control m-input\" type=\"text\" formControlName=\"longitude\"  [(ngModel)]=\"longitude\" disabled > \n        </div><br>\n         \n  \n         <div class=\"form-group\"> \n         <label>openTime</label>\n         <input class=\"form-control m-input\" type=\"text\" formControlName=\"openTime\"[(ngModel)]=\"openTime\" disabled> \n         </div><br>\n        \n        <div class=\"form-group\">\n        <label for=\"time\">Close Time</label>\n        <input class=\"form-control m-input\" type=\"text\" formControlName=\"closeTime\" [(ngModel)]=\"closeTime\"disabled > \n        </div><br>\n  \n        <div class=\"form-group\">\n        <label>mealOffers</label>\n         <div *ngFor=\"let category of mealOffers; let i = index\">\n        <input type=\"checkbox\"  formControlName=\"mealOffers\" style=\"display: none\" >\n         <div>{{category}}</div>\n         </div>\n         <br>      \n         </div>\n       \n       <div class=\"form-group\"> \n       <label>Contact Number</label>\n       <input class=\"form-control m-input\" type=\"tel\" formControlName=\"contactNumber\"  [(ngModel)]=\"contactNumber\"  disabled> \n       </div>\n  \n        <div class=\"form-group\">\n        <label>Website</label>\n        <input class=\"form-control m-input\" type=\"text\" formControlName=\"website\" [(ngModel)]=\"website\" disabled> \n        </div>\n     \n        <div class=\"form-group\">\n        <label>Upload Menu Images:</label><br/>\n        <div  *ngFor=\"let url of menuImages ;let i=index\"  > \n        <img  [src]=\"url\" class=\"rounded mb-3\" width=\"50\" height=\"50\">\n        </div>\n        <input type=\"file\" formControlName=\"menu\"  style=\"display: none\" >\n         </div>\n  \n      <div class=\"form-group\">\n      <label >Per Person Cost</label>\n      <input class=\"form-control m-input\" type=\"Number\" formControlName=\"perPersonCost\" [(ngModel)]=\"perPersonCost\" disabled> \n      </div>\n      \n  \n    <div class=\"form-group\">\n      <label>Photos:</label><br/>\n      <div  *ngFor=\"let files of restaurantImages;let i=index\"  >\n      <img  [src]=\"files\" class=\"rounded mb-3\" width=\"50\"  height=\"50\">\n      </div>\n      <input type=\"file\" formControlName=\"photos\" accept=\"image/*\" style=\"display: none\" >\n     </div>\n     </form>\n     \n      <div class=\"box box-solid box-primary\">\n      <div>\n      <label>cuisin</label>\n      <div class=\"row\" >\n      <div >\t\n       <table class=\"table table-bordered\">\t\t\n       <tbody>\n       <tr>\n       <th>Name</th>\n       <th>Image</th>\n       </tr>\n      <tr *ngFor=\"let cuisinSubset of cuisinImagesObject; let i=index\" >\n       <td>\n       <div class=\"form-group \">\n       <input  [(ngModel)]='cuisinSubset.name' placeholder=\"name\"  style=\"width:150px\"  required=\"required\"/ disabled>\n        <div class=\"help-block\"></div>\n       </div>\n       </td>\n       <td >\n       <div class=\"form-group required\"> \n       <label>Image:</label><br/>\n        <div>\n        <img  [src]=\"cuisinSubset.image\" class=\"rounded mb-3\" width=\"50\"  height=\"50\">\n        </div>\n       <div class=\"help-block\"></div>\n       </div>\n       </td>\n      </tr>\n       </tbody>\n       </table>\n       </div>\n       </div>\n     </div>\n      </div>\n     \n  </div>\n  \n  \n  ",
-            styles: [__webpack_require__(/*! ./index.component.css */ "./src/app/theme/pages/default/index/index.component.css")],
-            encapsulation: _angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewEncapsulation"].None
-        }),
-        __metadata("design:paramtypes", [_ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_6__["NgbActiveModal"],
-            _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"],
-            _angular_forms__WEBPACK_IMPORTED_MODULE_3__["FormBuilder"],
-            _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_6__["NgbModal"],
-            _index_service__WEBPACK_IMPORTED_MODULE_0__["IndexService"],
-            ngx_toastr__WEBPACK_IMPORTED_MODULE_5__["ToastrService"]])
-    ], NgbdModalContent);
-    return NgbdModalContent;
-}());
 
+
+
+
+
+function _window() {
+    // return the global native browser window object
+    return window;
+}
 var IndexComponent = /** @class */ (function () {
-    function IndexComponent(_router, _formBuilder, _script, indexService, toastService, modalService, location) {
+    function IndexComponent(_router, _formBuilder, _script, indexService, toastService, modalService, location, spinnerService) {
         var _this = this;
         this._router = _router;
         this._formBuilder = _formBuilder;
@@ -132,40 +83,77 @@ var IndexComponent = /** @class */ (function () {
         this.toastService = toastService;
         this.modalService = modalService;
         this.location = location;
+        this.spinnerService = spinnerService;
+        this.dtOptions = {};
+        this.dtTrigger = new rxjs_Subject__WEBPACK_IMPORTED_MODULE_12__["Subject"]();
         this.isView = false;
         this.indexService.getAllRequest().subscribe(function (response) {
             _this.restList = response.data;
         });
     }
     IndexComponent.prototype.ngAfterViewInit = function () {
-        this._script.loadScripts('app-index', ['assets/vendors/custom/datatables/datatables.bundle.js',
-            'assets/demo/default/custom/crud/datatables/basic/paginations.js']);
+        var scripts = [];
+        if (!_window().isScriptLoadedUsermgmt) {
+            scripts = ['assets/vendors/custom/datatables/datatables.bundle.js'];
+        }
+        var that = this;
+        this._script.loadScripts('app-index', scripts).then(function () {
+            _window().isScriptLoadedUsermgmt = true;
+            that._script.loadScripts('app-index', ['assets/demo/default/custom/crud/datatables/basic/paginations.js']);
+        });
     };
     IndexComponent.prototype.ngOnInit = function () {
+        _window().my = _window().my || {};
+        _window().my.usermgmt = _window().my.usermgmt || {};
+        if (typeof (_window().isScriptLoadedUsermgmt) == "undefined") {
+            _window().isScriptLoadedUsermgmt = false;
+        }
+        this.dtOptions = {
+            pagingType: 'full_numbers',
+            pageLength: 10,
+            processing: true,
+            stateSave: true
+        };
         this.getAllRequest();
         this.getUserList();
         this.getRestaurant();
     };
     IndexComponent.prototype.getUserList = function () {
         var _this = this;
+        this.spinnerService.show();
         this.indexService.getAllUsers().subscribe(function (response) {
             _this.usersList = response.data;
         });
     };
     IndexComponent.prototype.getRestaurant = function () {
         var _this = this;
+        this.spinnerService.show();
         this.indexService.getAllRestaurant().subscribe(function (response) {
             _this.restaurantList = response.data;
         });
     };
     IndexComponent.prototype.getAllRequest = function () {
         var _this = this;
+        this.spinnerService.show();
         this.indexService.getAllRequest().subscribe(function (response) {
             _this.restList = response.data;
+            _this.dtTrigger.next();
+            _this.spinnerService.hide();
+        });
+    };
+    IndexComponent.prototype.getAllRequest1 = function () {
+        var _this = this;
+        this.indexService.getAllRequest().subscribe(function (response) {
+            _this.restList = response.data;
+            _this.dtElement.dtInstance.then(function (dtInstance) {
+                dtInstance.destroy();
+                _this.dtTrigger.next();
+                _this.spinnerService.hide();
+            });
         });
     };
     IndexComponent.prototype.open = function (content) {
-        var modalRef = this.modalService.open(NgbdModalContent);
+        var modalRef = this.modalService.open(_viewrestaurant_viewrestaurant_component__WEBPACK_IMPORTED_MODULE_9__["ViewrestaurantComponent"]);
         modalRef.componentInstance.id = content ? content._id : "";
         modalRef.componentInstance.name = content ? content.name : "";
         modalRef.componentInstance.description = content ? content.description : "";
@@ -179,31 +167,72 @@ var IndexComponent = /** @class */ (function () {
         modalRef.componentInstance.perPersonCost = content ? content.perPersonCost : "";
         modalRef.componentInstance.menuImages = content ? content.menu : "";
         modalRef.componentInstance.restaurantImages = content ? content.photos : "";
-        modalRef.componentInstance.cuisinImagesObject = content ? content.cuisin : [{ name: '', image: '' }];
+        modalRef.componentInstance.cuisinOffered = content ? content.cuisinOffered : "";
     };
     IndexComponent.prototype.Approve = function (id) {
         var _this = this;
+        this.spinnerService.show();
         this.indexService.approveRestaurant(id).subscribe(function (response) {
-            _this.getAllRequest();
-            _this.toastService.success(response['message']);
+            _this.getAllRequest1();
+            if (response['code'] == 200) {
+                sweetalert2__WEBPACK_IMPORTED_MODULE_0___default()({
+                    position: 'center',
+                    type: 'success',
+                    title: 'Approved',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+            else {
+                sweetalert2__WEBPACK_IMPORTED_MODULE_0___default()({
+                    type: 'error',
+                    text: response['message']
+                });
+            }
         }, function (err) {
             _this.toastService.error(err['message']);
         });
     };
+    IndexComponent.prototype.Reject = function (id) {
+        var _this = this;
+        this.spinnerService.show();
+        this.indexService.rejectRestaurant(id).subscribe(function (response) {
+            _this.getAllRequest1();
+            if (response['code'] == 200) {
+                sweetalert2__WEBPACK_IMPORTED_MODULE_0___default()({
+                    position: 'center',
+                    type: 'error',
+                    title: 'Rejected',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+            else {
+                sweetalert2__WEBPACK_IMPORTED_MODULE_0___default()({
+                    type: 'error',
+                    text: response['message']
+                });
+            }
+        });
+    };
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["ViewChild"])(angular_datatables__WEBPACK_IMPORTED_MODULE_11__["DataTableDirective"]),
+        __metadata("design:type", angular_datatables__WEBPACK_IMPORTED_MODULE_11__["DataTableDirective"])
+    ], IndexComponent.prototype, "dtElement", void 0);
     IndexComponent = __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["Component"])({
             styles: [__webpack_require__(/*! ./index.component.css */ "./src/app/theme/pages/default/index/index.component.css")],
             selector: 'app-index',
             template: __webpack_require__(/*! ./index.component.html */ "./src/app/theme/pages/default/index/index.component.html"),
-            encapsulation: _angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewEncapsulation"].None,
+            encapsulation: _angular_core__WEBPACK_IMPORTED_MODULE_2__["ViewEncapsulation"].None,
         }),
-        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"],
-            _angular_forms__WEBPACK_IMPORTED_MODULE_3__["FormBuilder"],
-            _services_script_loader_service__WEBPACK_IMPORTED_MODULE_7__["ScriptLoaderService"],
-            _index_service__WEBPACK_IMPORTED_MODULE_0__["IndexService"],
-            ngx_toastr__WEBPACK_IMPORTED_MODULE_5__["ToastrService"],
-            _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_6__["NgbModal"],
-            _angular_common__WEBPACK_IMPORTED_MODULE_4__["Location"]])
+        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"],
+            _angular_forms__WEBPACK_IMPORTED_MODULE_4__["FormBuilder"],
+            _services_script_loader_service__WEBPACK_IMPORTED_MODULE_8__["ScriptLoaderService"],
+            _index_service__WEBPACK_IMPORTED_MODULE_1__["IndexService"],
+            ngx_toastr__WEBPACK_IMPORTED_MODULE_6__["ToastrService"],
+            _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_7__["NgbModal"],
+            _angular_common__WEBPACK_IMPORTED_MODULE_5__["Location"], ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_10__["Ng4LoadingSpinnerService"]])
     ], IndexComponent);
     return IndexComponent;
 }());
@@ -233,12 +262,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ "./node_modules/@ng-bootstrap/ng-bootstrap/fesm5/ng-bootstrap.js");
 /* harmony import */ var _index_routing__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./index.routing */ "./src/app/theme/pages/default/index/index.routing.ts");
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var _viewrestaurant_viewrestaurant_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./viewrestaurant/viewrestaurant.component */ "./src/app/theme/pages/default/index/viewrestaurant/viewrestaurant.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -278,13 +309,13 @@ var IndexModule = /** @class */ (function () {
                 _angular_forms__WEBPACK_IMPORTED_MODULE_10__["ReactiveFormsModule"],
             ],
             exports: [
-                _angular_router__WEBPACK_IMPORTED_MODULE_3__["RouterModule"], _index_component__WEBPACK_IMPORTED_MODULE_4__["NgbdModalContent"]
+                _angular_router__WEBPACK_IMPORTED_MODULE_3__["RouterModule"], _viewrestaurant_viewrestaurant_component__WEBPACK_IMPORTED_MODULE_11__["ViewrestaurantComponent"]
             ],
             declarations: [
-                _index_component__WEBPACK_IMPORTED_MODULE_4__["IndexComponent"], _index_component__WEBPACK_IMPORTED_MODULE_4__["NgbdModalContent"]
+                _index_component__WEBPACK_IMPORTED_MODULE_4__["IndexComponent"], _viewrestaurant_viewrestaurant_component__WEBPACK_IMPORTED_MODULE_11__["ViewrestaurantComponent"]
             ],
             providers: [_services_script_loader_service__WEBPACK_IMPORTED_MODULE_0__["ScriptLoaderService"]],
-            entryComponents: [_index_component__WEBPACK_IMPORTED_MODULE_4__["NgbdModalContent"]]
+            entryComponents: [_viewrestaurant_viewrestaurant_component__WEBPACK_IMPORTED_MODULE_11__["ViewrestaurantComponent"]]
         })
     ], IndexModule);
     return IndexModule;
@@ -412,6 +443,12 @@ var IndexService = /** @class */ (function () {
             return res;
         }));
     };
+    IndexService.prototype.rejectRestaurant = function (id) {
+        return this.http.put(_app_service__WEBPACK_IMPORTED_MODULE_1__["URL"] + 'admin/deleteRestaurantReq/' + id, {}, { headers: this.getHeaderWithToken() })
+            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["map"])(function (res) {
+            return res;
+        }));
+    };
     IndexService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["Injectable"])({
             providedIn: 'root'
@@ -419,6 +456,121 @@ var IndexService = /** @class */ (function () {
         __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpClient"]])
     ], IndexService);
     return IndexService;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/theme/pages/default/index/viewrestaurant/viewrestaurant.component.css":
+/*!***************************************************************************************!*\
+  !*** ./src/app/theme/pages/default/index/viewrestaurant/viewrestaurant.component.css ***!
+  \***************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "./src/app/theme/pages/default/index/viewrestaurant/viewrestaurant.component.html":
+/*!****************************************************************************************!*\
+  !*** ./src/app/theme/pages/default/index/viewrestaurant/viewrestaurant.component.html ***!
+  \****************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"modal-header\">\n  <h4 class=\"modal-title\">View Restaurant</h4>\n  <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"activeModal.dismiss('Cross click')\">\n    <span aria-hidden=\"true\">&times;</span>\n  </button>\n</div>\n<div class=\"modal-body\">\n  <form name=\"RestaurantForm\" [formGroup]=\"RestaurantForm\">\n    <div class=\"form-group\">\n      <label> Restaurant Name</label>\n      <input class=\"form-control m-input\" type=\"text\" formControlName=\"name\" [(ngModel)]=\"name\" disabled>\n    </div><br>\n\n    <div class=\"form-group\">\n      <label>Description</label>\n      <input class=\"form-control m-input\" type=\"text\" formControlName=\"description\" [(ngModel)]=\"description\" disabled>\n    </div><br>\n\n    <div class=\"form-group\">\n      <label>Latitude</label>\n      <input class=\"form-control m-input\" type=\"text\" formControlName=\"latitude\" [(ngModel)]=\"latitude\" disabled>\n    </div><br>\n\n    <div class=\"form-group\">\n      <label>Longitude</label>\n      <input class=\"form-control m-input\" type=\"text\" formControlName=\"longitude\" [(ngModel)]=\"longitude\" disabled>\n    </div><br>\n\n\n    <div class=\"form-group\">\n      <label>openTime</label>\n      <input class=\"form-control m-input\" type=\"text\" formControlName=\"openTime\" [(ngModel)]=\"openTime\" disabled>\n    </div><br>\n\n    <div class=\"form-group\">\n      <label for=\"time\">Close Time</label>\n      <input class=\"form-control m-input\" type=\"text\" formControlName=\"closeTime\" [(ngModel)]=\"closeTime\" disabled>\n    </div><br>\n\n    <div class=\"form-group\">\n      <label>mealOffers</label>\n      <div *ngFor=\"let category of mealOffers; let i = index\">\n        <input type=\"checkbox\" formControlName=\"mealOffers\" style=\"display: none\">\n        <li>{{category}}</li>\n      </div>\n      <br>\n    </div>\n\n    <div class=\"form-group\">\n      <label>Contact Number</label>\n      <input class=\"form-control m-input\" type=\"tel\" formControlName=\"contactNumber\" [(ngModel)]=\"contactNumber\"\n        disabled>\n    </div>\n\n    <div class=\"form-group\">\n      <label>Website</label>\n      <input class=\"form-control m-input\" type=\"text\" formControlName=\"website\" [(ngModel)]=\"website\" disabled>\n    </div>\n\n    <div class=\"form-group\">\n      <label>Upload Menu Images:</label><br />\n      <div *ngFor=\"let url of menuImages ;let i=index\">\n        <img [src]=\"url\" class=\"rounded mb-3\" width=\"50\" height=\"50\">\n      </div>\n      <input type=\"file\" formControlName=\"menu\" style=\"display: none\">\n    </div>\n\n    <div class=\"form-group\">\n      <label>Per Person Cost</label>\n      <input class=\"form-control m-input\" type=\"Number\" formControlName=\"perPersonCost\" [(ngModel)]=\"perPersonCost\"\n        disabled>\n    </div>\n\n\n    <div class=\"form-group\">\n      <label>Photos:</label><br />\n      <div *ngFor=\"let files of restaurantImages;let i=index\">\n        <img [src]=\"files\" class=\"rounded mb-3\" width=\"50\" height=\"50\">\n      </div>\n  </div>\n\n    <div class=\"form-group\">\n        <label>Cuisines:</label>\n        <div *ngFor=\"let cuisinValue of cuisinOffered,let i =index\" >\n         <span class=\"badge badge-secondary\"> {{cuisinValue}}</span>\n        </div>\n    </div>\n  </form>\n\n\n  \n</div>"
+
+/***/ }),
+
+/***/ "./src/app/theme/pages/default/index/viewrestaurant/viewrestaurant.component.ts":
+/*!**************************************************************************************!*\
+  !*** ./src/app/theme/pages/default/index/viewrestaurant/viewrestaurant.component.ts ***!
+  \**************************************************************************************/
+/*! exports provided: ViewrestaurantComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ViewrestaurantComponent", function() { return ViewrestaurantComponent; });
+/* harmony import */ var _index_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../index.service */ "./src/app/theme/pages/default/index/index.service.ts");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var ngx_toastr__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ngx-toastr */ "./node_modules/ngx-toastr/fesm5/ngx-toastr.js");
+/* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ "./node_modules/@ng-bootstrap/ng-bootstrap/fesm5/ng-bootstrap.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+var ViewrestaurantComponent = /** @class */ (function () {
+    function ViewrestaurantComponent(activeModal, _router, _formBuilder, modalService, IndexService, toastService) {
+        this.activeModal = activeModal;
+        this._router = _router;
+        this._formBuilder = _formBuilder;
+        this.modalService = modalService;
+        this.IndexService = IndexService;
+        this.toastService = toastService;
+        this.mealOffers = [];
+    }
+    ViewrestaurantComponent.prototype.ngOnInit = function () {
+        this.buildRestaurantForm();
+    };
+    Object.defineProperty(ViewrestaurantComponent.prototype, "f", {
+        get: function () {
+            return this.RestaurantForm.controls;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    ViewrestaurantComponent.prototype.buildRestaurantForm = function () {
+        this.RestaurantForm = this._formBuilder.group({
+            name: [''],
+            description: [''],
+            latitude: [''],
+            longitude: [''],
+            openTime: [''],
+            closeTime: [''],
+            restaurantImages: [''],
+            contactNumber: [''],
+            website: [''],
+            menu: [''],
+            photos: [''],
+            mealOffers: [''],
+            perPersonCost: [''],
+            cuisinOffered: ['']
+        });
+    };
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])(),
+        __metadata("design:type", Object)
+    ], ViewrestaurantComponent.prototype, "cuisin", void 0);
+    ViewrestaurantComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+            selector: 'app-viewrestaurant',
+            template: __webpack_require__(/*! ./viewrestaurant.component.html */ "./src/app/theme/pages/default/index/viewrestaurant/viewrestaurant.component.html"),
+            styles: [__webpack_require__(/*! ./viewrestaurant.component.css */ "./src/app/theme/pages/default/index/viewrestaurant/viewrestaurant.component.css")]
+        }),
+        __metadata("design:paramtypes", [_ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_5__["NgbActiveModal"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"],
+            _angular_forms__WEBPACK_IMPORTED_MODULE_3__["FormBuilder"],
+            _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_5__["NgbModal"],
+            _index_service__WEBPACK_IMPORTED_MODULE_0__["IndexService"],
+            ngx_toastr__WEBPACK_IMPORTED_MODULE_4__["ToastrService"]])
+    ], ViewrestaurantComponent);
+    return ViewrestaurantComponent;
 }());
 
 
