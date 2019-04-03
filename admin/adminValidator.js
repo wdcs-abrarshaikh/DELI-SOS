@@ -1,6 +1,6 @@
 var jwt = require('jsonwebtoken')
 var code = require('../constants').http_codes;
-var msg = require('../constants').messages;
+var msg = require('../constants/admin_const').messages;
 var validate = require('../user/userValidator')
 
 function validateSignUp(req, res, next) {

@@ -74,7 +74,6 @@ function authenticateUser(req, res) {
                         }
                     })
                     let { _id, name, location, locationVisible, email, role, profilePicture } = result
-                    console.log(token);
                     result = { _id, name, location, locationVisible, email, role, profilePicture }
                     return res.json({ code: code.ok, message: msg.loggedIn, token: token, data: result })
                 }
@@ -99,7 +98,7 @@ function resetPassword(req, res) {
             }
             else {
                 await util.sendEMail(result.email, newpass).then((data) => {
-                    return (data == true) ? res.json({ code: code.ok, message: `password sent on ${result.email}` })
+                    return (data == true) ? res.json({ code: code.ok, message: `Contraseña enviada ${result.email}` })
                         : res.json({ code: code.notImplemented, message: msg.mailNotSent })
                 }).catch((err) => {
                     return res.json({ code: code.notImplemented, message: msg.mailNotSent })
@@ -337,7 +336,7 @@ function addReview(req, res) {
                                             return res.json({ code: code.internalError, message: msg.internalServerError })
                                         }
                                         else {
-                                            console.log("res",{result})
+                                            
                                             let model = new notificationModel()
                                             model.notificationType = ntfctnType.reviewPosted
                                             model.reviewId = data._id;
@@ -367,17 +366,6 @@ function addReview(req, res) {
                                                 })
                                             }).catch((err) => {
                                                 return res.json({ code: code.internalError, message: msg.internalServerError })
-                                            })
-                                            let notfctnData = model
-                                            model.save().then((response) => {
-                                                let obj = util.decodeToken(req.headers['authorization'])
-                                                let message = `${obj.name} posted new review.`
-                                                if (receiverTokens) {
-                                                    receiverTokens.map((token) => {
-                                                        fcm.sendMessage(token.fcmToken, message, process.env.appName, notfctnData)
-                                                    })
-                                                }
-                                                return res.json({ code: code.created, message: msg.reviewAdded, data: data })
                                             })
                                         }
                                     })
@@ -469,7 +457,6 @@ function addPhotoByUser(req, res) {
                 }
             })
         }
-        console.log("len", imageObjects.length)
         let totalLength = imageObjects.length + newArray.length
         if (imageObjects.length < 5 && totalLength <= 5) {
             restModel.findOneAndUpdate(condition, update).then((result) => {
@@ -743,7 +730,6 @@ function getNearByRestaurant(req, res) {
                         return res.json({ code: code.internalError, message: msg.internalServerError })
                     } else {
 
-                        console.log(response.length);
                         let marker = [];
                         let recommendation = []
                         let modifyed_response = response.map(async (response_res) => {
@@ -773,7 +759,6 @@ function getNearByRestaurant(req, res) {
                             recommendation.push(response_res);
 
                         });
-                        console.log({ marker })
                         recommendation = recommendation.slice(0, 10)
 
                         return res.json({ code: code.ok, marker, recommendation })
@@ -805,10 +790,10 @@ function followUser(req, res) {
                     model.receiver = [uid]
                     model.notificationType = ntfctnType.follow
                     model.createdAt = Date.now()
-                    let message = `${obj.name} started following you.`;
+                    let message = `${obj.name} Empecé a seguirte`;
 
                     if (data.follower.indexOf(uid) != -1) {
-                        message = `${obj.name} followed you back.`
+                        message = `${obj.name} Te seguí de vuelta`
                         model.notificationType = ntfctnType.followedBack
                     }
                     model.save((err, response) => {
@@ -992,7 +977,7 @@ function likeUnlikeReview(req, res) {
                         let user = await userModel.findById({ _id: result.userId }).select('fcmToken').then((data) => {
                             return data
                         })
-                        let message = `${obj.name} liked your review`
+                        let message = `${obj.name} Me gustó tu reseña`
                         fcm.sendMessage(user.fcmToken, message, process.env.appName, model)
                         return res.json({ code: code.ok, message: msg.likedReview })
                     })
