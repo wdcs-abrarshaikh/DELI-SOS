@@ -311,27 +311,27 @@ function addReview(req, res) {
             return res.json({ code: code.notFound, message: msg.userNotFound })
         }
         else {
-            restModel.findOne({ _id: req.body.restId }, (err, data) => {
+            restModel.findOne({ _id: req.body.restId }, (err, data_v1) => {
                 if (err) {
                     return res.json({ code: code.internalError, message: msg.internalServerError })
                 }
-                else if (!data) {
+                else if (!data_v1) {
                     return res.json({ code: code.notFound, message: msg.restNotFound })
                 }
                 else {
                     let review = new reviewModel(req.body)
                     review.createdAt = Date.now()
-                    review.save((err, data) => {
+                    review.save((err, data_v2) => {
                         if (err) {
                             res.json({ code: code.internalError, message: msg.internalServerError })
                         }
                         else {
-                            userModel.findByIdAndUpdate({ _id: req.body.userId }, { $push: { review: data._id } }, (err, result) => {
+                            userModel.findByIdAndUpdate({ _id: req.body.userId }, { $push: { review: data_v2._id } }, (err, result) => {
                                 if (err) {
                                     return res.json({ code: code.internalError, message: msg.internalServerError })
                                 }
                                 else {
-                                    restModel.findByIdAndUpdate({ _id: req.body.restId }, { $push: { reviews: data._id } }, (err) => {
+                                    restModel.findByIdAndUpdate({ _id: req.body.restId }, { $push: { reviews: data_v2._id } }, (err) => {
                                         if (err) {
                                             return res.json({ code: code.internalError, message: msg.internalServerError })
                                         }
@@ -339,7 +339,7 @@ function addReview(req, res) {
                                             
                                             let model = new notificationModel()
                                             model.notificationType = ntfctnType.reviewPosted
-                                            model.reviewId = data._id;
+                                            model.reviewId = data_v2._id;
                                             model.sender = req.body.userId;
                                             model.restId = req.body.restId;
                                             model.receiver = result.follower;
@@ -360,7 +360,7 @@ function addReview(req, res) {
                                                             fcm.sendMessage(token.fcmToken, message, process.env.appName, notfctnData)
                                                         })
                                                     }
-                                                    return res.json({ code: code.created, message: msg.reviewAdded, data: data_V3 })
+                                                    return res.json({ code: code.created, message: msg.reviewAdded, data: data_v2 })
                                                 }).catch((err)=>{
                                                     console.log({err})
                                                 })
