@@ -6,7 +6,6 @@
       <td style="font-weight: bold; width:5%;">Sr.No</td>
       <td style="font-weight: bold; width:10%;">UserName</td>
       <td style="font-weight: bold; width: 10%;">Email</td>
-      <th style="width:10%"> &nbsp;&nbsp;&nbsp;Contact Number</th>
       <th style="width:20%"> &nbsp;Descriptions</th>
     </tr>
   </thead>
@@ -15,7 +14,6 @@
       <td>{{i+1}}</td>
         <td>{{user.name}}</td>
         <td>{{user.email}}</td>
-        <td>{{user.contactNumber}}</td>
         <td  data-toggle="m-tooltip" data-placement="top" title="{{user.content}}">{{user.content.substr(0,100)}} <a style="color:blue;width:10%" *ngIf="user.content.length>100" >. . . . . . . .</a></td>
      </tr>
   </tbody>
