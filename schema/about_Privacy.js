@@ -8,7 +8,7 @@ var aboutSchema = new schema({
    createdBy: { type: mongoose.Schema.Types.ObjectId, ref: schmaName.users },
    type: { type: String, enum: [Type.about, Type.privacy, Type.contact] },
    name: { type: String, required: function () { return (this.Type == Type.contact) ? true : false } },
-   contactNumber: { type: Number, required: function () { return (this.Type == Type.contact) ? true : false } },
+   // contactNumber: { type: Number, required: function () { return (this.Type == Type.contact) ? true : false } },
    email: { type: String, required: function () { return (this.Type == Type.contact) ? true : false } },
    //    Description:{type:String,required:function(){ return (this.Type == Type.contact) ? true : false}},
    status: { type: String, enum: [Status.active, Status.inactive], default: Status.active },

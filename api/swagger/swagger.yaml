@@ -500,7 +500,6 @@ paths:
                 - content
                 - likePlace
                 - rating
-                - improvementArea
               properties:
                 restId:
                     type: string
@@ -1394,15 +1393,11 @@ paths:
               required: 
                 - name
                 - email
-                - contactNumber
                 - content
               properties:
                 name:
                     type: string
                     description: name of the person who is going to make request
-                contactNumber:
-                    type: string
-                    description: contact number of the person who is going to make request
                 email:
                     type: string
                     description: email of the person who is going to make request

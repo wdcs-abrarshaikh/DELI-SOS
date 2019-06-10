@@ -184,13 +184,12 @@ function validateRestaurant(req, res, next) {
 
 function validateReview(req, res, next) {
     let data = req.body
-    if (data.restId && data.userId && data.content && data.likePlace && data.rating && data.improvementArea) {
+    if (data.restId && data.userId && data.content && data.likePlace && data.rating) {
         var restId = data.restId.trim(),
             userId = data.userId.trim(),
             content = data.content.trim(),
-            likePlace = data.likePlace.trim(),
-            improvementArea = data.improvementArea.length
-        if (restId && userId && content && likePlace && improvementArea > 0) {
+            likePlace = data.likePlace.trim()
+        if (restId && userId && content && likePlace) {
             next();
         }
         else {

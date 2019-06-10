@@ -705,8 +705,7 @@
                                 "userId",
                                 "content",
                                 "likePlace",
-                                "rating",
-                                "improvementArea"
+                                "rating"
                             ],
                             "properties": {
                                 "restId": {
@@ -1964,17 +1963,12 @@
                             "required": [
                                 "name",
                                 "email",
-                                "contactNumber",
                                 "content"
                             ],
                             "properties": {
                                 "name": {
                                     "type": "string",
                                     "description": "name of the person who is going to make request"
-                                },
-                                "contactNumber": {
-                                    "type": "string",
-                                    "description": "contact number of the person who is going to make request"
                                 },
                                 "email": {
                                     "type": "string",
