@@ -441,7 +441,7 @@ var AppModule = /** @class */ (function () {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "URL", function() { return URL; });
-var URL = "http://66.70.179.133:8080/";
+var URL = "http://3.18.139.243:8080/";
 // export const URL:string="http://localhost:8080/";
 
 
@@ -2772,7 +2772,7 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /root/parallels/vishal_project/DELI-SOS/public/src/main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! /home/ubuntu/development/DELI-SOS/public/src/main.ts */"./src/main.ts");
 
 
 /***/ })

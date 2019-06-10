@@ -431,6 +431,7 @@ var UserComponent = /** @class */ (function () {
     };
     UserComponent.prototype.activeUser = function (id) {
         var _this = this;
+        this.spinnerService.show();
         this.userService.activateUser(id).subscribe(function (data) {
             if (data.code != 200) {
                 sweetalert2__WEBPACK_IMPORTED_MODULE_9___default()({
