@@ -97,7 +97,8 @@ function sendEMail(receiverid, data) {
     }
     return new Promise(function (resolve, reject) {
         tansporter.sendMail(mailoption, (err) => {
-            (err) ? reject(err) : resolve(true)
+		console.log({err});
+	return (err) ? reject(err) : resolve(true);
         })
     })
 
