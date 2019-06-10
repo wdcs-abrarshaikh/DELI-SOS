@@ -107,8 +107,8 @@ User.countDocuments(async function (err, data) {
                 city: 'Ahmedabad',
                 state: 'Gujarat',
                 pincode: 382007
-            }
-
+            },
+            profilePicture: "http://res.cloudinary.com/dizkwji5k/image/upload/v1560153522/zushtr2sijoe8pdj6yes.jpg"
         };
 
         let updatedPass = await bcrypt.hashSync(obj.password, 11);
