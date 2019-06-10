@@ -28,7 +28,7 @@ messages = {
     userDelete: "Usuario eliminado correctamente",
     noMealOffer: "No hay ofertas",
     noCuisin: "No se encontró cocina",
-    restRequestSent: "Añadir solicitud de restaurante enviado al administrador",
+    restRequestSent: "Gracias! Tu solicitud para agregar un restaurante ha sido enviada a un administrador",
     restAddSucessfully: "Restaurante exitosamente creado",
     restNotFound: "No se ha registrado tal restaurante",
     imageDeleted: "Imagen eliminada exitosamente",
