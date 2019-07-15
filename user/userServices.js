@@ -470,6 +470,13 @@ function addPhotoByUser(req, res) {
     let update = {
         $addToSet: { photoByUser: newArray }
     }
+    userModel.findOne({ _id: req.body.userId }).then((rslt) => {
+        if (!rslt) {
+            return res.json({ code: code.notFound, message: msg.userNotFound })
+        }
+    }).catch((e)=>{
+        return res.json({ code: code.internalError, message: msg.internalServerError })
+    })
     restModel.findOne(condition).then((result) => {
         let imageObjects = []
         if (result.photoByUser.length > 0) {
