@@ -220,7 +220,7 @@ function addRestaurant(req, res) {
 function getRestaurantDetail(req, res) {
     let id = req.params.id,
         userId = mongoose.Types.ObjectId(util.decodeToken(req.headers['authorization']).id);
-    restModel.findOne({ _id: id }, (err, data) => {
+    restModel.findOne({ _id: id }).lean().exec((err, data) => {
         if (err) {
             return res.json({ code: code.internalError, message: msg.internalServerError })
         }
@@ -266,6 +266,18 @@ function getRestaurantDetail(req, res) {
                 })
             }
             else {
+                let id = data.photoByUser.map((id) => {
+                    return id.userId
+                })
+                userModel.find({ _id: { $in: id } }).select('name profilePicture').then((rslt) => {
+                    data.photoByUser = data.photoByUser.map((id) => {
+                        rslt.map((r) => {
+                            id.userProfilePicture = r.profilePicture,
+                                id.userName = r.name
+                        })
+                        return id
+                    })
+                })
                 const { name, description, location,
                     photos, openTime, closeTime,
                     contactNumber, website, menu, photoByUser,
