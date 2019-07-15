@@ -252,7 +252,9 @@ function getRestaurantDetail(req, res) {
 
                                 delete review_unfilter.status
                                 delete review_unfilter.likedBy
-                                return review_unfilter
+                                if (review_unfilter.status == "ACTIVE") {
+                                    return review_unfilter
+                                }
                             })
                             actual_response.reviews = reviewDetails;
                             return res.json({ code: code.ok, message: msg.ok, data: actual_response })

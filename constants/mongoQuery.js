@@ -127,13 +127,13 @@ function getRestaurantDetail(id) {
                 path: '$reviews_details'
             }
         },
-        {
-            $match: {
-                'reviews_details.status': {
-                    $eq: 'ACTIVE'
-                }
-            }
-        },
+        // {
+        //     $match: {
+        //         'reviews_details.status': {
+        //             $eq: 'ACTIVE'
+        //         }
+        //     }
+        // },
         {
             $addFields: {
                 'reviews_details.totalLiked': { $size: "$reviews_details.likedBy" }
@@ -202,7 +202,10 @@ function getRestaurantDetail(id) {
             }
         },
         {
-            $unwind: '$photoByUserDetails'
+            $unwind: {
+                path: "$photoByUserDetails",
+                preserveNullAndEmptyArrays: true
+            }
         },
         {
             $addFields: {
@@ -361,16 +364,16 @@ function filterRestaurant(data, flag) {
     }
     else {
         return [
-          // {
-          // $geoNear: {
-          //               near: { type: data.location.type, coordinates: [data.location.coordinates[0], data.location.coordinates[1]] },
-          //               distanceField: "dist.calculated",
-          //               maxDistance: 100000,
-          //               key: 'location',
-          //               query: { status: status.active },
-          //               num: 5, spherical: true
-          //           }
-          //         },
+            // {
+            // $geoNear: {
+            //               near: { type: data.location.type, coordinates: [data.location.coordinates[0], data.location.coordinates[1]] },
+            //               distanceField: "dist.calculated",
+            //               maxDistance: 100000,
+            //               key: 'location',
+            //               query: { status: status.active },
+            //               num: 5, spherical: true
+            //           }
+            //         },
             {
                 $match: {
                     $and: [
@@ -514,7 +517,7 @@ function notificationList(id) {
             $project: {
                 "_id": 1,
                 "notificationType": 1,
-                "createdAt":1,
+                "createdAt": 1,
                 "sender_details._id": 1,
                 "sender_details.name": 1,
                 "sender_details.profilePicture": 1,
