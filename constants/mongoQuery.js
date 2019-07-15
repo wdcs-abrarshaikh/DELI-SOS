@@ -193,26 +193,26 @@ function getRestaurantDetail(id) {
                 //'reviews_details.favourites': '$reviews_details.user_details.favourites'
             }
         },
-        {
-            $lookup: {
-                foreignField: "_id",
-                localField: "_id.photoByUser.userId",
-                from: schmaName.users,
-                as: 'photoByUserDetails'
-            }
-        },
-        {
-            $unwind: {
-                path: "$photoByUserDetails",
-                preserveNullAndEmptyArrays: true
-            }
-        },
-        {
-            $addFields: {
-                '_id.photoByUser.userName': '$photoByUserDetails.name',
-                '_id.photoByUser.userProfilePicture': '$photoByUserDetails.profilePicture'
-            }
-        },
+        // {
+        //     $lookup: {
+        //         foreignField: "_id",
+        //         localField: "_id.photoByUser.userId",
+        //         from: schmaName.users,
+        //         as: '_id.photoByUserDetails'
+        //     }
+        // },
+        // {
+        //     $unwind: {
+        //         path: "$_id.photoByUser",
+        //         preserveNullAndEmptyArrays: true
+        //     }
+        // },
+        // {
+        //     $addFields: {
+        //         '_id.photoByUser.userName': '$_id.photoByUserDetails.name',
+        //         '_id.photoByUser.userProfilePicture': '$_id.photoByUserDetails.profilePicture'
+        //     }
+        // },
         {
             $project: {
                 "_id": 1, "name": 1,
