@@ -220,7 +220,7 @@ function addRestaurant(req, res) {
 function getRestaurantDetail(req, res) {
     let id = req.params.id,
         userId = mongoose.Types.ObjectId(util.decodeToken(req.headers['authorization']).id);
-    restModel.findOne({ _id: id }).lean().exec((err, data) => {
+    restModel.findOne({ _id: id }).populate('photoByUser.userId', 'name profilePicture').lean().exec((err, data) => {
         if (err) {
             return res.json({ code: code.internalError, message: msg.internalServerError })
         }
@@ -228,6 +228,13 @@ function getRestaurantDetail(req, res) {
             return res.json({ code: code.notFound, message: msg.restNotFound })
         }
         else {
+            let actualPhotoObject = data.photoByUser.map((userData) => {
+                userData.userName = userData.userId.name;
+                userData.userProfilePicture = userData.userId.profilePicture;
+                userData.userId = userData.userId._id;
+                return userData;
+            })
+
             if (data.reviews.length > 0) {
                 restModel.aggregate(mongoQuery.getRestaurantDetail(id), async (err, response) => {
                     // return res.json({ data: response })
@@ -238,36 +245,38 @@ function getRestaurantDetail(req, res) {
                         userModel.findOne({ _id: userId }, { 'favourites': 1, '_id': 0 }).then((result) => {
                             let fav = result.favourites
                             let actual_response = response[0]
-                            let id = actual_response._id.photoByUser.map((id) => {
-                                return id.userId
-                            })
-                            userModel.find({ _id: { $in: id } }).select('name profilePicture').then((rslt) => {
-                                rslt.map((r, index) => {
-                                    actual_response._id.photoByUser[index].userProfilePicture = r.profilePicture,
-                                        actual_response._id.photoByUser[index].userName = r.name
-                                })
-                                actual_response._id.addedInFavourites = 0;
-                                if (fav.indexOf(id) >= 0) {
-                                    actual_response._id.addedInFavourites = 1;
-                                }
-                                let reviewDetails = actual_response.reviews.filter(function (review_unfilter) {
-                                    review_unfilter.likedByMe = 0
+                            // let id = actual_response._id.photoByUser.map((id) => {
+                            //     return id.userId
+                            // })
+                            // userModel.find({ _id: { $in: id } }).select('name profilePicture').then((rslt) => {
+                            //     rslt.map((r, index) => {
+                            //         actual_response._id.photoByUser[index].userProfilePicture = r.profilePicture,
+                            //             actual_response._id.photoByUser[index].userName = r.name
+                            //     })
+                            actual_response._id.addedInFavourites = 0;
+                            if (fav.indexOf(id) >= 0) {
+                                actual_response._id.addedInFavourites = 1;
+                            }
+                            let reviewDetails = actual_response.reviews.filter(function (review_unfilter) {
+                                review_unfilter.likedByMe = 0
 
-                                    review_unfilter.likedBy.some((liked) => {
-                                        if (liked.equals(userId) == true) {
-                                            review_unfilter.likedByMe = 1;
-                                        }
-                                    });
-
-                                    delete review_unfilter.likedBy
-                                    if (review_unfilter.status == "ACTIVE") {
-                                        delete review_unfilter.status
-                                        return review_unfilter
+                                review_unfilter.likedBy.some((liked) => {
+                                    if (liked.equals(userId) == true) {
+                                        review_unfilter.likedByMe = 1;
                                     }
-                                })
-                                actual_response.reviews = reviewDetails;
-                                return res.json({ code: code.ok, message: msg.ok, data: actual_response })
+                                });
+
+                                delete review_unfilter.likedBy
+                                if (review_unfilter.status == "ACTIVE") {
+                                    delete review_unfilter.status
+                                    return review_unfilter
+                                }
                             })
+                            console.log(actual_response)
+                            actual_response._id.photoByUser = actualPhotoObject
+                            actual_response.reviews = reviewDetails;
+                            return res.json({ code: code.ok, message: msg.ok, data: actual_response })
+                            // })
 
                         }).catch((err) => {
                             console.log(err)
@@ -277,15 +286,15 @@ function getRestaurantDetail(req, res) {
                 })
             }
             else {
-                let id = data.photoByUser.map((id) => {
-                    return id.userId
-                })
-                userModel.find({ _id: { $in: id } }).select('name profilePicture').then((rslt) => {
-                    rslt.map((r, index) => {
-                        data.photoByUser[index].userProfilePicture = r.profilePicture,
-                            data.photoByUser[index].userName = r.name
-                    })
-                })
+                // let id = data.photoByUser.map((id) => {
+                //     return id.userId
+                // })
+                // userModel.find({ _id: { $in: id } }).select('name profilePicture').then((rslt) => {
+                //     rslt.map((r, index) => {
+                //         data.photoByUser[index].userProfilePicture = r.profilePicture,
+                //             data.photoByUser[index].userName = r.name
+                //     })
+                // })
                 const { name, description, location,
                     photos, openTime, closeTime,
                     contactNumber, website, menu, photoByUser,
@@ -297,6 +306,7 @@ function getRestaurantDetail(req, res) {
                     contactNumber, website, menu, photoByUser,
                     perPersonCost
                 }
+                final._id.photoByUser = actualPhotoObject
                 final._id.cuisin = data.cuisinOffered
                 final._id.restId = data._id
                 final.reviews = data.reviews
@@ -474,7 +484,7 @@ function addPhotoByUser(req, res) {
         if (!rslt) {
             return res.json({ code: code.notFound, message: msg.userNotFound })
         }
-    }).catch((e)=>{
+    }).catch((e) => {
         return res.json({ code: code.internalError, message: msg.internalServerError })
     })
     restModel.findOne(condition).then((result) => {
