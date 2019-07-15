@@ -270,13 +270,11 @@ function getRestaurantDetail(req, res) {
                     return id.userId
                 })
                 userModel.find({ _id: { $in: id } }).select('name profilePicture').then((rslt) => {
-                    data.photoByUser = data.photoByUser.map((id) => {
-                        rslt.map((r) => {
-                            id.userProfilePicture = r.profilePicture,
-                                id.userName = r.name
-                        })
-                        return id
+                    rslt.map((r, index) => {
+                        data.photoByUser[index].userProfilePicture = r.profilePicture,
+                            data.photoByUser[index].userName = r.name
                     })
+                    return id
                 })
                 const { name, description, location,
                     photos, openTime, closeTime,
