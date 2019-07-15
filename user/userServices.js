@@ -49,7 +49,7 @@ async function createUser(req, res) {
 function authenticateUser(req, res) {
     let data = req.body;
     userModel.findOneAndUpdate({ email: data.email, role: role.USER, status: status.active },
-        { $set: { deviceId: data.deviceId, deviceType: data.deviceType, fcmToken: data.fcmToken, location: data.location,isSocialLogin:false } },
+        { $set: { deviceId: data.deviceId, deviceType: data.deviceType, fcmToken: data.fcmToken, location: data.location, isSocialLogin: false } },
         { new: true }, (err, result) => {
             if (err) {
                 return res.json({ code: code.ineternalError, message: msg.internalServerError })
@@ -168,7 +168,7 @@ function manageSocialLogin(req, res) {
     let data = req.body
     let user = new userModel(data)
     userModel.findOneAndUpdate({ socialId: data.socialId },
-        { $set: { deviceId: data.deviceId, deviceType: data.deviceType, fcmToken: data.fcmToken, email: data.email, location: data.location,isSocialLogin:true} },
+        { $set: { deviceId: data.deviceId, deviceType: data.deviceType, fcmToken: data.fcmToken, email: data.email, location: data.location, isSocialLogin: true } },
         { new: true }, (err, data) => {
             if (err) {
                 return json({ code: code.internalError, message: msg.internalServerError })
@@ -252,7 +252,9 @@ function getRestaurantDetail(req, res) {
 
                                 delete review_unfilter.status
                                 delete review_unfilter.likedBy
-                                return review_unfilter
+                                if (review_unfilter.status == "ACTIVE") {
+                                    return review_unfilter
+                                }
                             })
                             actual_response.reviews = reviewDetails;
                             return res.json({ code: code.ok, message: msg.ok, data: actual_response })
@@ -336,7 +338,7 @@ function addReview(req, res) {
                                             return res.json({ code: code.internalError, message: msg.internalServerError })
                                         }
                                         else {
-                                            
+
                                             let model = new notificationModel()
                                             model.notificationType = ntfctnType.reviewPosted
                                             model.reviewId = data_v2._id;
@@ -361,8 +363,8 @@ function addReview(req, res) {
                                                         })
                                                     }
                                                     return res.json({ code: code.created, message: msg.reviewAdded, data: data_v2 })
-                                                }).catch((err)=>{
-                                                    console.log({err})
+                                                }).catch((err) => {
+                                                    console.log({ err })
                                                 })
                                             }).catch((err) => {
                                                 return res.json({ code: code.internalError, message: msg.internalServerError })
@@ -1091,7 +1093,7 @@ function searchRestaurants(req, res) {
                                 return (b._id[sortBy] - a._id[sortBy])
                             })
                         }
-                        else{
+                        else {
                             final.sort((a, b) => {
                                 return (a._id[sortBy] - b._id[sortBy])
                             })
