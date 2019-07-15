@@ -1179,6 +1179,8 @@ paths:
                 - meal
                 - cuisins
                 - minBudget
+                - latitude
+                - longitude
               properties:
                 meal:
                     type: string
@@ -1198,6 +1200,12 @@ paths:
                 maxBudget:
                     type: number
                     description: maximum budget if selected by user
+                latitude:
+                    type: string
+                    description: 'The value must be between -90 to 90'
+                longitude:
+                    type: string
+                    description: 'The value must be between -180 to 180'
                     
         responses:
           "200":
@@ -1213,7 +1221,7 @@ paths:
             schema:
               $ref: '#/definitions/errorMessage'
               
-  "/user/searchRestaurants/{name}":
+  "/user/searchRestaurants/{name}/{latitude}/{longitude}":
       get:
         tags:
         - 'user'
@@ -1228,6 +1236,16 @@ paths:
           - in: path
             name: name
             description: name of restaurant, to be search.
+            required: true
+            type: string
+          - in: path
+            name: latitude
+            description: 'The value must be between -90 to 90'
+            required: true
+            type: string
+          - in: path
+            name: longitude
+            description: 'The value must be between -180 to 180'
             required: true
             type: string
           - name: "sortBy"

@@ -253,7 +253,23 @@ function validateChangeLocation(req, res, next) {
         return res.json({ code: code.badRequest, message: msg.invalidLatLong })
     }
 }
-
+function validateSearchLatLong(req, res, next) {
+    if (req.params.latitude && req.params.longitude) {
+        if (!validateLatLong(parseFloat(req.params.longitude), parseFloat(req.params.latitude))) {
+            return res.json({ code: code.badRequest, message: msg.invalidLatLong })
+        }
+        else {
+            req.params.location = {
+                type: 'Point',
+                coordinates: [parseFloat(req.params.longitude), parseFloat(req.params.latitude)]
+            }
+            next()
+        }
+    }
+    else {
+        return res.json({ code: code.badRequest, message: msg.invalidLatLong })
+    }
+}
 function validateUpload(req, res, next) {
     if (req.body.restId && req.body.userId && req.body.url.length > 0) {
         next()
@@ -276,6 +292,7 @@ module.exports = {
     validateUserId,
     validateChangeLocation,
     validateUpload,
-    validateLatLong
+    validateLatLong,
+    validateSearchLatLong
 }
 

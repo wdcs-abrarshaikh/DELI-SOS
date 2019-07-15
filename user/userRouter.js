@@ -158,12 +158,12 @@ userRouter.route('/getCuisinList')
     })
 
 userRouter.route('/filterRestaurants')
-    .post([validate.verifyUserToken], (req, res) => {
+    .post([validate.validateChangeLocation,validate.verifyUserToken], (req, res) => {
         actions.filterRestaurants(req, res)
     })
 
-userRouter.route('/searchRestaurants/:name')
-    .get([validate.verifyUserToken], (req, res) => {
+userRouter.route('/searchRestaurants/:name/:latitude/:longitude')
+    .get([validate.validateSearchLatLong,validate.verifyUserToken], (req, res) => {
         actions.searchRestaurants(req, res)
     })
 

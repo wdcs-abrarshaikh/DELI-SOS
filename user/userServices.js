@@ -49,7 +49,7 @@ async function createUser(req, res) {
 function authenticateUser(req, res) {
     let data = req.body;
     userModel.findOneAndUpdate({ email: data.email, role: role.USER, status: status.active },
-        { $set: { deviceId: data.deviceId, deviceType: data.deviceType, fcmToken: data.fcmToken, location: data.location,isSocialLogin:false } },
+        { $set: { deviceId: data.deviceId, deviceType: data.deviceType, fcmToken: data.fcmToken, location: data.location, isSocialLogin: false } },
         { new: true }, (err, result) => {
             if (err) {
                 return res.json({ code: code.ineternalError, message: msg.internalServerError })
@@ -168,7 +168,7 @@ function manageSocialLogin(req, res) {
     let data = req.body
     let user = new userModel(data)
     userModel.findOneAndUpdate({ socialId: data.socialId },
-        { $set: { deviceId: data.deviceId, deviceType: data.deviceType, fcmToken: data.fcmToken, email: data.email, location: data.location,isSocialLogin:true} },
+        { $set: { deviceId: data.deviceId, deviceType: data.deviceType, fcmToken: data.fcmToken, email: data.email, location: data.location, isSocialLogin: true } },
         { new: true }, (err, data) => {
             if (err) {
                 return json({ code: code.internalError, message: msg.internalServerError })
@@ -336,7 +336,7 @@ function addReview(req, res) {
                                             return res.json({ code: code.internalError, message: msg.internalServerError })
                                         }
                                         else {
-                                            
+
                                             let model = new notificationModel()
                                             model.notificationType = ntfctnType.reviewPosted
                                             model.reviewId = data_v2._id;
@@ -361,8 +361,8 @@ function addReview(req, res) {
                                                         })
                                                     }
                                                     return res.json({ code: code.created, message: msg.reviewAdded, data: data_v2 })
-                                                }).catch((err)=>{
-                                                    console.log({err})
+                                                }).catch((err) => {
+                                                    console.log({ err })
                                                 })
                                             }).catch((err) => {
                                                 return res.json({ code: code.internalError, message: msg.internalServerError })
@@ -436,7 +436,7 @@ function addPhotoByUser(req, res) {
         //'photoByUser.userId': { $eq  : data.userId }
     }
     let newArray = []
-    let obj = data.url.map(async (result) => {
+    let obj = data.url.map((result) => {
         var newObj = {
             userId: data.userId,
             url: result,
@@ -1006,40 +1006,43 @@ function filterRestaurants(req, res) {
             res.json({ code: code.internalError, message: msg.internalServerError })
         }
         else {
+            console.log(response)
             let obj = util.decodeToken(req.headers['authorization'])
-            userModel.findOne({ _id: obj.id }).select('location').exec((err, loc) => {
-                if (err) {
-                    res.json({ code: code.internalError, message: msg.internalServerError })
+            // userModel.findOne({ _id: obj.id }).select('location').exec((err, loc) => {
+            //     if (err) {
+            //         res.json({ code: code.internalError, message: msg.internalServerError })
+            //     }
+            //     else if (loc) {
+            let loc = { location: req.body.location }
+            let final = response.filter(function (data) {
+                data._id.distance = util.calculateDistance(loc.location.coordinates[1], loc.location.coordinates[0],
+                    data._id.location.coordinates[1], data._id.location.coordinates[0], "K") * 1000;
+                var totalRatings = 0;
+                if (data.reviews[0].length > 0) {
+                    let reviews_details = data.reviews.filter(function (result) {
+                        if (result[0].status == status.active) {
+                            totalRatings += result[0].rating
+                            return result
+                        }
+                    })
+                    data._id.ratings = totalRatings / reviews_details.length
                 }
-                else if (loc) {
-                    let final = response.filter(function (data) {
-                        data._id.distance = util.calculateDistance(loc.location.coordinates[1], loc.location.coordinates[0],
-                            data._id.location.coordinates[1], data._id.location.coordinates[0], "K") * 1000;
-                        var totalRatings = 0;
-                        if (data.reviews[0].length > 0) {
-                            let reviews_details = data.reviews.filter(function (result) {
-                                if (result[0].status == status.active) {
-                                    totalRatings += result[0].rating
-                                    return result
-                                }
-                            })
-                            data._id.ratings = totalRatings / reviews_details.length
-                        }
-                        else {
-                            data._id.ratings = 0
-                        }
-                        delete data._id.location;
-                        delete data.reviews;
-                        if (data._id.distance <= 10000) {
-                            return data;
-                        }
-                    })
-                    final.sort((a, b) => {
-                        return (a._id['ratings'] - b._id['ratings'])
-                    })
-                    res.json({ code: code.ok, message: msg.ok, data: final })
+                else {
+                    data._id.ratings = 0
+                }
+                // console.log({data})
+                delete data._id.location;
+                delete data.reviews;
+                if (data._id.distance <= 10000) {
+                    return data;
                 }
             })
+            final.sort((a, b) => {
+                return (a._id['ratings'] - b._id['ratings'])
+            })
+            res.json({ code: code.ok, message: msg.ok, data: final })
+            // }
+            // })
         }
     })
 }
@@ -1054,53 +1057,53 @@ function searchRestaurants(req, res) {
         }
         else {
             let obj = util.decodeToken(req.headers['authorization'])
-            userModel.findOne({ _id: obj.id }).select('location').exec((err, loc) => {
-                if (err) {
-                    return res.json({ code: code.internalError, message: msg.internalServerError })
+            // userModel.findOne({ _id: obj.id }).select('location').exec((err, loc) => {
+            // if (err) {
+            //     return res.json({ code: code.internalError, message: msg.internalServerError })
+            // }
+            // else if (loc) {
+            let loc = { location: req.params.location }
+            var final = response.filter(function (data) {
+                data._id.distance = util.calculateDistance(loc.location.coordinates[1], loc.location.coordinates[0],
+                    data._id.location.coordinates[1], data._id.location.coordinates[0], "K") * 1000;
+                var totalRatings = 0;
+                if (data.reviews[0].length > 0) {
+                    let reviews_details = data.reviews.filter(function (result) {
+                        if (result[0].status == status.active) {
+                            totalRatings += result[0].rating
+                            return result
+                        }
+                    })
+                    data._id.ratings = totalRatings / reviews_details.length
                 }
-                else if (loc) {
-
-                    var final = response.filter(function (data) {
-                        data._id.distance = util.calculateDistance(loc.location.coordinates[1], loc.location.coordinates[0],
-                            data._id.location.coordinates[1], data._id.location.coordinates[0], "K") * 1000;
-                        var totalRatings = 0;
-                        if (data.reviews[0].length > 0) {
-                            let reviews_details = data.reviews.filter(function (result) {
-                                if (result[0].status == status.active) {
-                                    totalRatings += result[0].rating
-                                    return result
-                                }
-                            })
-                            data._id.ratings = totalRatings / reviews_details.length
-                        }
-                        else {
-                            data._id.ratings = 0
-                        }
-                        delete data._id.location;
-                        delete data.reviews;
-                        if (data._id.distance <= 10000) {
-                            return data;
-                        }
-                    })
-                    final.sort((a, b) => {
-                        return (a._id['ratings'] - b._id['ratings'])
-                    })
-                    if (sortBy) {
-                        if (sortBy == 'ratings') {
-                            final.sort((a, b) => {
-                                return (b._id[sortBy] - a._id[sortBy])
-                            })
-                        }
-                        else{
-                            final.sort((a, b) => {
-                                return (a._id[sortBy] - b._id[sortBy])
-                            })
-                        }
-                    }
-
-                    return res.json({ code: code.ok, message: msg.ok, data: final })
+                else {
+                    data._id.ratings = 0
+                }
+                delete data._id.location;
+                delete data.reviews;
+                if (data._id.distance <= 10000) {
+                    return data;
                 }
             })
+            final.sort((a, b) => {
+                return (a._id['ratings'] - b._id['ratings'])
+            })
+            if (sortBy) {
+                if (sortBy == 'ratings') {
+                    final.sort((a, b) => {
+                        return (b._id[sortBy] - a._id[sortBy])
+                    })
+                }
+                else {
+                    final.sort((a, b) => {
+                        return (a._id[sortBy] - b._id[sortBy])
+                    })
+                }
+            }
+
+            return res.json({ code: code.ok, message: msg.ok, data: final })
+            // }
+            // })
         }
     })
 }
