@@ -194,6 +194,23 @@ function getRestaurantDetail(id) {
             }
         },
         {
+            $lookup: {
+                foreignField: "_id",
+                localField: "_id.photoByUser.userId",
+                from: schmaName.users,
+                as: 'photoByUserDetails'
+            }
+        },
+        {
+            $unwind: '$photoByUserDetails'
+        },
+        {
+            $addFields: {
+                '_id.photoByUser.userName': '$photoByUserDetails.name',
+                '_id.photoByUser.userProfilePicture': '$photoByUserDetails.profilePicture'
+            }
+        },
+        {
             $project: {
                 "_id": 1, "name": 1,
                 "totalRatings": 1,
