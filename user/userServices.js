@@ -250,9 +250,9 @@ function getRestaurantDetail(req, res) {
                                     }
                                 });
 
-                                delete review_unfilter.status
                                 delete review_unfilter.likedBy
                                 if (review_unfilter.status == "ACTIVE") {
+                                    delete review_unfilter.status
                                     return review_unfilter
                                 }
                             })
