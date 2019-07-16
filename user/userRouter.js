@@ -87,8 +87,8 @@ userRouter.route('/removeFavourite/:restId')
         actions.removeFavourite(req, res)
     })
 
-userRouter.route('/showFavourites')
-    .get([validate.verifyUserToken], (req, res) => {
+userRouter.route('/showFavourites/:latitude/:longitude')
+    .get([validate.validateSearchLatLong, validate.verifyUserToken], (req, res) => {
         actions.showFavourites(req, res)
     })
 
@@ -108,7 +108,7 @@ userRouter.route('/changePassword')
     });
 
 userRouter.route('/getNearByRestaurant/:userId/:latitude/:longitude')
-    .get([validate.validateUserId,validate.validateSearchLatLong,validate.verifyUserToken], (req, res) => {
+    .get([validate.validateUserId, validate.validateSearchLatLong, validate.verifyUserToken], (req, res) => {
         actions.getNearByRestaurant(req, res)
     });
 
@@ -158,12 +158,12 @@ userRouter.route('/getCuisinList')
     })
 
 userRouter.route('/filterRestaurants')
-    .post([validate.validateChangeLocation,validate.verifyUserToken], (req, res) => {
+    .post([validate.validateChangeLocation, validate.verifyUserToken], (req, res) => {
         actions.filterRestaurants(req, res)
     })
 
 userRouter.route('/searchRestaurants/:name/:latitude/:longitude')
-    .get([validate.validateSearchLatLong,validate.verifyUserToken], (req, res) => {
+    .get([validate.validateSearchLatLong, validate.verifyUserToken], (req, res) => {
         actions.searchRestaurants(req, res)
     })
 
@@ -188,7 +188,7 @@ userRouter.route('/getNotificationList/:userId')
 
 userRouter.route('/logout')
     .get([validate.verifyUserToken], (req, res) => {
-console.log('/searchFollowing/:name')
+        console.log('/searchFollowing/:name')
         actions.logout(req, res)
     })
 

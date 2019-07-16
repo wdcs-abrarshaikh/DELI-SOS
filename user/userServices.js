@@ -272,7 +272,7 @@ function getRestaurantDetail(req, res) {
                                     return review_unfilter
                                 }
                             })
-                            console.log(actual_response)
+                            // console.log(actual_response)
                             actual_response._id.photoByUser = actualPhotoObject
                             actual_response.reviews = reviewDetails;
                             return res.json({ code: code.ok, message: msg.ok, data: actual_response })
@@ -579,6 +579,7 @@ function showFavourites(req, res) {
         else {
             let final = response.filter(function (data) {
                 if (data._id.status == status.active) {
+                    data.location = req.params.location
                     data._id.distance = util.calculateDistance(data.location.coordinates[1], data.location.coordinates[0],
                         data._id.location.coordinates[1], data._id.location.coordinates[0], "K") * 1000;
                     var totalRatings = 0;

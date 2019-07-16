@@ -1042,7 +1042,7 @@ paths:
             schema:
               $ref: '#/definitions/errorMessage'              
   
-  "/user/showFavourites":
+  "/user/showFavourites/{latitude}/{longitude}":
       get:
         tags:
         - 'user'
@@ -1051,6 +1051,16 @@ paths:
           - name: authorization
             in: header
             description: token for validation.
+            required: true
+            type: string
+          - in: path
+            name: latitude
+            description: 'The value must be between -90 to 90'
+            required: true
+            type: string
+          - in: path
+            name: longitude
+            description: 'The value must be between -180 to 180'
             required: true
             type: string
         
