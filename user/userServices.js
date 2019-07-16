@@ -731,7 +731,7 @@ function getNearByRestaurant(req, res) {
             restModel.aggregate([
                 {
                     $geoNear: {
-                        near: { type: data.location.type, coordinates: [data.location.coordinates[0], data.location.coordinates[1]] },
+                        near: { type: req.params.location.type, coordinates: [req.params.location.coordinates[0], req.params.location.coordinates[1]] },
                         distanceField: "dist.calculated",
                         // maxDistance: 10000,
                         key: 'location',

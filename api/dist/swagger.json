@@ -906,7 +906,7 @@
                 }
             }
         },
-        "/user/getNearByRestaurant/{userId}": {
+        "/user/getNearByRestaurant/{userId}/{latitude}/{longitude}": {
             "get": {
                 "tags": [
                     "user"
@@ -917,6 +917,20 @@
                         "in": "path",
                         "name": "userId",
                         "description": "User id of the user ,accessing this api.",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "path",
+                        "name": "latitude",
+                        "description": "The value must be between -90 to 90",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "path",
+                        "name": "longitude",
+                        "description": "The value must be between -180 to 180",
                         "required": true,
                         "type": "string"
                     },

@@ -107,8 +107,8 @@ userRouter.route('/changePassword')
         actions.changePassword(req, res)
     });
 
-userRouter.route('/getNearByRestaurant/:userId')
-    .get([validate.validateUserId, validate.verifyUserToken], (req, res) => {
+userRouter.route('/getNearByRestaurant/:userId/:latitude/:longitude')
+    .get([validate.validateUserId,validate.validateSearchLatLong,validate.verifyUserToken], (req, res) => {
         actions.getNearByRestaurant(req, res)
     });
 
