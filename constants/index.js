@@ -40,7 +40,7 @@ messages = {
     profileUpdated: "Perfil actualizado correctamente",
     wrongPassword: "Has introducido una contraseña antigua incorrecta",
     passwordChanged: "Contraseña cambiada con éxito",
-    invalidLatLong: "Por favor revisa tu tiempo y vuelve a intentarlo",
+    invalidLatLong: "e he producido un error, intenta otra vez",
     idMissing: "Por favor proporcione identificación de usuario",
     noPendingRestaurant: "No hay restaurante pendiente",
     reviewsNotFound: "No se encontraron comentarios",
