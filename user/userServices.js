@@ -156,7 +156,13 @@ function fetchDetail(req, res) {
             }
             else {
                 const { _id, name, profilePicture, location, locationVisible, follower, following, review } = data
-                let final = { _id, name, profilePicture, location, locationVisible, follower, following, review }
+                let f = { _id, name, profilePicture, location, locationVisible, follower, following, review }
+                let final = { _id: { userId: f._id, name:f.name,profilePicture:f.profilePicture,location:f.location,locationVisible:f.locationVisible,totalReviews:f.review.length,totalFollower:f.follower.length,totalFollowing:f.following.length,followedByMe:0},reviews:f.review }
+                f.follower.some(function (liked) {
+                    if (liked.equals(userId) == true) {
+                        final._id.followedByMe = 1;
+                    }
+                })
                 return res.json({ code: code.ok, message: msg.ok, data: final })
             }
         }
