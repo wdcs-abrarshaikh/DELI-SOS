@@ -830,7 +830,7 @@ function followUser(req, res) {
                     model.receiver = [uid]
                     model.notificationType = ntfctnType.follow
                     model.createdAt = Date.now()
-                    let message = `${obj.name} Empecé a seguirte`;
+                    let message = `${obj.name} Empecé a seguirte.`;
 
                     if (data.follower.indexOf(uid) != -1) {
                         message = `${obj.name} Te seguí de vuelta`
@@ -1017,7 +1017,7 @@ function likeUnlikeReview(req, res) {
                         let user = await userModel.findById({ _id: result.userId }).select('fcmToken').then((data) => {
                             return data
                         })
-                        let message = `${obj.name} Me gustó tu opinión`
+                        let message = `${obj.name} Me gustó tu opinión.`
                         fcm.sendMessage(user.fcmToken, message, process.env.appName, model)
                         return res.json({ code: code.ok, message: msg.likedReview })
                     })
