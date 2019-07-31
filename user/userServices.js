@@ -386,7 +386,7 @@ function addReview(req, res) {
                                                 let notfctnData = model
                                                 model.save().then((response) => {
                                                     let obj = util.decodeToken(req.headers['authorization'])
-                                                    let message = `${obj.name} posted new review.`
+                                                    let message = `${obj.name} Publicado nueva opinión.`
                                                     if (receiverTokens) {
                                                         receiverTokens.map((token) => {
                                                             fcm.sendMessage(token.fcmToken, message, process.env.appName, notfctnData)
@@ -1017,7 +1017,7 @@ function likeUnlikeReview(req, res) {
                         let user = await userModel.findById({ _id: result.userId }).select('fcmToken').then((data) => {
                             return data
                         })
-                        let message = `${obj.name} Me gustó tu reseña`
+                        let message = `${obj.name} Me gustó tu opinión`
                         fcm.sendMessage(user.fcmToken, message, process.env.appName, model)
                         return res.json({ code: code.ok, message: msg.likedReview })
                     })
