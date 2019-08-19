@@ -45,6 +45,7 @@
 			<tr>
 				<td style="font-weight: bold; width: 10%">Sr.No</td>
 				<td style="font-weight: bold; width: 40%;">Restaurant Name</td>
+				<td style="font-weight: bold; width: 10%">Requested By</td>
 				<th style="width:20%"> &nbsp;&nbsp;&nbsp;Status</th>
 				<th style=" width: 20%;"> &nbsp;Action</th>
 			</tr>
@@ -54,6 +55,7 @@
 			<tr *ngFor="let Rest of restList ; let i=index" ng-cloak>
 				<td>{{i+1}}</td>
 				<td>{{Rest.name}}</td>
+				<td>{{Rest.createdBy.email}}</td>
 				<td><span class="m-badge  m-badge--wide">{{Rest.status}}</span></td>
 				<td>
 					<button type="button" class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill"
