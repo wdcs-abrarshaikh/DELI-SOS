@@ -18,7 +18,7 @@ module.exports = ".lbl-err{\n    color: red;\n}"
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"modal-header\">\n   <h4 class=\"modal-title\">{{ isAdd ? 'Add' : isView ? 'View' : 'Edit'}} Cuisine</h4>\n   <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"activeModal.dismiss('Cross click')\">\n      <span aria-hidden=\"true\">&times;</span>\n   </button>\n</div>\n<div class=\"modal-body\">\n   <form [formGroup]=\"cuisinForm\" (ngSubmit)=\"addCuisins()\">\n      <div class=\"form-group\">\n         <label for=\"name\">Cuisine Name</label>\n         <input type=\"text\" formControlName=\"name\" class=\"form-control\" [(ngModel)]=\"name\" [ngClass]=\"{'is-invalid':submitted && f.name.errors}\" />\n         <div *ngIf=\"submitted && f.name.errors\" class=\"lbl-err\">\n            <div *ngIf=\" f.name.errors.required \">Name is required</div>\n            <div *ngIf=\"f.name.errors.pattern\">Name is required</div>\n         </div>\n      </div>\n\n      <div class=\"form-group\">\n         <label>Cuisine Image:</label><br>\n         <img [src]=\"image\" class=\"rounded mb-3\" width=\"50%\" height=auto /> &nbsp;&nbsp;<br>\n         <label class=\"btn-bs-file btn btn-ls btn-info\" style=\"margin-top:6px\" text-align=\"center\" *ngIf=\"!isView && isAdd\">image\n            <input type=\"file\" formControlName=\"image\" style=\"display: none\" (change)=\"uploadImage($event)\" [ngClass]=\"{'is-invalid':submitted && f.image.errors}\" />\n         </label>\n         <label class=\"btn-bs-file btn btn-ls btn-info\" style=\"margin-top:6px\" text-align=\"center\" *ngIf=\"!isView && !isAdd\">Edit\n            Image\n            <input type=\"file\" formControlName=\"image\" style=\"display: none\" (change)=\"uploadImage($event)\" [ngClass]=\"{'is-invalid':submitted && f.image.errors}\" />\n         </label>\n         <div *ngIf=\"submitted && f.image.errors\" class=\"lbl-err\">\n            <div *ngIf=\"f.image.errors.required\">image is required</div>\n         </div>\n      </div>\n\n      <div class=\"modal-footer\">\n         <div class=\"form-group\" *ngIf=\"!isView\">\n            <button type=\"submit\" class=\"btn btn-save\">Save</button>&nbsp;&nbsp;\n            <button type=\"button\" class=\"btn btn-delete\" (click)=\"activeModal.close('Close click')\">Cancel</button>\n         </div>\n      </div>\n   </form>"
+module.exports = "<div class=\"modal-header\">\n   <h4 class=\"modal-title\">{{ isAdd ? 'Add' : isView ? 'View' : 'Edit'}} Cuisine</h4>\n   <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"activeModal.dismiss('Cross click')\">\n      <span aria-hidden=\"true\">&times;</span>\n   </button>\n</div>\n<div class=\"modal-body\">\n   <form [formGroup]=\"cuisinForm\" (ngSubmit)=\"addCuisins()\">\n      <div class=\"form-group\">\n         <label for=\"name\">Cuisine Name</label>\n         <input type=\"text\" formControlName=\"name\" class=\"form-control\" [(ngModel)]=\"name\" [ngClass]=\"{'is-invalid':submitted && f.name.errors}\" />\n         <div *ngIf=\"submitted && f.name.errors\" class=\"lbl-err\">\n            <div *ngIf=\" f.name.errors.required \">Name is required</div>\n            <div *ngIf=\"f.name.errors.pattern\">Name is required</div>\n         </div>\n      </div>\n\n      <div class=\"form-group\">\n         <label>Cuisine Image:</label><br>\n         <img [src]=\"image\" class=\"rounded mb-3\" width=\"50%\" height=auto (click)=\"imagePreview(image)\"/> &nbsp;&nbsp;<br>\n         <label class=\"btn-bs-file btn btn-ls btn-info\" style=\"margin-top:6px\" text-align=\"center\" *ngIf=\"!isView && isAdd\">image\n            <input type=\"file\" formControlName=\"image\" style=\"display: none\" (change)=\"uploadImage($event)\" [ngClass]=\"{'is-invalid':submitted && f.image.errors}\" />\n         </label>\n         <label class=\"btn-bs-file btn btn-ls btn-info\" style=\"margin-top:6px\" text-align=\"center\" *ngIf=\"!isView && !isAdd\">Edit\n            Image\n            <input type=\"file\" formControlName=\"image\" style=\"display: none\" (change)=\"uploadImage($event)\" [ngClass]=\"{'is-invalid':submitted && f.image.errors}\" />\n         </label>\n         <div *ngIf=\"submitted && f.image.errors\" class=\"lbl-err\">\n            <div *ngIf=\"f.image.errors.required\">image is required</div>\n         </div>\n      </div>\n\n      <div class=\"modal-footer\">\n         <div class=\"form-group\" *ngIf=\"!isView\">\n            <button type=\"submit\" class=\"btn btn-save\">Save</button>&nbsp;&nbsp;\n            <button type=\"button\" class=\"btn btn-delete\" (click)=\"activeModal.close('Close click')\">Cancel</button>\n         </div>\n      </div>\n   </form>"
 
 /***/ }),
 
@@ -42,6 +42,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ "./node_modules/@ng-bootstrap/ng-bootstrap/fesm5/ng-bootstrap.js");
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var src_app_theme_pages_imageSlider_imageSlider_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! src/app/theme/pages/imageSlider/imageSlider.component */ "./src/app/theme/pages/imageSlider/imageSlider.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -86,6 +87,7 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+
 
 
 
@@ -218,6 +220,13 @@ var AddEditcuisinComponent = /** @class */ (function () {
             _this.cuisinService.setCuisins(response);
         });
     };
+    AddEditcuisinComponent.prototype.imagePreview = function (image) {
+        var modalRef = this.modalService.open(src_app_theme_pages_imageSlider_imageSlider_component__WEBPACK_IMPORTED_MODULE_8__["ImageSliderComponent"], {
+            size: 'lg',
+            windowClass: 'imgPreview'
+        });
+        modalRef.componentInstance.images = [image];
+    };
     __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_4__["Input"])(),
         __metadata("design:type", Object)
@@ -269,7 +278,7 @@ module.exports = ".btn-add {\n    border-radius: 1.1rem;\n    padding: 1.0rem 1.
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<h2 class=\"header\">Cuisines</h2>\n<button class=\"btn-add\" (click)=\"open()\">Add</button>\n\n\n<table class=\"table table-striped- table-bordered table-hover table-checkable\" datatable [dtOptions]=\"dtOptions\"\n  [dtTrigger]=\"dtTrigger\">\n  <thead>\n    <tr>\n      <td style=\"font-weight: bold; width:10%;\" >Sr.No</td>\n      <td style=\"font-weight: bold; width:40%;\"  (click)=\"get($event)\"  >Cuisine Name</td>\n      <th style=\"width:20%\" > &nbsp;&nbsp;&nbsp;Status</th>\n      <th style=\"width:20%\"> &nbsp;Action</th>\n    </tr>\n  </thead>\n  <tbody>\n  <tr *ngFor=\"let cuisin of cuisinsList ; let i=index\">\n     <td >{{i+1}}</td>\n      <td>{{cuisin.name}}</td>\n      <td><span class=\"m-badge  m-badge--wide\">{{cuisin.status}}</span></td>\n      <td>\n        <button type=\"button\" class=\"m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill\"\n          data-toggle=\"m-tooltip\" data-placement=\"top\" title=\"View\" (click)=\"viewCuisines(viewCuisin)\">\n          <i class=\"fas fa-eye\"></i>\n        </button>\n        <ng-template #viewCuisin let-c=\"close\" let-d=\"dismiss\">\n          <div class=\"modal-header\">\n            <h4 class=\"modal-title\">View Cuisine</h4>\n            <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"d('Cross click')\">\n              <span aria-hidden=\"true\">&times;</span>\n            </button>\n          </div>\n          <div class=\"modal-body\">\n            <div class=\"form-group\">\n              <label for=\"name\">Cuisine Name</label>\n              <input type=\"text\" class=\"form-control\" [(ngModel)]=\"cuisin.name\" disabled />\n            </div>\n\n            <div class=\"form-group\">\n              <label>Cuisine Images:</label><br>\n              <img [src]=\"cuisin.image\" class=\"rounded mb-3\" width=\"50%\" height=auto /> &nbsp;&nbsp;<br>\n            </div>\n\n          </div>\n        </ng-template>\n        &nbsp;&nbsp;\n\n        <button type=\"button\" class=\"m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill\"\n          data-toggle=\"m-tooltip\" data-placement=\"top\" title=\"Edit\" (click)=\"open(cuisin,'edit')\">\n          <i class=\"fas fa-edit\"></i>\n        </button> &nbsp;&nbsp;\n\n        <button type=\"button\" class=\"m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill\"\n          data-toggle=\"m-tooltip\" data-placement=\"top\" title=\"Delete\" (click)=\"delete(cuisin._id)\">\n          <i class=\"fas fa-trash-alt\"></i>\n        </button>\n\n      </td>\n    </tr>\n  </tbody>\n</table>\n<script>\n  $(document).ready(function () {\n    $('[data-toggle=\"m-tooltip\"]').tooltip();\n  });\n</script>"
+module.exports = "<h2 class=\"header\">Cuisines</h2>\n<button class=\"btn-add\" (click)=\"open()\">Add</button>\n\n\n<table class=\"table table-striped- table-bordered table-hover table-checkable\" datatable [dtOptions]=\"dtOptions\"\n  [dtTrigger]=\"dtTrigger\">\n  <thead>\n    <tr>\n      <td style=\"font-weight: bold; width:10%;\" >Sr.No</td>\n      <td style=\"font-weight: bold; width:40%;\"  (click)=\"get($event)\"  >Cuisine Name</td>\n      <th style=\"width:20%\" > &nbsp;&nbsp;&nbsp;Status</th>\n      <th style=\"width:20%\"> &nbsp;Action</th>\n    </tr>\n  </thead>\n  <tbody>\n  <tr *ngFor=\"let cuisin of cuisinsList ; let i=index\">\n     <td >{{i+1}}</td>\n      <td>{{cuisin.name}}</td>\n      <td><span class=\"m-badge  m-badge--wide\">{{cuisin.status}}</span></td>\n      <td>\n        <button type=\"button\" class=\"m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill\"\n          data-toggle=\"m-tooltip\" data-placement=\"top\" title=\"View\" (click)=\"viewCuisines(viewCuisin)\">\n          <i class=\"fas fa-eye\"></i>\n        </button>\n        <ng-template #viewCuisin let-c=\"close\" let-d=\"dismiss\">\n          <div class=\"modal-header\">\n            <h4 class=\"modal-title\">View Cuisine</h4>\n            <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"d('Cross click')\">\n              <span aria-hidden=\"true\">&times;</span>\n            </button>\n          </div>\n          <div class=\"modal-body\">\n            <div class=\"form-group\">\n              <label for=\"name\">Cuisine Name</label>\n              <input type=\"text\" class=\"form-control\" [(ngModel)]=\"cuisin.name\" disabled />\n            </div>\n\n            <div class=\"form-group\">\n              <label>Cuisine Images:</label><br>\n              <img [src]=\"cuisin.image\" class=\"rounded mb-3\" width=\"50%\" height=auto (click)=\"imagePreview(cuisin.image)\"/> &nbsp;&nbsp;<br>\n            </div>\n\n          </div>\n        </ng-template>\n        &nbsp;&nbsp;\n\n        <button type=\"button\" class=\"m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill\"\n          data-toggle=\"m-tooltip\" data-placement=\"top\" title=\"Edit\" (click)=\"open(cuisin,'edit')\">\n          <i class=\"fas fa-edit\"></i>\n        </button> &nbsp;&nbsp;\n\n        <button type=\"button\" class=\"m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill\"\n          data-toggle=\"m-tooltip\" data-placement=\"top\" title=\"Delete\" (click)=\"delete(cuisin._id)\">\n          <i class=\"fas fa-trash-alt\"></i>\n        </button>\n\n      </td>\n    </tr>\n  </tbody>\n</table>\n<script>\n  $(document).ready(function () {\n    $('[data-toggle=\"m-tooltip\"]').tooltip();\n  });\n</script>"
 
 /***/ }),
 
@@ -297,6 +306,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(ng4_loading_spinner__WEBPACK_IMPORTED_MODULE_9__);
 /* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm5/index.js");
 /* harmony import */ var angular_datatables__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! angular-datatables */ "./node_modules/angular-datatables/index.js");
+/* harmony import */ var _imageSlider_imageSlider_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../../imageSlider/imageSlider.component */ "./src/app/theme/pages/imageSlider/imageSlider.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -306,6 +316,7 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 
@@ -446,6 +457,13 @@ var CuisinComponent = /** @class */ (function () {
         else {
             return true;
         }
+    };
+    CuisinComponent.prototype.imagePreview = function (image) {
+        var modalRef = this.modalService.open(_imageSlider_imageSlider_component__WEBPACK_IMPORTED_MODULE_12__["ImageSliderComponent"], {
+            size: 'lg',
+            windowClass: 'imgPreview'
+        });
+        modalRef.componentInstance.images = [image];
     };
     __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_4__["ViewChild"])(angular_datatables__WEBPACK_IMPORTED_MODULE_11__["DataTableDirective"]),
