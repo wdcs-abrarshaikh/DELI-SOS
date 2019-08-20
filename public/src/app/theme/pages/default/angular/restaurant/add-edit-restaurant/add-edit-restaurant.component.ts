@@ -34,6 +34,8 @@ export class AddEditRestaurantComponent implements OnInit, AfterViewInit {
   removable = true;
   filteredValues: Array<string[]> = [];
   separatorKeysCodes: number[] = [ENTER, COMMA];
+  pdfIcon = '../../../../../../assets/PDF_file_icon.svg';
+
   @ViewChild('valuesInput') valuesInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
 
@@ -401,20 +403,37 @@ export class AddEditRestaurantComponent implements OnInit, AfterViewInit {
     }
   }
 
-  imagePreview(images) {
-    let imagesOnly = images.filter((img) => {
-      var extension = img.split('.').pop();
-      if (extension != 'pdf') {
-        return img;
-      }
-    })
-    const modalRef = this.modalService.open(ImageSliderComponent, {
-      size: 'lg',
-      windowClass: 'imgPreview'
-    });
-    modalRef.componentInstance.images = imagesOnly;
+  imagePreview(images, index) {
+    let temp = Object.assign([], images)
+    if (temp[index].split('.').pop() == 'pdf') {
+      window.open(temp[index])
+    }
+    else {
+      let imagesOnly = [temp[index]]
+      temp.splice(index, 1);
+      temp.map((img) => {
+        let extension = img.split('.').pop();
+        if (extension != 'pdf') {
+          imagesOnly.push(img)
+        }
+      })
+
+      const modalRef = this.modalService.open(ImageSliderComponent, {
+        size: 'lg',
+        windowClass: 'imgPreview'
+      });
+      modalRef.componentInstance.images = imagesOnly;
+    }
   }
 
+  getMenuUrl(url) {
+    let extension = url.split('.').pop();
+    if (extension == 'pdf') {
+      return this.pdfIcon;
+    } else {
+      return url;
+    }
+  }
 
 }
 

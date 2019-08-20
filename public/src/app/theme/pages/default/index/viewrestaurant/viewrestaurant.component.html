@@ -60,7 +60,7 @@
     <div class="form-group">
       <label>Menu</label><br />
       <div *ngFor="let url of menuImages ;let i=index">
-        <img [src]="url" alt="pdf" class="rounded mb-3" width="50" height="50" (click)="openImageSlider(menuImages)">
+        <img [src]="getMenuUrl(url)" alt="pdf" class="rounded mb-3" width="50" height="50" (click)="openImageSlider(menuImages,i)">
       </div>
       <input type="file" formControlName="menu" style="display: none">
     </div>
@@ -75,7 +75,7 @@
     <div class="form-group">
       <label>Photos</label><br />
       <div *ngFor="let files of restaurantImages;let i=index">
-        <img [src]="files" class="rounded mb-3" width="50" height="50" (click)="openImageSlider(restaurantImages)">
+        <img [src]="files" class="rounded mb-3" width="50" height="50" (click)="openImageSlider(restaurantImages,i)">
       </div>
     </div>
 

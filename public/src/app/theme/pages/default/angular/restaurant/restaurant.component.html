@@ -87,7 +87,7 @@
             <div class="form-group">
               <label>Menu</label><br />
               <div *ngFor="let url of list.menu ;let i=index">
-                <img [src]="url" *ngIf="url" class="rounded mb-3" width="50" height="50" (click)="imagePreview(list.menu)">
+                <img [src]="getMenuUrl(url)" *ngIf="url" class="rounded mb-3" width="50" height="50" (click)="imagePreview(list.menu,i)">
               </div>
             </div>
 
@@ -100,7 +100,7 @@
             <div class="form-group">
               <label>Photos</label><br />
               <div *ngFor="let url of list.photos ;let i=index">
-                <img [src]="url" *ngIf="url" class="rounded mb-3" width="50" height="50" (click)="imagePreview(list.photos)">
+                <img [src]="url" *ngIf="url" class="rounded mb-3" width="50" height="50" (click)="imagePreview(list.photos,i)">
               </div>
             </div>
 
