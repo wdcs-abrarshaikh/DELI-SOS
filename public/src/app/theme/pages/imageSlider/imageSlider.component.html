@@ -1,0 +1,23 @@
+<div class="modal-header">
+    <h4 class="modal-title">Preview</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+<div class="modal-body p-0">
+  <ngb-carousel>
+      <ng-template ngbSlide *ngFor="let img of images;let i= index;">
+        <div class="picsum-img-wrapper" [ngStyle]="{ 'background-image': 'url(' + img + ')'}">
+          <!-- <img [src]="images[i]" class="max"> -->
+        </div>
+      </ng-template>
+      <!-- <ng-template ngbSlide>
+        <div class="picsum-img-wrapper">
+          <img [src]="images[1]" alt="Random second slide">
+        </div>
+      </ng-template>
+       -->
+    </ngb-carousel>
+
+
+</div>

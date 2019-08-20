@@ -1,7 +1,10 @@
 import { NgModule } from '@angular/core';
 import { ThemeComponent } from './theme.component';
 import { Routes, RouterModule } from '@angular/router';
-import {AuthGuard} from "../auth/_guards/auth.guard";
+import { AuthGuard } from "../auth/_guards/auth.guard";
+import { ImageSliderComponent } from './pages/imageSlider/imageSlider.component';
+import { CommonModule }   from '@angular/common';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 const routes: Routes = [
@@ -14,7 +17,7 @@ const routes: Routes = [
                 "path": "index",
                 "loadChildren": "./pages/default/index/index.module#IndexModule"
             },
-            
+
             {
                 "path": "admin/getUserList",
                 "loadChildren": "./pages/default/angular/user/user.module#UserModule"
@@ -36,12 +39,12 @@ const routes: Routes = [
                 "loadChildren": "./pages/default/angular/privacy-policy/privacy-policy.module#PrivacyPolicyModule"
             },
             {
-                "path":"admin/contact-us",
-                "loadChildren":"./pages/default/angular/contact-us/contact-us.module#ContactUsModule"
+                "path": "admin/contact-us",
+                "loadChildren": "./pages/default/angular/contact-us/contact-us.module#ContactUsModule"
             },
             {
-                "path":"admin/cuisines",
-                "loadChildren":"./pages/default/angular/cuisin/cuisin.module#CuisinModule"
+                "path": "admin/cuisines",
+                "loadChildren": "./pages/default/angular/cuisin/cuisin.module#CuisinModule"
             }
         ]
     },
@@ -49,7 +52,9 @@ const routes: Routes = [
 ];
 
 @NgModule({
-    imports: [RouterModule.forChild(routes)],
-    exports: [RouterModule]
+    imports: [RouterModule.forChild(routes),NgbModule,CommonModule],
+    exports: [RouterModule, ImageSliderComponent],
+    declarations: [ImageSliderComponent],
+    entryComponents: [ImageSliderComponent]
 })
 export class ThemeRoutingModule { }

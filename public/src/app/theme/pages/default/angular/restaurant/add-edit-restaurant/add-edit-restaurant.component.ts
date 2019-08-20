@@ -10,6 +10,7 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import swal from 'sweetalert2'
 import { MatChipInputEvent, MatAutocomplete } from '@angular/material';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { ImageSliderComponent } from 'src/app/theme/pages/imageSlider/imageSlider.component';
 
 
 function _window(): any {
@@ -398,6 +399,20 @@ export class AddEditRestaurantComponent implements OnInit, AfterViewInit {
     } else {
       return true;
     }
+  }
+
+  imagePreview(images) {
+    let imagesOnly = images.filter((img) => {
+      var extension = img.split('.').pop();
+      if (extension != 'pdf') {
+        return img;
+      }
+    })
+    const modalRef = this.modalService.open(ImageSliderComponent, {
+      size: 'lg',
+      windowClass: 'imgPreview'
+    });
+    modalRef.componentInstance.images = imagesOnly;
   }
 
 

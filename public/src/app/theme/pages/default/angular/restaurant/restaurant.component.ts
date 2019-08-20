@@ -12,6 +12,7 @@ import * as _ from 'lodash';
 import swal from 'sweetalert2'
 import { AddEditRestaurantComponent } from './add-edit-restaurant/add-edit-restaurant.component';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
+import { ImageSliderComponent } from '../../../imageSlider/imageSlider.component';
 
 function _window(): any {
   // return the global native browser window object
@@ -203,6 +204,19 @@ export class RestaurantComponent implements OnInit, AfterViewInit {
 
   }
 
+  imagePreview(images) {
+    let imagesOnly = images.filter((img) => {
+      var extension = img.split('.').pop();
+      if (extension != 'pdf') {
+        return img;
+      }
+    })
+    this.modalReference = this.modalService.open(ImageSliderComponent, {
+      size: 'lg',
+      windowClass: 'imgPreview'
+    });
+    this.modalReference.componentInstance.images = imagesOnly;
+  }
 
 }
 
