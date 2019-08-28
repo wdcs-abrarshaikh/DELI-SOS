@@ -6,6 +6,7 @@ import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import swal from 'sweetalert2'
+import { ImageSliderComponent } from 'src/app/theme/pages/imageSlider/imageSlider.component';
 
 
 @Component({
@@ -140,6 +141,14 @@ export class AddEditcuisinComponent implements OnInit {
     this.cuisinService.getAllCuisins().subscribe((response: any) => {
       this.cuisinService.setCuisins(response);
     })
+  }
+
+  imagePreview(image) {
+    const modalRef = this.modalService.open(ImageSliderComponent, {
+      size: 'lg',
+      windowClass: 'imgPreview'
+    });
+    modalRef.componentInstance.images = [image];
   }
 
 

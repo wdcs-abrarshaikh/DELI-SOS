@@ -37,7 +37,7 @@
 
             <div class="form-group">
               <label>Cuisine Images:</label><br>
-              <img [src]="cuisin.image" class="rounded mb-3" width="50%" height=auto /> &nbsp;&nbsp;<br>
+              <img [src]="cuisin.image" class="rounded mb-3" width="50%" height=auto (click)="imagePreview(cuisin.image)"/> &nbsp;&nbsp;<br>
             </div>
 
           </div>

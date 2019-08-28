@@ -906,7 +906,7 @@
                 }
             }
         },
-        "/user/getNearByRestaurant/{userId}": {
+        "/user/getNearByRestaurant/{userId}/{latitude}/{longitude}": {
             "get": {
                 "tags": [
                     "user"
@@ -917,6 +917,20 @@
                         "in": "path",
                         "name": "userId",
                         "description": "User id of the user ,accessing this api.",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "path",
+                        "name": "latitude",
+                        "description": "The value must be between -90 to 90",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "path",
+                        "name": "longitude",
+                        "description": "The value must be between -180 to 180",
                         "required": true,
                         "type": "string"
                     },
@@ -1460,7 +1474,7 @@
                 }
             }
         },
-        "/user/showFavourites": {
+        "/user/showFavourites/{latitude}/{longitude}": {
             "get": {
                 "tags": [
                     "user"
@@ -1471,6 +1485,20 @@
                         "name": "authorization",
                         "in": "header",
                         "description": "token for validation.",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "path",
+                        "name": "latitude",
+                        "description": "The value must be between -90 to 90",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "path",
+                        "name": "longitude",
+                        "description": "The value must be between -180 to 180",
                         "required": true,
                         "type": "string"
                     }
@@ -1662,7 +1690,9 @@
                             "required": [
                                 "meal",
                                 "cuisins",
-                                "minBudget"
+                                "minBudget",
+                                "latitude",
+                                "longitude"
                             ],
                             "properties": {
                                 "meal": {
@@ -1688,6 +1718,14 @@
                                 "maxBudget": {
                                     "type": "number",
                                     "description": "maximum budget if selected by user"
+                                },
+                                "latitude": {
+                                    "type": "string",
+                                    "description": "The value must be between -90 to 90"
+                                },
+                                "longitude": {
+                                    "type": "string",
+                                    "description": "The value must be between -180 to 180"
                                 }
                             }
                         }
@@ -1715,7 +1753,7 @@
                 }
             }
         },
-        "/user/searchRestaurants/{name}": {
+        "/user/searchRestaurants/{name}/{latitude}/{longitude}": {
             "get": {
                 "tags": [
                     "user"
@@ -1733,6 +1771,20 @@
                         "in": "path",
                         "name": "name",
                         "description": "name of restaurant, to be search.",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "path",
+                        "name": "latitude",
+                        "description": "The value must be between -90 to 90",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "path",
+                        "name": "longitude",
+                        "description": "The value must be between -180 to 180",
                         "required": true,
                         "type": "string"
                     },

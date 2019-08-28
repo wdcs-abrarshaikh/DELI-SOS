@@ -10,7 +10,6 @@
 var map = {
 	"./pages/default/angular/about-us/about-us.module": [
 		"./src/app/theme/pages/default/angular/about-us/about-us.module.ts",
-		"pages-default-angular-about-us-about-us-module~pages-default-angular-contact-us-contact-us-module~pa~d76143b5",
 		"pages-default-angular-about-us-about-us-module~pages-default-angular-cuisin-cuisin-module~pages-defa~a6730473",
 		"pages-default-angular-about-us-about-us-module~pages-default-angular-privacy-policy-privacy-policy-m~16124936",
 		"common",
@@ -18,20 +17,17 @@ var map = {
 	],
 	"./pages/default/angular/contact-us/contact-us.module": [
 		"./src/app/theme/pages/default/angular/contact-us/contact-us.module.ts",
-		"pages-default-angular-about-us-about-us-module~pages-default-angular-contact-us-contact-us-module~pa~d76143b5",
 		"common",
 		"pages-default-angular-contact-us-contact-us-module"
 	],
 	"./pages/default/angular/cuisin/cuisin.module": [
 		"./src/app/theme/pages/default/angular/cuisin/cuisin.module.ts",
-		"pages-default-angular-about-us-about-us-module~pages-default-angular-contact-us-contact-us-module~pa~d76143b5",
 		"pages-default-angular-about-us-about-us-module~pages-default-angular-cuisin-cuisin-module~pages-defa~a6730473",
 		"common",
 		"pages-default-angular-cuisin-cuisin-module"
 	],
 	"./pages/default/angular/privacy-policy/privacy-policy.module": [
 		"./src/app/theme/pages/default/angular/privacy-policy/privacy-policy.module.ts",
-		"pages-default-angular-about-us-about-us-module~pages-default-angular-contact-us-contact-us-module~pa~d76143b5",
 		"pages-default-angular-about-us-about-us-module~pages-default-angular-cuisin-cuisin-module~pages-defa~a6730473",
 		"pages-default-angular-about-us-about-us-module~pages-default-angular-privacy-policy-privacy-policy-m~16124936",
 		"common",
@@ -39,28 +35,24 @@ var map = {
 	],
 	"./pages/default/angular/profile/profile.module": [
 		"./src/app/theme/pages/default/angular/profile/profile.module.ts",
-		"pages-default-angular-about-us-about-us-module~pages-default-angular-contact-us-contact-us-module~pa~d76143b5",
 		"pages-default-angular-about-us-about-us-module~pages-default-angular-cuisin-cuisin-module~pages-defa~a6730473",
 		"common",
 		"pages-default-angular-profile-profile-module"
 	],
 	"./pages/default/angular/restaurant/restaurant.module": [
 		"./src/app/theme/pages/default/angular/restaurant/restaurant.module.ts",
-		"pages-default-angular-about-us-about-us-module~pages-default-angular-contact-us-contact-us-module~pa~d76143b5",
 		"pages-default-angular-about-us-about-us-module~pages-default-angular-cuisin-cuisin-module~pages-defa~a6730473",
 		"common",
 		"pages-default-angular-restaurant-restaurant-module"
 	],
 	"./pages/default/angular/user/user.module": [
 		"./src/app/theme/pages/default/angular/user/user.module.ts",
-		"pages-default-angular-about-us-about-us-module~pages-default-angular-contact-us-contact-us-module~pa~d76143b5",
 		"pages-default-angular-about-us-about-us-module~pages-default-angular-cuisin-cuisin-module~pages-defa~a6730473",
 		"common",
 		"pages-default-angular-user-user-module"
 	],
 	"./pages/default/index/index.module": [
 		"./src/app/theme/pages/default/index/index.module.ts",
-		"pages-default-angular-about-us-about-us-module~pages-default-angular-contact-us-contact-us-module~pa~d76143b5",
 		"pages-default-angular-about-us-about-us-module~pages-default-angular-cuisin-cuisin-module~pages-defa~a6730473",
 		"common",
 		"pages-default-index-index-module"
@@ -2539,6 +2531,76 @@ var DefaultComponent = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/theme/pages/imageSlider/imageSlider.component.css":
+/*!*******************************************************************!*\
+  !*** ./src/app/theme/pages/imageSlider/imageSlider.component.css ***!
+  \*******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ".max{\n    max-width: 100%;\n    max-height: 100%;\n}\n.modal-body.p-0 {\n    width: 800px;\n    height: 450px;\n}\n.carousel-inner .item{ height:450px; }\n.picsum-img-wrapper{\n    height: 450px;\n    background-size:cover;background-position: center center;background-repeat: no-repeat;\n}\n"
+
+/***/ }),
+
+/***/ "./src/app/theme/pages/imageSlider/imageSlider.component.html":
+/*!********************************************************************!*\
+  !*** ./src/app/theme/pages/imageSlider/imageSlider.component.html ***!
+  \********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"modal-header\">\n    <h4 class=\"modal-title\">Preview</h4>\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"activeModal.dismiss('Cross click')\">\n      <span aria-hidden=\"true\">&times;</span>\n    </button>\n  </div>\n<div class=\"modal-body p-0\">\n  <ngb-carousel>\n      <ng-template ngbSlide *ngFor=\"let img of images;let i= index;\">\n        <div class=\"picsum-img-wrapper\" [ngStyle]=\"{ 'background-image': 'url(' + img + ')'}\">\n          <!-- <img [src]=\"images[i]\" class=\"max\"> -->\n        </div>\n      </ng-template>\n      <!-- <ng-template ngbSlide>\n        <div class=\"picsum-img-wrapper\">\n          <img [src]=\"images[1]\" alt=\"Random second slide\">\n        </div>\n      </ng-template>\n       -->\n    </ngb-carousel>\n\n\n</div>"
+
+/***/ }),
+
+/***/ "./src/app/theme/pages/imageSlider/imageSlider.component.ts":
+/*!******************************************************************!*\
+  !*** ./src/app/theme/pages/imageSlider/imageSlider.component.ts ***!
+  \******************************************************************/
+/*! exports provided: ImageSliderComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ImageSliderComponent", function() { return ImageSliderComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ "./node_modules/@ng-bootstrap/ng-bootstrap/fesm5/ng-bootstrap.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var ImageSliderComponent = /** @class */ (function () {
+    function ImageSliderComponent(activeModal) {
+        this.activeModal = activeModal;
+    }
+    ImageSliderComponent.prototype.ngOnInit = function () {
+    };
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        __metadata("design:type", Object)
+    ], ImageSliderComponent.prototype, "images", void 0);
+    ImageSliderComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-imageSlider',
+            template: __webpack_require__(/*! ./imageSlider.component.html */ "./src/app/theme/pages/imageSlider/imageSlider.component.html"),
+            styles: [__webpack_require__(/*! ./imageSlider.component.css */ "./src/app/theme/pages/imageSlider/imageSlider.component.css")]
+        }),
+        __metadata("design:paramtypes", [_ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_1__["NgbActiveModal"]])
+    ], ImageSliderComponent);
+    return ImageSliderComponent;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/theme/theme-routing.module.ts":
 /*!***********************************************!*\
   !*** ./src/app/theme/theme-routing.module.ts ***!
@@ -2553,12 +2615,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _theme_component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./theme.component */ "./src/app/theme/theme.component.ts");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 /* harmony import */ var _auth_guards_auth_guard__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../auth/_guards/auth.guard */ "./src/app/auth/_guards/auth.guard.ts");
+/* harmony import */ var _pages_imageSlider_imageSlider_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./pages/imageSlider/imageSlider.component */ "./src/app/theme/pages/imageSlider/imageSlider.component.ts");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
+/* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ "./node_modules/@ng-bootstrap/ng-bootstrap/fesm5/ng-bootstrap.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
+
+
 
 
 
@@ -2609,8 +2677,10 @@ var ThemeRoutingModule = /** @class */ (function () {
     }
     ThemeRoutingModule = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["NgModule"])({
-            imports: [_angular_router__WEBPACK_IMPORTED_MODULE_2__["RouterModule"].forChild(routes)],
-            exports: [_angular_router__WEBPACK_IMPORTED_MODULE_2__["RouterModule"]]
+            imports: [_angular_router__WEBPACK_IMPORTED_MODULE_2__["RouterModule"].forChild(routes), _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_6__["NgbModule"], _angular_common__WEBPACK_IMPORTED_MODULE_5__["CommonModule"]],
+            exports: [_angular_router__WEBPACK_IMPORTED_MODULE_2__["RouterModule"], _pages_imageSlider_imageSlider_component__WEBPACK_IMPORTED_MODULE_4__["ImageSliderComponent"]],
+            declarations: [_pages_imageSlider_imageSlider_component__WEBPACK_IMPORTED_MODULE_4__["ImageSliderComponent"]],
+            entryComponents: [_pages_imageSlider_imageSlider_component__WEBPACK_IMPORTED_MODULE_4__["ImageSliderComponent"]]
         })
     ], ThemeRoutingModule);
     return ThemeRoutingModule;

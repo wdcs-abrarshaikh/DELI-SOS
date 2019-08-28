@@ -12,6 +12,7 @@ import * as _ from 'lodash';
 import swal from 'sweetalert2'
 import { AddEditRestaurantComponent } from './add-edit-restaurant/add-edit-restaurant.component';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
+import { ImageSliderComponent } from '../../../imageSlider/imageSlider.component';
 
 function _window(): any {
   // return the global native browser window object
@@ -37,6 +38,7 @@ export class RestaurantComponent implements OnInit, AfterViewInit {
   isView: boolean = false;
   submitted = false;
   i;
+  pdfIcon = '../../../../../../assets/PDF_file_icon.svg';
 
   constructor(private modalService: NgbModal,
     private location: Location,
@@ -203,6 +205,37 @@ export class RestaurantComponent implements OnInit, AfterViewInit {
 
   }
 
+  imagePreview(imgs, index) {
+    let images = Object.assign([],imgs)
+    if (images[index].split('.').pop() == 'pdf') {
+      window.open(images[index])
+    }
+    else {
+      let imagesOnly = [images[index]]
+      images.splice(index, 1);
+      images.map((img) => {
+        let extension = img.split('.').pop();
+        if (extension != 'pdf') {
+          imagesOnly.push(img)
+        }
+      })
+
+      const modalRef = this.modalService.open(ImageSliderComponent, {
+        size: 'lg',
+        windowClass: 'imgPreview'
+      });
+      modalRef.componentInstance.images = imagesOnly;
+    }
+  }
+
+  getMenuUrl(url) {
+    let extension = url.split('.').pop();
+    if (extension == 'pdf') {
+      return this.pdfIcon;
+    } else {
+      return url;
+    }
+  }
 
 }
 

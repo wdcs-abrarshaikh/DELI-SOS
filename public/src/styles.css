@@ -12,3 +12,9 @@
 
 
 
+.imgPreview .modal-dialog{
+    margin-top: 10%;
+}
+.imgPreview {
+    background: #0000007a;
+}

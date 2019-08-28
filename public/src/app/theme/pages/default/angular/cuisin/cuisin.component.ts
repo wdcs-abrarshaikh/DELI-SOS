@@ -10,6 +10,7 @@ import swal from 'sweetalert2'
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { Subject } from 'rxjs';
 import { DataTableDirective } from 'angular-datatables';
+import { ImageSliderComponent } from '../../../imageSlider/imageSlider.component';
 
 function _window(): any {
   // return the global native browser window object
@@ -28,7 +29,7 @@ export class CuisinComponent implements OnInit {
   dtTrigger: Subject<any> = new Subject();
   @ViewChild(DataTableDirective)
   dtElement: DataTableDirective;
-  sorting : Boolean=true;
+  sorting: Boolean = true;
   modalReference: any;
   isAdd: boolean = false;
   cuisinsList: Array<any>;
@@ -69,7 +70,7 @@ export class CuisinComponent implements OnInit {
       });
 
   }
- 
+
   ngOnInit() {
     _window().my = _window().my || {};
     _window().my.usermgmt = _window().my.usermgmt || {};
@@ -109,7 +110,7 @@ export class CuisinComponent implements OnInit {
     });
   }
 
-   viewCuisines(cuisin) {
+  viewCuisines(cuisin) {
     this.modalReference = this.modalService.open(cuisin);
   }
 
@@ -167,6 +168,14 @@ export class CuisinComponent implements OnInit {
     } else {
       return true;
     }
+  }
+
+  imagePreview(image) {
+    const modalRef = this.modalService.open(ImageSliderComponent, {
+      size: 'lg',
+      windowClass: 'imgPreview'
+    });
+    modalRef.componentInstance.images = [image];
   }
 
 }
