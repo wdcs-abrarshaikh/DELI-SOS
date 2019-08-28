@@ -108,7 +108,7 @@ User.countDocuments(async function (err, data) {
                 state: 'Gujarat',
                 pincode: 382007
             },
-            profilePicture: "http://res.cloudinary.com/dizkwji5k/image/upload/v1560153522/zushtr2sijoe8pdj6yes.jpg"
+            profilePicture: "https://res.cloudinary.com/delisosapp/image/upload/v1566802855/kz0sbtbzo6owm81dtswn.png"
         };
 
         let updatedPass = await bcrypt.hashSync(obj.password, 11);

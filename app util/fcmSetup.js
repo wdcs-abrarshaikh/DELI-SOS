@@ -1,5 +1,5 @@
 var FCM = require('fcm-push');
-var serverkey = 'AAAAYZPE2Nk:APA91bHG6GW4srikju5qMHCLlK1HzXB25QGaCcMBoe4IKksOJDwop_RujrhW3Htir3HmTGv8MeOrq5brLOw67dmtccXzXFL1VATGz9Y_WbrXzWX5zln5bx-cGZ8RMdBTWBYHtFMe7x5Q';
+var serverkey = process.env.firebase_serverKey;
 var fcm = new FCM(serverkey);
 
 function createModel(to, data) {

@@ -26,9 +26,9 @@ var upload = multer({
 }).array('img',5);
 
 cloudinary.config({
-    cloud_name: process.env.cloud_name,
-    api_key: process.env.api_key,
-    api_secret: process.env.api_secret
+    cloud_name: process.env.cloudinary_name,
+    api_key: process.env.cloudinary_key,
+    api_secret: process.env.cloudinary_secret
 })
 
 
