@@ -744,7 +744,7 @@ function getNearByRestaurant(req, res) {
                         key: 'location',
                         query: { status: status.active },
                         spherical: true,
-                        num: 1000
+                        limit: 1000
                     }
                 }, {
                     $project: {
