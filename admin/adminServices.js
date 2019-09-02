@@ -228,7 +228,6 @@ async function getRestaurantDetails(req,res) {
 }
 
 async function getRestaurantList(req,res) {
-    console.log("get restatfsadgfa")
     restModel.find({ status: status.active },(err,result) => {
         if (err) {
             //console.log("error", err)
@@ -299,7 +298,6 @@ function uploadPhoto(req,res) {
                 await req.newFile_name.map(async (image) => {
                     let filePath = image;
                     await cloudinary.v2.uploader.upload(`${process.cwd()}/img/${filePath}`,async (error,result) => {
-                        console.log(result)
                         if (result) {
                             try {
                                 let response_unlink = await require('fs').unlink(`${process.cwd()}/img/${filePath}`);
@@ -679,7 +677,6 @@ async function getContactRequest(req,res) {
                 return res.json({ code: code.internalError,message: msg.internalServerError })
             }
             else {
-                console.log("data",data)
                 data.sort((a,b) => {
                     // return new Date(b['createdAt']) - new Date(a['createdAt']);
                     return b.createdAt - a.createdAt

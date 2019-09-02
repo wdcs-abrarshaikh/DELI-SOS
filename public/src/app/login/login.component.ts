@@ -61,6 +61,5 @@ export class LoginComponent implements OnInit {
   }
 
 remember(){
-   console.log(this.loginForm.value)
 }
 }

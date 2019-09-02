@@ -315,7 +315,6 @@ function showFavourites(id) {
 function filterRestaurant(data, flag) {
 
     if (flag == true) {
-        console.log(data)
         return [
             {
                 $match: {

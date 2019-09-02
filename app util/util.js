@@ -10,7 +10,6 @@ var storage = multer.diskStorage({
         callback(null, './img');
     },
     filename: function (req, file, callback) {
-        console.log(file)
         let file_name = file.fieldname + '-' + Date.now() + path.extname(file.originalname)
         req.newFile_name.push(file_name);
         callback(null, file_name);
@@ -19,7 +18,6 @@ var storage = multer.diskStorage({
 var upload = multer({
     storage: storage,
     fileFilter:function(req,file,callback){
-        console.log(file)
         checkFileType(file,callback)
     }
     
@@ -44,7 +42,6 @@ function validatePassword(data) {
 }
 
 function generateToken(data, secret) {
-    console.log(data)
     let obj = {
         id: data._id,
         name: data.name,

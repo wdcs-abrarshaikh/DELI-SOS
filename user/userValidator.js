@@ -32,7 +32,6 @@ function validateSignUp(req, res, next) {
 }
 
 function validateLatLong(long, lat) {
-    console.log(`lat==>${lat}  long==>${long}`)
     if ((long > -180 && lat < 180) && (lat > -90 && lat < 90)) {
         return true
     } else {
