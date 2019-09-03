@@ -154,6 +154,10 @@ function shareReview(req,res){
     service.shareReview(req,res)
 }
 
+function getPrivacyPolicy(req,res){
+    service.getPrivacyPolicy(req,res)
+}
+
 // function getAllRestaurant(req, res) {
 //     service.getAllRestaurant(req, res)
 // }
@@ -197,6 +201,7 @@ module.exports = {
     getNotificationList,
     logout,
     shareReview,
+    getPrivacyPolicy
     // getAllRestaurant
 }
 

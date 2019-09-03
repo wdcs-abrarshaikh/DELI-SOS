@@ -68,7 +68,8 @@ messages = {
     unlikedReview: "Revisar con éxito desemejado",
     loggedout:'Cierre de sesión con éxito',
     tokenExpired:'Token caducado',
-    deactivatedUser:'Su cuenta está desactivada por el administrador, póngase en contacto con el administrador para continuar el proceso'
+    deactivatedUser:'Su cuenta está desactivada por el administrador, póngase en contacto con el administrador para continuar el proceso',
+    dataNotFound : 'datos no encontrados'
 }
 
 roles = {

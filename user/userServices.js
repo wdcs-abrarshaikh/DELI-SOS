@@ -16,6 +16,8 @@ var mongoose = require('mongoose');
 const mongoQuery = require('../constants/mongoQuery');
 const ntfctnType = require('../constants').notificationsTypes;
 const fcm = require('../app util/fcmSetup')
+var Type = require('../constants').Type;
+
 
 async function createUser(req,res) {
     let data = req.body;
@@ -1053,7 +1055,6 @@ function filterRestaurants(req,res) {
             res.json({ code: code.internalError,message: msg.internalServerError })
         }
         else {
-            console.log(response)
             let obj = util.decodeToken(req.headers['authorization'])
             // userModel.findOne({ _id: obj.id }).select('location').exec((err, loc) => {
             //     if (err) {
@@ -1206,6 +1207,20 @@ function shareReview(req,res) {
     return res.json({ code: code.ok,message: msg.ok,data: obj })
 }
 
+async function getPrivacyPolicy(req,res) {
+    aboutModel.findOne({ $and: [{ status: status.active },{ type: Type.privacy }] },(err,data) => {
+        if (err) {
+            return res.send(msg.internalServerError)
+        }
+        else if (data.content) {
+            return res.send(data.content)
+        }else{
+            return res.send(msg.dataNotFound)
+        }
+    })
+
+}
+
 module.exports = {
     createUser,
     authenticateUser,
@@ -1244,5 +1259,6 @@ module.exports = {
     contactUs,
     getNotificationList,
     logout,
-    shareReview
+    shareReview,
+    getPrivacyPolicy
 }
