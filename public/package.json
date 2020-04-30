@@ -35,7 +35,7 @@
     "datatables.net-dt": "^1.10.19",
     "enhanced-resolve": "^3.3.0",
     "font-awesome": "^4.7.0",
-    "jquery": "^2.2.4",
+    "jquery": "^3.5.0",
     "keyboardevent-key-polyfill": "^1.1.0",
     "lodash": "^4.17.10",
     "ng-pick-datetime": "^6.0.16",
